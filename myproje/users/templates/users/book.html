@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Find Routes | Busfermata Global</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --primary: #00264d;
+            --accent: #ffcc00;
+            --bg: #f8fafc;
+            --white: #ffffff;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg);
+            color: #1e293b;
+        }
+
+        /* --- NAVIGATION (Mobile Fixed) --- */
+        .navbar-main {
+            background: var(--white);
+            padding: 12px 0;
+            border-bottom: 4px solid var(--accent);
+            position: sticky; top: 0; z-index: 1050;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .nav-link-custom { color: var(--primary) !important; font-weight: 700; text-transform: uppercase; font-size: 13px; margin: 0 12px; }
+        .navbar-toggler { border: none; font-size: 1.5rem; color: var(--primary); }
+
+        /* --- DASHBOARD HEADER --- */
+        .dashboard-header {
+            background: linear-gradient(135deg, #0052cc 0%, #003366 100%);
+            color: white; padding: 60px 0 100px 0; border-radius: 0 0 40px 40px; text-align: center;
+        }
+
+        /* --- SEARCH CARD --- */
+        .search-card {
+            background: white; border-radius: 24px; padding: 40px;
+            margin-top: -60px; box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 1px solid #eef2f7;
+        }
+
+        .form-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; letter-spacing: 1px; }
+        .form-control-premium {
+            border: 2px solid #f1f5f9; border-radius: 12px; padding: 12px 15px;
+            font-weight: 600; height: auto; transition: 0.3s;
+        }
+        .form-control-premium:focus { border-color: var(--primary); box-shadow: none; background: #fff; }
+
+        .btn-search {
+            background: linear-gradient(135deg, #0052cc 0%, #003366 100%);
+            color: white; border-radius: 12px; font-weight: 800; padding: 15px;
+            width: 100%; border: none; box-shadow: 0 10px 20px rgba(0, 82, 204, 0.2);
+            transition: 0.3s;
+        }
+        .btn-search:hover { transform: translateY(-3px); color: var(--accent); }
+
+        /* --- INTRO ITEMS --- */
+        .intro-item {
+            position: relative; border-radius: 20px; overflow: hidden; height: 250px; margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .intro-img { width: 100%; height: 100%; object-fit: cover; }
+        .intro-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse { background: white; padding: 20px; border-radius: 15px; margin-top: 10px; border: 1px solid #eee; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-main">
+    <div class="container">
+	    <!--
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+	 <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+        </a>
+-->
+ <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNav">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="globalNav">
+            <ul class="navbar-nav mx-auto text-center">
+                <li><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
+                <li><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>
+                <li><a class="nav-link nav-link-custom" href="{% url 'about' %}">about us</a></li>
+            </ul>
+            <div class="d-flex align-items-center justify-content-center pt-3 pt-lg-0">
+                <div class="mr-4 position-relative" id="notificationButton" style="cursor: pointer;">
+                    <i class="fas fa-bell fa-lg text-muted"></i>
+                    <span class="badge badge-danger position-absolute" style="top:-8px; right:-8px; border-radius:50%; font-size:10px;">{{ buschanges_count }}</span>
+                </div>
+                <a href="{% url 'logout' %}" class="btn px-4 py-2" style="border: 2px solid var(--primary); color: var(--primary); font-weight: 800; border-radius: 50px;">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header class="dashboard-header">
+    <div class="container">
+        <small class="text-uppercase font-weight-bold" style="letter-spacing: 2px; color: var(--accent);">Live Revenue Stats</small>
+        <h1 class="font-weight-bold mt-2">{{ total_today|default:"0" }} <span style="font-size: 20px;">ETB Collected Today</span></h1>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="search-card">
+                <form action="{% url 'booker' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+			<!--
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Departure Station</label>
+                            <input type="text" name="depcity" value="{{ city }}" readonly class="form-control form-control-premium bg-light">
+                        </div>
+			-->
+
+
+
+<!--
+<div class="col-md-4 mb-3">
+<label class="form-label">Departure Station</label>
+<input type="text" name="depcity" value="{% if city == 'Autobustera' or city == 'Ayertena' or city == 'Lamberet' or city == 'Asko' %}Addisababa{% else %}{{ city }}{% endif %}"
+           readonly
+           class="form-control form-control-premium bg-light">
+</div>
+-->
+
+
+<div class="col-md-4 mb-3">
+    <label class="form-label">Departure Station</label>
+    <input type="text"
+           name="depcity"
+           value="{% if city == 'Autobustera' or city == 'Asko' or city == 'Kality' or city == 'Lamberet' or city == 'Ayertena' %}Addisababa{% else %}{{ city }}{% endif %}"
+           readonly
+           class="form-control form-control-premium bg-light">
+</div>
+
+
+<div class="col-md-4 mb-3">
+    <label class="form-label">Destination</label>
+    <select name="descity" class="form-control form-control-premium" required>
+        <option value="">Choose Destination...</option>
+
+        {% for depcity in des %}
+            {% if depcity.depcity != city and depcity.depcity != 'Asko' and depcity.depcity != 'Lamberet' and depcity.depcity != 'Kality' and depcity.depcity != 'Ayertena' and depcity.depcity != 'Autobustera' %}
+
+                {% if city == 'Autobustera' %}
+                    {# Autobustera Cities Route #}
+                    {% if depcity.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe" %}
+                        <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                    {% endif %}
+                {% elif city == 'Lamberet' %}
+                    {# Lamberet Cities Route #}
+                    {% if depcity.depcity in "Kemise,Kombolcha,Dessie,Desseakesta,Dessemasha,Densa,Werailu,Werababo,Weinamba,Kelala,Wegidi,Mekaneselam,Weldiya,Alamata,Mekele" %}                        <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                    {% endif %}
+                {% elif city == 'Asko' %}
+                    {# Asko Cities Route #}
+                    {% if depcity.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda" %}
+                        <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                    {% endif %}
+                {% elif city == 'Ayertena' %}
+                    {# Ayertena Cities Route #}
+                    {% if depcity.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera" %}
+                        <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                    {% endif %}
+                {% elif city == 'Kality' %}
+                    {# Kality Cities Route #}
+                    {% if depcity.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu" %}
+<option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                    {% endif %}
+                {% else %}
+                    {# Default Fallback Loop #}
+                    <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
+			    <div class="col-md-4 mb-3">
+                            <label class="form-label">Travel Date</label>
+                            <input type="date" name="date" class="form-control form-control-premium" required>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn-search">
+                                <i class="fas fa-search mr-2"></i> SEARCH AVAILABLE BUSES
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                {% if error %}
+                <div class="alert alert-danger mt-4 border-0 rounded-pill px-4 text-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i> {{ error }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5 py-5">
+    <h2 class="text-center font-weight-bold mb-5">Popular Routes We Serve</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="intro-item">
+                <img src="../static/images/intro_1.jpg" class="intro-img">
+                <div class="intro-overlay"><h3>Bahir Dar</h3></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="intro-item">
+                <img src="../static/images/intro_2.jpg" class="intro-img">
+                <div class="intro-overlay"><h3>Mekelle</h3></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="intro-item">
+                <img src="../static/images/intro_3.jpg" class="intro-img">
+                <div class="intro-overlay"><h3>Jimma</h3></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-white border-top py-5 text-center">
+    <div class="container">
+        <div class="mb-4">
+            <img src="../static/images/l.jpeg" height="40" class="rounded mr-2">
+            <span style="font-weight: 800; color: var(--primary);">Busfermata</span>
+        </div>
+        <p class="font-weight-bold mb-1" style="color: var(--primary);">Global Support: +251 975143134</p>
+        <p class="text-muted small">© 2026 Busfermata Digital Technology. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // AJAX for Notification count
+    function updateNotifications() {
+        $.ajax({
+            url: '/api/about/',
+            type: 'GET',
+            success: function(data) {
+                if (data.buschanges_count !== null) {
+                    $('.badge-danger').text(data.buschanges_count);
+                }
+            }
+        });
+    }
+    setInterval(updateNotifications, 60000);
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

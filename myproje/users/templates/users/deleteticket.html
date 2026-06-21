@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Global Ticket Audit</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        :root { 
+            --brand-navy: #00264d; 
+            --brand-gold: #ffcc00; 
+            --emerald: #10b981; 
+            --danger: #ef4444; 
+            --dark-bg: #0f172a; 
+            --text-main: #1e293b;
+        }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f1f5f9; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* 1. International Utility Top Bar */
+        .top-admin-bar { background: var(--dark-bg); color: white; padding: 10px 0; font-size: 12px; font-weight: 600; }
+        .logout-link { color: #f87171; text-decoration: none; font-weight: 800; padding: 5px 15px; border: 1px solid #f87171; border-radius: 6px; transition: 0.3s; }
+        .logout-link:hover { background: #f87171; color: white; text-decoration: none; }
+
+        /* 2. Responsive Global Navigation */
+        .navbar-main { background: #ffffff; padding: 12px 0; border-bottom: 5px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; text-transform: uppercase; line-height: 1; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 1px; display: block; }
+        
+        .nav-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+        .custom-nav-select { 
+            border: 2px solid #e2e8f0; font-size: 11px; font-weight: 800; border-radius: 8px; 
+            height: 40px; min-width: 150px; color: var(--brand-navy); text-transform: uppercase; 
+            cursor: pointer; background: white; transition: 0.3s;
+        }
+        .custom-nav-select:hover { border-color: var(--brand-gold); }
+
+        /* 3. Minimized & Responsive Table Section */
+        .page-container { padding: 40px 15px; max-width: 1200px; margin: 0 auto; flex: 1; width: 100%; }
+        .content-card { background: white; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0; }
+        
+        .intl-table { width: 100%; border-collapse: collapse; min-width: 1000px; /* Horizontal scroll trigger */ }
+        .intl-table thead tr { background-color: var(--emerald); color: white; }
+        .intl-table th { padding: 18px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; text-align: center; }
+        .intl-table td { padding: 14px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; text-align: center; font-size: 14px; }
+        
+        .table-input { width: 100%; border: none; background: transparent; color: #2563eb; font-weight: 700; text-align: center; pointer-events: none; }
+
+        /* 4. Action Buttons */
+        .btn-void { background: #fff1f2; color: var(--danger); border: 1.5px solid #fecaca; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; transition: 0.3s; }
+        .btn-void:hover { background: var(--danger); color: white; transform: scale(1.05); }
+
+        /* 5. Global Standard Footer */
+        .footer-intl { background: var(--brand-navy); color: rgba(255,255,255,0.7); padding: 60px 0 30px; border-top: 6px solid var(--brand-gold); margin-top: auto; }
+        .footer-heading { color: white; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 20px; font-size: 12px; }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 991px) {
+            .nav-group { justify-content: center; margin-top: 15px; }
+            .custom-nav-select { width: 100%; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-admin-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-shield-halved mr-2 text-warning"></i> Busfermata SECURE AUDIT PORTAL</span>
+        <a href="{% url 'logout' %}" class="logout-link"><i class="fas fa-power-off mr-2"></i>SIGN OUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <div class="nav-group ml-auto">
+		<!--
+                 <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}" selected>Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select" style="color: red; border-color: #ffcccc;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+		-->
+		<select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    {% if not user.city or user.city == "" %}
+        <option value="{% url 'sc' %}">Register Share Company</option>
+        <option value="{% url 'registor' %}">Add System Admin</option>
+        <option value="{% url 'worker' %}">Register Ticket Agent</option>
+        <option value="{% url 'city' %}">Add Terminal Hub</option>
+        <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+    {% endif %}
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'changebus' %}">Change Bus</option>
+
+                    {% if not user.city or user.city == "" %}
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                     {% endif %}
+                </select>
+<select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    {% if not user.city or user.city == "" %}
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                     {% endif %}
+
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+                    {% if not user.city or user.city == "" %}
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                     {% endif %}
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    
+    {% if success %}
+    <div class="alert alert-success border-0 shadow-sm rounded-pill text-center font-weight-bold mb-4">
+        <i class="fas fa-circle-check mr-2"></i> {{ success }}
+    </div>
+    {% endif %}
+
+    <div class="content-card">
+        <div class="p-4 bg-light border-bottom d-flex justify-content-between align-items-center">
+            <h5 class="m-0 font-weight-bold text-uppercase" style="letter-spacing: 1px;">Ticket Transaction Registry</h5>
+            <span class="badge badge-primary px-3 py-2">INTERNATIONAL DATA SYNC</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="intl-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">ID</th>
+                        <th>First Name</th>
+                        <th>Father Name</th>
+                        <th>Contact No.</th>
+                        <th>Departure</th>
+                        <th>Destination</th>
+                        <th>Travel Date</th>
+                        <th>Plate No.</th>
+                        <th>System Configuration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rout in route %}
+                    <tr>
+                        <td class="font-weight-bold text-muted">{{ forloop.counter }}</td>
+                        <form action="{% url 'delete_tickets_api_execution' %}" method="POST" onsubmit="return confirm('PERMANENT ACTION: Void this ticket?');">
+                            {% csrf_token %}
+                            <td><input type="text" name="firstname" class="table-input" value="{{ rout.firstname|slice:15 }}" readonly></td>
+                            <td><input type="text" name="lastname" class="table-input" value="{{ rout.lastname|slice:10 }}" readonly></td>
+                            <td><input type="text" name="phone" class="table-input" value="{{ rout.phone|slice:10 }}" readonly></td>
+                            <td><input type="text" name="depcity" class="table-input" value="{{ rout.depcity|slice:15 }}" readonly></td>
+                            <td><input type="text" name="descity" class="table-input" value="{{ rout.descity|slice:15 }}" readonly></td>
+                            <td><input type="text" name="date" class="table-input" value="{{ rout.date|slice:10 }}" readonly></td>
+                            <td><input type="text" name="plate_no" class="table-input" value="{{ rout.plate_no|slice:10 }}" readonly></td>
+                            <td>
+                                <button type="submit" class="btn-void">
+                                    <i class="fas fa-trash-can mr-1"></i> VOID
+                                </button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="9" class="py-5 text-muted font-italic">No active transactions found in the global registry.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-intl">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="footer-heading">Busfermata Tech</div>
+                <p class="small">Pioneering transport management solutions across East Africa with international technology standards for safety, efficiency, and financial transparency.</p>
+            </div>
+            <div class="col-lg-4 mb-4 text-lg-center">
+                <div class="footer-heading">System Support</div>
+                <p class="mb-1">24/7 Hotline: <b>+251 975 143 134</b></p>
+                <p class="small">Email: support@Busfermata.com</p>
+            </div>
+            <div class="col-lg-4 mb-4 text-lg-right">
+                <div class="footer-heading">Security Compliance</div>
+                <p class="small">Fully encrypted data management<br>compliant with international GDPR standards.</p>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p class="mb-0">&copy; 2026 Busfermata Digital Technology. All Rights Reserved. | <a href="#" class="text-white-50">Legal Terms</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

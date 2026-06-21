@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Check Route</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root {
+            --brand-navy: #0A3977;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --surface-gray: #f8fafc;
+            --danger: #ef4444;
+            --success: #10b981;
+            --teal-accent: #007A78;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--surface-gray);
+            margin: 0;
+            color: #1e293b;
+        }
+
+        /* Premium International Notification Toast Alerts */
+        .intl-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            z-index: 10000;
+            min-width: 320px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .intl-toast-error { border-left: 5px solid var(--danger); }
+        .intl-toast-success { border-left: 5px solid var(--success); }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toast-icon-error { color: var(--danger); font-size: 20px; }
+        .toast-icon-success { color: var(--success); font-size: 20px; }
+
+        .toast-message { display: flex; flex-direction: column; }
+        .toast-title { font-weight: bold; font-size: 14px; color: #333; }
+        .toast-desc { font-size: 13px; color: #666; }
+
+        .toast-close {
+            background: none; border: none; color: #999;
+            cursor: pointer; margin-left: auto; transition: 0.2s;
+        }
+        .toast-close:hover { color: #333; }
+
+        .toast-progress {
+            position: absolute; bottom: 0; left: 0;
+            height: 3px; width: 100%; background: #eee;
+        }
+
+        .toast-progress::after {
+            content: ''; position: absolute; left: 0;
+            width: 100%; height: 100%;
+            animation: progressFill 5s linear forwards;
+        }
+        .intl-toast-error .toast-progress::after { background: var(--danger); }
+        .intl-toast-success .toast-progress::after { background: var(--success); }
+
+        @keyframes slideIn {
+            from { transform: translateX(110%); }
+            to { transform: translateX(0); }
+        }
+        @keyframes progressFill {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        /* Top Bar Styling */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+
+        /* Header Navigation Components */
+        .navbar-main {
+            background: #ffffff;
+            padding: 12px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none !important;
+        }
+
+        .brand-logo {
+            width: 140px !important;
+            height: 85px !important;
+            object-fit: contain !important;
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+
+        .brand-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-text {
+            font-weight: 800;
+            color: var(--brand-navy) !important;
+            font-size: 22px;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tagline {
+            color: var(--teal-accent);
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            margin: 2px 0 0 0;
+            text-transform: uppercase;
+        }
+
+        .custom-nav-select {
+            border: 2px solid #e2e8f0;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 8px;
+            height: 42px;
+            min-width: 150px;
+            color: var(--brand-navy);
+            text-transform: uppercase;
+            margin: 4px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            background-color: #fff;
+            padding: 0 10px;
+        }
+        .custom-nav-select:hover, .custom-nav-select:focus {
+            border-color: var(--brand-navy);
+            background-color: #f0f5ff;
+            outline: none;
+        }
+
+        /* Form Layout Architecture */
+        .page-container { padding: 60px 15px; }
+
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(10, 57, 119, 0.04);
+            overflow: hidden;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            padding: 40px;
+        }
+
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        .form-control:focus {
+            border-color: var(--brand-navy);
+            box-shadow: 0 0 0 4px rgba(10, 57, 119, 0.1);
+        }
+
+        .btn-submit-custom {
+            width: 100%;
+            height: 52px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            margin-top: 25px;
+        }
+        .btn-submit-custom:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        /* --- PREMIUM INTERNATIONAL FOOTER STYLING --- */
+        .footer-main {
+            background: var(--brand-dark);
+            color: #94a3b8;
+            padding: 60px 0 30px;
+            margin-top: 100px;
+            border-top: 6px solid var(--brand-gold);
+            font-size: 14px;
+        }
+
+        .footer-heading {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none !important;
+            transition: var(--transition-smooth);
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .footer-link:hover {
+            color: var(--brand-gold);
+            transform: translateX(4px);
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .footer-contact-item i {
+            color: var(--brand-gold);
+            font-size: 16px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            margin-top: 40px;
+            padding-top: 25px;
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* --- HIDE GOOGLE TRANSLATION CONFLICTS --- */
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; }
+        body { top: 0px !important; position: static !important; }
+        html { margin-top: 0px !important; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-ticket-alt mr-2"></i> Ticket Management Portal | Operational Node</span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold small text-decoration-none"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
+    </div>
+</div>
+
+{% if error %}
+<div class="intl-toast intl-toast-error" id="djangoToast">
+    <div class="toast-content">
+        <div class="toast-icon-error"><i class="fas fa-circle-exclamation"></i></div>
+        <div class="toast-message">
+            <span class="toast-title">Registry Error</span>
+            <span class="toast-desc">{{ error }}</span>
+        </div>
+        <button class="toast-close" onclick="closeToast()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+{% endif %}
+
+{% if success %}
+<div class="intl-toast intl-toast-success" id="djangoToast">
+    <div class="toast-content">
+        <div class="toast-icon-success"><i class="fas fa-circle-check"></i></div>
+        <div class="toast-message">
+            <span class="toast-title">Success Operation</span>
+            <span class="toast-desc">{{ success }}</span>
+        </div>
+        <button class="toast-close" onclick="closeToast()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+{% endif %}
+
+<script>
+function closeToast() {
+    const toast = document.getElementById('djangoToast');
+    if (toast) {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = '0.4s ease';
+        setTimeout(() => toast.remove(), 400);
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('djangoToast')) {
+        setTimeout(closeToast, 5000);
+    }
+});
+</script>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo">
+            <div class="brand-text-wrapper">
+                <h2 class="brand-text">BUSFERMATA</h2>
+                <h6 class="brand-tagline">Digital Technology</h6>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+            <div class="navbar-nav ml-auto mt-3 mt-xl-0">
+
+		<!--
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select" style="color: red; border-color: #ffcccc;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}" selected>Delete Ticket</option>
+                </select>
+		-->
+		<select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    {% if not user.city or user.city == "" %}
+        <option value="{% url 'sc' %}">Register Share Company</option>
+        <option value="{% url 'registor' %}">Add System Admin</option>
+        <option value="{% url 'worker' %}">Register Ticket Agent</option>
+        <option value="{% url 'city' %}">Add Terminal Hub</option>
+        <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+    {% endif %}
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'changebus' %}">Change Bus</option>
+
+                    {% if not user.city or user.city == "" %}
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                     {% endif %}
+                </select>
+		<select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    {% if not user.city or user.city == "" %}
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                     {% endif %}
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+                    {% if not user.city or user.city == "" %}
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                     {% endif %}
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="content-card" style="max-width: 500px; margin: 0 auto 30px;">
+        <h4 class="text-center font-weight-bold mb-4" style="color: var(--brand-navy);">Route Inquiry</h4>
+        
+        <form action="{% url 'delete_ticket' %}" method="post">
+            {% csrf_token %}
+            <div style="display: flex; align-items: center; margin: 5px 0; justify-content: center; margin-top: 20px;">
+                <label for="depcity" style="color: #003366; font-weight: bold; margin-right: 10px; width: 60px; text-align: right;">
+                    <b>From:</b>
+                </label>
+                <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; color: brown;" required>
+                    <option value="" style="color: green; font-weight: bold;">Select</option>
+                    <option value="Addisababa" style="color: blue; font-weight: bold;">Addisababa</option>
+                    {% if des %}
+                        {% for depcity in des %}
+                            {% if depcity.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko,Addisababa" %}
+                                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+
+            <div style="display: flex; align-items: center; margin: 5px 0; justify-content: center; margin-top: 20px;">
+                <label for="descity" style="color: #003366; font-weight: bold; margin-right: 10px; width: 60px; text-align: right;">
+                    <b>To:</b>
+                </label>
+                <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; color: brown;" required>
+                    <option value="" style="color: green; font-weight: bold;">Select</option>
+                    <option value="Addisababa" style="color: blue; font-weight: bold;">Addisababa</option>
+                    {% if des %}
+                        {% for depcity in des %}
+                            {% if depcity.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko,Addisababa" %}
+                                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+
+	     <div class="form-group" style="display: flex; align-items: center; margin: 5px 0; justify-content: center;">
+                <label for="date" style="color: #003366; font-weight: bold; margin-right: 10px; width: 60px; text-align: right;">
+                    <b>Date:</b>
+                </label>
+                <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; color: brown;" required>
+            </div>
+            <button type="submit" class="btn-submit-custom">Search Ticket</button>
+        </form>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <div class="row text-left">
+            <div class="col-xl-4 col-md-6 col-12 mb-4 mb-xl-0">
+                <h6 class="footer-heading">Busfermata Digital Tech</h6>
+                <p style="line-height: 1.6; color: #64748b; font-size: 13px;">
+                    Providing high-performance unified fleet coordination modules and centralized transit registry controls across international ticketing systems.
+                </p>
+            </div>
+            <div class="col-xl-4 col-md-6 col-12 mb-4 mb-xl-0">
+                <h6 class="footer-heading">Quick Actions</h6>
+                <div class="d-flex flex-column">
+                    <a href="{% url 'routes' %}" class="footer-link"><i class="fas fa-chevron-right mr-2 small"></i>Route Mapping Dashboard</a>
+                    <a href="{% url 'ticketinfo' %}" class="footer-link"><i class="fas fa-chevron-right mr-2 small"></i>Active Ticket Logs</a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-12 col-12">
+                <h6 class="footer-heading">Operational Support</h6>
+                <div class="footer-contact-item">
+                    <i class="fas fa-headset"></i>
+                    <span>Hotline: <b>+251975143134</b></span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>ops@busfermata.com</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="mb-0">&copy; 2026 Busfermata Digital Technology. Enterprise Logistics Node. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

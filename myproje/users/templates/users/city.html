@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Terminal Hub Registry</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --surface-gray: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--surface-gray); 
+            margin: 0;
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main {
+            background: #ffffff;
+            padding: 12px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 24px; text-transform: uppercase; line-height: 1; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 1px; display: block; }
+
+        .custom-nav-select {
+            border: 2px solid #e2e8f0;
+            background-color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 8px;
+            height: 38px;
+            min-width: 170px;
+            color: var(--brand-navy);
+            text-transform: uppercase;
+        }
+
+        /* --- FORM STYLING --- */
+        .admin-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-top: 50px;
+            border-top: 5px solid var(--brand-navy);
+        }
+
+        .form-control-modern {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            height: 48px;
+            text-align: center;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: var(--brand-navy);
+            color: white;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 8px;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+        }
+
+        /* --- FOOTER --- */
+        .footer-main { 
+            background: var(--brand-navy); 
+            color: white; 
+            padding: 50px 0 30px; 
+            margin-top: 80px; 
+            text-align: center;
+            border-top: 5px solid var(--brand-gold);
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-headset mr-2"></i> Support: <b>+251975143134</b></span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold text-decoration-none">
+            <i class="fas fa-power-off mr-1"></i> LOGOUT
+        </a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#adminNavbar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <div class="navbar-nav ml-auto">
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="admin-card">
+                <div class="text-center mb-4">
+                    <i class="fas fa-city" style="font-size: 40px; color: var(--brand-navy);"></i>
+                    <h4 class="font-weight-bold mt-3" style="color: var(--brand-navy);">Register Terminal Hub</h4>
+                </div>
+
+                <div id="response-message" style="text-align: center; margin-bottom: 15px;"></div>
+
+                <form id="search_form_1">
+                    {% csrf_token %}
+                    <div class="form-group mb-4">
+                        <label class="form-label">City / Hub Name</label>
+                        <input type="text" class="form-control form-control-modern" id="mySelect" name="depcity" 
+                               maxlength="30" required placeholder="Enter city name"
+                               oninput="capitalizeFirstLetter(this); validateCity(this);">
+                        
+                        <div id="error-message" style="color: #dc2626; display: none; font-size: 11px; text-align: center; margin-top: 5px;">
+                            Only letters and spaces allowed.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-plus-circle mr-2"></i> Authorize & Save Hub
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-2" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="mb-4">Support Contact: <b>+251975143134</b></p>
+        <p class="small opacity-75">Integrated Transport Information Systems • Ethiopia Core Division</p>
+        <p class="opacity-50 mt-2">© 2026 Busfermata • National Travel Solutions</p>
+    </div>
+</footer>
+
+<script>
+// Logic to handle First Letter Capitalization and Regex filtering
+function capitalizeFirstLetter(input) {
+    let value = input.value;
+    if (value) {
+        value = value.replace(/[^A-Za-z\s]/g, ''); // Filter out numbers/symbols
+        input.value = value.charAt(0).toUpperCase() + value.slice(1);
+    }
+}
+
+// Visual validation feedback
+function validateCity(input) {
+    const errorMessage = document.getElementById('error-message');
+    const regex = /^[A-Za-z\s]*$/;
+    if (!regex.test(input.value)) {
+        errorMessage.style.display = 'block';
+        input.style.borderColor = '#dc2626';
+    } else {
+        errorMessage.style.display = 'none';
+        input.style.borderColor = '#e2e8f0';
+    }
+}
+
+// CSRF Utility
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// AJAX Form Submission
+document.getElementById('search_form_1').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const input = document.getElementById('mySelect');
+    const responseMessage = document.getElementById('response-message');
+
+    try {
+        const response = await fetch('/api/city/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({ depcity: input.value.trim() }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            responseMessage.innerHTML = `<p style="color: #16a34a; font-weight: bold;">${data.success || 'City Registered!'}</p>`;
+            this.reset();
+        } else {
+            responseMessage.innerHTML = `<p style="color: #dc2626;">${data.error || 'Registration failed'}</p>`;
+        }
+    } catch (error) {
+        responseMessage.innerHTML = `<p style="color: #dc2626;">Network error.</p>`;
+    }
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

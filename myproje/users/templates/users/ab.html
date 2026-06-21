@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>About Us | Busfermata Digital Technology</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --text-main: #1e293b;
+        }
+
+        /* --- HIDE GOOGLE UI --- */
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; }
+        body { top: 0px !important; position: static !important; }
+        html { margin-top: 0px !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        /* --- NAVIGATION --- */
+        .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 13px; }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 70px !important; width: auto; border-radius: 12px; 
+            margin-right: 15px; border: 3px solid var(--brand-navy) !important;
+            transition: 0.3s ease;
+        }
+        
+        /* BRAND TEXT STYLING */
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 24px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold) !important; font-weight: 800; font-size: 10px; letter-spacing: 2px; display: block; margin-top: 5px; }
+        
+        /* --- MULTI-LANGUAGE BRAND LOGIC --- */
+        .brand-am, .brand-om, .brand-ti { display: none; } 
+        
+        html[lang="am"] .brand-en, 
+        html[lang="om"] .brand-en, 
+        html[lang="ti"] .brand-en { display: none !important; }
+
+        html[lang="am"] .brand-am { display: inline-block !important; }
+        html[lang="om"] .brand-om { display: inline-block !important; }
+        html[lang="ti"] .brand-ti { display: inline-block !important; }
+
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 14px; }
+
+        /* --- CONTENT DESIGN --- */
+        .concept-card { background: white; padding: 50px; border-radius: 25px; margin-top: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.03); }
+        .feature-box {
+            background: white; padding: 35px; border-radius: 20px; text-align: center; height: 100%;
+            transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .feature-icon { font-size: 2.5rem; color: var(--brand-gold); margin-bottom: 20px; }
+
+        /* --- CONTACT PANEL --- */
+        .contact-panel {
+            background: linear-gradient(135deg, var(--brand-navy) 0%, #004080 100%);
+            color: white; padding: 60px 40px; border-radius: 30px; margin: 50px 0;
+        }
+        .phone-link { color: var(--brand-gold); font-size: 2rem; font-weight: 800; text-decoration: none !important; }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0 30px; text-align: center; }
+        #dateInput { display: none; border: 2px solid var(--brand-gold); border-radius: 8px; padding: 5px; margin-left: 10px; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF LOGIN PORTAL</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+                <span class="brand-text brand-en notranslate" lang="en">Busfermata</span>
+                <span class="brand-text brand-am" lang="am">ወደ ሀገር</span>
+                <span class="brand-text brand-om notranslate" lang="om">Busfermata</span>
+                <span class="brand-text brand-ti" lang="ti">ወደሃገር</span>
+                
+                <span class="brand-tagline">TRANSPORT TECHNOLOGY</span>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+               
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="langDrop" data-toggle="dropdown">
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg p-2 border-0" style="border-radius: 12px;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')">English</button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')">አማርኛ</button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')">Afaan Oromoo</button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')">ትግርኛ</button>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <form action="{% url 'changebuses' %}" method="post" id="busChangeForm" class="d-flex align-items-center">
+                        {% csrf_token %}
+                        <button type="button" id="notificationButton" style="background:none; border:none; font-size: 20px;">
+                            🔔<span class="badge badge-danger" style="position:relative; top:-10px; left:-5px;">{{ buschanges_count }}</span>
+                        </button>
+                        <input type="date" name="date" id="dateInput">
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="concept-card">
+        <h1 style="font-weight: 800; color: var(--brand-navy);">Our Vision</h1>
+        <p style="font-size: 1.25rem; line-height: 1.8; margin-top: 20px;">
+            <strong>Busfermata Digital Technology</strong> is a visionary, unique, and independent logistics platform established to modernize the travel experience.
+        </p>
+        <p style="font-size: 1.15rem; line-height: 1.9; color: #475569;">
+        Founded by a dedicated family of software creators and transport industry experts who have spent decades working at the heart of the sector. By merging high-level technical expertise with deep real-world experience, we are bridging the digital gap in Ethiopia’s travel industry. Our platform is built to resolve the daily challenges of travel—making every journey across the nation faster, safer, and more reliable.
+        </p>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="feature-box">
+                <i class="fas fa-microchip feature-icon"></i>
+                <h4 style="font-weight: 800; color: var(--brand-navy);">Software Built</h4>
+                <p class="text-muted">Developed by engineers who understand secure, high-speed digital infrastructure.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-box">
+                <i class="fas fa-steering-wheel feature-icon"></i>
+                <h4 style="font-weight: 800; color: var(--brand-navy);">Driver Insight</h4>
+                <p class="text-muted">Designed with direct feedback from Ethiopian drivers to ensure practical solutions.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-box">
+                <i class="fas fa-bus feature-icon"></i>
+                <h4 style="font-weight: 800; color: var(--brand-navy);">Owner Driven</h4>
+                <p class="text-muted">Tailored for transport owners to maximize efficiency and service quality.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-panel text-center">
+        <h2 style="font-weight: 800; margin-bottom: 20px;">Direct Support Line</h2>
+        <a href="tel:+251975143134" class="phone-link"><i class="fas fa-phone-alt mr-3"></i>+251 975 143 134</a>
+        <div class="mt-4">
+            <a href="https://t.me/towardcountry" target="_blank" class="btn btn-outline-light btn-lg mx-2"><i class="fab fa-telegram-plane mr-2"></i>Telegram</a>
+            <a href="https://wa.me/251975143134" target="_blank" class="btn btn-success btn-lg mx-2"><i class="fab fa-whatsapp mr-2"></i>WhatsApp</a>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="opacity-50">© 2026 Busfermata • National Travel Solutions</p>
+        <div class="mt-4">
+            <i class="fab fa-facebook mx-2"></i><i class="fab fa-telegram mx-2"></i><i class="fab fa-instagram mx-2"></i>
+        </div>
+    </div>
+</footer>
+
+<div id="google_translate_element" style="display:none;"></div>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: "en", 
+            includedLanguages: "en,am,om,ti", 
+            autoDisplay: false
+        }, "google_translate_element");
+    }
+
+    function changeLanguage(l) {
+        localStorage.setItem("userLanguage", l);
+        document.documentElement.setAttribute('lang', l);
+        var s = document.querySelector("select.goog-te-combo");
+        if (s) {
+            s.value = l;
+            s.dispatchEvent(new Event("change"));
+        }
+    }
+
+    (function syncImmediately() {
+        const savedLang = localStorage.getItem("userLanguage");
+        if (savedLang && savedLang !== "en") {
+            document.documentElement.setAttribute('lang', savedLang);
+            var fastCheck = setInterval(function() {
+                var selectField = document.querySelector("select.goog-te-combo");
+                if (selectField) {
+                    selectField.value = savedLang;
+                    selectField.dispatchEvent(new Event("change"));
+                    clearInterval(fastCheck); 
+                }
+            }, 50);
+            setTimeout(() => clearInterval(fastCheck), 5000);
+        }
+    })();
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        const input = document.getElementById('dateInput');
+        input.style.display = (input.style.display === 'none' || input.style.display === '') ? 'inline-block' : 'none';
+        if(input.style.display === 'inline-block') input.focus();
+    });
+
+    const brand = document.querySelector('.brand-area');
+    const logo = document.querySelector('.brand-logo');
+    brand.addEventListener('mousemove', (e) => {
+        const rect = brand.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / 10;
+        const y = (e.clientY - rect.top - rect.height / 2) / 10;
+        logo.style.transform = `perspective(1000px) rotateX(${-y}deg) rotateY(${x}deg) scale(1.05)`;
+    });
+    brand.addEventListener('mouseleave', () => { logo.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`; });
+</script>
+
+</body>
+</html>

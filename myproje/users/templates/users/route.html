@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Deployment Registry</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --ethiopia-green: #2e7d32;
+            --surface-gray: #f8fafc;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; \
+            background: var(--surface-gray); 
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main {
+            background: #ffffff;
+            padding: 12px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 24px; text-transform: uppercase; line-height: 1; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 1px; display: block; }
+
+        .custom-nav-select {
+            border: 2px solid #e2e8f0;
+            background-color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 8px;
+            height: 38px;
+            min-width: 170px;
+            color: var(--brand-navy);
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Mobile Hamburger & Menu */
+        @media (max-width: 1199.98px) {
+            .navbar-collapse {
+                background: white;
+                padding: 20px;
+                border-radius: 12px;
+                margin-top: 15px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+            .custom-nav-select { width: 100%; margin-bottom: 10px !important; }
+        }
+
+        /* --- CARDS & PANELS --- */
+        .card-modern {
+            background: white;
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            padding: 40px;
+        }
+
+        .panel-header {
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--brand-navy);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control-modern {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--brand-dark);
+            height: auto;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-modern:focus {
+            background: white;
+            border-color: var(--brand-navy);
+            box-shadow: 0 0 0 4px rgba(0, 38, 77, 0.05);
+        }
+
+        select.form-control-modern {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-submit {
+            background: var(--brand-navy);
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 10px;
+            padding: 16px 32px;
+            border: none;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 38, 77, 0.15);
+        }
+
+        .btn-submit:hover {
+            background: #001a33;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 38, 77, 0.2);
+        }
+
+        /* --- ALERTS --- */
+        .alert-modern {
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 16px 20px;
+        }
+
+        /* --- FOOTER --- */
+        .footer-main { 
+            background: var(--brand-navy); 
+            color: white; 
+            padding: 50px 0 30px; 
+            margin-top: 80px; 
+            text-align: center;
+            border-top: 5px solid var(--brand-gold);
+        }
+
+        /* HIDE GOOGLE TRANSLATE BANNER CORES */
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        .brand-logo {
+            border: none !important;      
+            box-shadow: none !important;  
+            border-radius: 0;             
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-shield-check mr-2"></i> System Administration Portal</span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold ml-3 text-decoration-none">
+            <i class="fas fa-power-off mr-1"></i> LOGOUT
+        </a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+                <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#adminNavbar">
+            <i class="fas fa-bars" style="color: var(--brand-navy); font-size: 22px;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <div class="navbar-nav ml-auto">
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+		    <!--
+                    {% if not user.city %}
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                    {% endif %}
+		    -->
+		    {% if not user.city %}
+<option value="{% url 'sc' %}">Register Share Company</option>
+<option value="{% url 'registor' %}">Add System Admin</option>
+<option value="{% url 'worker' %}">Register Ticket Agent</option>
+<option value="{% url 'city' %}">Add Terminal Hub</option>
+<option value="{% url 'service_fee' %}">Set Service Tariff</option>
+{% endif %}
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+		    <option value="{% url 'changebus' %}">Change Bus</option>
+		                        {% if not user.city %}
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+		     {% endif %}
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+		    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+		    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+		    <option value="{% url 'sce' %}">View Share Companies</option>
+                    
+		    {% if not user.city %}
+		    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+		     {% endif %}
+
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+		    {% if not user.city %}
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+		     {% endif %}
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-xl-9 col-lg-10">
+
+            {% if error %}
+            <div class="alert alert-modern alert-danger text-danger shadow-sm mb-4">
+                <i class="fas fa-exclamation-triangle mr-3"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            {% if success %}
+            <div class="alert alert-modern alert-success text-success shadow-sm mb-4">
+                <i class="fas fa-check-circle mr-3"></i> {{ success }}
+            </div>
+            {% endif %}
+
+            <div class="card card-modern shadow-sm">
+                <div class="panel-header d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-circle mr-3 text-primary">
+                        <i class="fas fa-route fa-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="panel-title m-0">Deployment Route Configuration</h2>
+                        <small class="text-muted font-weight-bold">Establish master route records and legal schedules</small>
+                    </div>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Departure <span class="text-danger">*</span></label>
+			    <!--
+			    <select name="depcity" id="depcity" class="form-control form-control-modern" required onchange="handleCityChange()">
+        <option value="" data-eng-name="">Select City</option>
+        {% for item in des %}
+            {# Removed 'Asko' from the exclusion list so its terminals can show up #}
+            {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena" %}
+
+                {% if user.city == 'Autobustera' %}
+                    {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
+                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                    {% endif %}
+
+                {% elif user.city == 'Asko' %}
+                    {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
+                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                    {% endif %}
+
+                {% elif user.city == 'Ayertena' %}
+                    {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Welayatatercha,Welita,Welkite,Sawla,Sodo,Addisababa" %}
+                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                    {% endif %}
+
+                {% elif user.city == 'Kality' %}
+                    {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
+                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                    {% endif %}
+
+                {% else %}
+                    <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                {% endif %}
+
+            {% endif %}
+        {% endfor %}
+    </select>
+    -->		    
+                            <select name="depcity" id="depcity" class="form-control form-control-modern" required onchange="handleCityChange()">
+                                <option value="" data-eng-name="">Select City</option>
+                                {% for item in des %}
+                                    {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                                        {% if user.city == 'Autobustera' %}
+                                            {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% elif user.city == 'Asko' %}
+                                            {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% elif user.city == 'Ayertena' %}
+                                            {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% elif user.city == 'Kality' %}
+                                            {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% else %}
+                                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Destination <span class="text-danger">*</span></label>
+                            <select name="descity" id="descity" class="form-control form-control-modern" required onchange="handleCityChange()">
+                                <option value="" data-eng-name="">Select City</option>
+                                {% for item in des %}
+                                    {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                                        {% if user.city == 'Autobustera' %}
+                                            {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% elif user.city == 'Asko' %}
+                                            {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% elif user.city == 'Ayertena' %}
+                                            {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% elif user.city == 'Kality' %}
+                                            {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
+                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                            {% endif %}
+                                        {% else %}
+                                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Distance <span class="text-danger">*</span></label>
+                        <input type="text" name="kilometer" id="km_input" class="form-control form-control-modern" placeholder="Distance will clear/calculate automatically" required>                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Level <span class="text-danger">*</span></label>
+                            <select id="level-select" class="form-control form-control-modern" required onchange="filterBusNames(this.value)">
+                                <option value="">Choose</option>
+                                <option value="1st">1st</option>
+                                <option value="2nd">2nd</option>
+                                <option value="3rd">3rd</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6" id="bus-type-wrapper" style="display: none;">
+                            <label class="form-label">Bus Type <span class="text-danger">*</span></label>
+                            <select id="bus-name-select" class="form-control form-control-modern" onchange="filterPlatesAndSides(this.value)">
+                                <option value="">Choose Bus Type</option>
+                                {% for d in bus %}
+                                    <option value="{{ d.name }}" data-level="{{ d.level }}">{{ d.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3" id="plate-side-wrapper" style="display: none;">
+                        <div class="col-md-6">
+                            <label class="form-label">Plate No <span class="text-danger">*</span></label>
+                            <select name="plate_no" id="plate-no-select" class="form-control form-control-modern" onchange="syncSideNo(this.value)">
+                                <option value="">Plate Number</option>
+                                {% for d in bus %}
+                                    <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}" data-name="{{ d.name }}" data-level="{{ d.level }}">{{ d.plate_no }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Side No <span class="text-danger">*</span></label>
+                            <select name="side_no" id="side-no-select" class="form-control form-control-modern" onchange="syncPlateNo(this.value)">
+                                <option value="">Side Number</option>
+                                {% for d in bus %}
+                                    <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-name="{{ d.name }}" data-level="{{ d.level }}" class="notranslate" translate="no">{{ d.sideno }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Price <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" name="price" class="form-control form-control-modern" placeholder="0.00" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Date <span class="text-danger">*</span></label>
+                            <input type="date" name="date" class="form-control form-control-modern" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Save Route Config</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="small opacity-75">Integrated Transport Information Systems • Ethiopia Core Division</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+function handleCityChange() {
+    const depSelect = document.getElementById('depcity');
+    const desSelect = document.getElementById('descity');
+
+    const selectedDep = depSelect.value;
+    const selectedDes = desSelect.value;
+
+    // 1. Reset all destination options to enabled first
+    Array.from(desSelect.options).forEach(option => {
+        if (option.value !== "") {
+            option.disabled = (option.value === selectedDep);
+        }
+    });
+
+    // 2. Reset all departure options to enabled first
+    Array.from(depSelect.options).forEach(option => {
+        if (option.value !== "") {
+            option.disabled = (option.value === selectedDes);
+        }
+    });
+
+    // 3. Call your original calculation matrix logic if both are selected
+    if (typeof calculateKilo === "function") {
+        calculateKilo();
+    }
+}
+
+function filterBusNames(selectedLevel) {
+    const nameWrapper = document.getElementById("bus-type-wrapper");
+    const nameSelect = document.getElementById("bus-name-select");
+    const plateWrapper = document.getElementById("plate-side-wrapper");
+
+    nameSelect.value = "";
+    plateWrapper.style.display = "none";
+
+    if (selectedLevel) {
+        nameWrapper.style.display = "block";
+        let seenNames = new Set();
+
+        Array.from(nameSelect.options).forEach(option => {
+            if (option.value === "") return;
+
+            const matchesLevel = option.getAttribute("data-level").trim() === selectedLevel.trim();
+            if (matchesLevel && !seenNames.has(option.value)) {
+                option.style.display = "block";
+                option.disabled = false;
+                seenNames.add(option.value);
+            } else {
+                option.style.display = "none";
+                option.disabled = true;
+            }
+        });
+    } else {
+        nameWrapper.style.display = "none";
+    }
+}
+
+function filterPlatesAndSides(selectedName) {
+    const plateWrapper = document.getElementById("plate-side-wrapper");
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedLevel = document.getElementById("level-select").value;
+
+    if (selectedName && selectedLevel) {
+        plateWrapper.style.display = "flex";
+
+        [plateSelect, sideSelect].forEach(select => {
+            select.value = "";
+            Array.from(select.options).forEach(option => {
+                if (option.value === "") return;
+
+                const matchesName = option.getAttribute("data-name") === selectedName;
+                const matchesLevel = option.getAttribute("data-level").trim() === selectedLevel.trim();
+
+                if (matchesName && matchesLevel) {
+                    option.style.display = "block";
+                    option.disabled = false;
+                } else {
+                    option.style.display = "none";
+                    option.disabled = true;
+                }
+            });
+        });
+    } else {
+        plateWrapper.style.display = "none";
+    }
+}
+
+function syncSideNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = plateSelect.options[plateSelect.selectedIndex];
+    if (val) sideSelect.value = selectedOption.getAttribute("data-sideno");
+}
+
+function syncPlateNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = sideSelect.options[sideSelect.selectedIndex];
+    if (val) plateSelect.value = selectedOption.getAttribute("data-plate");
+}
+
+function calculateKilo() {
+    var dep = document.getElementById("depcity").value;
+    var des = document.getElementById("descity").value;
+    var kmInput = document.getElementById("km_input");
+
+    if (!dep || !des) {
+        kmInput.value = "";
+        return;
+    }
+
+    var matrix = {
+        "addisababa": {
+            "hawassa": 273, "shashemene": 250, "gonder": 738, "bahirdar": 565,
+            "diredawa": 445, "harar": 515, "jigjiga": 620, "chiro": 327,
+            "jimma": 352, "sodo": 330, "arbaminch": 435, "wolkite": 155,
+            "hosaena": 230, "nekemte": 328, "gimbi": 441, "assosa": 675, "ambo": 114
+        },
+        "hawassa": { "addisababa": 273 },
+        "shashemene": { "addisababa": 250 },
+        "gonder": { "addisababa": 738 },
+        "bahirdar": { "addisababa": 565 },
+        "diredawa": { "addisababa": 445 },
+        "harar": { "addisababa": 515 },
+        "jigjiga": { "addisababa": 620 },
+        "chiro": { "addisababa": 327 },
+        "jimma": { "addisababa": 352 },
+        "sodo": { "addisababa": 330 },
+        "arbaminch": { "addisababa": 435 },
+        "wolkite": { "addisababa": 155 },
+        "hosaena": { "addisababa": 230 },
+        "nekemte": { "addisababa": 328 },
+        "gimbi": { "addisababa": 441 },
+        "assosa": { "addisababa": 675 },
+        "ambo": { "addisababa": 114 }
+    };
+
+    var k1 = dep.toLowerCase().trim();
+    var k2 = des.toLowerCase().trim();
+
+    if (matrix[k1] && matrix[k1][k2]) {
+        kmInput.value = matrix[k1][k2];
+    } else if (matrix[k2] && matrix[k2][k1]) {
+        kmInput.value = matrix[k2][k1];
+    } else {
+        kmInput.value = "";
+        kmInput.placeholder = "Distance not found in local sync matrix";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const depSelect = document.getElementById("depcity");
+    const desSelect = document.getElementById("descity");
+    
+    if(depSelect) depSelect.addEventListener("change", calculateKilo);
+    if(desSelect) desSelect.addEventListener("change", calculateKilo);
+});
+</script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){
+            setTimeout(()=>{\
+                googleTranslateElementInit();\
+                changeLanguage(l);\
+            },1000);
+        }
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

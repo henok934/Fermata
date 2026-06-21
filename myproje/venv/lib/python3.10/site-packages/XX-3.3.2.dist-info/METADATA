@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: XX
+Version: 3.3.2
+Summary: Python tools for myself(billsteve@126.com)
+Home-page: https://github.com/billsteve
+Author: bill steve
+Author-email: billsteve@126.com
+Maintainer: bill steve
+Maintainer-email: billsteve@126.com
+License: MIT License
+Platform: all
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Software Development :: Libraries
+Requires-Dist: scrapy
+Requires-Dist: scrapyd
+Requires-Dist: scrapyd-client
+Requires-Dist: scrapy-redis
+Requires-Dist: pyquery
+Requires-Dist: redis
+Requires-Dist: requests
+Requires-Dist: pymysql
+Requires-Dist: sqlalchemy
+Requires-Dist: logzero
+Requires-Dist: happybase
+Requires-Dist: tld
+
+
+    ## Just Test, Just for myself! Not safe,not stable and will boom boom boom. ##
+    
+    Just like these:
+        -  https://music.163.com/song?id=3949444&userid=319278554  
+        -  https://music.163.com/song?id=474581010&userid=319278554  
+        -  https://open.spotify.com/album/47wyCwrChF50ZTFNOuWx99  
+        -  https://open.spotify.com/track/3oDFtOhcN08qeDPAK6MEQG  
+    
+    Changelog:
+        ### 3.2.4
+            -  增加base64编码和解码
+        ### 3.1.0
+            -  Scrapy->DM->CacheDM::CacheFileRequest, del response.certificate.
+        ### 3.0.6
+            -  add get_cache_file in Scrapy->DM->CacheDM::CacheFileRequest.
+                Could cache file by CacheFileRequest if you don't set FUN_CACHE_FILE_PATH in setting.               
+        ### 3.0.4
+            - add get p domain    
+    

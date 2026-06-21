@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Boarding Pass | Busfermata Global</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --success: #10b981;
+            --danger: #ef4444;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f1f5f9; 
+            color: var(--text-main);
+            margin: 0; padding: 0;
+        }
+
+        /* --- ATTRACTIVE LOGO & NAV (SYNCHRONIZED) --- */
+        .navbar-main {
+            background: #ffffff; padding: 10px 0; border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-logo-box {
+            width: 50px; height: 50px; background: #fff; border-radius: 12px; padding: 4px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-right: 15px; overflow: hidden; border: 1px solid #f0f0f0;
+        }
+
+        .brand-logo { width: 100%; height: 100%; object-fit: contain; }
+        .brand-text-main { font-size: 26px; font-weight: 800; color: var(--brand-navy); letter-spacing: -1px; }
+
+        .nav-link-custom {
+            font-weight: 700; color: var(--brand-navy) !important; padding: 10px 20px !important; transition: 0.3s;
+        }
+        .nav-link-custom:hover { color: var(--brand-gold) !important; }
+
+        .top-contact-bar { background: var(--brand-navy); color: white; padding: 10px 0; font-size: 13px; font-weight: 600; }
+
+        /* --- INTERNATIONAL TICKET CARD --- */
+        .ticket-card {
+            background: white; max-width: 850px; margin: 40px auto; border-radius: 24px;
+            overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 20px 50px rgba(0,38,77,0.12); position: relative;
+        }
+        .ticket-header {
+            background: var(--brand-navy); color: white; padding: 30px 45px;
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--brand-gold);
+        }
+        .ticket-content { display: flex; padding: 40px 45px; }
+        .main-info { flex: 2; border-right: 2px dashed #e2e8f0; padding-right: 40px; }
+        .qr-area { flex: 1; padding-left: 40px; text-align: center; }
+
+        .full-name-display {
+            font-size: 26px; font-weight: 800; color: var(--brand-navy);
+            text-transform: uppercase; margin-bottom: 30px; display: block;
+        }
+        .data-label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 5px; }
+        .data-value { font-size: 19px; font-weight: 700; color: var(--brand-navy); margin-bottom: 25px; }
+
+        .highlight-box { background: #f8fafc; border-radius: 16px; padding: 20px; border: 1px solid #edf2f7; display: flex; justify-content: space-around; }
+        .price-tag { color: var(--success); font-size: 26px; font-weight: 800; }
+        .seat-tag { color: var(--brand-navy); font-size: 32px; font-weight: 800; }
+
+        /* --- ACTIONS --- */
+        .action-container { text-align: center; margin: 30px 0; }
+        .btn-intl { padding: 14px 25px; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; }
+        .btn-pdf { background: var(--brand-navy); color: white; margin-right: 15px; }
+        .btn-print { background: white; color: var(--brand-navy); border: 2px solid var(--brand-navy); }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .ticket-card { box-shadow: none !important; border: 2px solid #000 !important; width: 100% !important; page-break-after: always; }
+            .ticket-header { background: #00264d !important; -webkit-print-color-adjust: exact; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+
+<body>
+
+    <div class="top-contact-bar no-print">
+        <div class="container d-flex justify-content-between">
+            <div>
+                <i class="fas fa-phone-alt mr-2 text-warning"></i> +251-11-551 82 92
+                <span class="mx-3 opacity-50">|</span>
+                <i class="fas fa-mobile-alt mr-2 text-warning"></i> +251 975 143 134
+            </div>
+            <div class="small text-uppercase">Busfermata Global Transport System</div>
+        </div>
+    </div>
+
+    <nav class="navbar-main navbar navbar-expand-lg no-print">
+        <div class="container">
+            <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
+                <div class="brand-logo-box">
+                    <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Logo">
+                </div>
+                <span class="brand-text-main">Busfermata</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
+                <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:var(--brand-navy)"></i></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom text-danger" href="{% url 'logout' %}" style="color: var(--danger) !important;">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="action-container no-print">
+            <button onclick="downloadPDF()" class="btn-intl btn-pdf shadow">
+                <i class="fas fa-file-pdf mr-2"></i> DOWNLOAD ALL TICKETS
+            </button>
+            <button onclick="window.print()" class="btn-intl btn-print shadow-sm">
+                <i class="fas fa-print mr-2"></i> PRINT PASS
+            </button>
+        </div>
+
+        <div id="ticket-container">
+            {% for ticket in tickets %}
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <div>
+                        <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 1px;">BOARDING PASS</h1>
+                        <p style="margin:0; font-size: 11px; opacity: 0.9;">OFFICIAL PASSENGER COPY</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p class="data-label" style="color: var(--brand-gold); margin:0;">REF / PNR</p>
+                        <h2 style="margin:0; font-size: 26px; font-weight: 800; color: var(--brand-gold);">{{ ticket.pnr }}</h2>
+                    </div>
+                </div>
+
+                <div class="ticket-content">
+                    <div class="main-info">
+                        <p class="data-label">Passenger Full Name</p>
+                        <span class="full-name-display">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="data-label">Departure (መነሻ)</p>
+                                <p class="data-value">{{ ticket.depcity }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="data-label">Arrival (መድረሻ)</p>
+                                <p class="data-value">{{ ticket.descity }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="data-label">Travel Date</p>
+                                <p class="data-value" style="color: var(--danger);">{{ ticket.date }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="data-label">Bus Details</p>
+                                <p class="data-value">{{ ticket.plate_no }}</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box">
+                            <div class="text-center">
+                                <p class="data-label">Seat No</p>
+                                <p class="seat-tag">{{ ticket.no_seat }}</p>
+                            </div>
+                            <div style="width: 1px; background: #e2e8f0;"></div>
+                            <div class="text-center">
+                                <p class="data-label">Total Fare</p>
+                                <p class="price-tag">{{ ticket.price }} ETB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qr-area">
+                        {% if ticket.qr_code %}
+                            <img src="{{ ticket.qr_code }}" style="width: 180px; height: 180px; border: 8px solid #f8fafc; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                        {% endif %}
+                        <div class="mt-4">
+                            <p class="data-label">Security token</p>
+                            <code style="color: var(--text-muted); font-weight: 700; font-size: 11px;">{{ ticket.ticket_id }}</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('ticket-container');
+            const pnr = "{{ tickets.0.pnr }}";
+            const opt = {
+                margin: [0.3, 0.3],
+                filename: 'BoardingPass_' + pnr + '.pdf',
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { scale: 3, useCORS: true, letterRendering: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

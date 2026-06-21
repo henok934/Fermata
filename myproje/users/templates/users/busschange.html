@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Bus Status</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --text-gray: #64748b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main {
+            background: #ffffff; 
+            border-bottom: 3px solid var(--brand-gold);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .brand-logo { height: 35px; border-radius: 4px; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 1.1rem; text-transform: uppercase; }
+        
+        .nav-link {
+            color: var(--brand-navy) !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 0 5px;
+        }
+        .nav-link:hover { color: var(--brand-gold) !important; }
+        
+        .btn-book {
+            background: var(--brand-gold);
+            color: var(--brand-navy) !important;
+            font-weight: 800;
+            border-radius: 6px;
+            padding: 5px 15px !important;
+        }
+
+        /* --- HERO --- */
+        .hero-cover {
+            background: linear-gradient(rgba(0,38,77,0.85), rgba(15,23,42,0.9)), url('../static/images/home_slider.jpg');
+            background-size: cover; 
+            background-position: center;
+            padding: 30px 0; 
+            color: white; 
+            text-align: center;
+        }
+        .hero-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 5px; }
+        .hero-subtitle { font-size: 0.85rem; font-weight: 600; color: var(--brand-gold); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- RESPONSIVE TABLE --- */
+        .table-section { flex-grow: 1; padding: 20px 0; }
+        .table-responsive-custom {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-mini {
+            width: 100%;
+            margin-bottom: 0;
+            min-width: 600px; /* Prevents squishing on mobile */
+        }
+
+        .table-mini thead th {
+            background: #f1f5f9;
+            color: var(--brand-navy);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .table-mini tbody td {
+            padding: 12px 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .side-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            min-width: 60px;
+        }
+        .old-no { background: #f1f5f9; color: var(--text-gray); }
+        .new-no { background: var(--brand-gold); color: var(--brand-navy); font-weight: 800; }
+
+        /* FOOTER */
+        .footer-fixed {
+            background: var(--brand-dark); 
+            color: #94a3b8;
+            padding: 15px 0; 
+            text-align: center; 
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 576px) {
+            .hero-title { font-size: 1.2rem; }
+            .brand-text { font-size: 0.9rem; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-main">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+                <span class="brand-text ml-2">Busfermata</span>
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link btn-book mb-2 mb-lg-0" href="{% url 'book' %}"><i class="fas fa-ticket-alt mr-1"></i> Book My Ticket</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{% url 'changebuses' %}">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge badge-danger position-absolute" style="top: 0; right: -5px;">{{ buschanges_count }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-user-circle"></i> Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-cover">
+        <div class="container">
+            <h1 class="hero-title"></h1>
+            <h2 class="hero-subtitle">National Bus Deployment Updates</h2>
+        </div>
+    </section>
+<!--
+    <main class="table-section">
+        <div class="container">
+            <div class="table-responsive-custom">
+                <div style="overflow-x: auto;">
+                    <table class="table-mini">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Date</th>
+                                <th>Old Bus</th>
+                                <th>New Bus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bus in buschange %}
+                            <tr>
+                                <td class="text-muted">{{ forloop.counter }}</td>
+                                <td>{{ bus.depcity }}</td>
+                                <td>{{ bus.descity }}</td>
+                                <td>{{ bus.date }}</td>
+                                <td><span class="side-badge old-no">{{ bus.side_no }}</span></td>
+                                <td><span class="side-badge new-no">{{ bus.new_side_no }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="py-5 text-muted">
+                                    <i class="fas fa-info-circle mb-2"></i><br>
+                                    No operational updates available at this time.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+-->
+<style>
+    /* ... (Keep existing root and nav styles) ... */
+
+    .table-section {
+        flex-grow: 1;
+        padding: 15px;
+        display: flex;
+        justify-content: center; /* Centers the minimized table */
+    }
+
+    .table-mini {
+        width: auto; /* Shrinks to fit content */
+        margin: 0 auto;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .table-mini thead th {
+        background: #f8fafc;
+        color: var(--brand-navy);
+        font-size: 10px; /* Small headers */
+        text-transform: uppercase;
+        padding: 8px 12px;
+        border-bottom: 2px solid var(--brand-gold);
+    }
+
+    .table-mini tbody td {
+        padding: 6px 10px; /* Tight padding */
+        font-weight: 700;
+        font-size: 11px;
+        text-align: center;
+        border-bottom: 1px solid #f1f5f9;
+        white-space: nowrap; /* Prevents wrapping to keep table thin */
+    }
+
+    /* Side Badge tweaks for small size */
+    .side-badge {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 10px;
+        min-width: 45px;
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+<main class="table-section">
+    <div class="table-responsive"> <table class="table-mini">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Date</th>
+                    <th>Old</th>
+                    <th>New</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bus in buschange %}
+                <tr>
+                    <td style="color: #94a3b8;">{{ forloop.counter }}</td>
+                    <td>{{ bus.depcity }}</td>
+                    <td>{{ bus.descity }}</td>
+                    <td>{{ bus.date }}</td>
+                    <td><span class="side-badge old-no">{{ bus.side_no }}</span></td>
+                    <td><span class="side-badge new-no">{{ bus.new_side_no }}</span></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="p-4 text-muted">No updates</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+    <footer class="footer-fixed">
+        <div class="container">
+            <p class="m-0">© 2026 Busfermata Digital Technology. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

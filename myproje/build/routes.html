@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>show routes</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+                    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Register Bus</option>
+                                <option value="{% url 'route' %}">Register Route</option>
+                                <option value="{% url 'registor' %}">Register Admin</option>
+                                <option value="{% url 'city' %}">Register City</option>
+                                <option value="{% url 'worker' %}">Register Driver</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                                <option value="{% url 'changebus' %}">Change Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'routes' %}">Show Routes</option>
+                                <option value="{% url 'users' %}">Show Users</option>
+                                <option value="{% url 'buses' %}">Show Buses</option>
+                                <option value="{% url 'comments' %}">Show Comments</option>
+                                <option value="{% url 'driver' %}">Driver</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                                <option value="{% url 'citydelete' %}">Delete City</option>
+                                <option value="{% url 'routedelete' %}">Delete Route</option>
+                                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+</style>
+</header>
+
+</br></br></br></br>
+</br></br></br></br>
+</br>
+
+
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color:blue;">All Routes</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 100%; /* Use full width */
+    max-width: 800px; /* Set a max width for larger screens */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 2px solid #007BFF; /* Border color */
+    padding: 8px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 14px; /* Font size */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 12px; /* Smaller font size for mobile */
+      padding: 6px; /* Slightly less padding for mobile */
+    }
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Travel Date</th>
+      <th>Departure</th>
+      <th>Destination</th>
+      <th>Kilometer</th>
+      <th>Price</th>
+      <th>Plate No</th>
+      <th>Side No</th>
+    </tr>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th {
+        background-color: #4CAF50; /* Green background */
+        color: white;              /* White text */
+        padding: 10px;            /* Padding for cells */
+        text-align: left;         /* Align text to the left */
+    }
+    th:first-child {
+        text-align: center;       /* Center align the first column */
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Zebra striping for rows */
+    }
+</style>
+
+  </thead>
+  <tbody>
+    {% for route in routes %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ route.date }}</td>
+        <td>{{ route.depcity }}</td>
+        <td>{{ route.descity }}</td>
+        <td>{{ route.kilometer }}</td>
+        <td>{{ route.price }}</td>
+        <td>{{ route.plate_no }}</td>
+        <td>{{ route.side_no }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+<br>
+  </br></br></br</br></br>
+  </br></br></br>
+  <div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 order-lg-1 order-2  ">
+					<div class="copyright_content d-flex flex-row align-items-center">
+					</div>
+				</div>
+				<div class="col-lg-9 order-lg-2 order-1">
+					<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+						<div class="footer_nav">
+							<ul class="footer_nav_list">
+							<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,553 @@
+{% if not name %}
+    <script type="text/javascript">window.location.href = "{% url 'login' %}";</script>
+    <p>Loading...</p>
+{% else %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Route Selection | Busfermata Digital Tech</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+<!--
+<style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --bg-soft: #f4f7fa;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar-mini {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.8);
+            padding: 8px 15px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* --- NAVIGATION --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 10px 0;
+            border-bottom: 4px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* INTERNATIONAL BRAND ROUND LOGO ARCHITECTURE */
+        .nav-logo-full { 
+            width: 60px; 
+            height: 60px; 
+            object-fit: cover; 
+            border-radius: 6px; 
+            border: 2px solid white; 
+        }
+        
+        .brand-name-main { color: white; font-weight: 800; font-size: 15px; text-transform: uppercase; }
+        .brand-subtext { color: var(--brand-gold); font-size: 10px; font-weight: 700; }
+
+        /* Space before Home button */
+        .nav-action-cluster {
+            margin-left: 80px; /* The gap you requested */
+        }
+
+        /* Minimized & Ultra-Bold Home Button */
+        .home-btn-active {
+            color: white !important;
+            font-weight: 900 !important; /* Ultra Bold */
+            background: rgba(255,255,255,0.15);
+            padding: 5px 14px !important; /* Minimized size */
+            border-radius: 4px;
+            font-size: 10px !important; /* Smaller text */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none !important;
+            display: inline-block;
+        }
+
+        .intl-select {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+            cursor: pointer;
+            height: 28px;
+        }
+
+        /* --- CONTENT CARD & SEARCH --- */
+        .fleet-card {
+            background: white;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            max-width: 1150px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .fleet-header-bar {
+            background: var(--brand-navy);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .search-inline-box {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(255,255,255,0.08);
+            padding: 6px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .search-inline-box label {
+            color: var(--brand-gold);
+            font-size: 9px;
+            font-weight: 800;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .search-inline-box input {
+            background: #ffffff;
+            border: none;
+            color: #333;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* --- TABLE STYLES --- */
+        .table thead th {
+            background: #f8fafc;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            color: #64748b;
+            padding: 12px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .plate-badge {
+            background: #f1f5f9;
+            color: var(--brand-navy);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #cbd5e1;
+            font-weight: 800;
+        }
+
+        .phone-text { color: #10b981; font-weight: 700; font-size: 13px; }
+
+        @media (max-width: 991px) {
+            .nav-action-cluster { margin-left: 0; margin-top: 15px; width: 100%; }
+            .fleet-header-bar { flex-direction: column; gap: 10px; text-align: center; }
+            .home-btn-active { width: 100%; text-align: center; }
+            .intl-select { width: 100%; margin-left: 0; margin-top: 5px; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+    -->
+   
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0a1128;
+            --bg-soft: #f4f7fa;
+            --logout-red: #ff3b3b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- NAVIGATION --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 10px 0; 
+            border-bottom: 4px solid var(--brand-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-logo-full { height: 42px; border-radius: 4px; border: 2px solid white; }
+        .brand-name-main { color: white; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .brand-subtext { color: var(--brand-gold); font-size: 10px; font-weight: 700; display: block; line-height: 1; }
+
+        /* --- NAV BUTTONS & DROPDOWNS --- */
+        .home-btn-active {
+            color: white !important;
+            font-weight: 800 !important;
+            background: rgba(255,255,255,0.12);
+            padding: 6px 15px !important;
+            border-radius: 5px;
+            font-size: 11px !important;
+            text-transform: uppercase;
+            text-decoration: none !important;
+            margin-right: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .intl-select {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-right: 10px;
+            height: 32px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .intl-select:hover { background: rgba(255,255,255,0.15); }
+
+        .logout-btn-intl {
+            color: #ffb3b3 !important;
+            font-weight: 800 !important;
+            background: rgba(255, 59, 59, 0.15);
+            padding: 6px 16px !important;
+            border-radius: 6px;
+            font-size: 11px !important;
+            text-transform: uppercase;
+            text-decoration: none !important;
+            border: 1px solid rgba(255, 59, 59, 0.3);
+            transition: 0.3s;
+        }
+        .logout-btn-intl:hover { background: var(--logout-red); color: white !important; }
+
+        /* --- RESPONSIVE FILTER BAR --- */
+        .filter-section {
+            background: white;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .search-inline-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .search-item { display: flex; align-items: center; }
+        .search-inline-box label { color: var(--brand-navy); font-size: 11px; font-weight: 800; margin-right: 8px; margin-bottom: 0; }
+        .search-inline-box input { border: 1px solid #cbd5e1; border-radius: 5px; font-size: 12px; height: 35px; width: 160px; padding: 0 10px; }
+
+        /* --- STRICTLY MINIMIZED TABLE --- */
+        .route-card {
+            background: white;
+            border-radius: 10px;
+            margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 900px; /* Limits overall table width */
+            width: 95%;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .table-responsive { width: 100%; overflow-x: auto; }
+        .table th { background: #f8fafc; font-size: 10px; text-transform: uppercase; color: #64748b; padding: 12px 8px; border: none; }
+        .table td { padding: 10px 8px !important; vertical-align: middle !important; }
+
+        .tbl-input-readonly {
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            color: var(--brand-navy);
+            text-align: center;
+            font-size: 13px;
+            width: 100%;
+            max-width: 120px; /* Prevents text from stretching columns */
+            outline: none;
+        }
+
+        .plate-badge-mini {
+            background: #f1f5f9;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            font-weight: 800;
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--brand-navy);
+        }
+
+        /* --- ATTRACTIVE FOOTER --- */
+        .footer-intl {
+            background: var(--brand-dark);
+            color: #94a3b8;
+            padding: 25px 0;
+            margin-top: auto;
+            border-top: 4px solid var(--brand-gold);
+        }
+        .footer-contact-item { color: white; font-size: 13px; font-weight: 700; text-decoration: none !important; }
+        .footer-contact-item i { color: var(--brand-gold); margin-right: 8px; }
+
+        @media (max-width: 768px) {
+            .search-inline-box { flex-direction: column; width: 100%; padding: 0 15px; }
+            .search-item { width: 100%; justify-content: space-between; }
+            .search-inline-box input { width: 65%; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+    
+
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+        <div class="container-fluid">
+	
+	<!--
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'images/l.jpeg' %}" class="nav-logo-full">
+                <div class="brand-text-wrapper ml-3">
+                    <span class="brand-name-main">Busfermata TRANSPORT</span>
+                    <span class="brand-subtext">{{ name }} Share Company</span>
+                </div>
+            </a>
+	-->
+<!--
+<a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <div class="nav-logo-container">
+                {% if company.logo %}
+                    <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+                {% else %}
+                    <div class="nav-logo-fallback"><i class="fas fa-bus"></i></div>
+                {% endif %}
+            </div>
+            <div class="brand-text-wrapper ml-3">
+                <span class="brand-name-main">Busfermata Digital Tech</span>
+                <span class="brand-subtext">
+                    {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co. 
+                    {% if level %}
+                        <span class="badge badge-warning ml-2 text-dark font-weight-bold" style="font-size: 10px; padding: 3px 8px;">{{ level }}</span>
+                    {% endif %}
+                </span>
+            </div>
+        </a>
+	-->
+
+<a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+    
+    <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+        {% if company.logo %}
+            <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+        {% else %}
+            <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+        {% endif %}
+    </div>
+    
+    <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+        <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+            {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co. 
+            
+            {% if level %}
+                <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+            {% endif %}
+        </span>
+    </div>
+
+</a>
+
+
+	{% endif %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navSystem">
+                <div class="navbar-nav align-items-center">
+                    <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>REGISTRATION</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+        <option value="{% url 'special_route' %}">Add New Route</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>OPERATIONAL</option>
+                        <option value="{% url 'myroute' %}">Route Data</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>MANAGEMENT</option>
+                        <option value="{% url 'updatebus' %}">Update Buss</option>
+			{% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_active' %}">Active Route</option>
+    {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
+    {% endif %}
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_route_delete' %}">Route Delete</option>
+    {% endif %}
+        {% if level == 'Special Bus' %}
+                                 <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
+    {% endif %}
+
+                        <option value="{% url 'busdelete' %}">Delete Bus</option>
+                    </select>
+                </div>
+
+                <div class="ml-auto d-flex align-items-center mt-3 mt-xl-0">
+                    <a href="{% url 'logout' %}" class="logout-btn-intl">
+                        <i class="fas fa-sign-out-alt mr-2"></i>LOGOUT
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="filter-section">
+    <div class="container">
+        <form action="{% url 'specific' %}" method="post" class="search-inline-box">
+            {% csrf_token %}
+            <div class="search-item">
+                <label>FROM DATE</label>
+                <input type="date" name="from" required>
+            </div>
+            <div class="search-item">
+                <label>TO DATE</label>
+                <input type="date" name="to" required>
+            </div>
+            <button type="submit" class="btn btn-warning btn-sm font-weight-bold px-4" style="height: 35px; font-size: 11px;">APPLY FILTER</button>
+        </form>
+    </div>
+</section>
+
+<div class="container-fluid">
+    <div class="route-card">
+        <div class="bg-navy-custom p-2 text-white text-center">
+            <span class="small font-weight-bold text-uppercase" style="letter-spacing: 1px;">
+                <i class="fas fa-database mr-2 text-warning"></i> Bus Dispatch Logs
+            </span>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th>Deployment Date</th>
+                        <th>Departure</th>
+                        <th>Destination</th>
+                        <th>Plate No</th>
+                        <th>Side No</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if routes %}
+                    {% for r in routes %}
+                    <tr>
+                        <form action="{% url 'Showticketss' %}" method="POST">
+                            {% csrf_token %}
+                            <td class="text-muted font-weight-bold small">{{ forloop.counter }}</td>
+                            <td><input type="text" name="date" class="tbl-input-readonly" value="{{ r.date|slice:15 }}" readonly></td>
+                            <td><input type="text" name="depcity" class="tbl-input-readonly" value="{{ r.depcity|slice:10 }}" readonly></td>
+                            <td><input type="text" name="descity" class="tbl-input-readonly" value="{{ r.descity|slice:10 }}" readonly></td>
+                            <td>
+                                <span class="plate-badge-mini">{{ r.plate_no }}</span>
+                                <input type="hidden" name="plate_no" value="{{ r.plate_no }}">
+                            </td>
+                            <td><input type="text" name="side_no" class="tbl-input-readonly" value="{{ r.side_no }}" style="max-width: 60px;" readonly></td>
+                            <td>
+                                <button type="submit" class="btn btn-danger btn-sm font-weight-bold px-3" style="font-size: 9px;">SHOW TICKETS</button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="7" class="py-5 text-muted small">No active routes found in the system.</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-intl">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <a href="tel:+251975133134" class="footer-contact-item">
+                    <i class="fas fa-headset"></i> HELPLINE: +251 975 133 134
+                </a>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <p class="mb-0 small font-weight-bold" style="letter-spacing: 1px;">
+                    © 2026 Busfermata TRANSPORT Share Company
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

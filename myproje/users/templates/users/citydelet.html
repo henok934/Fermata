@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Delete Hub</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        :root { 
+            --brand-navy: #00264d; 
+            --brand-gold: #ffcc00; 
+            --emerald: #10b981; 
+            --danger: #ef4444; 
+            --dark-bg: #0f172a; 
+            --text-main: #1e293b;
+        }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f1f5f9; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* 1. International Utility Top Bar */
+        .top-admin-bar { background: var(--dark-bg); color: white; padding: 10px 0; font-size: 12px; font-weight: 600; }
+        .logout-link { 
+            color: #ffffff; 
+            text-decoration: none; 
+            font-weight: 800; 
+            padding: 5px 15px; 
+            background: var(--danger);
+            border-radius: 6px; 
+            transition: 0.3s; 
+        }
+        .logout-link:hover { background: #b91c1c; color: white; text-decoration: none; }
+
+        /* 2. Responsive Global Navigation */
+        .navbar-main { background: #ffffff; padding: 12px 0; border-bottom: 5px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; text-transform: uppercase; line-height: 1; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 1px; display: block; }
+        
+        .nav-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; width: 100%; }
+        .custom-nav-select { 
+            border: 2px solid #e2e8f0; font-size: 11px; font-weight: 800; border-radius: 8px; 
+            height: 40px; min-width: 150px; color: var(--brand-navy); text-transform: uppercase; 
+            cursor: pointer; background: white; transition: 0.3s;
+        }
+
+        /* 3. Minimized & Focused Table Section */
+        .page-container { padding: 40px 15px; max-width: 600px; margin: 0 auto; flex: 1; width: 100%; }
+        .content-card { background: white; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0; }
+        
+        .intl-table { width: 100%; border-collapse: collapse; }
+        .intl-table thead tr { background-color: var(--brand-navy); color: white; }
+        .intl-table th { padding: 15px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; text-align: center; }
+        .intl-table td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; text-align: center; font-size: 15px; }
+        
+        /* 4. Global Standard Footer */
+        .footer-intl { background: var(--brand-navy); color: rgba(255,255,255,0.7); padding: 50px 0 20px; border-top: 6px solid var(--brand-gold); margin-top: auto; }
+        .footer-heading { color: white; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; }
+
+        @media (max-width: 991px) {
+            .nav-group { justify-content: center; margin-top: 15px; }
+            .custom-nav-select { width: 100%; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-admin-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-city mr-2 text-warning"></i> TERMINAL MANAGEMENT CONSOLE</span>
+        <a href="{% url 'logout' %}" class="logout-link"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <div class="nav-group ml-auto">
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option disabled selected>Registry</option>
+                    <option value="{% url 'sc' %}">Add SC</option>
+                    <option value="{% url 'route' %}">Register Route</option>
+                    <option value="{% url 'registor' %}">Register Admin</option>
+                    <option value="{% url 'worker' %}">Register Booker</option>
+                    <option value="{% url 'city' %}">Register City</option>
+                    <option value="{% url 'service_fee' %}">Add Service Value</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option disabled selected>System Configuration</option>
+                    <option value="{% url 'changebus' %}">Change Bus</option>
+                    <option value="{% url 'scupdate' %}">Share Company Update</option>
+                    <option value="{% url 'active' %}">Active Routes</option>
+                    <option value="{% url 'serviceupdate' %}">Service Fee Update</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option disabled selected>System Analytics</option>
+                    <option value="{% url 'routes' %}">Show Routes</option>
+                    <option value="{% url 'users' %}">Show Users</option>
+                    <option value="{% url 'totalballance' %}">Current Balance</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select" style="border-color: #fca5a5; color: var(--danger);">
+                    <option disabled selected>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Delete Admin</option>
+                    <option value="{% url 'scdelete' %}">Delete Share Company</option>
+                    <option value="{% url 'citydelete' %}" selected>Delete City</option>
+                    <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    {% if success %}
+    <div class="alert alert-warning border-0 shadow-sm text-center font-weight-bold mb-4" style="background-color: var(--brand-navy); color: var(--brand-gold);">
+        <i class="fas fa-check-circle mr-2"></i> {{ success }}
+    </div>
+    {% endif %}
+
+    <div class="content-card">
+        <div class="p-3 bg-light border-bottom text-center">
+            <h6 class="m-0 font-weight-bold text-uppercase" style="letter-spacing: 1px; color: var(--brand-navy);">Terminal Registry</h6>
+        </div>
+
+        <div class="table-responsive">
+            <table class="intl-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">No</th>
+                        <th>City / Hub Name</th>
+                        <th style="width: 100px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for city in cities %}
+                    <tr>
+                        <td class="font-weight-bold text-muted">{{ forloop.counter }}</td>
+                        <td class="font-weight-bold" style="color: var(--brand-navy);">{{ city.depcity }}</td>
+                        <td>
+                            <form action="#" method="POST" onsubmit="return confirm('WARNING: Are you sure you want to delete this Hub?');">
+                                {% csrf_token %}
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="depcity" value="{{ city.depcity }}">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" class="py-5 text-muted">No cities registered in the system.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-intl">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="footer-heading">Busfermata Tech</div>
+                <p class="small">Enterprise Hub Management System.<br>Secure and Scalable Transport Infrastructure.</p>
+            </div>
+            <div class="col-md-6 text-md-right small">
+                <p class="mb-0 text-white font-weight-bold">Global Support</p>
+                <p>Hotline: +251 975143134</p>
+            </div>
+        </div>
+        <hr style="border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="text-center small">&copy; 2026 Busfermata Digital Technology. All Rights Reserved.</div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

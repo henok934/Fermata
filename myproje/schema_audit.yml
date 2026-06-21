@@ -1,0 +1,5808 @@
+openapi: 3.0.3
+info:
+  title: Wedehager API
+  version: 1.0.0
+  description: Bus Management System API Documentation
+paths:
+  /:
+    get:
+      operationId: root_retrieve
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /Sel/:
+    get:
+      operationId: Sel_retrieve
+      summary: Get current worker session and notification count
+      tags:
+      - Ticket Booking
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatLookupRequest'
+          description: ''
+    post:
+      operationId: Sel_create
+      summary: Lookup available seats for a specific route
+      tags:
+      - Ticket Booking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatInfoResponse'
+          description: ''
+  /Select/:
+    get:
+      operationId: Select_retrieve
+      summary: Get bus changes count
+      tags:
+      - Select
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectRequest'
+          description: ''
+    post:
+      operationId: Select_create
+      summary: Lookup seats for a specific route
+      tags:
+      - Select
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SelectRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SelectRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectResponse'
+          description: ''
+  /Selectbus/:
+    post:
+      operationId: Selectbus_create
+      summary: Search for tickets or available routes
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - html
+          - json
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectBusResponse'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/SelectBusResponse'
+          description: ''
+  /Showtickets:
+    get:
+      operationId: Showtickets_retrieve
+      summary: Show initial ticket search page
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSearch'
+          description: ''
+    post:
+      operationId: Showtickets_create
+      summary: Search for booked tickets
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tick'
+          description: ''
+  /Showticketss/:
+    get:
+      operationId: Showticketss_retrieve
+      summary: Get the ticket search page
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSearchRequest'
+          description: ''
+    post:
+      operationId: Showticketss_create
+      summary: Search tickets (API & Web)
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSearchRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketSearchRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketSearchRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketSearchRequest'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketNotFoundError'
+          description: ''
+  /about/:
+    get:
+      operationId: about_retrieve
+      description: Returns the count of all bus changes for both API and HTML views.
+      summary: Get about page information
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/About'
+          description: ''
+  /active/:
+    get:
+      operationId: active_retrieve
+      summary: Load activation search page
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateResponse'
+          description: ''
+    post:
+      operationId: active_create
+      summary: Fetch routes by date
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateResponse'
+          description: ''
+  /activity/:
+    get:
+      operationId: activity_retrieve
+      summary: Get all active routes and buses
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateStatusUpdate'
+          description: ''
+    post:
+      operationId: activity_create
+      summary: Update the active status of a route
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateStatusUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivateStatusUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivateStatusUpdate'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateStatusUpdate'
+          description: ''
+  /admindelete/:
+    get:
+      operationId: admindelete_retrieve
+      tags:
+      - User Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+          description: ''
+    post:
+      operationId: admindelete_create
+      description: Delete an admin user. Requires at least one admin to remain in
+        the system.
+      tags:
+      - User Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminDeleteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AdminDeleteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AdminDeleteRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Admin'
+          description: ''
+  /api/Sel/:
+    get:
+      operationId: api_Sel_retrieve
+      summary: Get current worker session and notification count
+      tags:
+      - Ticket Booking
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatLookupRequest'
+          description: ''
+    post:
+      operationId: api_Sel_create
+      summary: Lookup available seats for a specific route
+      tags:
+      - Ticket Booking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatInfoResponse'
+          description: ''
+  /api/Select/:
+    get:
+      operationId: api_Select_retrieve
+      summary: Get bus changes count
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectRequest'
+          description: ''
+    post:
+      operationId: api_Select_create
+      summary: Lookup seats for a specific route
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SelectRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SelectRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectResponse'
+          description: ''
+  /api/Selectbus/:
+    post:
+      operationId: api_Selectbus_create
+      summary: Search for tickets or available routes
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - html
+          - json
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectBusResponse'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/SelectBusResponse'
+          description: ''
+  /api/about/:
+    get:
+      operationId: api_about_retrieve
+      description: Returns the count of all bus changes for both API and HTML views.
+      summary: Get about page information
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/About'
+          description: ''
+  /api/admindelete/:
+    get:
+      operationId: api_admindelete_retrieve
+      tags:
+      - User Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+          description: ''
+    post:
+      operationId: api_admindelete_create
+      description: Delete an admin user. Requires at least one admin to remain in
+        the system.
+      tags:
+      - User Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminDeleteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AdminDeleteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AdminDeleteRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Admin'
+          description: ''
+  /api/book/:
+    get:
+      operationId: api_book_retrieve
+      summary: Get available cities and bus changes
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookRequest'
+          description: ''
+    post:
+      operationId: api_book_create
+      summary: Search for available routes
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookResponse'
+          description: ''
+  /api/busdelete/:
+    get:
+      operationId: api_busdelete_list
+      summary: List buses for deletion
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BusDeleteDisplay'
+          description: ''
+    post:
+      operationId: api_busdelete_create
+      summary: Delete a bus
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusDeleteAction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusDeleteAction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusDeleteAction'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BusDeleteDisplay'
+          description: ''
+  /api/buses/:
+    get:
+      operationId: api_buses_list
+      summary: List all buses
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Buses'
+          description: ''
+  /api/city/:
+    get:
+      operationId: api_city_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    post:
+      operationId: api_city_create
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+  /api/citydelete/:
+    get:
+      operationId: api_citydelete_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    post:
+      operationId: api_citydelete_create
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+  /api/comment/:
+    get:
+      operationId: api_comment_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+          description: ''
+    post:
+      operationId: api_comment_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+          description: ''
+  /api/commentdelete/:
+    get:
+      operationId: api_commentdelete_retrieve
+      tags:
+      - Feedback Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDelete'
+          description: ''
+    post:
+      operationId: api_commentdelete_create
+      description: Delete a feedback comment using name, email, phone, and registration
+        ID.
+      tags:
+      - Feedback Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentDelete'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CommentDelete'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CommentDelete'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDelete'
+          description: ''
+  /api/comments/:
+    get:
+      operationId: api_comments_list
+      summary: List all user feedback/comments
+      tags:
+      - Feedback & Support
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentte'
+          description: ''
+  /api/driver/:
+    get:
+      operationId: api_driver_list
+      summary: List all Drivers (Workers)
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Work'
+          description: ''
+  /api/forgot_password/:
+    get:
+      operationId: api_forgot_password_retrieve
+      summary: Get forgot password page
+      tags:
+      - Authentication
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPassword'
+          description: ''
+    post:
+      operationId: api_forgot_password_create
+      summary: Reset password and send via email
+      tags:
+      - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPassword'
+          description: ''
+  /api/get_ticket/:
+    get:
+      operationId: api_get_ticket_list
+      summary: Search tickets via URL parameters
+      parameters:
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: depcity
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      - in: query
+        name: descity
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      - in: query
+        name: firstname
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      - in: query
+        name: lastname
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/T'
+          description: ''
+    post:
+      operationId: api_get_ticket_create
+      summary: Search tickets via JSON body
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/T'
+          description: ''
+  /api/home:
+    get:
+      operationId: api_home_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/login/:
+    get:
+      operationId: api_login_retrieve
+      summary: Get login page or bus counts
+      tags:
+      - Authentication
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginRequest'
+          description: ''
+    post:
+      operationId: api_login_create
+      summary: Login for Workers, Users, or SCs
+      tags:
+      - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginRequest'
+          description: ''
+  /api/payment/:
+    post:
+      operationId: api_payment_create
+      description: Redirects web users to bank pages or returns JSON instructions
+        for API clients.
+      summary: Process payment method selection
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequest'
+          description: ''
+  /api/registor/:
+    get:
+      operationId: api_registor_retrieve
+      summary: Show registration page
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: api_registor_create
+      summary: Register a new user
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/route/:
+    get:
+      operationId: api_route_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+    post:
+      operationId: api_route_create
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Route'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Route'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+  /api/routedelete/:
+    get:
+      operationId: api_routedelete_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+    post:
+      operationId: api_routedelete_create
+      description: Delete a route using the specific fields provided in the HTML table.
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RouteDeleteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RouteDeleteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RouteDeleteRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Route'
+          description: ''
+  /api/routes/:
+    get:
+      operationId: api_routes_retrieve
+      tags:
+      - Routes Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+  /api/see/:
+    get:
+      operationId: api_see_retrieve
+      summary: Check current worker session
+      tags:
+      - Seat Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatLookupRequest'
+          description: ''
+    post:
+      operationId: api_see_create
+      summary: Lookup available seats
+      tags:
+      - Seat Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatInfoResponse'
+          description: ''
+  /api/service_fee/:
+    get:
+      operationId: api_service_fee_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+    post:
+      operationId: api_service_fee_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+  /api/ticket/:
+    get:
+      operationId: api_ticket_retrieve
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+    post:
+      operationId: api_ticket_create
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+  /api/users/:
+    get:
+      operationId: api_users_retrieve
+      tags:
+      - User Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/U'
+          description: ''
+  /api/worker/:
+    get:
+      operationId: api_worker_retrieve
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Worker'
+          description: ''
+    post:
+      operationId: api_worker_create
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Worker'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Worker'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Worker'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Worker'
+          description: ''
+  /awash/:
+    get:
+      operationId: awash_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwashInput'
+          description: ''
+    post:
+      operationId: awash_create
+      summary: Initiate Awash Payment
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwashInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AwashInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AwashInput'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwashInput'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /awashpassword/:
+    get:
+      operationId: awashpassword_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwashAuth'
+          description: ''
+    post:
+      operationId: awashpassword_create
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwashAuth'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AwashAuth'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AwashAuth'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwashAuth'
+          description: ''
+  /boa/:
+    get:
+      operationId: boa_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoaInput'
+          description: ''
+    post:
+      operationId: boa_create
+      summary: Validate BOA Account
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoaInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BoaInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BoaInput'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoaInput'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /boapassword/:
+    get:
+      operationId: boapassword_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoaAuth'
+          description: ''
+    post:
+      operationId: boapassword_create
+      summary: Verify BOA Password and Complete Payment
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoaAuth'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BoaAuth'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BoaAuth'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /book/:
+    get:
+      operationId: book_retrieve
+      summary: Get available cities and bus changes
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookRequest'
+          description: ''
+    post:
+      operationId: book_create
+      summary: Search for available routes
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookResponse'
+          description: ''
+  /booker/:
+    get:
+      operationId: booker_retrieve
+      summary: Get booking search page for workers
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooksSearchRequest'
+          description: ''
+    post:
+      operationId: booker_create
+      summary: Search routes (Worker specific)
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BooksSearchRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BooksSearchRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BooksSearchRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooksSearchRequest'
+          description: ''
+  /busdelete/:
+    get:
+      operationId: busdelete_list
+      summary: List buses for deletion
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BusDeleteDisplay'
+          description: ''
+    post:
+      operationId: busdelete_create
+      summary: Delete a bus
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusDeleteAction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusDeleteAction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusDeleteAction'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BusDeleteDisplay'
+          description: ''
+  /buses/:
+    get:
+      operationId: buses_list
+      summary: List all buses
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Buses'
+          description: ''
+  /businsert/:
+    get:
+      operationId: businsert_retrieve
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bus'
+          description: ''
+    post:
+      operationId: businsert_create
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Bus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Bus'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bus'
+          description: ''
+  /cbe/:
+    get:
+      operationId: cbe_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CbeInput'
+          description: ''
+    post:
+      operationId: cbe_create
+      summary: Initiate CBE Payment
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CbeInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CbeInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CbeInput'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CbeInput'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /cbepassword/:
+    get:
+      operationId: cbepassword_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CbeAuth'
+          description: ''
+    post:
+      operationId: cbepassword_create
+      summary: Process CBE Payment
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CbeAuth'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CbeAuth'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CbeAuth'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /change-password/:
+    get:
+      operationId: change_password_retrieve
+      description: Renders the profile/password change HTML template.
+      summary: Get password change page
+      tags:
+      - change-password
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: change_password_create
+      description: Updates password. Supports both JSON API and HTML Form submissions.
+      summary: Change user password
+      tags:
+      - change-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordStatus'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordStatus'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordStatus'
+          description: ''
+  /changebus/:
+    get:
+      operationId: changebus_retrieve
+      summary: Get list of all routes and buses
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusChangeResponse'
+          description: ''
+    post:
+      operationId: changebus_create
+      summary: Execute bus change
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusChangeInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusChangeInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusChangeInput'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusChangeResponse'
+          description: ''
+  /changebuses/:
+    get:
+      operationId: changebuses_retrieve
+      summary: Get cities for bus change search
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusChangeResponse'
+          description: ''
+    post:
+      operationId: changebuses_create
+      summary: Search bus changes by date
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusChangeSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusChangeSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusChangeSearch'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusChangeResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusChangeResponse'
+          description: ''
+  /city/:
+    get:
+      operationId: city_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    post:
+      operationId: city_create
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+  /citydelete/:
+    get:
+      operationId: citydelete_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    post:
+      operationId: citydelete_create
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+  /comment/:
+    get:
+      operationId: comment_retrieve
+      tags:
+      - comment
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+          description: ''
+    post:
+      operationId: comment_create
+      tags:
+      - comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+          description: ''
+  /commentdelete/:
+    get:
+      operationId: commentdelete_retrieve
+      tags:
+      - Feedback Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDelete'
+          description: ''
+    post:
+      operationId: commentdelete_create
+      description: Delete a feedback comment using name, email, phone, and registration
+        ID.
+      tags:
+      - Feedback Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentDelete'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CommentDelete'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CommentDelete'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDelete'
+          description: ''
+  /comments/:
+    get:
+      operationId: comments_list
+      summary: List all user feedback/comments
+      tags:
+      - Feedback & Support
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentte'
+          description: ''
+  /delete-ticket/:
+    get:
+      operationId: delete_ticket_retrieve
+      summary: Get all available cities for ticket deletion
+      tags:
+      - delete-ticket
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityList'
+          description: ''
+    post:
+      operationId: delete_ticket_create
+      summary: Search for routes to delete tickets
+      tags:
+      - delete-ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSearchRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketSearchRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketSearchRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteResponse'
+          description: ''
+  /delete_tickets/:
+    get:
+      operationId: delete_tickets_list
+      summary: Load Ticket Page
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketTableDisplay'
+          description: ''
+    post:
+      operationId: delete_tickets_create
+      summary: Search or Delete a Ticket
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTicketsAction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeleteTicketsAction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeleteTicketsAction'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketTableDisplay'
+          description: ''
+  /driver/:
+    get:
+      operationId: driver_list
+      summary: List all Drivers (Workers)
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Work'
+          description: ''
+  /forgot_password/:
+    get:
+      operationId: forgot_password_retrieve
+      summary: Get forgot password page
+      tags:
+      - Authentication
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPassword'
+          description: ''
+    post:
+      operationId: forgot_password_create
+      summary: Reset password and send via email
+      tags:
+      - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPassword'
+          description: ''
+  /get_ticket/:
+    get:
+      operationId: get_ticket_list
+      summary: Search tickets via URL parameters
+      parameters:
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: depcity
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      - in: query
+        name: descity
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      - in: query
+        name: firstname
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      - in: query
+        name: lastname
+        schema:
+          type: string
+          minLength: 1
+        required: true
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/T'
+          description: ''
+    post:
+      operationId: get_ticket_create
+      summary: Search tickets via JSON body
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketSearch'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/T'
+          description: ''
+  /login/:
+    get:
+      operationId: login_retrieve
+      summary: Get login page or bus counts
+      tags:
+      - Authentication
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginRequest'
+          description: ''
+    post:
+      operationId: login_create
+      summary: Login for Workers, Users, or SCs
+      tags:
+      - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginRequest'
+          description: ''
+  /login/change_password/:
+    get:
+      operationId: login_change_password_retrieve
+      description: Renders the profile/password change HTML template.
+      summary: Get password change page
+      tags:
+      - login
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: login_change_password_create
+      description: Updates password. Supports both JSON API and HTML Form submissions.
+      summary: Change user password
+      tags:
+      - login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordStatus'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordStatus'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordStatus'
+          description: ''
+  /logout/:
+    get:
+      operationId: logout_retrieve
+      summary: Get login page or bus counts
+      tags:
+      - Authentication
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginRequest'
+          description: ''
+    post:
+      operationId: logout_create
+      summary: Login for Workers, Users, or SCs
+      tags:
+      - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginRequest'
+          description: ''
+  /mybus/:
+    get:
+      operationId: mybus_retrieve
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bus'
+          description: ''
+  /myroute/:
+    get:
+      operationId: myroute_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rout'
+          description: ''
+  /passenger/:
+    get:
+      operationId: passenger_retrieve
+      summary: Get passenger change page
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangePassengerRequest'
+          description: ''
+    post:
+      operationId: passenger_create
+      summary: Update passenger details on a ticket
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePassengerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangePassengerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChangePassengerRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/T'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /payment/:
+    post:
+      operationId: payment_create
+      description: Redirects web users to bank pages or returns JSON instructions
+        for API clients.
+      summary: Process payment method selection
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequest'
+          description: ''
+  /registor/:
+    get:
+      operationId: registor_retrieve
+      summary: Show registration page
+      tags:
+      - registor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: registor_create
+      summary: Register a new user
+      tags:
+      - registor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /route/:
+    get:
+      operationId: route_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+    post:
+      operationId: route_create
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Route'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Route'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+  /routedelete/:
+    get:
+      operationId: routedelete_retrieve
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+    post:
+      operationId: routedelete_create
+      description: Delete a route using the specific fields provided in the HTML table.
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RouteDeleteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RouteDeleteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RouteDeleteRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Route'
+          description: ''
+  /routes/:
+    get:
+      operationId: routes_retrieve
+      tags:
+      - Routes Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+  /safari/:
+    get:
+      operationId: safari_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SafariPhone'
+          description: ''
+    post:
+      operationId: safari_create
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SafariPhone'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SafariPhone'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SafariPhone'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /safaripassword/:
+    get:
+      operationId: safaripassword_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SafaricomAuth'
+          description: ''
+    post:
+      operationId: safaripassword_create
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SafaricomAuth'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SafaricomAuth'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SafaricomAuth'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SafaricomAuth'
+          description: ''
+  /sc/:
+    get:
+      operationId: sc_retrieve
+      tags:
+      - sc
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sc'
+          description: ''
+    post:
+      operationId: sc_create
+      tags:
+      - sc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sc'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/sc'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/sc'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sc'
+          description: ''
+  /scdelete/:
+    get:
+      operationId: scdelete_retrieve
+      summary: List all SCs for deletion page
+      tags:
+      - SC Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScDeleteRequest'
+          description: ''
+    post:
+      operationId: scdelete_create
+      summary: Delete an SC user
+      tags:
+      - SC Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScDeleteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ScDeleteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ScDeleteRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /sce/:
+    get:
+      operationId: sce_list
+      summary: List all SC users
+      tags:
+      - SC Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sc'
+          description: ''
+  /scupdate/:
+    get:
+      operationId: scupdate_retrieve
+      summary: Get all SC and Bus data
+      tags:
+      - SC Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScUpdate'
+          description: ''
+    post:
+      operationId: scupdate_create
+      summary: Update SC Email
+      tags:
+      - SC Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ScUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ScUpdate'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScUpdate'
+          description: ''
+  /see/:
+    get:
+      operationId: see_retrieve
+      summary: Check current worker session
+      tags:
+      - Seat Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatLookupRequest'
+          description: ''
+    post:
+      operationId: see_create
+      summary: Lookup available seats
+      tags:
+      - Seat Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SeatLookupRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatInfoResponse'
+          description: ''
+  /select-bus/:
+    post:
+      operationId: select_bus_create
+      summary: Search for tickets or available routes
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - html
+          - json
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SelectBusRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectBusResponse'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/SelectBusResponse'
+          description: ''
+  /service_fee/:
+    get:
+      operationId: service_fee_retrieve
+      tags:
+      - service_fee
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+    post:
+      operationId: service_fee_create
+      tags:
+      - service_fee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+  /serviceupdate/:
+    get:
+      operationId: serviceupdate_list
+      summary: List all service fees
+      tags:
+      - Service Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceFeeSimple'
+          description: ''
+    post:
+      operationId: serviceupdate_create
+      summary: Update an existing service fee
+      tags:
+      - Service Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdateInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdateInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdateInput'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceFeeSimple'
+          description: ''
+  /specific/:
+    get:
+      operationId: specific_list
+      summary: Filter routes via Query Parameters (GET)
+      parameters:
+      - in: query
+        name: from
+        schema:
+          type: string
+        description: Start Date
+        required: true
+      - in: query
+        name: to
+        schema:
+          type: string
+        description: End Date
+        required: true
+      tags:
+      - Routes & Cities
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rout'
+          description: ''
+    post:
+      operationId: specific_create
+      summary: Filter routes via Request Body (POST)
+      tags:
+      - Routes & Cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpecificFilter'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SpecificFilter'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SpecificFilter'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rout'
+          description: ''
+  /telebirr/:
+    get:
+      operationId: telebirr_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelebirrInitiate'
+          description: ''
+    post:
+      operationId: telebirr_create
+      summary: Initiate Telebirr Payment
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelebirrInitiate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TelebirrInitiate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TelebirrInitiate'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelebirrInitiate'
+          description: ''
+  /telebirr-password/:
+    get:
+      operationId: telebirr_password_retrieve
+      tags:
+      - Payment Auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelebirrAuth'
+          description: ''
+    post:
+      operationId: telebirr_password_create
+      summary: Process Telebirr Payment
+      tags:
+      - Payment Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelebirrAuth'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TelebirrAuth'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TelebirrAuth'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /ticket/:
+    get:
+      operationId: ticket_retrieve
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+    post:
+      operationId: ticket_create
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+  /ticketinfo/:
+    get:
+      operationId: ticketinfo_retrieve
+      summary: List all cities for ticket info search
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityInfo'
+          description: ''
+    post:
+      operationId: ticketinfo_create
+      summary: Search routes for ticket information
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketInfoSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketInfoSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketInfoSearch'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketInfoResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketInfoResponse'
+          description: ''
+  /totalballance/:
+    get:
+      operationId: totalballance_retrieve
+      summary: Get balance page or city list
+      tags:
+      - Finance & Accounting
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+    post:
+      operationId: totalballance_create
+      summary: Calculate total balance by username and city
+      tags:
+      - Finance & Accounting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BalanceSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BalanceSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BalanceSearch'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TotalBalanceResponse'
+          description: ''
+  /update_ticket/:
+    get:
+      operationId: update_ticket_retrieve
+      summary: Get ticket update page
+      tags:
+      - Booking & Tickets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTicketRequest'
+          description: ''
+    post:
+      operationId: update_ticket_create
+      summary: Check availability for a new travel date
+      tags:
+      - Booking & Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTicketRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateTicketRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateTicketRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTicketRequest'
+          description: ''
+  /updatebus/:
+    get:
+      operationId: updatebus_list
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BusTableResponse'
+          description: ''
+    post:
+      operationId: updatebus_create
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusUpdateAction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusUpdateAction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusUpdateAction'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BusTableResponse'
+          description: ''
+  /users/:
+    get:
+      operationId: users_retrieve
+      tags:
+      - User Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/U'
+          description: ''
+  /worker/:
+    get:
+      operationId: worker_retrieve
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Worker'
+          description: ''
+    post:
+      operationId: worker_create
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Worker'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Worker'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Worker'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Worker'
+          description: ''
+  /workerdelete/:
+    get:
+      operationId: workerdelete_retrieve
+      summary: List all workers available for deletion
+      tags:
+      - Bus & Driver Management
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkerDeleteResponse'
+          description: ''
+    post:
+      operationId: workerdelete_create
+      summary: Delete a specific worker
+      tags:
+      - Bus & Driver Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkerDeleteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WorkerDeleteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkerDeleteRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkerDeleteResponse'
+          description: ''
+components:
+  schemas:
+    About:
+      type: object
+      properties:
+        buschanges_count:
+          type: integer
+          description: The total number of bus changes available.
+      required:
+      - buschanges_count
+    ActivateRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date to check for active routes (YYYY-MM-DD)
+      required:
+      - date
+    ActivateResponse:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RouteDisplay'
+        buses_count:
+          type: integer
+      required:
+      - buses_count
+      - routes
+    ActivateStatusUpdate:
+      type: object
+      properties:
+        depcity:
+          type: string
+        descity:
+          type: string
+        date:
+          type: string
+          description: YYYY-MM-DD
+        kilometer:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        plate_no:
+          type: string
+        is_active:
+          type: boolean
+          description: Set to true to activate
+      required:
+      - date
+      - depcity
+      - descity
+      - is_active
+      - kilometer
+      - plate_no
+      - price
+    Admin:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+      required:
+      - username
+    AdminDeleteRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: First Name of the admin
+        last_name:
+          type: string
+          description: Last Name of the admin
+        username:
+          type: string
+          description: Username of the admin
+        phone:
+          type: string
+          description: Phone number of the admin
+      required:
+      - first_name
+      - last_name
+      - phone
+      - username
+    AvailableRoute:
+      type: object
+      properties:
+        id:
+          type: integer
+        depcity:
+          type: string
+        descity:
+          type: string
+        date:
+          type: string
+          format: date
+        plate_no:
+          type: string
+        side_no:
+          type: string
+      required:
+      - date
+      - depcity
+      - descity
+      - id
+      - plate_no
+      - side_no
+    AwashAuth:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 13-digit account number
+          maxLength: 13
+          minLength: 13
+        password:
+          type: string
+          writeOnly: true
+        price:
+          type: number
+          format: double
+          description: Amount to be paid
+      required:
+      - account
+      - password
+      - price
+    AwashInput:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 13-digit Awash account number starting with 1000
+          maxLength: 13
+          minLength: 13
+        price:
+          type: number
+          format: double
+          description: The total amount to be paid
+      required:
+      - account
+      - price
+    BalanceSearch:
+      type: object
+      properties:
+        date:
+          type: array
+          items:
+            type: string
+            format: date
+          description: List of dates (e.g. ['2026-01-19'])
+      required:
+      - date
+    BoaAuth:
+      type: object
+      properties:
+        account:
+          type: string
+          maxLength: 8
+          minLength: 8
+        password:
+          type: string
+          writeOnly: true
+        price:
+          type: number
+          format: double
+      required:
+      - account
+      - password
+      - price
+    BoaInput:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 8-digit account number starting with 48
+          maxLength: 8
+          minLength: 8
+        price:
+          type: number
+          format: double
+          description: The payment amount
+      required:
+      - account
+      - price
+    BookRequest:
+      type: object
+      properties:
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+        date:
+          type: string
+          description: Travel Date (YYYY-MM-DD)
+      required:
+      - date
+      - depcity
+      - descity
+    BookResponse:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        levels:
+          type: string
+        buschanges_count:
+          type: integer
+      required:
+      - buschanges_count
+      - routes
+    BooksSearchRequest:
+      type: object
+      properties:
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+        date:
+          type: string
+          description: Travel Date (YYYY-MM-DD)
+      required:
+      - date
+      - depcity
+      - descity
+    Bus:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        registration_id:
+          type: string
+          format: uuid
+          readOnly: true
+        registered_time:
+          type: string
+          format: date-time
+          readOnly: true
+        firstname:
+          type: string
+          nullable: true
+          maxLength: 100
+        lastname:
+          type: string
+          nullable: true
+          maxLength: 100
+        phone:
+          type: string
+          nullable: true
+          maxLength: 20
+        name:
+          type: string
+          nullable: true
+          maxLength: 50
+        plate_no:
+          type: string
+          maxLength: 50
+        sideno:
+          type: string
+          maxLength: 50
+        no_seats:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        level:
+          type: string
+          maxLength: 50
+        owner_sc:
+          type: integer
+          nullable: true
+      required:
+      - id
+      - plate_no
+      - registered_time
+      - registration_id
+      - sideno
+    BusChangeInput:
+      type: object
+      properties:
+        depcity:
+          type: string
+        descity:
+          type: string
+        date:
+          type: string
+          format: date
+        side_no:
+          type: string
+        new_side_no:
+          type: string
+      required:
+      - date
+      - depcity
+      - descity
+      - new_side_no
+      - side_no
+    BusChangeResponse:
+      type: object
+      properties:
+        success:
+          type: string
+        error:
+          type: string
+        total_seats:
+          type: integer
+        booked_seats:
+          type: integer
+        remaining_seats:
+          type: integer
+        unbooked_seats:
+          type: array
+          items:
+            type: integer
+        booked_seat_list:
+          type: array
+          items:
+            type: integer
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RouteData'
+        buses:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusData'
+      required:
+      - buses
+      - routes
+    BusChangeSearch:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: YYYY-MM-DD
+      required:
+      - date
+    BusData:
+      type: object
+      properties:
+        sideno:
+          type: string
+        plate_no:
+          type: string
+        no_seats:
+          type: integer
+      required:
+      - no_seats
+      - plate_no
+      - sideno
+    BusDeleteAction:
+      type: object
+      properties:
+        plate_no:
+          type: string
+        sideno:
+          type: string
+        no_seats:
+          type: integer
+      required:
+      - no_seats
+      - plate_no
+      - sideno
+    BusDeleteDisplay:
+      type: object
+      properties:
+        plate_no:
+          type: string
+        sideno:
+          type: string
+        no_seats:
+          type: integer
+      required:
+      - no_seats
+      - plate_no
+      - sideno
+    BusTableResponse:
+      type: object
+      properties:
+        plate_no:
+          type: string
+        sideno:
+          type: string
+        no_seats:
+          type: integer
+      required:
+      - no_seats
+      - plate_no
+      - sideno
+    BusUpdateAction:
+      type: object
+      properties:
+        plate_no:
+          type: string
+        sideno:
+          type: string
+          description: Current Side Number
+        new_sideno:
+          type: string
+          description: Enter new side number here
+        no_seats:
+          type: integer
+      required:
+      - new_sideno
+      - no_seats
+      - plate_no
+      - sideno
+    Buses:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        registration_id:
+          type: string
+          format: uuid
+          readOnly: true
+        registered_time:
+          type: string
+          format: date-time
+          readOnly: true
+        firstname:
+          type: string
+          nullable: true
+          maxLength: 100
+        lastname:
+          type: string
+          nullable: true
+          maxLength: 100
+        phone:
+          type: string
+          nullable: true
+          maxLength: 20
+        name:
+          type: string
+          nullable: true
+          maxLength: 50
+        plate_no:
+          type: string
+          maxLength: 50
+        sideno:
+          type: string
+          maxLength: 50
+        no_seats:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        level:
+          type: string
+          maxLength: 50
+        owner_sc:
+          type: integer
+          nullable: true
+      required:
+      - id
+      - plate_no
+      - registered_time
+      - registration_id
+      - sideno
+    CbeAuth:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 13-digit account starting with 1000
+          maxLength: 13
+        password:
+          type: string
+          writeOnly: true
+        price:
+          type: number
+          format: double
+          description: The payment amount
+      required:
+      - account
+      - password
+      - price
+    CbeInput:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 13-digit account starting with 1000
+          maxLength: 13
+        price:
+          type: number
+          format: double
+          description: The amount to pay
+      required:
+      - account
+      - price
+    ChangePassengerRequest:
+      type: object
+      properties:
+        firstname:
+          type: string
+          description: Current First Name on ticket
+        lastname:
+          type: string
+          description: Current Last Name on ticket
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+        date:
+          type: string
+          description: Travel Date (YYYY-MM-DD)
+        new_firstname:
+          type: string
+          description: New First Name
+        new_lastname:
+          type: string
+          description: New Last Name
+        new_phone:
+          type: string
+          description: New Phone Number
+      required:
+      - date
+      - depcity
+      - descity
+      - firstname
+      - lastname
+      - new_firstname
+      - new_lastname
+      - new_phone
+    ChangePassword:
+      type: object
+      properties:
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+          minLength: 8
+        reNewPassword:
+          type: string
+      required:
+      - currentPassword
+      - newPassword
+      - reNewPassword
+    City:
+      type: object
+      properties:
+        depcity:
+          type: string
+          maxLength: 50
+      required:
+      - depcity
+    CityInfo:
+      type: object
+      properties:
+        cities:
+          type: array
+          items:
+            type: string
+      required:
+      - cities
+    CityList:
+      type: object
+      properties:
+        cities:
+          type: array
+          items:
+            type: string
+      required:
+      - cities
+    CommentDelete:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email of the user
+        name:
+          type: string
+          description: Name of the user
+          maxLength: 255
+        phone:
+          type: string
+          description: Phone number of the user
+          maxLength: 15
+        registration_id:
+          type: string
+          description: Unique registration ID of the comment
+      required:
+      - email
+      - name
+      - phone
+      - registration_id
+    Commentte:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          maxLength: 128
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        is_staff:
+          type: boolean
+          title: Staff status
+          description: Designates whether the user can log into this admin site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+        registration_id:
+          type: string
+          format: uuid
+          readOnly: true
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        registered_time:
+          type: string
+          format: date-time
+          readOnly: true
+        groups:
+          type: array
+          items:
+            type: integer
+          description: The groups this user belongs to. A user will get all permissions
+            granted to each of their groups.
+        user_permissions:
+          type: array
+          items:
+            type: integer
+          description: Specific permissions for this user.
+      required:
+      - id
+      - password
+      - registered_time
+      - registration_id
+      - username
+    DeleteTicketsAction:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        plate_no:
+          type: string
+        depcity:
+          type: string
+        descity:
+          type: string
+        firstname:
+          type: string
+          description: First name of ticket holder to delete
+        lastname:
+          type: string
+          description: Last name of ticket holder to delete
+      required:
+      - date
+      - depcity
+      - descity
+      - plate_no
+    Feedback:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        registration_id:
+          type: string
+          format: uuid
+          readOnly: true
+        registered_time:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          maxLength: 50
+        message:
+          type: string
+      required:
+      - email
+      - id
+      - message
+      - name
+      - phone
+      - registered_time
+      - registration_id
+    ForgotPassword:
+      type: object
+      properties:
+        username_or_email:
+          type: string
+        role:
+          $ref: '#/components/schemas/ForgotPasswordRoleEnum'
+      required:
+      - role
+      - username_or_email
+    ForgotPasswordRoleEnum:
+      enum:
+      - user
+      - sc
+      type: string
+      description: |-
+        * `user` - user
+        * `sc` - sc
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          $ref: '#/components/schemas/LoginRequestRoleEnum'
+      required:
+      - password
+      - role
+      - username
+    LoginRequestRoleEnum:
+      enum:
+      - worker
+      - user
+      - sc
+      type: string
+      description: |-
+        * `worker` - worker
+        * `user` - user
+        * `sc` - sc
+    PasswordStatus:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: Success or error message
+      required:
+      - detail
+    PaymentMethodEnum:
+      enum:
+      - cbe
+      - boa
+      - telebirr
+      - safaricom
+      - awash
+      type: string
+      description: |-
+        * `cbe` - Commercial Bank of Ethiopia (CBE)
+        * `boa` - Bank of Abyssinia (BOA)
+        * `telebirr` - Telebirr
+        * `safaricom` - M-PESA / Safaricom
+        * `awash` - Awash Bank
+    PaymentRequest:
+      type: object
+      properties:
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - payment_method
+      - price
+    Rout:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        registration_id:
+          type: string
+          format: uuid
+          readOnly: true
+        registered_time:
+          type: string
+          format: date-time
+          readOnly: true
+        depcity:
+          type: string
+          maxLength: 50
+        descity:
+          type: string
+          maxLength: 50
+        kilometer:
+          type: string
+          maxLength: 50
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        date:
+          type: string
+          maxLength: 50
+        plate_no:
+          type: string
+          maxLength: 50
+        side_no:
+          type: string
+          maxLength: 50
+        is_active:
+          type: boolean
+      required:
+      - date
+      - depcity
+      - descity
+      - id
+      - kilometer
+      - plate_no
+      - price
+      - registered_time
+      - registration_id
+      - side_no
+    Route:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        registration_id:
+          type: string
+          format: uuid
+          readOnly: true
+        registered_time:
+          type: string
+          format: date-time
+          readOnly: true
+        depcity:
+          type: string
+          maxLength: 50
+        descity:
+          type: string
+          maxLength: 50
+        kilometer:
+          type: string
+          maxLength: 50
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        date:
+          type: string
+          maxLength: 50
+        plate_no:
+          type: string
+          maxLength: 50
+        side_no:
+          type: string
+          maxLength: 50
+        is_active:
+          type: boolean
+      required:
+      - date
+      - depcity
+      - descity
+      - id
+      - kilometer
+      - plate_no
+      - price
+      - registered_time
+      - registration_id
+      - side_no
+    RouteData:
+      type: object
+      properties:
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+        date:
+          type: string
+          format: date
+        side_no:
+          type: string
+        plate_no:
+          type: string
+      required:
+      - date
+      - depcity
+      - descity
+      - plate_no
+      - side_no
+    RouteDeleteRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          description: The travel date from the table
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+        plate_no:
+          type: string
+          description: Vehicle Plate Number
+        side_no:
+          type: string
+          description: Vehicle Side Number
+      required:
+      - date
+      - depcity
+      - descity
+      - plate_no
+      - side_no
+    RouteDisplay:
+      type: object
+      properties:
+        departure:
+          type: string
+        destination:
+          type: string
+        date:
+          type: string
+          format: date
+        side_no:
+          type: string
+      required:
+      - date
+      - departure
+      - destination
+      - side_no
+    RouteResponse:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        error:
+          type: string
+        cities:
+          type: array
+          items:
+            type: string
+    SafariPhone:
+      type: object
+      properties:
+        phone:
+          type: string
+          description: Safaricom phone number starting with 07
+          maxLength: 10
+          minLength: 10
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - phone
+      - price
+    SafaricomAuth:
+      type: object
+      properties:
+        phone:
+          type: string
+          maxLength: 10
+          minLength: 10
+        password:
+          type: string
+          writeOnly: true
+        price:
+          type: number
+          format: double
+      required:
+      - password
+      - phone
+      - price
+    Sc:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        registration_id:
+          type: string
+          format: uuid
+          readOnly: true
+        registered_time:
+          type: string
+          format: date-time
+          readOnly: true
+        firstname:
+          type: string
+          nullable: true
+          maxLength: 50
+        lastname:
+          type: string
+          nullable: true
+          maxLength: 50
+        username:
+          type: string
+          maxLength: 50
+        password:
+          type: string
+          maxLength: 128
+        name:
+          type: string
+          nullable: true
+          maxLength: 50
+        side:
+          type: string
+          nullable: true
+          maxLength: 50
+        level:
+          type: string
+          nullable: true
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        gender:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - id
+      - password
+      - registered_time
+      - registration_id
+      - username
+    ScDeleteRequest:
+      type: object
+      properties:
+        firstname:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 100
+        lastname:
+          type: string
+          maxLength: 100
+      required:
+      - firstname
+      - lastname
+      - name
+    ScUpdate:
+      type: object
+      properties:
+        firstname:
+          type: string
+          maxLength: 100
+        lastname:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          description: Current Email
+        new_email:
+          type: string
+          format: email
+          description: New Email to update
+      required:
+      - email
+      - firstname
+      - lastname
+      - name
+      - new_email
+    SeatInfoResponse:
+      type: object
+      properties:
+        routes:
+          type: array
+          items: {}
+        levels:
+          type: string
+        remaining_seats:
+          type: integer
+        unbooked_seats:
+          type: array
+          items:
+            type: integer
+        booked_seats:
+          type: array
+          items:
+            type: integer
+        all_seats:
+          type: array
+          items:
+            type: integer
+      required:
+      - all_seats
+      - booked_seats
+      - levels
+      - remaining_seats
+      - routes
+      - unbooked_seats
+    SeatLookupRequest:
+      type: object
+      properties:
+        plate_no:
+          type: string
+          description: Plate number of the bus
+        depcity:
+          type: string
+          description: Departure city
+        descity:
+          type: string
+          description: Destination city
+        date:
+          type: string
+          description: Travel date (e.g., YYYY-MM-DD)
+      required:
+      - date
+      - depcity
+      - descity
+      - plate_no
+    SelectBusRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date of travel (YYYY-MM-DD)
+        plate_no:
+          type: string
+          description: Bus plate number
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+      required:
+      - date
+      - depcity
+      - descity
+      - plate_no
+    SelectBusResponse:
+      type: object
+      properties:
+        route:
+          type: array
+          items: {}
+          description: List of found tickets
+        routes:
+          type: array
+          items: {}
+          description: Alternative available routes if no tickets found
+        error:
+          type: string
+    SelectRequest:
+      type: object
+      properties:
+        plate_no:
+          type: string
+          description: Plate number of the bus
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+        date:
+          type: string
+          description: Date of travel (YYYY-MM-DD)
+      required:
+      - date
+      - depcity
+      - descity
+      - plate_no
+    SelectResponse:
+      type: object
+      properties:
+        routes:
+          type: array
+          items: {}
+        levels:
+          type: string
+        remaining_seats:
+          type: integer
+        unbooked_seats:
+          type: array
+          items:
+            type: integer
+        booked_seats:
+          type: array
+          items:
+            type: integer
+        all_seats:
+          type: array
+          items:
+            type: integer
+      required:
+      - all_seats
+      - booked_seats
+      - levels
+      - remaining_seats
+      - routes
+      - unbooked_seats
+    Service:
+      type: object
+      properties:
+        service_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - service_fee
+    ServiceFeeSimple:
+      type: object
+      properties:
+        service_fee:
+          type: string
+      required:
+      - service_fee
+    ServiceUpdateInput:
+      type: object
+      properties:
+        service_fee:
+          type: string
+          description: The current service fee value to change
+        new_service_fee:
+          type: string
+          description: The new service fee value
+      required:
+      - new_service_fee
+      - service_fee
+    SpecificFilter:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: date
+          description: Start date (YYYY-MM-DD)
+        end_date:
+          type: string
+          format: date
+          description: End date (YYYY-MM-DD)
+      required:
+      - end_date
+      - start_date
+    T:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ticket_id:
+          type: string
+          format: uuid
+          readOnly: true
+        pnr:
+          type: string
+          readOnly: true
+        firstname:
+          type: string
+          nullable: true
+          maxLength: 50
+        lastname:
+          type: string
+          nullable: true
+          maxLength: 50
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        depcity:
+          type: string
+          nullable: true
+          maxLength: 50
+        descity:
+          type: string
+          nullable: true
+          maxLength: 50
+        date:
+          type: string
+          nullable: true
+          maxLength: 50
+        email:
+          type: string
+          nullable: true
+          maxLength: 50
+        gender:
+          type: string
+          nullable: true
+          maxLength: 50
+        no_seat:
+          type: string
+          nullable: true
+          maxLength: 20
+        price:
+          type: string
+          nullable: true
+          maxLength: 50
+        side_no:
+          type: string
+          nullable: true
+          maxLength: 20
+        plate_no:
+          type: string
+          nullable: true
+          maxLength: 20
+        username:
+          type: string
+          nullable: true
+          maxLength: 20
+        booked_time:
+          type: string
+          format: date-time
+        qr_code:
+          type: string
+          nullable: true
+      required:
+      - id
+      - pnr
+      - ticket_id
+    TelebirrAuth:
+      type: object
+      properties:
+        phone:
+          type: string
+          description: 'Format: 09xxxxxxxx'
+          maxLength: 10
+        password:
+          type: string
+          writeOnly: true
+        price:
+          type: number
+          format: double
+          description: Amount to pay
+      required:
+      - password
+      - phone
+      - price
+    TelebirrInitiate:
+      type: object
+      properties:
+        phone:
+          type: string
+          description: Phone number starting with 09 (e.g., 0912345678)
+          maxLength: 10
+          minLength: 10
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          description: The payment amount
+      required:
+      - phone
+      - price
+    Tick:
+      type: object
+      properties:
+        firstname:
+          type: string
+          nullable: true
+          maxLength: 50
+        lastname:
+          type: string
+          nullable: true
+          maxLength: 50
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        plate_no:
+          type: string
+          nullable: true
+          maxLength: 20
+        date:
+          type: string
+          nullable: true
+          maxLength: 50
+        depcity:
+          type: string
+          nullable: true
+          maxLength: 50
+        descity:
+          type: string
+          nullable: true
+          maxLength: 50
+        no_seat:
+          type: string
+          nullable: true
+          maxLength: 20
+        price:
+          type: string
+          nullable: true
+          maxLength: 50
+        side_no:
+          type: string
+          nullable: true
+          maxLength: 20
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ticket_id:
+          type: string
+          format: uuid
+          readOnly: true
+        pnr:
+          type: string
+          readOnly: true
+        firstname:
+          type: string
+          nullable: true
+          maxLength: 50
+        lastname:
+          type: string
+          nullable: true
+          maxLength: 50
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        depcity:
+          type: string
+          nullable: true
+          maxLength: 50
+        descity:
+          type: string
+          nullable: true
+          maxLength: 50
+        date:
+          type: string
+          nullable: true
+          maxLength: 50
+        email:
+          type: string
+          nullable: true
+          maxLength: 50
+        gender:
+          type: string
+          nullable: true
+          maxLength: 50
+        no_seat:
+          type: string
+          nullable: true
+          maxLength: 20
+        price:
+          type: string
+          nullable: true
+          maxLength: 50
+        side_no:
+          type: string
+          nullable: true
+          maxLength: 20
+        plate_no:
+          type: string
+          nullable: true
+          maxLength: 20
+        username:
+          type: string
+          nullable: true
+          maxLength: 20
+        booked_time:
+          type: string
+          format: date-time
+          readOnly: true
+        qr_code:
+          type: string
+          readOnly: true
+          nullable: true
+      required:
+      - booked_time
+      - id
+      - pnr
+      - qr_code
+      - ticket_id
+    TicketInfoResponse:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        error:
+          type: string
+    TicketInfoSearch:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: YYYY-MM-DD
+        depcity:
+          type: string
+        descity:
+          type: string
+      required:
+      - date
+      - depcity
+      - descity
+    TicketNotFoundError:
+      type: object
+      properties:
+        error:
+          type: string
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableRoute'
+        name:
+          type: string
+        side:
+          type: string
+      required:
+      - error
+      - routes
+    TicketSearch:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        depcity:
+          type: string
+        descity:
+          type: string
+        date:
+          type: string
+          format: date
+      required:
+      - date
+      - depcity
+      - descity
+      - firstname
+      - lastname
+    TicketSearchRequest:
+      type: object
+      properties:
+        plate_no:
+          type: string
+          description: Bus Plate Number
+        side_no:
+          type: string
+          description: Bus Side Number
+        date:
+          type: string
+          description: Travel Date (YYYY-MM-DD)
+        depcity:
+          type: string
+          description: Departure City
+        descity:
+          type: string
+          description: Destination City
+      required:
+      - date
+      - depcity
+      - descity
+      - plate_no
+      - side_no
+    TicketTableDisplay:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        phone:
+          type: string
+        depcity:
+          type: string
+        descity:
+          type: string
+        date:
+          type: string
+          format: date
+        plate_no:
+          type: string
+      required:
+      - date
+      - depcity
+      - descity
+      - firstname
+      - lastname
+      - phone
+      - plate_no
+    TotalBalanceResponse:
+      type: object
+      properties:
+        totals:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/UserBalance'
+      required:
+      - totals
+    U:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+      required:
+      - id
+      - username
+    UpdateTicketRequest:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        depcity:
+          type: string
+        descity:
+          type: string
+        phone:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        email:
+          type: string
+          format: email
+        gender:
+          type: string
+        plate_no:
+          type: string
+        side_no:
+          type: string
+        da:
+          type: string
+          description: Original travel date (YYYY-MM-DD)
+        new_date:
+          type: string
+          description: New travel date (YYYY-MM-DD)
+      required:
+      - da
+      - depcity
+      - descity
+      - email
+      - firstname
+      - gender
+      - lastname
+      - new_date
+      - phone
+      - plate_no
+      - price
+      - side_no
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+      required:
+      - password
+      - username
+    UserBalance:
+      type: object
+      properties:
+        total_balance:
+          type: number
+          format: double
+        city:
+          type: string
+      required:
+      - city
+      - total_balance
+    Work:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        fname:
+          type: string
+          nullable: true
+          maxLength: 50
+        lname:
+          type: string
+          nullable: true
+          maxLength: 50
+        city:
+          type: string
+          nullable: true
+          maxLength: 50
+        gender:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - password
+      - username
+    Worker:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        fname:
+          type: string
+          nullable: true
+          maxLength: 50
+        lname:
+          type: string
+          nullable: true
+          maxLength: 50
+        city:
+          type: string
+          nullable: true
+          maxLength: 50
+        gender:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - password
+      - username
+    WorkerDeleteRequest:
+      type: object
+      properties:
+        fname:
+          type: string
+        lname:
+          type: string
+        username:
+          type: string
+        phone:
+          type: string
+      required:
+      - fname
+      - lname
+      - username
+    WorkerDeleteResponse:
+      type: object
+      properties:
+        success:
+          type: string
+        error:
+          type: string
+        admins:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkerList'
+    WorkerList:
+      type: object
+      properties:
+        fname:
+          type: string
+        lname:
+          type: string
+        username:
+          type: string
+        phone:
+          type: string
+      required:
+      - fname
+      - lname
+      - phone
+      - username
+    sc:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          nullable: true
+          maxLength: 50
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        name:
+          type: string
+          nullable: true
+          maxLength: 50
+        side:
+          type: string
+          nullable: true
+          maxLength: 50
+        firstname:
+          type: string
+          nullable: true
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        level:
+          type: string
+          nullable: true
+          maxLength: 50
+        lastname:
+          type: string
+          nullable: true
+          maxLength: 50
+        gender:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - password
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

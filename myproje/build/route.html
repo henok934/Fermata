@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Route</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<div class="top_bar" style="background-color: #005500; height: 40px; width: 100%; position: relative;">
+</div>
+<body>
+<div class="super_container">
+        <header class="header">
+                <div class="top_bar" style="background-color: #005500; height: 30px; width: 100%; position: relative; !important">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+
+
+<div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+                                                        <div class="user_box_register user_box_link"><a href="{% url 'registor' %}"></a></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+                    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Register Bus</option>
+                                <option value="{% url 'route' %}">Register Route</option>
+                                <option value="{% url 'registor' %}">Register Admin</option>
+                                <option value="{% url 'city' %}">Register City</option>
+                                <option value="{% url 'worker' %}">Register Driver</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                                <option value="{% url 'changebus' %}">Change Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'routes' %}">Show Routes</option>
+                                <option value="{% url 'users' %}">Show Users</option>
+                                <option value="{% url 'buses' %}">Show Buses</option>
+                                <option value="{% url 'comments' %}">Show Comments</option>
+                                <option value="{% url 'driver' %}">Driver</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                                <option value="{% url 'citydelete' %}">Delete City</option>
+                                <option value="{% url 'routedelete' %}">Delete Route</option>
+                                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+</style>
+<style>
+    /* Basic responsiveness */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: flex-start; /* Align items to the left */
+        }
+
+        .main_nav_item {
+            margin-right: 0; /* Remove right margin for stacked items */
+            margin-bottom: 10px; /* Add bottom margin for spacing */
+        }
+
+        .logo {
+            flex-grow: 1; /* Allow logo to take available space */
+            text-align: center; /* Center logo on small screens */
+        }
+    }
+</style>
+</header>
+</br></br></br></br></br></br>
+
+
+
+
+<div class="search11 d-flex justify-content-center" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col">
+            <div class="search_panel active">
+                <div class="container mt-4">
+                    <form action="#" method="post" id="search_form_1" class="form-container" style="width: 350px; margin: 0 auto;">
+                        {% csrf_token %}
+			      {% if error %}
+<div class="error">
+        <h4 style="color: red; margin-left: 40px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">x</span></h4>
+    </div>
+{% endif %}
+{% if success %}
+    <div class="message success">
+        <h5 style="margin-left: 40px; color: green;"><b>{{ success }}</b><span class="symbol">✔</span></h5>
+    </div>
+{% endif %}
+    <h2 class="form-title text-center">Route Register</h2>
+    <div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Departure:</label>
+    <div class="col-sm-9">
+	    <select name="depcity" id="depcity" class="form-control custom-select" required style="color: blue;text-align: center;">
+    <option value="" style="color: green;">Select Dep City</option>
+    {% if des %}
+        {% for des in des %}
+            <option value="{{ des.depcity }}">{{ des.depcity }}</option>
+        {% endfor %}
+    {% endif %}
+</select>
+
+    </div>
+</div>
+<div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Destination:</label>
+    <div class="col-sm-9">
+    <select name="descity" id="descity" class="form-control custom-select" required style="color: blue; text-align: center;">
+    <option value="" style="color: green;">Select Des City</option>
+    {% if des %}
+        {% for des in des %}
+            <option value="{{ des.depcity }}">{{ des.depcity }}</option>
+        {% endfor %}
+    {% endif %}
+</select>
+    </div>
+</div>
+
+
+<div class="form-group row">
+    <label for="plate-no-input" class="col-sm-3 col-form-label">Plate No:</label>
+    <div class="col-sm-9">
+        <select name="plate_no" id="plate-no-input" class="form-control" style="color: blue; text-align: center;" required onchange="updateSideNo(this.value)">
+            <option value="" style="color: green;">Select:</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}">{{ d.plate_no }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Side No:</label>
+    <div class="col-sm-9">
+        <select name="side_no" id="side-no-input" class="form-control" style="color: blue; text-align: center;" required onchange="updatePlateNo(this.value)">
+            <option value="" style="color: green;">Select:</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}">{{ d.sideno }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<script>
+function updateSideNo(selectedPlateNo) {
+    const sideNoInput = document.getElementById("side-no-input");
+    const plateOptions = document.getElementById("plate-no-input").options;
+    
+    for (let i = 0; i < plateOptions.length; i++) {
+        if (plateOptions[i].value === selectedPlateNo) {
+            sideNoInput.value = plateOptions[i].dataset.sideno;
+            break;
+        }
+    }
+}
+function updatePlateNo(selectedSideNo) {
+    const plateNoInput = document.getElementById("plate-no-input");
+    const sideOptions = document.getElementById("side-no-input").options;
+    
+    for (let i = 0; i < sideOptions.length; i++) {
+        if (sideOptions[i].value === selectedSideNo) {
+            // Set the corresponding Plate No based on selected Side No
+            plateNoInput.value = sideOptions[i].dataset.plate;
+            break;
+        }
+    }
+}
+</script>                    
+    <div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">kilometer:</label>
+    <div class="col-sm-9">
+
+<style>
+    .form-control::placeholder {
+        color: blue;
+    }
+</style>
+
+<input type="text" class="form-control" id="kilometer-input" name="kilometer" oninput="validateKilo(this)" placeholder="Enter kilometer" maxlength="4" style="text-align: center;" required>
+<div id="error-message-kilo" style="color: red; display: none;">Please enter a valid positive number for kilometers</div>
+<script>
+    function validateKilo(input) {
+        const value = input.value;
+        const errorMessage = document.getElementById('error-message-kilo');
+        if (value.trim() === "" || isNaN(value) || Number(value) <= 0 || value.length > 4) {
+            errorMessage.style.display = 'inline';
+            input.value = '';
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    }
+</script>
+
+    </div>
+</div>
+ <div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Price:</label>
+    <div class="col-sm-9">
+    <input type="text" class="form-control" id="price-input" name="price" oninput="validatePrice(this)" placeholder="Enter price" maxlength="4" style="text-align: center; color:blue;">
+<div id="error-message-price" style="color: red; display: none;">Please enter a valid positive number for price</div>
+<script>
+    function validatePrice(input) {
+        const value = input.value;
+        const errorMessage = document.getElementById('error-message-price');
+
+        if (value.trim() === "" || isNaN(value) || Number(value) <= 0 || value.length > 4) {
+            errorMessage.style.display = 'inline';
+            input.value = '';
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    }
+</script>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Date:</label>
+    <div class="col-sm-9">
+<input type="date" name="date" id="date-input" class="form-control" required style="color: blue;text-align: center;">
+    </div>
+</div>
+                        <div class="form-group text-center">
+                            <input type="submit" style = "margin-left:30px;" value="Submit" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<style>
+    .form-container {
+        border: 2px solid #007bff; /* Bootstrap primary color */
+        border-radius: 10px;
+        padding: 20px; /* Padding inside the form */
+        background-color: #f8f9fa; /* Light background */
+        margin: 30px auto; /* Center the form */
+        max-width: 500px; /* Limit the width of the form */
+        width: 100%; /* Full width within the limit */
+    }
+    .form-title {
+        color: blue;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    .error-message {
+        margin-top: 5px;
+    }
+    .input-active {
+        background-color: #d1e7dd; /* Color on focus */
+    }
+    @media (max-width: 768px) {
+        .form-title {
+            font-size: 28px; /* Smaller title on smaller screens */
+        }
+    }
+</style>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/styles/bootstrap4/popper.js"></script>
+    <script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="../static/js/custom.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

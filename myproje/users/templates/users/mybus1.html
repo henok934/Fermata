@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>our buses</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body style="background-color: lightblue;">
+
+<div class="super_container">
+		<!-- Header -->
+<!--
+		<header class="header">
+	
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		  <div class="main_nav_container ml-auto">
+		  
+                  <ul class="main_nav_list">
+                  <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                  <li class="main_nav_item"><a href="{% url 'myroute' %}">Our Route</a></li>
+                  <li class="main_nav_item"><a href="{% url 'mybus' %}">Our Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'updatebus' %}">Update Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'businsert' %}">Bus registor</a></li>
+		  <li class="main_nav_item"><a href="{% url 'worker' %}">Register Driver</a></li>
+		  <li class="main_nav_item"><a href="{% url 'busdelete' %}">Delete Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'workerdelete' %}">Delete Driver</a></li>
+                  <li class="main_nav_item"><a href="{% url 'logout' %}">Logout</a></li>
+                 </ul>
+		 
+		    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: #FFFFFF; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Bus Registor</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'myroute' %}">My Routes</option>
+                                <option value="{% url 'mybus' %}">My Bus</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: #FFFFFF; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                 </div> 
+            </div>
+        </div>
+    </div>
+</nav>
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+	</header>
+	-->
+
+<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info"><i class="fa fa-phone"></i> +251 975143134</div>
+            <div class="auth-box"><a href="{% url 'logout' %}" class="logout-text">LOGOUT</a></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom" 
+         style="min-height: 130px !important; display: flex !important; align-items: center !important;">
+
+        <div class="container-fluid d-flex align-items-center justify-content-start">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-container" style="width: 90px; height: 90px;">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-fluid">
+                </div>
+                
+                <div class="brand-text-wrapper ml-1">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-actions-wrapper d-flex align-items-center ml-4">
+                <a href="{% url 'home' %}" class="nav-link home-link-tight" 
+                   style="padding-left: 0 !important; margin-left: 0 !important;">HOME</a>
+
+                <div class="select-group d-flex align-items-center ml-3">
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Register New</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Edit Details</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>VIEW DATA</option>
+                        <option value="{% url 'myroute' %}">Routes</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
+                        <option value="#" disabled selected>DELETE ACTIONS</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    .bg-navy-custom {
+        background-color: #1a2a6c !important;
+        /* Padding removed to allow inline height to control size precisely */
+        padding: 0 20px !important;
+    }
+
+    .logo-container {
+        background: white;
+        border-radius: 50%;
+        border: 3px solid #f39c12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .nav-logo-fluid {
+        width: 85%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .brand-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .brand-name-main {
+        color: white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtext {
+        color: #f39c12;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .home-link-tight {
+        color: #f39c12 !important;
+        font-weight: 800;
+        font-size: 1rem;
+        border-right: 1px solid rgba(255,255,255,0.3);
+        padding-right: 15px !important;
+    }
+
+    .mini-transit-select {
+        height: 40px; 
+        width: 150px;
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid #f39c12;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 5px;
+        padding: 0 5px;
+        cursor: pointer;
+    }
+
+    .delete-border {
+        border: 2px solid #ff4d4d;
+        color: #ff4d4d;
+    }
+
+    .top-bar-mini {
+        background: #0f172a;
+        color: #fff;
+        padding: 5px 20px;
+        font-size: 0.75rem;
+    }
+
+    .logout-text { color: #ff4d4d; font-weight: 800; text-decoration: none; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+<!--
+	<header class="header">
+<div class="top_bar">
+
+
+
+<div class="container">
+
+
+
+<div class="row">
+
+
+
+<div class="col d-flex flex-row">
+
+
+
+<div class="phone">+251 975143134</div>
+
+
+
+<div class="social">
+
+
+
+
+
+
+
+        <ul class="social_list">
+
+<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+
+
+
+                                                            <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+                                                <div class="user_box ml-auto">
+
+
+
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+
+
+
+                                                        <div class="user_box_register user_box_link"><a href="#"></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                </div>
+
+
+
+                                        </div>
+
+
+
+                                </div>
+
+
+
+                        </div>
+
+
+
+                </div>
+
+</div>
+
+</div>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+
+  <li class="main_nav_item">
+
+            <a href="#" class="d-flex align-items-center" style="text-decoration: none;">
+
+                                <img src="../static/images/l.jpeg" alt="" style="width: 150px; height: 150px; margin-left: 100px; margin-top: 30px;">
+
+                <span style="color: white;">Ticket</span>
+
+            </a>
+
+        </li>
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: -10px;">
+
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Register</option>
+
+                 <option value="{% url 'sc' %}">Add Sc</option>
+
+                <option value="{% url 'route' %}">Register Route</option>
+
+                <option value="{% url 'registor' %}">Register Admin</option>
+
+    <option value="{% url 'worker' %}">Registor Booker</option>
+
+                <option value="{% url 'city' %}">Register City</option>
+
+                <option value="{% url 'service_fee' %}">Add Service Value</option>
+
+            </select>
+
+        </li>
+
+ <li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Update</option>
+
+                <option value="{% url 'changebus' %}">Change Bus</option>
+
+    <option value="{% url 'scupdate' %}">Share Company Update</option>
+
+    <option value="{% url 'active' %}">Active Routes</option>
+
+    <option value="{% url 'serviceupdate' %}">Service Fee Update</option>
+
+            </select>
+
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Show</option>
+
+                <option value="{% url 'routes' %}">Show Routes</option>
+
+                <option value="{% url 'users' %}">Show Users</option>
+
+    <option value="{% url 'totalballance' %}">Current Balance</option>
+
+    <option value="{% url 'sce' %}">show s.c</option>
+
+                <option value="{% url 'buses' %}">Show Buses</option>
+
+                <option value="{% url 'comments' %}">Show Comments</option>
+
+                <option value="{% url 'driver' %}">Booker</option>
+
+                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+
+            </select>
+
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Delete</option>
+
+                <option value="{% url 'admindelete' %}">Delete Admin</option>
+
+    <option value="{% url 'scdelete' %}">Delete Share Company</option>
+
+    <option value="{% url 'citydelete' %}">Delete City</option>
+
+                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+
+                <option value="{% url 'routedelete' %}">Delete Route</option>
+
+    <option value="{% url 'workerdelete' %}">Booker Delete</option>
+
+                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+
+            </select>
+
+        </li>
+
+        <li class="footer_nav_item" style="margin-left: 20px;">
+
+            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+
+        </li>
+
+<script>
+
+    document.getElementById('notificationButton').addEventListener('click', function() {
+
+        var dateInput = document.getElementById('dateInput');
+
+        if (dateInput.style.display === 'none') {
+
+            dateInput.style.display = 'inline-block';
+
+            dateInput.focus(); 
+
+        } else {
+
+            dateInput.style.display = 'none';
+
+        }
+
+    });
+
+    document.getElementById('dateInput').addEventListener('change', function() {
+
+        document.getElementById('search_form_1').submit();
+
+    });
+
+</script>
+
+</div>
+
+                    </ul>
+
+ </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</nav>
+
+        </header>
+
+	-->
+
+
+
+<!--
+<form action="{% url 'specific' %}" method="post" id="search_form_1" class="search_panel_content" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 100%; max-width: 300px; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 8px; margin-top: 200px;">
+    {% csrf_token %}
+    <div class="search_item">
+        <label for="depcity" style="color: blue; font-weight: bold;"><b><h5>From</h5></b></label>
+
+	<input type="date" name="from" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown; border: 2px solid #d3d3d3; border-radius: 8px;" required>
+        <ul id="depcity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+<div class="search_item">
+        <img src="../static/images/logo.png" alt="" style="max-width: 40px; max-height: 30px; width: auto; height: auto; margin-left: -50px; margin-right:10px;  margin-top: 10px;">
+
+        <label for="descity" style="color: blue; font-weight: bold;"><b><h5>To</h5></b></label>
+        <ul id="descity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+    <div class="search_item">
+        <img src="../static/images/Da.jpg" alt="" style="max-width: 20px; max-height: 30px; width: auto; height: auto; margin-left:-60px;margin-right:10px; margin-top: 10px;">
+        <label for="date" style="color: blue; font-weight: bold;  margin-top: 10px;"><b>Date</b></label>
+        <input type="date" name="to" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown; border: 2px solid #d3d3d3; border-radius: 8px;" required>
+    </div>
+    <div style="margin: 10px 0; text-align: left; margin-top: 40px;">
+        <button type="submit" style="background-color: yellow; color: black; width: 150px; height: 45px; border: none; text-align: center; border: 2px solid #d3d3d3; border-radius: 8px;">
+            <img src="../static/images/search3.png" alt="" style="max-width: 20px; max-height: 20px; width: auto; height: auto;margin-left:-10px;">
+            Search
+        </button>
+    </div>
+</form>
+-->
+
+<!--
+<form action="{% url 'specific' %}" method="post" id="search_form_1" class="search_panel_content" style="margin: 10px 0; width: 100%; max-width: 600px; border: 0; border-radius: 8px; margin-top: 200px; margin-left: 500px; display: flex; align-items: center; gap: 10px;">
+    {% csrf_token %}
+    <label for="from" style="color: blue; font-weight: bold; margin-right: 5px;"><b>From</b></label>
+    <div style="display: flex; align-items: center;">
+    <div style="display: flex; align-items: center; margin-right: 10px;">
+    <input type="date" name="from" id="from" class="form-control" style="width: 100px; height: 30px; color: brown; border: 2px solid #d3d3d3; border-radius: 8px; margin-top: 70px; margin-left: -70px;" required>
+    </div>
+    <div style="display: flex; align-items: center;">
+        <label for="to" style="color: blue; font-weight: bold; margin-right: 5px; margin-left: 60px;"><b>To</b></label>
+        <input type="date" name="to" id="to" class="form-control" style="width: 100px; height: 30px; color: brown; border: 2px solid #d3d3d3; border-radius: 8px; margin-top: 70px; margin-left: -50px;" required>
+    </div>
+</div>
+<button type="submit" style="background-color: yellow; color: blue; width: 100px; height: 30px; border: none; text-align: center; border: 2px solid #d3d3d3; border-radius: 8px; margin-top: 70px; margin-left: 30px;">
+            <b>Search</b>
+  <button>
+</div>
+
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color:blue;">All Buses</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 100%; /* Use full width */
+    max-width: 500px; /* Set a max width for larger screens */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 2px solid #007BFF; /* Border color */
+    padding: 8px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 14px; /* Font size */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+/* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 12px; /* Smaller font size for mobile */
+      padding: 6px; /* Slightly less padding for mobile */
+    }
+  }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+<table>
+  <thead>
+
+        <tr>
+            <th>No.</th>
+	    <th>First Name.</th>
+	    <th>Last Name.</th>
+	    <th>Phone.</th>
+            <th>Plate No</th>
+	    <th>Level</th>
+	    <th>Sc</th>
+            <th>Side No</th>
+            <th>Total Seats</th>
+        </tr>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th {
+        background-color: #4CAF50; /* Green background */
+        color: white;              /* White text */
+        padding: 10px;            /* Padding for cells */
+        text-align: left;         /* Align text to the left */
+    }
+    th:first-child {
+        text-align: center;       /* Center align the first column */
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Zebra striping for rows */
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+  </thead>
+  <tbody>
+     {% for bus in buses %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+	<td>{{ bus.firstname }}</td>
+	<td>{{ bus.lastname }}</td>
+	<td>{{ bus.phone }}</td>
+        <td>{{ bus.plate_no }}</td>
+	 <td>{{ bus.level }}</td>
+	 <td>{{ bus.name }}</td>
+        <td>{{ bus.sideno }}</td>
+        <td>{{ bus.no_seats }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+-->
+
+<!--
+<div class="search-container">
+    <form action="{% url 'specific' %}" method="post" id="search_form_1" class="search-card">
+        {% csrf_token %}
+        <div class="search-group">
+            <label for="from">From</label>
+            <input type="date" name="from" id="from" required>
+        </div>
+
+        <div class="search-group">
+            <label for="to">To</label>
+            <input type="date" name="to" id="to" required>
+        </div>
+
+        <button type="submit" class="search-btn">
+            Search
+        </button>
+    </form>
+</div>
+
+<h1 class="page-title">All Registered Buses</h1>
+
+<div class="table-wrapper">
+    <table class="bus-table">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>First Name</th>
+                <th>Father Name</th>
+                <th>Phone</th>
+                <th>Plate No</th>
+                <th>Level</th>
+                <th>Share Company Name</th>
+                <th>Side No</th>
+                <th>Seats</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bus in buses %}
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td>{{ bus.firstname }}</td>
+                <td>{{ bus.lastname }}</td>
+                <td>{{ bus.phone }}</td>
+                <td class="plate-badge">{{ bus.plate_no }}</td>
+                <td>{{ bus.level }}</td>
+                <td>{{ bus.name }}</td>
+                <td><strong>{{ bus.sideno }}</strong></td>
+                <td>{{ bus.no_seats }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="text-center">No buses found for the selected dates.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+    :root {
+        --primary-blue: #1a73e8;
+        --dark-navy: #202124;
+        --success-green: #34a853;
+        --bg-light: #f8f9fa;
+        --border-color: #dadce0;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-light);
+        margin: 0;
+        padding: 20px;
+        color: var(--dark-navy);
+    }
+
+    /* Search Card Styling */
+    .search-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+        margin-top: 20px;
+    }
+
+    .search-card {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid var(--border-color);
+        flex-wrap: wrap; /* Helps on mobile */
+    }
+
+    .search-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search-group label {
+        font-weight: 600;
+        color: var(--primary-blue);
+        font-size: 14px;
+    }
+
+    .search-group input {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 6px 12px;
+        outline: none;
+        color: #444;
+    }
+
+    .search-btn {
+        background-color: var(--primary-blue);
+        color: white;
+        border: none;
+        padding: 8px 25px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .search-btn:hover {
+        background-color: #1557b0;
+    }
+
+    .page-title {
+        text-align: center;
+        color: var(--dark-navy);
+        font-weight: 300;
+        margin-bottom: 30px;
+    }
+
+    /* Professional Table Styling */
+    .table-wrapper {
+        overflow-x: auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .bus-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+
+    .bus-table th {
+        background-color: #f1f3f4;
+        color: #5f6368;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        padding: 16px;
+        text-align: left;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .bus-table td {
+        padding: 14px 16px;
+        font-size: 14px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .bus-table tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .plate-badge {
+        font-family: monospace;
+        font-weight: bold;
+        background: #e8f0fe;
+        color: #1967d2;
+        padding: 4px 8px;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    .text-center { text-align: center; }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .search-card {
+            border-radius: 15px;
+            justify-content: center;
+        }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+-->
+
+
+
+</br></br>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    :root {
+        --primary-navy: #1a2a6c;
+        --accent-gold: #f39c12;
+        --border-light: #e1e4e8;
+        --text-muted: #5f6368;
+    }
+
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Inter', -apple-system, sans-serif;
+        padding: 20px;
+    }
+
+    /* Combined Card Wrapper */
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        overflow: hidden;
+        border: 1px solid var(--border-light);
+    }
+
+    /* Unified Header */
+    .dashboard-header {
+        background-color: var(--primary-navy);
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .dashboard-header h2 {
+        color: white;
+        margin: 0;
+        font-size: 0.95rem; /* Minimized */
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Inline Search Form */
+    .search-inline {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .date-pill {
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,0.1);
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .date-pill label {
+        color: var(--accent-gold);
+        font-size: 0.65rem; /* Small labels */
+        margin-right: 8px;
+        margin-bottom: 0;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .date-pill input {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 0.8rem;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .search-btn-sm {
+        background-color: var(--accent-gold);
+        color: white;
+        border: none;
+        height: 32px;
+        padding: 0 15px;
+        border-radius: 16px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .search-btn-sm:hover { transform: translateY(-1px); background: #e67e22; }
+
+    /* Compact Table Styles */
+    .table-wrapper { overflow-x: auto; }
+
+    .bus-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem; /* Minimized text */
+    }
+
+    .bus-table thead th {
+        background-color: #f8f9fa;
+        color: var(--text-muted);
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 2px solid var(--border-light);
+    }
+
+    .bus-table td {
+        padding: 10px 16px;
+        border-bottom: 1px solid #f0f2f5;
+        color: #333;
+    }
+
+    .bus-table tr:hover { background-color: #fcfcfc; }
+
+    .plate-badge {
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        background: #eef2ff;
+        color: var(--primary-navy);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid #d1d9e6;
+        font-size: 0.8rem;
+    }
+
+    .phone-text { color: #2ecc71; font-weight: 600; font-size: 0.8rem; }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .dashboard-header { justify-content: center; }
+        .search-inline { flex-direction: column; width: 100%; }
+        .date-pill { width: 100%; justify-content: space-between; }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2><i class="fas fa-list-ul mr-2"></i> Registered Bus</h2>
+        
+        <form action="{% url 'specific' %}" method="post" class="search-inline">
+            {% csrf_token %}
+            <div class="date-pill">
+                <label>From</label>
+                <input type="date" name="from" required>
+            </div>
+            <div class="date-pill">
+                <label>To</label>
+                <input type="date" name="to" required>
+            </div>
+            <button type="submit" class="search-btn-sm">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="bus-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>First Name</th>
+                    <th>Father Name</th>
+                    <th><i class="fas fa-phone-alt"></i> Phone</th>
+                    <th>Plate No</th>
+                    <th>Level</th>
+                    <th>Share Company Name</th>
+                    <th>Side No</th>
+                    <th>Seats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bus in buses %}
+                <tr>
+                    <td style="color: #999; font-weight: bold;">{{ forloop.counter }}</td>
+                    <td>{{ bus.firstname }}</td>
+                    <td>{{ bus.lastname }}</td>
+                    <td class="phone-text">{{ bus.phone }}</td>
+                    <td><span class="plate-badge">{{ bus.plate_no }}</span></td>
+                    <td><span class="badge badge-light" style="font-size: 0.7rem;">{{ bus.level }}</span></td>
+                    <td style="font-size: 0.75rem; color: #777;">{{ bus.name }}</td>
+                    <td style="font-weight: 700; color: var(--primary-navy);">{{ bus.sideno }}</td>
+                    <td><span class="badge badge-primary">{{ bus.no_seats }}</span></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" style="text-align: center; padding: 40px; color: #999;">
+                        <i class="fas fa-bus-alt fa-2x mb-2"></i><br>
+                        No registered buses found for the selected period.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</br></br></br</br></br>
+  </br></br></br>
+
+
+
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

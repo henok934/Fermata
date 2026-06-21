@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Ethiopia's Digital Transport Hub</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --primary-navy: #003366;
+            --accent-gold: #ffcc00;
+            --glass-white: rgba(255, 255, 255, 0.98);
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f4f7fa; margin: 0; }
+
+        /* --- NAVIGATION --- */
+        .main-navigation {
+            background: var(--glass-white);
+            padding: 12px 0;
+            border-bottom: 4px solid var(--accent-gold);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .brand-img-nav { height: 70px !important; border-radius: 10px; border: 2px solid var(--primary-navy); }
+
+        .nav-menu { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; align-items: center; }
+        .nav-link-item { color: var(--primary-navy); font-weight: 700; font-size: 13px; text-transform: uppercase; text-decoration: none; }
+        
+        /* Notification & Date Logic */
+        .notif-wrapper { position: relative; display: flex; align-items: center; }
+        #notificationButton { background: none; border: none; cursor: pointer; font-size: 22px; position: relative; }
+        .notif-badge { background: red; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; }
+        #dateInput { display: none; margin-left: 10px; width: 130px; border: 1px solid var(--accent-gold); border-radius: 4px; padding: 5px; font-size: 12px; }
+
+        /* --- ABOUT CONTENT (AMHARIC & CONTACT) --- */
+        .about-section { margin-top: 60px; padding-bottom: 80px; }
+        
+        .amharic-content {
+            border-left: 6px solid var(--accent-gold);
+            padding-left: 30px;
+        }
+
+        .amharic-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-navy);
+            margin-bottom: 25px;
+        }
+
+        .amharic-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #2d3748;
+            text-align: justify;
+        }
+
+        .contact-card-right {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .contact-logo {
+            width: 180px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 4px solid var(--primary-navy);
+        }
+
+        .phone-display {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-navy);
+            background: #fff9e6;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 15px;
+            border: 2px dashed var(--accent-gold);
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="main-navigation">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-img-nav" alt="Busfermata">
+            <div class="ml-3">
+                <span style="font-weight: 800; font-size: 24px; color: var(--primary-navy); display: block; line-height: 1;">Busfermata</span>
+                <span style="font-size: 9px; color: var(--accent-gold); letter-spacing: 2px; font-weight: 800;">TRANSPORT TECHNOLOGY</span>
+            </div>
+        </a>
+
+        <ul class="nav-menu">
+            <li><a href="{% url 'home' %}" class="nav-link-item">Home</a></li>
+            <li><a href="{% url 'book' %}" class="nav-link-item">Book</a></li>
+            <li><a href="{% url 'about' %}" class="nav-link-item">About Us</a></li>
+            <li><a href="{% url 'get_ticket' %}" class="nav-link-item">My Ticket</a></li>
+            <li><a href="{% url 'comment' %}" class="nav-link-item">Feedback</a></li>
+            <li class="notif-wrapper">
+                <form action="{% url 'changebuses' %}" method="post" id="busChangeForm">
+                    {% csrf_token %}
+                    <button type="button" id="notificationButton">🔔<span class="notif-badge">{{ buschanges_count }}</span></button>
+                    <input type="date" name="date" required id="dateInput">
+                </form>
+            </li>
+            <li><a href="{% url 'login' %}" class="btn btn-sm btn-primary px-3">LOGIN</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="container about-section">
+    <div class="row align-items-center">
+        <div class="col-lg-7 mb-5 mb-lg-0">
+            <div class="amharic-content">
+                <h2 class="amharic-title">ስለ እኛ (About Us)</h2>
+                <div class="amharic-text">
+                    <p>
+                        <strong>ወደሀገር የትራንስፖርት ቴክኖሎጂ</strong> የጉዞ ልምድን ለማዘመን የተቋቋመ ግንባር ቀደም እና ገለልተኛ የሎጅስቲክስ ተቋም ነው።
+                    </p>
+                    <p>
+                        በባለሙያ ቤተሰቦች—የሶፍትዌር መሃንዲስ፣ የአውቶቡስ አሽከርካሪ እና የአውቶቡስ ባለቤት—የተመሰረተው ተቋማችን፤ የዘርፉን የቆየ ልምድ ከዘመናዊ ዲጂታል ፈጠራ ጋር በማቀናጀት በኢትዮጵያ የጉዞ ዘርፍ ያለውን ክፍተት ለመሙላት በትጋት ይሰራል::
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 text-center">
+            <div class="contact-card-right">
+                <img src="../static/images/l.jpeg" class="contact-logo" alt="Busfermata">
+                <h4 style="font-weight: 800; color: #1a202c;">Connect with Us</h4>
+                <p class="text-muted">Available 24/7 for your travel needs</p>
+                <div class="phone-display">
+                    <i class="fas fa-phone-alt mr-2"></i> +251 975 143 134
+                </div>
+                <div class="mt-4">
+                    <a href="#" class="btn btn-primary mr-2"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="#" class="btn btn-success"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+        dateInput.style.display = (dateInput.style.display === 'none' || dateInput.style.display === '') ? 'inline-block' : 'none';
+        if(dateInput.style.display === 'inline-block') dateInput.focus();
+    });
+
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('busChangeForm').submit();
+    });
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

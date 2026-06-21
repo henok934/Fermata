@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>bus update</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<!--
+	<header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		 <div class="main_nav_container ml-auto">
+                  <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: #FFFFFF; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Bus Registor</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'myroute' %}">My Routes</option>
+                                <option value="{% url 'mybus' %}">My Bus</option>
+                                
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: #FFFFFF; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                 </div>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+</header>
+-->
+<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info"><i class="fa fa-phone"></i> +251 975143134</div>
+            <div class="auth-box"><a href="{% url 'logout' %}" class="logout-text">LOGOUT</a></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom"
+         style="min-height: 130px !important; display: flex !important; align-items: center !important;">
+
+        <div class="container-fluid d-flex align-items-center justify-content-start">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-container" style="width: 90px; height: 90px;">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-fluid">
+                </div>
+
+                <div class="brand-text-wrapper ml-1">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-actions-wrapper d-flex align-items-center ml-4">
+                <a href="{% url 'home' %}" class="nav-link home-link-tight"
+                   style="padding-left: 0 !important; margin-left: 0 !important;">HOME</a>
+
+                <div class="select-group d-flex align-items-center ml-3">
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Register New</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Edit Details</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>VIEW DATA</option>
+                        <option value="{% url 'myroute' %}">Routes</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
+                        <option value="#" disabled selected>DELETE ACTIONS</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    .bg-navy-custom {
+        background-color: #1a2a6c !important;
+        /* Padding removed to allow inline height to control size precisely */
+        padding: 0 20px !important;
+    }
+
+    .logo-container {
+        background: white;
+        border-radius: 50%;
+        border: 3px solid #f39c12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .nav-logo-fluid {
+        width: 85%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .brand-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .brand-name-main {
+        color: white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtext {
+        color: #f39c12;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .home-link-tight {
+        color: #f39c12 !important;
+        font-weight: 800;
+        font-size: 1rem;
+        border-right: 1px solid rgba(255,255,255,0.3);
+        padding-right: 15px !important;
+    }
+
+    .mini-transit-select {
+        height: 40px;
+        width: 150px;
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid #f39c12;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 5px;
+        padding: 0 5px;
+        cursor: pointer;
+    }
+
+    .delete-border {
+        border: 2px solid #ff4d4d;
+        color: #ff4d4d;
+    }
+
+    .top-bar-mini {
+        background: #0f172a;
+        color: #fff;
+        padding: 5px 20px;
+        font-size: 0.75rem;
+    }
+
+    .logout-text { color: #ff4d4d; font-weight: 800; text-decoration: none; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+
+	<style>
+        .change-side-number-title {
+            text-align: center;
+            color: blue;
+            margin: 2rem 0; /* Use rem for responsive spacing */
+            margin-top: 30vh; /* 10% of the viewport height for responsive top margin */
+            font-size: 2rem; /* Adjust font size for better readability */
+        }
+
+        /* Media Query for Smaller Screens */
+        @media (max-width: 600px) {
+            .change-side-number-title {
+                font-size: 1.5rem; /* Smaller font size on smaller screens */
+                margin-top: 20vh; /* Reduce margin on smaller screens */
+            }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+    .error {
+    color: red;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    margin-left: 150px; /* Adjust margin as needed */
+    white-space: nowrap; /* Prevent line wrapping */
+}
+
+.symbol {
+    margin-left: 30px; /* Space between the error message and the symbol */
+}
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+<style>
+
+.success-message, .error-message {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center align the content */
+    margin: 10px auto; /* Center the messages horizontally */
+    max-width: 80%; /* Limit the width for better responsiveness */
+}
+
+.success-message {
+    color: yellow; /* Color for success messages */
+    margin-left: 350px;
+    margin-top: -30px;
+}
+
+.error-message {
+    color: red; /* Color for error messages */
+    margin-left: 500px;
+    margin-top: -30px;
+}
+
+.symbol {
+    margin-left: 10px; /* Space between the message and the symbol */
+}
+
+ @media (max-width: 900px) {
+            .success-message, .error-message {
+                font-size: 1.3rem; /* Adjust font size for medium screens */
+                margin: 8px auto; /* Reduce margins on medium screens */
+		margin-left: 50px;
+		margin-top: -30px;
+            }
+        }
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+    .success-message, .error-message {
+        font-size: 1.2rem; /* Adjust font size for smaller screens */
+        margin: 5px auto;
+	margin-left: 50px;
+    	margin-top: -30px;
+    }
+}
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+{% if success %}
+<div class="success">
+    <h5 class="success-message"><b>{{ success }}</b><span class="symbol">✔</span></h5>
+</div>
+{% endif %}
+
+{% if error %}
+<div class="error">
+    <h6 class="error-message"><b>{{ error }}</b><span class="symbol">X</span></h6>
+</div>
+{% endif %}
+
+<style>
+.responsive-table {
+    width: 100%;
+    max-width: 500px; /* Maximum width of the table */
+    margin: 20px auto; /* Center the table */
+    background-color: lightgray;
+    border-collapse: collapse;
+}
+.responsive-table th,
+.responsive-table td {
+    padding: 10px; /* Increased padding for better spacing */
+    text-align: center; /* Center align text */
+}
+.responsive-table th {
+    background-color: green;
+    color: white;
+}
+.responsive-table input {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    text-align: center;
+    color: blue;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    padding: 5px; /* Added padding for better visuals */
+}
+.responsive-table button {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    background-color: blue;
+    color: brown;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+.error-message {
+    color: red;
+    display: none; /* Hide error message by default */
+}
+/* Media Query for Medium Screens */
+@media (max-width: 900px) {
+    .responsive-table {
+        max-width: 90%; /* Increase table width on medium screens */
+    }
+    .responsive-table input, .responsive-table button {
+        height: 30px; /* Adjust height for medium screens */
+    }
+}
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+    .responsive-table {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+    .responsive-table th, .responsive-table td {
+        padding: 5px; /* Reduce padding on smaller screens */
+    }
+    .responsive-table input, .responsive-table button {
+        height: 28px; /* Adjust height for smaller screens */
+    }
+}
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+</br></br></br></br></br></br></br></br>
+
+<table class="responsive-table">
+    <thead>
+        {% if error %}
+        <div class="error">
+            <h6 style="color: red; margin-left: 400px;"><b>{{ error }}</b><span class="symbol">X</span></h6>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="success">
+            <h6 style="color: green; margin-left: 500px;"><b>{{ success }}</b></h6>
+        </div>
+        {% endif %}
+        <tr>
+            <th>No</th>
+            <th>Plate No</th>
+            <th>Side No</th>
+	    <th>username</th>
+	    <th>phone</th>
+	     <th>new Phone</th>
+	     <th>new username</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bus in buses %}
+        <tr>
+            <td style="color: brown; text-align: center;">{{ forloop.counter }}</td>
+            <td>
+                <form action="{% url 'updatedriver' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="text" name="plate_no" value="{{ bus.plate_no }}" readonly style="width: 100px; height: 40px;">
+            </td>
+            <td>
+                <input type="text" name="side_no" value="{{ bus.side_no }}" readonly style="width: 100px; height: 40px;">
+            </td>
+            <td>
+                <input type="text" name="username" value="{{ bus.username }}" style="width: 100px; height: 40px;">
+            </td>
+            <td>
+	     <input type="text" name="phone" value="{{ bus.phone }}" style="width: 100px; height: 40px;">
+            </td>
+	    <td>
+             <input type="text" name="new_phone" maxlength="10" style="width: 100px; height: 40px;">
+            </td>
+	    <td>
+	   <input type="text" name="new_username" maxlength="10" style="width: 100px; height: 40px;">
+            </td>
+            <td>
+                <button type="submit"><b style="color: red;">update</b></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<!--
+<table class="responsive-table">
+    <thead>
+        {% if error %}
+        <div class="error">
+            <h6 style="color: red; margin-left: 400px;"><b>{{ error }}</b><span class="symbol">X</span></h6>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="success">
+            <h6 style="color: green; margin-left: 500px;"><b>{{ success }}</b></h6>
+        </div>
+        {% endif %}
+        <tr>
+            <th>No</th>
+            <th>Plate No</th>
+            <th>Side No</th>
+            <th>No Seat</th>
+            <th>New Side</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bus in buses %}
+        <tr>
+            <td style="color: brown; text-align: center;">{{ forloop.counter }}</td>
+            <td>
+                <form action="{% url 'updatebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="text" name="plate_no" value="{{ bus.plate_no }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="sideno" value="{{ bus.sideno }}" readonly>
+            </td>
+            <td>
+                <input type="number" name="no_seats" value="{{ bus.no_seats }}">
+            </td>
+            <td>
+                <input type="text" id="new_sideno_{{ forloop.counter }}" name="new_sideno" maxlength="4" required
+                       style="width: 100px; margin-left: 10px;" class="form-control new-sideno-input"
+                       placeholder="Enter side number">
+                <p id="error-message_{{ forloop.counter }}" style="color: red; display: none;"></p>
+            </td>
+            <td>
+                <button type="submit"><b style="color: red;">Change</b></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const side = "{{ side }}";  // Example: "3/80/81"
+        const validStarts = side.split('/').map(part => part.trim()); // Extract valid starts
+
+        function validateInput(value, errorMessage) {
+            // Check if side includes '3'
+            const isSideThree = validStarts.includes('3');
+
+            if (isSideThree) {
+                if (value.length !== 3) {
+                    errorMessage.textContent = `Invalid input. Please enter a 3-digit number.`;
+                    errorMessage.style.display = 'block'; // Show error message
+                } else {
+                    errorMessage.style.display = 'none'; // Hide error message if valid
+                }
+            } else {
+                // For other sides, check if it starts with valid prefixes
+                if (value.length > 0 && !validStarts.some(start => value.startsWith(start))) {
+                    errorMessage.textContent = `Invalid input. Please enter a number starting with ${validStarts.join(', ')}.`;
+                    errorMessage.style.display = 'block'; // Show error message
+                } else {
+                    errorMessage.style.display = 'none'; // Hide error message if valid
+                }
+            }
+        }
+
+        // Apply to all inputs with class 'new-sideno-input'
+        document.querySelectorAll('.new-sideno-input').forEach((input, index) => {
+            const errorMessage = document.getElementById(`error-message_${index + 1}`);
+
+            // Set the maxlength based on the presence of '3'
+            if (validStarts.includes('3')) {
+                input.maxLength = 3; // Change maxlength to 3 if side is 3
+            } else {
+                input.maxLength = 4; // Otherwise, keep maxlength as 4
+            }
+
+            // Add input event listener for real-time validation
+            input.addEventListener('input', function() {
+                // Restrict to numbers only
+                this.value = this.value.replace(/[^0-9]/g, '');
+                validateInput(this.value, errorMessage);
+            });
+
+            // Add submit event listener to the specific form
+            const form = input.closest('form');
+            form.addEventListener('submit', function(event) {
+                const value = input.value;
+                const isSideThree = validStarts.includes('3');
+
+                if (isSideThree) {
+                    if (value.length !== 3) {
+                        event.preventDefault(); // Prevent form submission
+                        errorMessage.textContent = `Invalid input. Please enter a 3-digit number.`;
+                        errorMessage.style.display = 'block'; // Show error message
+                    }
+                } else {
+                    if (value.length > 0 && !validStarts.some(start => value.startsWith(start))) {
+                        event.preventDefault(); // Prevent form submission
+                        errorMessage.textContent = `Invalid input. Please enter a number starting with ${validStarts.join(', ')}.`;
+                        errorMessage.style.display = 'block'; // Show error message
+                    }
+                }
+            });
+        });
+    });
+</script>
+-->
+
+
+<!--
+<table class="responsive-table">
+    <thead>
+        {% if error %}
+        <div class="error">
+            <h6 style="color: red; margin-left: 400px;"><b>{{ error }}</b><span class="symbol">X</span></h6>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="success">
+            <h6 style="color: green; margin-left: 500px;"><b>{{ success }}</b></h6>
+        </div>
+        {% endif %}
+        <tr>
+            <th>No</th>
+            <th>Plate No</th>
+            <th>Side No</th>
+            <th>No Seat</th>
+            <th>New Side</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bus in buses %}
+        <tr>
+            <td style="color: brown; text-align: center;">{{ forloop.counter }}</td>
+            <td>
+                <form action="{% url 'updatebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="text" name="plate_no" value="{{ bus.plate_no }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="sideno" value="{{ bus.sideno }}" readonly>
+            </td>
+            <td>
+                <input type="number" name="no_seats" value="{{ bus.no_seats }}">
+            </td>
+            <td>
+                <input type="text" id="new_sideno_{{ forloop.counter }}" name="new_sideno" maxlength="4" required
+                       style="width: 100px; margin-left: 10px;" class="form-control new-sideno-input"
+                       placeholder="Enter side number">
+                <p id="error-message_{{ forloop.counter }}" style="color: red; display: none;"></p>
+            </td>
+            <td>
+                <button type="submit"><b style="color: red;">Change</b></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+<script>
+    const side = "{{ side }}";  // Example: "3/80/81"
+    const validStarts = side.split('/').map(part => part.trim()); // Extract valid starts
+
+    function validateInput(value, errorMessage) {
+        // Check if side includes '3'
+        const isSideThree = validStarts.includes('3');
+
+        if (isSideThree) {
+            if (value.length !== 3) {
+                errorMessage.textContent = `Invalid input. Please enter a 3-digit number.`;
+                errorMessage.style.display = 'block'; // Show error message
+            } else {
+                errorMessage.style.display = 'none'; // Hide error message if valid
+            }
+        } else {
+            // For other sides, check if it starts with valid prefixes
+            if (value.length > 0 && !validStarts.some(start => value.startsWith(start))) {
+                errorMessage.textContent = `Invalid input. Please enter a number starting with ${validStarts.join(', ')}.`;
+                errorMessage.style.display = 'block'; // Show error message
+            } else {
+                errorMessage.style.display = 'none'; // Hide error message if valid
+            }
+        }
+    }
+
+    // Apply to all inputs with class 'new-sideno-input'
+    document.querySelectorAll('.new-sideno-input').forEach((input, index) => {
+        const errorMessage = document.getElementById(`error-message_${index + 1}`);
+
+        // Set the maxlength based on the presence of '3'
+        if (validStarts.includes('3')) {
+            input.maxLength = 3; // Change maxlength to 3 if side is 3
+        } else {
+            input.maxLength = 4; // Otherwise, keep maxlength as 4
+        }
+
+        // Add input event listener for real-time validation
+        input.addEventListener('input', function() {
+            // Restrict to numbers only
+            this.value = this.value.replace(/[^0-9]/g, '');
+            validateInput(this.value, errorMessage);
+        });
+
+        // Add submit event listener to the specific form
+        const form = input.closest('form');
+        form.addEventListener('submit', function(event) {
+            const value = input.value;
+            const isSideThree = validStarts.includes('3');
+
+            if (isSideThree) {
+                if (value.length !== 3) {
+                    event.preventDefault(); // Prevent form submission
+                    errorMessage.textContent = `Invalid input. Please enter a 3-digit number.`;
+                    errorMessage.style.display = 'block'; // Show error message
+                }
+            } else {
+                if (value.length > 0 && !validStarts.some(start => value.startsWith(start))) {
+                    event.preventDefault(); // Prevent form submission
+                    errorMessage.textContent = `Invalid input. Please enter a number starting with ${validStarts.join(', ')}.`;
+                    errorMessage.style.display = 'block'; // Show error message
+                }
+            }
+        });
+    });
+</script>
+
+
+
+<!--
+<table class="responsive-table">
+    <thead>
+        {% if error %}
+        <div class="error">
+            <h6 style="color: red; margin-left: 400px;"><b>{{ error }}</b><span class="symbol">X</span></h6>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="success">
+            <h6 style="color: green; margin-left: 500px;"><b>{{ success }}</b></h6>
+        </div>
+        {% endif %}
+        <tr>
+            <th>No</th>
+            <th>Plate No</th>
+            <th>Side No</th>
+            <th>No Seat</th>
+            <th>New Side</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bus in buses %}
+        <tr>
+            <td style="color: brown; text-align: center;">{{ forloop.counter }}</td>
+            <td>
+                <form action="{% url 'updatebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="text" name="plate_no" value="{{ bus.plate_no }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="sideno" value="{{ bus.sideno }}" readonly>
+            </td>
+            <td>
+                <input type="number" name="no_seats" value="{{ bus.no_seats }}">
+            </td>
+
+<td>
+    <input type="text" id="new_sideno" name="new_sideno" maxlength="4" required
+           style="width: 100px; margin-left: 10px;" class="form-control"
+           placeholder="Enter side number"
+           oninput="this.value = this.value.replace(/[^0-9]/g, ''); validateInput();">
+</div>
+<p id="error-message" style="color: red; display: none;"></p>
+<script>
+    const side = "{{ side }}";  // Example: "3/80/81"
+    const validStarts = side.split('/').map(part => part.trim()); // Extract valid starts
+
+    // Set the maxlength based on the presence of '3'
+    const sidenoInput = document.getElementById('new_sideno');
+    if (validStarts.includes('3')) {
+        sidenoInput.maxLength = 3; // Change maxlength to 3 if side is 3
+    } else {
+        sidenoInput.maxLength = 4; // Otherwise, keep maxlength as 4
+    }
+    function validateInput() {
+        const value = sidenoInput.value;
+        const errorMessage = document.getElementById('error-message');
+
+        // Check if side includes '3'
+        const isSideThree = validStarts.includes('3');
+
+        // If side is 3, check if the input is exactly 3 digits
+        if (isSideThree) {
+            if (value.length !== 3) {
+                errorMessage.textContent = `Invalid input. Please enter a 3-digit number.`;
+                errorMessage.style.display = 'block'; // Show error message
+            } else {
+                errorMessage.style.display = 'none'; // Hide error message if valid
+            }
+        } else {
+            // For other sides, check if it starts with valid prefixes
+            if (value.length > 0 && !validStarts.some(start => value.startsWith(start))) {
+                errorMessage.textContent = `Invalid input. Please enter a number starting with ${validStarts.join(', ')}.`;
+                errorMessage.style.display = 'block'; // Show error message
+            } else {
+                errorMessage.style.display = 'none'; // Hide error message if valid
+            }
+        }
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const value = sidenoInput.value;
+        const errorMessage = document.getElementById('error-message');
+
+        // Final validation on form submission
+        const isSideThree = validStarts.includes('3');
+
+        if (isSideThree) {
+            if (value.length !== 3) {
+                event.preventDefault(); // Prevent form submission
+                errorMessage.textContent = `Invalid input. Please enter a 3-digit number.`;
+                errorMessage.style.display = 'block'; // Show error message
+            }
+        } else {
+            if (value.length > 0 && !validStarts.some(start => value.startsWith(start))) {
+                event.preventDefault(); // Prevent form submission
+                errorMessage.textContent = `Invalid input. Please enter a number starting with ${validStarts.join(', ')}.`;
+                errorMessage.style.display = 'block'; // Show error message
+            }
+        }
+    });
+</script>
+</td>
+
+            <td>
+                <button type="submit"><b style="color: red;">Change</b></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+
+
+<script>
+function validateside(input) {
+    var value = input.value.trim();
+    var index = input.closest('tr').rowIndex; // Get row index
+    var errorMessage = document.getElementById("error-message-" + index);
+    
+    if (isNaN(value)) {
+        errorMessage.textContent = "Please enter a number for the sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a number.");
+    } else if (value.length !== 4) {
+        errorMessage.textContent = "Please enter a 4-digit sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a 4-digit number.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+</script>
+
+
+
+
+
+<script>
+function validateside(input) {
+    var value = input.value.trim();
+    var index = input.closest('tr').rowIndex; // Get row index
+    var errorMessage = document.getElementById("error-message-" + index);
+    
+    if (isNaN(value)) {
+        errorMessage.textContent = "Please enter a number for the sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a number.");
+    } else if (value.length !== 4) {
+        errorMessage.textContent = "Please enter a 4-digit sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a 4-digit number.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+</script>
+
+
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+  <div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                        </div>
+                                </div>
+                           <div class="col-lg-9 order-lg-2 order-1">
+                           <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                           <div class="footer_nav">
+                           <ul class="footer_nav_list">
+			   <li class="main_nav_item"><a href="{% url 'about' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'route' %}">Register Routes</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'registor' %}">Register Admin </option>
+    <option value="{% url 'sc' %}">Add SC</option>  <!-- Added this line -->
+    <option value="{% url 'service_fee' %}">Add Service Value</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+    <option value="{% url 'scupdate' %}">Share Company Update</option>
+    <option value="{% url 'active' %}">Active Routes</option>
+    <option value="{% url 'serviceupdate' %}">Service Fee Update</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+    <option value="{% url 'sce' %}">show s.c</option>
+    <option value="{% url 'sce' %}">show s.c</option>
+    <option value="{% url 'sce' %}">show sc</option>
+    <option value="{% url 'sce' %}">show sc</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Booker</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+    <option value="{% url 'scdelete' %}">Delete Share Company</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+    <option value="{% url 'workerdelete' %}">Booker Delete</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

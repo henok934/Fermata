@@ -1,0 +1,449 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update Bus | Enterprise Transit</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --bg-soft: #f4f7fa;
+            --danger-red: #ef4444;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b;
+        }
+
+        /* --- COMPREHENSIVE NAVBAR --- */
+        .navbar-main {
+            background: var(--brand-navy) !important;
+            border-bottom: 3px solid var(--brand-gold);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-logo { 
+            height: 55px; width: 55px; border-radius: 50%; 
+            border: 2px solid var(--brand-gold); background: white; 
+        }
+        .brand-name-main { color: white; font-weight: 800; font-size: 1.1rem; line-height: 1; }
+        .brand-subtext { color: var(--brand-gold); font-size: 0.75rem; font-weight: 700; }
+
+        .intl-dropdown {
+            background: var(--glass);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 7px 10px;
+            cursor: pointer;
+            margin-left: 8px;
+            outline: none;
+        }
+        .intl-dropdown option { background: var(--brand-dark); color: white; }
+
+        /* --- SEARCH & TABLE WRAPPER --- */
+        .compact-wrapper { max-width: 950px; margin: 1.5rem auto; padding: 0 15px; }
+
+        .search-bar-outer {
+            background: var(--brand-navy);
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mini-date-input { border-radius: 4px; border: none; font-size: 11px; padding: 4px 8px; width: 120px; }
+        .mini-label { font-size: 9px; color: var(--brand-gold); font-weight: 800; margin: 0 5px 0 0; }
+
+        /* --- ZERO-GAP TABLE LOGIC --- */
+        .table-intl-container {
+            background: white; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: inline-block; min-width: 100%;
+        }
+        .table-intl { width: auto; min-width: 100%; margin-bottom: 0; }
+        
+        .w-shrink { 
+            width: 1%; 
+            white-space: nowrap; 
+            padding: 12px 10px !important; 
+            vertical-align: middle !important; 
+        }
+
+        .plate-display { border: none; background: transparent; font-family: 'Courier New', monospace; font-weight: 900; width: 100px; color: #1e293b; font-size: 14px; }
+        .side-display { border: none; background: transparent; font-weight: 700; width: 60px; color: #64748b; font-size: 14px; }
+
+        .update-input-field {
+            height: 34px; font-size: 13px; font-weight: 700;
+            border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 8px;
+        }
+
+        .btn-change-action {
+            background: none; border: 1.5px solid var(--danger-red); cursor: pointer;
+            padding: 3px 15px; border-radius: 5px; transition: 0.2s;
+        }
+        .btn-change-action:hover { background: var(--danger-red); }
+        .btn-change-action:hover b { color: white !important; }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 1199px) {
+            .intl-nav-group { flex-direction: column; width: 100%; margin-top: 15px; }
+            .intl-dropdown { margin: 5px 0; width: 100%; }
+        }
+
+        @media (max-width: 576px) {
+            .search-bar-outer { flex-direction: column; gap: 10px; }
+            .table-intl thead { display: none; }
+            .table-intl tr { display: flex; flex-direction: column; padding: 15px; border-bottom: 2px solid #eee; }
+            .table-intl td { width: 100% !important; padding: 6px 0 !important; }
+            .m-label { display: block; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px; }
+            .update-input-field { width: 100% !important; }
+        }
+        @media (min-width: 577px) { .m-label { display: none; } }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-xl navbar-dark navbar-main">
+        <div class="container-fluid">
+	
+	<!--
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'images/l.jpeg' %}" class="nav-logo">
+                <div class="ml-3">
+                    <span class="brand-name-main">Busfermata</span><br>
+                    <span class="brand-subtext">{{ name }} Share Company BUS</span>
+                </div>
+            </a>
+	-->
+	 <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+
+    <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+        {% if company.logo %}
+            <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+        {% else %}
+            <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+        {% endif %}
+    </div>
+
+    <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+        <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+            {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+
+            {% if level %}
+                <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+            {% endif %}
+        </span>
+    </div>
+
+</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="mainMenu">
+                <div class="intl-nav-group d-flex align-items-center">
+                    <a href="{% url 'home' %}" class="btn btn-sm text-white font-weight-bold mr-xl-2" style="font-size: 12px; border: 1px solid var(--brand-gold);">HOME</a>
+                    
+                    <select onchange="location.href = this.value;" class="intl-dropdown">
+                        <option value="#" disabled selected>📁 REGISTRATION</option>
+                        <option value="{% url 'businsert' %}">Register New Bus</option>
+        		<option value="{% url 'special_route' %}">Add New Route</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-dropdown">
+                        <option value="#" disabled selected>⚙️ OPERATIONS</option>
+                        <option value="{% url 'myroute' %}">Active Routes</option>
+                        <option value="{% url 'mybus' %}">View Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-dropdown" style="border-color: var(--danger-red);">
+                        <option value="#" disabled selected>🛠️ MANAGEMENT</option>
+                        <option value="{% url 'updatebus' %}">Edit Details</option>
+			 {% if level == 'Special Bus' %}
+                         <option value="{% url 'special_active' %}">Active Route</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-danger ml-xl-3 font-weight-bold py-1" style="font-size: 11px;">LOGOUT</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="compact-wrapper">
+    <div class="search-bar-outer">
+        <h6 class="mb-0 text-white font-weight-bold" style="font-size: 13px;"><i class="fas fa-edit mr-2 text-warning"></i> UPDATE REGISTRY</h6>
+        <form action="{% url 'specific' %}" method="post" class="d-flex align-items-center">
+            {% csrf_token %}
+            <div class="d-flex align-items-center mr-2">
+                <label class="mini-label">FROM</label>
+                <input type="date" name="from" class="mini-date-input" required>
+            </div>
+            <div class="d-flex align-items-center mr-2">
+                <label class="mini-label">TO</label>
+                <input type="date" name="to" class="mini-date-input" required>
+            </div>
+            <button type="submit" class="btn btn-warning btn-sm font-weight-bold px-3">SEARCH</button>
+        </form>
+    </div>
+    
+    
+    <div class="table-intl-container">
+        <table class="table table-hover table-intl">
+            <thead class="bg-light">
+                <tr>
+                    <th class="w-shrink">PLATE NO</th>
+                    <th class="w-shrink">CURRENT SIDE</th>
+                    <th class="w-shrink">SEATS</th>
+                    <th class="w-shrink">NEW SIDE NO</th>
+                    <th class="w-shrink text-center">ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bus in buses %}
+                <tr>
+                    <td class="w-shrink">
+			     {% if success %}
+            <div class="alert alert-success py-2 small border-0 shadow-sm"><i class="fas fa-check mr-2"></i> {{ success }}</div>
+            {% endif %}
+            {% if errors %}
+            <div class="alert alert-danger py-2 small border-0 shadow-sm"><i class="fas fa-times mr-2"></i> {{ errors }}</div>
+            {% endif %}
+
+                        <form action="{% url 'updatebus' %}" method="POST" style="margin: 0;" class="update-form">
+                            {% csrf_token %}
+                            <span class="m-label">Plate No</span>
+                            <input type="text" name="plate_no" value="{{ bus.plate_no }}" readonly class="plate-display">
+                    </td>
+
+                    <td class="w-shrink">
+                        <span class="m-label">Current Side</span>
+                        <input type="text" name="sideno" value="{{ bus.sideno }}" readonly class="side-display">
+                    </td>
+
+                    <td class="w-shrink">
+                        <span class="m-label">Seats</span>
+                        <input type="number" name="no_seats" value="{{ bus.no_seats }}" class="update-input-field" style="width: 75px;">
+                    </td>
+
+                    <td class="w-shrink">
+                        <span class="m-label">New Side ID</span>
+                        <div style="display: flex; flex-direction: column;">
+                            <input type="text" 
+                                   id="new_sideno_{{ forloop.counter }}" 
+                                   name="new_sideno" 
+                                   maxlength="4" 
+                                   required
+                                   style="width: 120px;" 
+                                   class="new-sideno-input update-input-field"
+                                   placeholder="Enter new side">
+                            <p id="error-message_{{ forloop.counter }}" style="color: red; font-size: 10px; display: none; margin-top: 3px; font-weight: bold;"></p>
+                        </div>
+			
+                    </td>
+
+                    <td class="w-shrink text-center">
+                        <span class="m-label">Action</span>
+                        <button type="submit" class="btn-change-action">
+                            <b style="color: red; font-size: 12px;">Change</b>
+                        </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center py-5 text-muted">No records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>   
+</main>
+
+<script>
+    // 1. Configuration from Django
+    const sideConfig = "{{ side }}".trim() || "3";
+    const validStarts = sideConfig.split('/').map(part => part.trim());
+    const isModeThree = validStarts.includes('3');
+    const targetLength = isModeThree ? 3 : 4;
+
+    // 2. Target all inputs
+    document.querySelectorAll('.new-sideno-input').forEach((input) => {
+        // FIX: Find the error message that is in the same container as this specific input
+        // This ensures the error always shows for the correct row
+        const errorMsg = input.parentNode.querySelector('p[id^="error-message_"]');
+        input.maxLength = targetLength;
+
+        input.addEventListener('input', function() {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/[^0-9]/g, '');
+            const val = this.value;
+
+            if (val.length > 0) {
+                if (isModeThree) {
+                    // Validation for 3-digit mode
+                    if (val.length !== 3) {
+                        errorMsg.textContent = "Requires 3 digits.";
+                        errorMsg.style.display = 'block';
+                    } else {
+                        errorMsg.style.display = 'none';
+                    }
+                } else {
+                    // Validation for 4-digit mode with specific start numbers
+                    const startsCorrectly = validStarts.some(start => val.startsWith(start));
+                    
+                    if (!startsCorrectly) {
+                        errorMsg.textContent = `Must start with ${validStarts.join('/')}.`;
+                        errorMsg.style.display = 'block';
+                    } else if (val.length !== 4) {
+                        errorMsg.textContent = "Requires 4 digits.";
+                        errorMsg.style.display = 'block';
+                    } else {
+                        errorMsg.style.display = 'none';
+                    }
+                }
+            } else {
+                errorMsg.style.display = 'none';
+            }
+        });
+
+        // 3. Form Submit Validation
+        const form = input.closest('form');
+        form.addEventListener('submit', function(e) {
+            const val = input.value;
+            let isValid = true;
+            let msg = "";
+
+            if (isModeThree) {
+                if (val.length !== 3) {
+                    isValid = false;
+                    msg = "Requires 3 digits.";
+                }
+            } else {
+                const startsCorrectly = validStarts.some(start => val.startsWith(start));
+                if (!startsCorrectly) {
+                    isValid = false;
+                    msg = `Must start with ${validStarts.join('/')}.`;
+                } else if (val.length !== 4) {
+                    isValid = false;
+                    msg = "Requires 4 digits.";
+                }
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                errorMsg.textContent = msg;
+                errorMsg.style.display = 'block';
+                input.focus();
+            }
+        });
+    });
+</script>
+
+
+<!--
+<script>
+    const sideConfig = "{{ side }}".trim() || "3";
+    const validStarts = sideConfig.split('/').map(part => part.trim());
+    const isModeThree = validStarts.includes('3');
+    const targetLength = isModeThree ? 3 : 4;
+
+    document.querySelectorAll('.new-sideno-input').forEach((input, index) => {
+        const errorMsg = document.getElementById(`error-message_${index + 1}`);
+        input.maxLength = targetLength;
+
+        input.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            const val = this.value;
+
+            if (val.length > 0) {
+                if (isModeThree) {
+                    if (val.length !== 3) {
+                        errorMsg.textContent = "Requires 3 digits.";
+                        errorMsg.style.display = 'block';
+                    } else {
+                        errorMsg.style.display = 'none';
+                    }
+                } else {
+                    const startsCorrectly = validStarts.some(start => val.startsWith(start));
+                    if (!startsCorrectly) {
+                        errorMsg.textContent = `Must start with ${validStarts.join('/')}.`;
+                        errorMsg.style.display = 'block';
+                    } else if (val.length !== 4) {
+                        errorMsg.textContent = "Requires 4 digits.";
+                        errorMsg.style.display = 'block';
+                    } else {
+                        errorMsg.style.display = 'none';
+                    }
+                }
+            } else {
+                errorMsg.style.display = 'none';
+            }
+        });
+
+        const form = input.closest('form');
+        form.addEventListener('submit', function(e) {
+            const val = input.value;
+            let isValid = true;
+
+            if (isModeThree) {
+                if (val.length !== 3) isValid = false;
+            } else {
+                const startsCorrectly = validStarts.some(start => val.startsWith(start));
+                if (!startsCorrectly || val.length !== 4) isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = "Correction Required!";
+                input.focus();
+            }
+        });
+    });
+</script>
+-->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

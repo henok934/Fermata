@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Awash Bank | Busfermata Payment</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root { --brand-navy: #00264d; --brand-gold: #ffcc00; --brand-dark: #0f172a; --awash-blue: #003DA5; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
+
+        /* Navigation Responsive */
+        .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 12px; }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+        
+        .navbar-main { background: #fff; padding: 10px 0; border-bottom: 4px solid var(--awash-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .brand-logo { height: 40px; border-radius: 6px; margin-right: 10px; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; display: block; line-height: 1; }
+        .brand-tagline { font-weight: 700; color: var(--awash-blue); font-size: 8px; letter-spacing: 1px; }
+        
+        .nav-item .nav-link { color: var(--brand-navy) !important; font-weight: 700; font-size: 14px; text-transform: uppercase; }
+        .btn-book-nav { background: var(--brand-gold); color: var(--brand-navy) !important; font-weight: 800; border-radius: 8px; padding: 10px 20px !important; margin-left: 10px; }
+
+        /* Form Design - Minimized for All Devices */
+        .payment-widget { max-width: 380px; margin: 40px auto; background: #fff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid #edf2f7; overflow: hidden; }
+        .widget-header { padding: 25px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .widget-body { padding: 30px; }
+
+        .form-control-intl { height: 50px; border-radius: 10px; border: 2px solid #e2e8f0; text-align: center; font-weight: 700; font-size: 18px; color: var(--awash-blue); }
+        .btn-awash { background: var(--awash-blue); color: #fff; font-weight: 800; height: 50px; border-radius: 10px; border: none; width: 100%; text-transform: uppercase; transition: 0.3s; }
+        .btn-awash:hover { background: #002d7a; transform: translateY(-2px); }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 40px 0; text-align: center; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-1"></i> National Transport</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF LOGIN</a>
+    </div>
+</div>
+<!--
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+        
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainMenu">
+            <ul class="navbar-nav ml-auto align-items-lg-center mt-3 mt-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn-book-nav shadow-sm" href="{% url 'book' %}">BOOK NOW</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<nav class="navbar-main navbar navbar-expand-lg navbar-light">
+    <div class="container">
+	    <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+	    <!--
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
+            <img src="../static/images/l.jpeg" height="50" style="border: 2px solid var(--brand-navy); border-radius: 8px;">
+            <div class="ml-2 text-left">
+                <div style="font-weight:800; color:var(--brand-navy); font-size:20px; line-height:1;">Busfermata</div>
+                <div style="font-weight:800; color:var(--brand-gold); font-size:9px; letter-spacing:1.2px;">TRANSPORT TECHNOLOGY</div>
+            </div>
+        </a>
+	-->
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#BusfermataNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="BusfermataNavbar">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'book' %}">Book</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'about' %}">About us</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
+		<!-- <li class="nav-item ml-lg-3"><a class="nav-link nav-link-intl btn-login-intl" href="{% url 'login' %}">Login</a></li>-->
+		 <li class="nav-item ml-lg-3">
+    <a class="nav-link nav-link-intl px-4 rounded-pill border"
+       style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;"
+       href="{% url 'book' %}">Book Now</a>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container px-3">
+    <div class="payment-widget">
+        <div class="widget-header">
+            <img src="../static/images/Awash.png" height="50" alt="Awash Bank">
+        </div>
+        <div class="widget-body">
+		<!--
+            <div class="text-center mb-4">
+                <p class="text-muted small mb-0 font-weight-bold">Total Amount</p>
+                <h3 class="font-weight-bold" style="color: var(--awash-blue);">{{ price }} ETB</h3>
+            </div>
+		-->
+		<div class="text-center mb-4">
+                <small class="text-muted font-weight-bold">AMOUNT TO PAY</small>
+                <h2 class="font-weight-bold" style="color: var(--cbe-purple);">{{ price }} ETB</h2>
+            </div>
+
+            <form action="{% url 'awash' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-4">
+                    <label class="small font-weight-bold text-muted">ACCOUNT NUMBER (13 DIGITS)</label>
+                    <input type="text" name="account" class="form-control form-control-intl" 
+                           placeholder="1000XXXXXXXXX" pattern="1000\d{9}" maxlength="13" required 
+                           title="Must start with 1000 and be exactly 13 digits">
+                </div>
+                <input type="hidden" name="price" value="{{ price }}">
+                <button type="submit" class="btn-awash shadow-sm">Proceed</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <h4 style="font-weight: 800;">Busfermata Digital Technology</h4>
+        <p class="small opacity-50 mb-0">© 2026 Busfermata • National Solutions</p>
+        <p class="small mt-2">Support: 0975143134</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

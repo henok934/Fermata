@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>our buses</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<!--
+<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		  <div class="main_nav_container ml-auto">
+		<ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: #FFFFFF; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Bus Registor</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'myroute' %}">My Routes</option>
+                                <option value="{% url 'mybus' %}">My Bus</option>
+
+                            </select>
+                        </li>
+			    <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: #FFFFFF; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                  <ul class="main_nav_list">
+                  <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                  <li class="main_nav_item"><a href="{% url 'myroute' %}">Our Route</a></li>
+                  <li class="main_nav_item"><a href="{% url 'mybus' %}">Our Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'updatebus' %}">Update Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'businsert' %}">Bus registor</a></li>
+		  <li class="main_nav_item"><a href="{% url 'worker' %}">Register Driver</a></li>
+		  <li class="main_nav_item"><a href="{% url 'busdelete' %}">Delete Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'workerdelete' %}">Delete Driver</a></li>
+                  <li class="main_nav_item"><a href="{% url 'logout' %}">Logout</a></li>
+                 </ul>
+		 
+
+                 </div> 
+            </div>
+        </div>
+    </div>
+</nav>
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+	</header>
+	-->
+
+<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info"><i class="fa fa-phone"></i> +251 975143134</div>
+            <div class="auth-box"><a href="{% url 'logout' %}" class="logout-text">LOGOUT</a></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom" 
+         style="min-height: 130px !important; display: flex !important; align-items: center !important;">
+
+        <div class="container-fluid d-flex align-items-center justify-content-start">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-container" style="width: 90px; height: 90px;">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-fluid">
+                </div>
+                
+                <div class="brand-text-wrapper ml-1">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-actions-wrapper d-flex align-items-center ml-4">
+                <a href="{% url 'home' %}" class="nav-link home-link-tight" 
+                   style="padding-left: 0 !important; margin-left: 0 !important;">HOME</a>
+
+                <div class="select-group d-flex align-items-center ml-3">
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Register New</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Edit Details</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>VIEW DATA</option>
+                        <option value="{% url 'myroute' %}">Routes</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
+                        <option value="#" disabled selected>DELETE ACTIONS</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    .bg-navy-custom {
+        background-color: #1a2a6c !important;
+        /* Padding removed to allow inline height to control size precisely */
+        padding: 0 20px !important;
+    }
+
+    .logo-container {
+        background: white;
+        border-radius: 50%;
+        border: 3px solid #f39c12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .nav-logo-fluid {
+        width: 85%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .brand-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .brand-name-main {
+        color: white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtext {
+        color: #f39c12;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .home-link-tight {
+        color: #f39c12 !important;
+        font-weight: 800;
+        font-size: 1rem;
+        border-right: 1px solid rgba(255,255,255,0.3);
+        padding-right: 15px !important;
+    }
+
+    .mini-transit-select {
+        height: 40px; 
+        width: 150px;
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid #f39c12;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 5px;
+        padding: 0 5px;
+        cursor: pointer;
+    }
+
+    .delete-border {
+        border: 2px solid #ff4d4d;
+        color: #ff4d4d;
+    }
+
+    .top-bar-mini {
+        background: #0f172a;
+        color: #fff;
+        padding: 5px 20px;
+        font-size: 0.75rem;
+    }
+
+    .logout-text { color: #ff4d4d; font-weight: 800; text-decoration: none; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+<form action="{% url 'specific' %}" method="post" id="search_form_1" class="search_panel_content" style="margin: 10px 0; width: 100%; max-width: 600px; border: 0; border-radius: 8px; margin-top: 200px; margin-left: 450px; display: flex; align-items: center; gap: 10px;">
+    {% csrf_token %}
+
+    <div style="display: flex; align-items: center;">
+        <label for="from" style="color: blue; font-weight: bold; margin-right: 5px;"><b>From</b></label>
+        <input type="date" name="from" id="to" class="form-control" style="width: 100px; height: 35px; color: brown;  border: 2px solid #d3d3d3; border-radius: 8px;" required>
+
+        </div>
+
+    <div style="display: flex; align-items: center;">
+        <label for="to" style="color: blue; font-weight: bold; margin-right: 5px;"><b>To</b></label>
+        <input type="date" name="to" id="to" class="form-control" style="width: 100px; height: 35px; color: brown; border: 2px background-color: brown; solid #d3d3d3; border-radius: 8px;" required>
+    </div>
+
+    <button type="submit" style="background-color: yellow; color: black; width: 100px; height: 35px; border: none; text-align: center; border: 2px solid #d3d3d3; border-radius: 8px;">
+        Search
+    </button>
+</form>
+
+</br></br>
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color:blue;">All Drivers</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 100%; /* Use full width */
+    max-width: 500px; /* Set a max width for larger screens */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 2px solid #007BFF; /* Border color */
+    padding: 8px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 14px; /* Font size */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+/* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 12px; /* Smaller font size for mobile */
+      padding: 6px; /* Slightly less padding for mobile */
+    }
+  }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+<table>
+  <thead>
+
+        <tr>
+            <th>No.</th>
+	    <th>First Name.</th>
+	    <th>Last Name.</th>
+	    <th>Phone.</th>
+            <th>Plate No</th>
+	    <th>Side No</th>
+	    <th>Level</th>
+	    <th>Sc</th>
+        </tr>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th {
+        background-color: #4CAF50; /* Green background */
+        color: white;              /* White text */
+        padding: 10px;            /* Padding for cells */
+        text-align: left;         /* Align text to the left */
+    }
+    th:first-child {
+        text-align: center;       /* Center align the first column */
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Zebra striping for rows */
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+  </thead>
+  <tbody>
+     {% for bus in buses %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+	<td>{{ bus.fname }}</td>
+	<td>{{ bus.lname }}</td>
+	<td>{{ bus.phone }}</td>
+        <td>{{ bus.plate_no }}</td>
+	<td>{{ bus.side_no }}</td>
+	<td>{{ level }}</td>
+	<td>{{ name }}</td>
+	<!--<td>{{ bus.side_no }}</td>-->
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</br></br></br</br></br>
+  </br></br></br>
+  <div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 order-lg-1 order-2  ">
+					<div class="copyright_content d-flex flex-row align-items-center">
+						<div><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="#">Guzo Team</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+					</div>
+				</div>
+				<div class="col-lg-9 order-lg-2 order-1">
+					<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+						<div class="footer_nav">
+							<ul class="footer_nav_list">
+							<!--
+							 <li class="main_nav_item"><a href="{% url 'about' %}">home</a></li>
+<li class="main_nav_item"><a href="{% url 'businsert' %}">Insert Bus</a></li>
+<li class="main_nav_item"><a href="{% url 'route' %}">Route insert</a></li>
+<li class="footer_nav_item"><a href="{% url 'registor' %}" style="color:white;">Create Admin</a></li>
+<li class="footer_nav_item"><a href="{% url 'city' %}" style="color:white;">Insert City</a></li>
+    <option value="{% url 'driver' %}">Drivers</option>
+<select onchange="location.href = this.value;"><option value="#">Select for Show</option><option value="{% url 'routes' %}">show routes</option><option value="{% url 'users' %}">show Users</option><option value="{% url 'buses' %}">show Buses</option><option value="{% url 'comments' %}">All Comments</option></select>
+    <option value="{% url 'sce' %}">show s.c</option>
+    <option value="{% url 'sce' %}">show s.c</option>
+    <option value="{% url 'sce' %}">show sc</option>
+    <option value="{% url 'sce' %}">show sc</option>
+<li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;">Logout</a></li>
+-->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

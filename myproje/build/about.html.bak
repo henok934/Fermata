@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>About Us</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/about_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/about_responsive.css">
+</head>
+<body>
+<div class="super_container">
+
+	<header class="header">
+
+		
+
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251 925 049 118</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="user_box ml-auto">
+							<div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+							<div class="user_box_register user_box_link"><a href="#"></a></div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+
+
+		<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        
+                                                        <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+    <li class="main_nav_item" style="margin-left: 100px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">Home</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+
+    <li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    // Automatically submit the form when a date is selected
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+
+	</header>
+	<div class="menu trans_500">
+		<div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+			<div class="menu_close_container"><div class="menu_close"></div></div>
+			<div class="logo menu_logo"><a href="#"><img src="../static/images/logo.png" alt=""></a></div>
+			<ul class="main_nav_list">
+                                                        <li class="main_nav_item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="main_nav_item"><a href="{% url 'about' %}">About Us</a></li>
+        <li class="main_nav_item"><a href="{% url 'offers' %}">Check Route</a></li>
+        <li class="main_nav_item"><a href="{% url 'comment' %}">Comment</a></li>
+    <li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+    {% csrf_token %}
+    <button type="submit">🔔<span style="color: red;"><b>{{buschanges_count}}</b></span></button>
+    </br>
+    <input type="date" name="date" placeholder="Date" required>
+</form>
+<li></ul>
+
+		</div>
+	</div>  
+	<div class="home33">
+		<div class="home_content">
+			<div class="home_title"style="color:blue;">about us</div>
+		</div>
+	</div>
+	        </br></br></br></br></br></br></br>
+</br></br>
+
+		<div class="intro_text" style="text-align: center;">
+  <h1 style="color: blue;"><b>About Us</b></h1>
+</div>
+		<div class="intro">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-7">
+					<div class="intro_image"><img src="../static/images/bus3.jpg" alt=""></div>
+				</div>
+				<div class="col-lg-5">
+					<div class="intro_content">
+						<p class="intro_text">Bus-Ticket is an online ticket booking system that will save your precious time, money and energy by providing you with the ability to search and find buses along with their services.</b></p> </p>
+					
+						 <p class="intro_text"><b>Buses at bus-ticket focus on passengers satisfaction in order to provide high quality service by using international measurement methods and improvement mechanisms to ensure the Word Class travels services are provided to it's passenges.</b></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="intro">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-7">
+					<div class="intro_title"><h3><b>Who We Are?</h3></b></div>
+					<div class="intro_text"><b>Bus-ticket is completely independent company that provides services</br> related safe travel. We help our clients to save their resources by<br> finding the services they need online.</b>				</div>
+
+
+
+				<div class="intro_text"><b>The idea came from the inspiration that an online Bus ticket booking </br>system would help improve transport access for many. </br>This was because the country where the developers were based,</br> Ethiopia, did not have this service.</b></div> 
+
+
+
+
+  <div class="intro_text"><h1 style="color: blue;"><b>CONTACT US</b></h1></div>
+  <div class="intro_text"> <h4> <b>Please feel free to contact us with the contact info below if you have any questions, comments and suggestion</b></h4></div>
+
+
+
+
+				</div>                                <div class="col-lg-5">
+
+
+					<p class="intro_text"><h3><b>What We Offer?</b></h3></p>
+						<p class="intro_text">bus reservation system is a mobile or web software solution designed to provide customers with a personalized easy-to-utilize user experience for booking and purchasing tickets online. It stores customers' personal data records, scheduled routes, frequent trips, drop points, and other information.</p>					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="milestones">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 milestone_col">
+					<div class="milestone text-center">
+						<div class="milestone_icon"><img src="../static/images/milestone_9.png" alt=""></div>
+						<div class="intro_text"><h3><b>ADDRESS</b></h3></div>
+						<div class="milestone_text">ADORE Addis Hotel Co-working, Bole Atlas, Addis Ababa, Ethiopia</div>
+					</div>
+				</div>
+				<div class="col-lg-3 milestone_col">
+					<div class="milestone text-center">
+						<div class="milestone_icon"><img src="../static/images/milestone_2.png" alt=""></div>
+						<div class ="intro_text"><h3><b>phone number</b></h3></div>
+						<div class="milestone_text">+251 907 2527 75</div>
+						<div class="milestone_text">+251 949 9498 49</div>
+					</div>
+				</div>
+
+				
+				<div class="col-lg-3 milestone_col">
+					<div class="milestone text-center">
+						<div class="milestone_icon"><img src="../static/images/milestone_12.png" alt=""></div>
+						<div class ="intro_text"><h3><b>EMAIL</b></h3></div>
+					<div class="milestone_text">www.guzo@gmail.com</div>					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	<div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 order-lg-1 order-2  ">
+					<div class="copyright_content d-flex flex-row align-items-center">
+						<div>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved  made by <a href="#" target="_blank">guzo team</a>
+</div>
+					</div>
+				</div>
+				<div class="col-lg-9 order-lg-2 order-1">
+					<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+						<div class="footer_nav">
+							<ul class="footer_nav_list">
+							 <li class="footer_nav_item"><a href="{% url 'home' %}">home</a></li>
+                                                         <li class="footer_nav_item"><a href="{% url 'about' %}">about us</a></li>
+                                                         <li class="footer_nav_item"><a href="{% url 'offers' %}">cheeck route</a></li>
+                                                         <li class="footer_nav_item"><a href="{% url 'comment' %}">comment</a></li>
+                                                         <li class="main_nav_item"><a href="{% url 'changebuses' %}">newss</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/js/custom.js"></script>
+</body>
+</html>
+

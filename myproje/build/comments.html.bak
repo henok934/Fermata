@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>show comments</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<nav class="main_nav">
+			<div class="container">
+				<div class="row">
+					<div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+						<div class="logo_container">
+							<div class="logo"><a href="#"><img src="../static/images/logo.png" alt="">ticket</a></div>
+						</div>
+						<div class="main_nav_container ml-auto">
+			  <ul class="main_nav_list">
+			   <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+							</ul>
+						</div>
+						<div class="content_search ml-lg-0 ml-auto">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+								<g>
+									<g>
+										<g>
+											<path class="mag_glass" fill="#FFFFFF" d="M78.438,216.78c0,57.906,22.55,112.343,63.493,153.287c40.945,40.944,95.383,63.494,153.287,63.494
+											s112.344-22.55,153.287-63.494C489.451,329.123,512,274.686,512,216.78c0-57.904-22.549-112.342-63.494-153.286
+											C407.563,22.549,353.124,0,295.219,0c-57.904,0-112.342,22.549-153.287,63.494C100.988,104.438,78.439,158.876,78.438,216.78z
+											M119.804,216.78c0-96.725,78.69-175.416,175.415-175.416s175.418,78.691,175.418,175.416
+											c0,96.725-78.691,175.416-175.416,175.416C198.495,392.195,119.804,313.505,119.804,216.78z"/>
+										</g>
+									</g>
+									<g>
+										<g>
+											<path class="mag_glass" fill="#FFFFFF" d="M6.057,505.942c4.038,4.039,9.332,6.058,14.625,6.058s10.587-2.019,14.625-6.058L171.268,369.98
+											c8.076-8.076,8.076-21.172,0-29.248c-8.076-8.078-21.172-8.078-29.249,0L6.057,476.693
+											C-2.019,484.77-2.019,497.865,6.057,505.942z"/>
+										</g>
+									</g>
+								</g>
+							</svg>
+						</div>
+						<form id="search_form" class="search_form bez_1">
+							<input type="search" class="search_content_input bez_1">
+						</form>
+						<div class="hamburger">
+							<i class="fa fa-bars trans_200"></i>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</nav>
+	</header>
+	<div class="menu trans_500">
+		<div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+			<div class="menu_close_container"><div class="menu_close"></div></div>
+			<div class="logo menu_logo"><a href="#"><img src="../static/images/logo.png" alt=""></a></div>
+			<ul>
+			   <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+
+	</br></br></br></br></br></br></br></br></br>
+
+
+	<!--
+	<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color:blue;">All Comment</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 90%; /* Use full width */
+    max-width: 400px; /* Set a max width for larger screens */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 2px solid #007BFF; /* Border color */
+    padding: 8px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 14px; /* Font size */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+/* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 12px; /* Smaller font size for mobile */
+      padding: 6px; /* Slightly less padding for mobile */
+    }
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+<tbody>
+     {% for coment in comments %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ coment.name }}</td>
+        <td>{{ coment.phone }}</td>
+        <td>{{ coment.email }}</td>
+        <td>{{ coment.message }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+-->
+
+<!--
+<h1>All Comments</h1>
+    <table border = "1">
+    <thead>
+  <tr>
+    <th><b><h3>Name</h3></b></th>
+    <th><b><h3>E_mail</h3></b></th>
+    <th><b><h3>Phone</h3></b></th>
+    <th><b><h3>Message</h3></b></th>
+	</tr>
+    </thead>
+    <tbody>
+	{% for coment in comments %}
+      <tr>
+      <td>
+	<ol start = "1">
+	<li><th> {{coment.name}}</th><th>{{coment.email}}</th>  <th> {{coment.phone}}</th> <th>{{coment.message}}</th></li></ol></td></tr>	 {% endfor %}    </tbody>    </table>
+    -->
+
+
+
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color: blue;">All Comments</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 90%; /* Use full width */
+    max-width: 250px; /* Further reduced max width for the table */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 1px solid #007BFF; /* Reduced border thickness */
+    padding: 2px; /* Further reduced padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 10px; /* Reduced font size for a more compact look */
+    line-height: 1.1; /* Reduced line height */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 8px; /* Smaller font size for mobile */
+      padding: 1px; /* Further reduce padding for mobile */
+    }
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>N</th> <!-- Shortened column name -->
+      <th>P</th> <!-- Shortened column name -->
+      <th>E</th> <!-- Shortened column name -->
+      <th>M</th> <!-- Shortened column name -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for coment in comments %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ coment.name }}</td>
+        <td>{{ coment.phone }}</td>
+        <td>{{ coment.email }}</td>
+        <td>{{ coment.message }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+<!--
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color: blue;">All Comments</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 90%; /* Use full width */
+    max-width: 250px; /* Further reduced max width for the table */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 2px solid #007BFF; /* Border color */
+    padding: 2px; /* Further reduced padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 10px; /* Reduced font size for a more compact look */
+    line-height: 1.1; /* Reduced line height */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 8px; /* Smaller font size for mobile */
+      padding: 1px; /* Further reduce padding for mobile */
+    }
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>N</th> <!-- Shortened column name -->
+      <th>P</th> <!-- Shortened column name -->
+      <th>E</th> <!-- Shortened column name -->
+      <th>M</th> <!-- Shortened column name -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for coment in comments %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ coment.name }}</td>
+        <td>{{ coment.phone }}</td>
+        <td>{{ coment.email }}</td>
+        <td>{{ coment.message }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+-->
+
+
+
+
+
+<!--
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color: blue;">All Comments</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 90%; /* Use full width */
+    max-width: 300px; /* Set a smaller max width for the table */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 2px solid #007BFF; /* Border color */
+    padding: 4px; /* Reduced padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 12px; /* Reduced font size for a more compact look */
+    line-height: 1.2; /* Reduced line height */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 10px; /* Smaller font size for mobile */
+      padding: 2px; /* Further reduce padding for mobile */
+    }
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Msg</th> <!-- Shortened column name -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for coment in comments %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ coment.name }}</td>
+        <td>{{ coment.phone }}</td>
+        <td>{{ coment.email }}</td>
+        <td>{{ coment.message }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+-->
+
+<!--
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color: blue;">All Comments</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 90%; /* Use full width */
+    max-width: 300px; /* Set a smaller max width for the table */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 2px solid #007BFF; /* Border color */
+    padding: 6px; /* Reduced padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 14px; /* Font size */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+    h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 12px; /* Smaller font size for mobile */
+      padding: 4px; /* Further reduce padding for mobile */
+    }
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Msg</th> 
+    </tr>
+  </thead>
+<tbody>
+     {% for coment in comments %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ coment.name }}</td>
+        <td>{{ coment.phone }}</td>
+        <td>{{ coment.email }}</td>
+        <td>{{ coment.message }}</td>
+      </tr>
+    {% endfor %}
+</tbody>
+</table>
+-->
+
+    </br></br></br</br></br>
+  </br></br></br>
+  <div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 order-lg-1 order-2  ">
+					<div class="copyright_content d-flex flex-row align-items-center">
+						<div><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="#">Ticket Team</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+					</div>
+				</div>
+				<div class="col-lg-9 order-lg-2 order-1">
+					<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+						<div class="footer_nav">
+							<ul class="footer_nav_list">
+							<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+							</ul>						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Passenger Details | BUSFERMATA</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --brand-blue: #003DA5;
+            --primary: #0052cc;
+            --booked: #dfe1e6;
+            --selected: #36b37e;
+            --bg-body: #f1f5f9;
+            --muted: #64748b;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-body); margin: 0; position: static !important; }
+
+        .navbar-main {
+            background: #ffffff; padding: 10px 0; border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+        }
+        .brand-logo-box {
+            background: white; padding: 4px; border-radius: 10px; border: 2.5px solid var(--brand-navy);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .brand-logo { height: 50px !important; width: auto; border: none !important; box-shadow: none !important; border-radius: 0; }
+        
+        .nav-link-custom { color: var(--brand-navy) !important; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 10px 15px !important; transition: 0.3s; }
+        .nav-link-custom:hover { color: var(--primary) !important; }
+        .login-pill { background: var(--brand-navy); color: white !important; border-radius: 8px; padding: 8px 20px !important; }
+
+        .ticket-card {
+            background: #fff; border-radius: 24px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06); max-width: 850px;
+            margin: 30px auto; border: 1px solid #e2e8f0; page-break-inside: avoid; break-inside: avoid;
+        }
+        .ticket-header { background: var(--brand-navy); color: #fff; padding: 25px 35px; display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .badge-level { background: var(--brand-gold); color: var(--brand-navy); padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; display: inline-block; margin-top: 4px; }
+
+        .ticket-content { display: flex; flex-wrap: wrap; padding: 35px; }
+        .main-info { flex: 2; border-right: 1px solid #f1f5f9; padding-right: 30px; }
+        .qr-area { flex: 1; text-align: center; padding-left: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 200px; }
+
+        .data-label { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
+        .data-value { font-size: 16px; font-weight: 700; color: var(--brand-navy); margin-bottom: 12px; }
+        .full-name-display { font-size: 22px; font-weight: 800; color: var(--brand-navy); border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; display: block; }
+        
+        .intl-error-toast {
+            position: fixed; top: 20px; right: 20px; background: #fff; padding: 15px 20px; border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15); border-left: 5px solid #e74c3c; z-index: 9999; min-width: 300px;
+        }
+        .toast-content { display: flex; align-items: center; gap: 15px; }
+        .toast-icon { color: #e74c3c; font-size: 24px; }
+        .toast-message { display: flex; flex-direction: column; }
+        .toast-title { font-weight: 700; color: #333; font-size: 14px; margin: 0; }
+        .toast-desc { color: #666; font-size: 13px; margin-top: 2px; }
+        .toast-close { background: none; border: none; color: #ccc; cursor: pointer; font-size: 18px; margin-left: auto; padding: 0; }
+
+        .header-mini { background: #00264d; color: white; padding: 12px 0; border-bottom: 3px solid #ffcc00; }
+        .live-indicator { height: 8px; width: 8px; background: #00ff88; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 8px #00ff88; }
+        .mini-label { letter-spacing: 1px; font-weight: 700; opacity: 0.8; }
+        .mini-amount { font-size: 20px; font-weight: 800; }
+        .mini-amount .curr { font-size: 12px; color: #ffcc00; vertical-align: middle; }
+
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        /* Pure International Print Overrides */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 12mm;
+            }
+            body { background: #ffffff !important; }
+            .no-print, .header-mini, .navbar-main, #djangoError { display: none !important; }
+            .container { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            
+            .ticket-card {
+                border: 1px solid #94a3b8 !important;
+                box-shadow: none !important;
+                background: #ffffff !important;
+                border-radius: 12px !important;
+                margin-bottom: 40px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .ticket-header {
+                background-color: #f8fafc !important;
+                border-bottom: 1px solid #cbd5e1 !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 20px !important;
+            }
+            .booking-time-bar {
+                background-color: #f1f5f9 !important;
+                border-bottom: 1px solid #cbd5e1 !important;
+                display: flex !important;
+                justify-content: space-between !important;
+            }
+
+            .destination-bold-print { font-size: 19px !important; font-weight: 900 !important; color: #000000 !important; }
+            .side-bold-print { font-size: 19px !important; font-weight: 900 !important; color: #000000 !important; }
+            .brand-title-print { color: #1e3a8a !important; }
+            .pnr-text-print { color: #b45309 !important; }
+            .gender-print p { color: #2563eb !important; }
+            .date-print { color: #dc2626 !important; }
+            .fare-box-print { background-color: #f8fafc !important; border: 1px solid #cbd5e1 !important; display: flex !important; padding: 12px !important; }
+            .price-text-print { color: #16a34a !important; }
+            .seat-print p { color: #2563eb !important; }
+            .qr-print img { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+        }
+
+        @media (max-width: 768px) {
+            .ticket-content { flex-direction: column; }
+            .main-info { border-right: none; padding-right: 0; padding-bottom: 25px; border-bottom: 1px solid #f1f5f9; }
+            .qr-area { padding-left: 0; padding-top: 25px; width: 100%; }
+        }
+    </style>
+</head>
+<body> 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
+{% if error %}
+<div class="intl-error-toast no-print" id="djangoError">
+    <div class="toast-content">
+        <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+        <div class="toast-message">
+            <span class="toast-title">System Message</span>
+            <span class="toast-desc">{{ error }}</span>
+        </div>
+        <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+    </div>
+</div>
+{% endif %}
+
+<!-- NAVBAR MAIN -->
+<nav class="navbar-main navbar navbar-expand-lg no-print">
+    <div class="container">
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
+            <div class="brand-logo-box mr-3">
+                <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            </div>
+            <div>
+                <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important; font-family: 'Plus Jakarta Sans', sans-serif;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78; font-weight:bold; margin:0; padding:0;">Digital Technology</h6>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:var(--brand-navy)"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item ml-lg-3"><a class="nav-link nav-link-custom login-pill" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- MINI REVENUE HEADER -->
+<header class="header-mini no-print">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <span class="live-indicator"></span>
+            <small class="mini-label">DAILY REVENUE</small>
+        </div>
+        <div class="mini-amount notranslate" translate="no">
+            <span class="curr">ETB</span> {{ total_today|default:"0"|floatformat:0 }}
+        </div>
+    </div>
+</header>
+
+<div class="container py-4"> 
+    <div class="d-flex justify-content-center mb-4 no-print" style="gap: 15px;">
+        <button onclick="downloadPDF(event)" class="btn btn-danger font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-file-pdf mr-2"></i> DOWNLOAD PDF
+        </button>
+        <button onclick="window.print()" class="btn btn-dark font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-print mr-2"></i> PRINT PASS
+        </button>
+    </div>
+
+    <!-- MAIN TICKETING STRUCTURAL ROOT CONTAINER -->
+    <div id="ticket-container">
+        
+        <!-- MACRO CHECK 1: HANDLE SINGLE TICKET CONTEXTS -->
+        {% if ticket %}
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <div class="logo-brand-wrapper" style="display: flex; align-items: center; gap: 12px; text-align: left;">
+                        {% if company_logo %}
+                            <img src="{{ company_logo }}" alt="{{ name }} Logo" class="company-ticket-logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 8px;">
+                        {% else %}
+                            <div style="width: 55px; height: 55px; background-color: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-bus" style="font-size: 24px; color: #1e3a8a;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h1 class="m-0 brand-title-print" style="font-size: 20px; font-weight: 800; color: #1e3a8a;">Busfermata Digital Tech</h1>
+                            <span class="badge-level">LEVEL: {{ level|default:"Standard" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="operator-meta-print" style="text-align: left;">
+                        <p class="data-label m-0" style="color: #6b7280;">OPERATOR NAME</p>
+                        <h1 class="m-0 operator-title-print" style="font-size: 18px; font-weight: 800; color: #111827;">{{ name }}</h1>
+                    </div>
+
+                    <div class="text-right pnr-container-print">
+                        <p class="data-label m-0" style="color: #b45309;">BOOKING REF / PNR</p>
+                        <h2 class="m-0 pnr-text-print" style="font-size: 24px; font-weight: 900; color: #b45309;" translate="no">{{ ticket.pnr }}</h2>
+                    </div>
+                </div>
+
+                <div class="booking-time-bar" style="display: flex; justify-content: space-between; padding: 8px 16px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px;">
+                    <div><span style="font-weight: 600; color: #475569;">Status:</span> <span style="color: #16a34a; font-weight: 700;">CONFIRMED</span></div>
+                    <div class="booked-time-display" style="color: #475569;"><span style="font-weight: 600;">Booked At:</span> {{ ticket.booked_time }}</div>
+                </div>
+
+                <div class="ticket-content">
+                    <div class="main-info">
+                        <div class="d-flex justify-content-between align-items-start passenger-row-print" style="margin-bottom: 15px;">
+                            <div style="flex: 1;">
+                                <p class="data-label">Passenger Name</p>
+                                <span class="full-name-display">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+                            </div>
+                            <div class="text-right ml-3 gender-print">
+                                <p class="data-label">Gender</p>
+                                <p class="data-value" style="font-size: 16px; font-weight: 700; color: #2563eb; margin: 0;">{{ ticket.gender|upper }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row info-row-print" style="margin-bottom: 12px;">
+                            <div class="col-6 col-print-6">
+                                <p class="data-label">From (መነሻ)</p>
+                                <p class="data-value destination-bold-print">{{ ticket.depcity }}</p>
+                            </div>
+                            <div class="col-6 col-print-6">
+                                <p class="data-label">To (መድረሻ)</p>
+                                <p class="data-value destination-bold-print">{{ ticket.descity }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row info-row-print" style="margin-bottom: 12px;">
+                            <div class="col-4 col-print-4">
+                                <p class="data-label">Plate No</p>
+                                <p class="data-value" style="font-weight: 600; color: #1e293b;">{{ ticket.plate_no }}</p>
+                            </div>
+                            <div class="col-4 col-print-4">
+                                <p class="data-label">Side No</p>
+                                <p class="data-value side-bold-print notranslate" translate="no">{{ ticket.side_no }}</p>
+                            </div>
+                            <div class="col-4 col-print-4">
+                                <p class="data-label">Travel Date</p>
+                                <p class="data-value text-danger date-print" style="font-weight: 700;">{{ ticket.date }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row info-row-print" style="margin-bottom: 15px;">
+                            <div class="col-3 col-print-12">
+                                <p class="data-label">Departure Time</p>
+                                <p class="data-value" style="color: #2563eb; font-weight: 700;">11:30</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-2 pt-3 agent-section-print" style="border-top: 1px solid #e2e8f0;">
+                            <div class="row">
+                                <div class="col-7 col-print-12">
+                                    <p class="data-label">Email Address</p>
+                                    <p class="data-value" style="font-size: 13px; word-break: break-all; color: #475569;">{{ ticket.email|default:"Not Provided" }}</p>
+                                </div>
+                                <div class="col-5 col-print-12">
+                                    <p class="data-label">Issuing Agent</p>
+                                    <p class="data-value" style="font-size: 13px; color: #475569;">
+                                        {% if fname and fname != self %}{{ fname }} {{ lname }}{% else %}System / Online{% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box fare-box-print">
+                            <div class="text-left seat-print">
+                                <p class="data-label" style="margin-bottom: 2px;">Seat No</p>
+                                <p class="m-0" style="font-size: 28px; font-weight: 900; color: #2563eb; line-height: 1;">{{ ticket.no_seat }}</p>
+                            </div>
+                            <div class="text-right total-fare-wrapper-print">
+                                {% load currency_filters %}
+                                <p class="data-label" style="font-size: 11px; color: #6b7280; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">Total Fare</p>
+                                <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                    <p class="m-0 price-text-print" style="font-size: 28px; font-weight: 800; color: #16a34a; line-height: 1;">{{ ticket.price }} <span style="font-size:14px">ETB</span></p>
+                                    <p class="m-0 price-words-print" style="font-size: 10px; font-weight: 700; color: #475569; font-style: italic; margin-top: 2px;">({{ ticket.price|price_to_words_intl }})</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qr-area qr-print">
+                        <img src="{{ ticket.qr_code }}" alt="QR" style="width: 160px; height: 160px; border: 4px solid #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                        <div class="mt-3 id-print">
+                            <p class="data-label" style="margin-bottom: 2px;">Ticket ID</p>
+                            <code style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; font-weight: 600; font-size: 12px;">{{ ticket.ticket_id }}</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- MACRO CHECK 2: HANDLE BULK ITERATION LIST QUERYSETS -->
+        {% elif tickets %}
+            {% for ticket in tickets %}
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <div class="logo-brand-wrapper" style="display: flex; align-items: center; gap: 12px; text-align: left;">
+                        {% if company_logo %}
+                            <img src="{{ company_logo }}" alt="{{ name }} Logo" class="company-ticket-logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 8px;">
+                        {% else %}
+                            <div style="width: 55px; height: 55px; background-color: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-bus" style="font-size: 24px; color: #1e3a8a;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h1 class="m-0 brand-title-print" style="font-size: 20px; font-weight: 800; color: #1e3a8a;">Busfermata Digital Tech</h1>
+                            <span class="badge-level">LEVEL: {{ level|default:"Standard" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="operator-meta-print" style="text-align: left;">
+                        <p class="data-label m-0" style="color: #6b7280;">OPERATOR NAME</p>
+                        <h1 class="m-0 operator-title-print" style="font-size: 18px; font-weight: 800; color: #111827;">{{ name }}</h1>
+                    </div>
+
+                    <div class="text-right pnr-container-print">
+                        <p class="data-label m-0" style="color: #b45309;">BOOKING REF / PNR</p>
+                        <h2 class="m-0 pnr-text-print" style="font-size: 24px; font-weight: 900; color: #b45309;" translate="no">{{ ticket.pnr }}</h2>
+                    </div>
+                </div>
+
+                <div class="booking-time-bar" style="display: flex; justify-content: space-between; padding: 8px 16px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px;">
+                    <div><span style="font-weight: 600; color: #475569;">Status:</span> <span style="color: #16a34a; font-weight: 700;">CONFIRMED</span></div>
+                    <div class="booked-time-display" style="color: #475569;"><span style="font-weight: 600;">Booked At:</span> {{ ticket.booked_time }}</div>
+                </div>
+
+                <div class="ticket-content">
+                    <div class="main-info">
+                        <div class="d-flex justify-content-between align-items-start passenger-row-print" style="margin-bottom: 15px;">
+                            <div style="flex: 1;">
+                                <p class="data-label">Passenger Name</p>
+                                <span class="full-name-display">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+                            </div>
+                            <div class="text-right ml-3 gender-print">
+                                <p class="data-label">Gender</p>
+                                <p class="data-value" style="font-size: 16px; font-weight: 700; color: #2563eb; margin: 0;">{{ ticket.gender|upper }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row info-row-print" style="margin-bottom: 12px;">
+                            <div class="col-6 col-print-6">
+                                <p class="data-label">From (መነሻ)</p>
+                                <p class="data-value destination-bold-print">{{ ticket.depcity }}</p>
+                            </div>
+                            <div class="col-6 col-print-6">
+                                <p class="data-label">To (መድረሻ)</p>
+                                <p class="data-value destination-bold-print">{{ ticket.descity }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row info-row-print" style="margin-bottom: 12px;">
+                            <div class="col-4 col-print-4">
+                                <p class="data-label">Plate No</p>
+                                <p class="data-value" style="font-weight: 600; color: #1e293b;">{{ ticket.plate_no }}</p>
+                            </div>
+                            <div class="col-4 col-print-4">
+                                <p class="data-label">Side No</p>
+                                <p class="data-value side-bold-print notranslate" translate="no">{{ ticket.side_no }}</p>
+                            </div>
+                            <div class="col-4 col-print-4">
+                                <p class="data-label">Travel Date</p>
+                                <p class="data-value text-danger date-print" style="font-weight: 700;">{{ ticket.date }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row info-row-print" style="margin-bottom: 15px;">
+                            <div class="col-3 col-print-12">
+                                <p class="data-label">Departure Time</p>
+                                <p class="data-value" style="color: #2563eb; font-weight: 700;">11:30</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-2 pt-3 agent-section-print" style="border-top: 1px solid #e2e8f0;">
+                            <div class="row">
+                                <div class="col-7 col-print-12">
+                                    <p class="data-label">Email Address</p>
+                                    <p class="data-value" style="font-size: 13px; word-break: break-all; color: #475569;">{{ ticket.email|default:"Not Provided" }}</p>
+                                </div>
+                                <div class="col-5 col-print-12">
+                                    <p class="data-label">Issuing Agent</p>
+                                    <p class="data-value" style="font-size: 13px; color: #475569;">
+                                        {% if fname and fname != self %}{{ fname }} {{ lname }}{% else %}System / Online{% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box fare-box-print">
+                            <div class="text-left seat-print">
+                                <p class="data-label" style="margin-bottom: 2px;">Seat No</p>
+                                <p class="m-0" style="font-size: 28px; font-weight: 900; color: #2563eb; line-height: 1;">{{ ticket.no_seat }}</p>
+                            </div>
+                            <div class="text-right total-fare-wrapper-print">
+                                {% load currency_filters %}
+                                <p class="data-label" style="font-size: 11px; color: #6b7280; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">Total Fare</p>
+                                <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                    <p class="m-0 price-text-print" style="font-size: 28px; font-weight: 800; color: #16a34a; line-height: 1;">{{ ticket.price }} <span style="font-size:14px">ETB</span></p>
+                                    <p class="m-0 price-words-print" style="font-size: 10px; font-weight: 700; color: #475569; font-style: italic; margin-top: 2px;">({{ ticket.price|price_to_words_intl }})</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qr-area qr-print">
+                        <img src="{{ ticket.qr_code }}" alt="QR" style="width: 160px; height: 160px; border: 4px solid #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                        <div class="mt-3 id-print">
+                            <p class="data-label" style="margin-bottom: 2px;">Ticket ID</p>
+                            <code style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; font-weight: 600; font-size: 12px;">{{ ticket.ticket_id }}</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<div id="google_translate_element" style="display:none;"></div>
+
+<script type="text/javascript">
+function closeError() {
+    const errorBox = document.getElementById('djangoError');
+    if (errorBox) {
+        errorBox.style.transition = "0.5s ease";
+        errorBox.style.opacity = "0";
+        setTimeout(() => errorBox.remove(), 500);
+    }
+}
+if (document.getElementById('djangoError')) {
+    setTimeout(closeError, 5000);
+}
+
+function downloadPDF(event) {
+    const element = document.getElementById('ticket-container');
+    const btn = event.currentTarget;
+    const originalText = btn.innerHTML;
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating...';
+    btn.disabled = true;
+
+    const opt = {
+        margin: [0.3, 0.3],
+        filename: 'Busfermata_Tickets.pdf',
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true, windowWidth: 1200, scrollX: 0, scrollY: 0 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }).catch(err => {
+        console.error(err);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    });
+}
+
+function googleTranslateElementInit(){
+    new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+}
+function changeLanguage(l){
+    localStorage.setItem("userLanguage",l);
+    var s=document.querySelector("select.goog-te-combo");
+    if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+}
+window.addEventListener("load",function(){
+    const l=localStorage.getItem("userLanguage");
+    if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1500)}
+});
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

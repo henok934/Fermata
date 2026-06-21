@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>About Us | Busfermata - Ethiopia's Digital Travel Pioneer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            color: var(--text-main); 
+            margin: 0; 
+        }
+
+        /* --- NAVIGATION (Exactly like index.html) --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 70px !important; width: auto; border-radius: 10px; 
+            margin-right: 15px; border: 3px solid var(--brand-navy);
+        }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 1px; display: block; }
+        
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 13px; }
+        .nav-link:hover { color: #cc0000 !important; }
+
+        /* --- HERO SECTION --- */
+        .about-hero {
+            height: 40vh;
+            background: linear-gradient(rgba(0,38,77,0.8), rgba(0,38,77,0.6)), url('../static/images/home_slider.jpg');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; color: white; text-align: center;
+        }
+
+        /* --- STORY SECTION --- */
+        .story-card {
+            background: white; border-radius: 24px; padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05); margin-top: -60px;
+            position: relative; z-index: 5; border: 1px solid #e2e8f0;
+        }
+        .amharic-title { font-size: 2.2rem; font-weight: 800; color: var(--brand-navy); border-left: 8px solid var(--brand-gold); padding-left: 20px; }
+        .amharic-text { font-size: 1.15rem; line-height: 1.9; color: #334155; margin-top: 25px; }
+
+        /* --- FEATURE GRID --- */
+        .feature-box {
+            padding: 30px; border-radius: 16px; background: white;
+            transition: 0.3s; border: 1px solid #f1f5f9; text-align: center; height: 100%;
+        }
+        .feature-box:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .feature-icon { font-size: 40px; color: var(--brand-gold); margin-bottom: 20px; }
+
+        /* --- CONTACT PANEL --- */
+        .contact-panel {
+            background: var(--brand-navy); border-radius: 24px; padding: 50px; color: white;
+            background-image: radial-gradient(circle at top right, rgba(255,204,0,0.1), transparent);
+        }
+        .phone-badge {
+            background: var(--brand-gold); color: var(--brand-navy); font-size: 1.8rem;
+            padding: 15px 30px; border-radius: 50px; font-weight: 800; display: inline-block;
+        }
+
+        #dateInput { display: none; margin-left: 10px; width: 140px; border: 2px solid var(--brand-gold); border-radius: 8px; padding: 5px; }
+
+        @media (max-width: 991px) {
+            .about-hero { height: 30vh; }
+            .brand-text { font-size: 20px; }
+            .navbar-collapse { background: white; padding: 20px; border-radius: 10px; margin-top: 10px; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF PORTAL</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <form action="{% url 'changebuses' %}" method="post" class="d-flex align-items-center">
+                        {% csrf_token %}
+                        <button type="button" id="notificationButton" style="background:none; border:none; font-size: 20px;">
+                            🔔<span class="badge badge-danger" style="position:relative; top:-10px; left:-5px;">{{ buschanges_count }}</span>
+                        </button>
+                        <input type="date" name="date" id="dateInput">
+                    </form>
+                </li>
+
+
+		<!--
+		<li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown"
+       style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+
+        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="flex: 1; background-color: #009739;"></div> <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+            </div> <div style="flex: 1; background-color: #EF3340;"></div> </div>
+
+        Language
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right"
+         style="border: none; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.12); padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+
+        <button class="dropdown-item" onclick="changeLanguage('en')"
+                style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer; transition: 0.2s;">
+            <span style="font-size: 0.95rem; color: #2d3436;">English</span>
+            <small style="color: #b2bec3; font-size: 0.7rem; font-weight: 700;">EN</small>
+        </button>
+
+	<li class="nav-item ml-lg-3 mt-2 mt-lg-0">
+                    <a href="{% url 'book' %}" class="btn w-100" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; padding:12px 25px; border-radius:8px;">BOOK NOW</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="about-hero">
+    <div class="container text-center">
+        <h1 style="font-weight: 800; font-size: 3.5rem;">Connecting Ethiopia</h1>
+        <p class="lead" style="font-weight: 600;">Through Trust, Technology, and Excellence</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="story-card">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h2 class="amharic-title">About Us</h2>
+                <div class="amharic-text">
+                    <p><strong>To ward Country Transport Technology</strong>is a visionary, unique, and independent logistics platform established to modernize the travel experience.</p>
+                    <p>Founded by a dedicated family team comprising software development experts and veterans with years of experience in the public transport sector, our platform strives to bridge the gap in Ethiopia’s travel industry. By seamlessly blending deep-rooted industry expertise with modern digital innovation, we are committed to transforming how people move.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center mt-4 mt-lg-0">
+                <img src="../static/images/l.jpeg" style="width: 220px; border-radius: 20px; border: 5px solid var(--brand-navy); box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="feature-box">
+                <i class="fas fa-microchip feature-icon"></i>
+                <h4 style="font-weight: 800; color: var(--brand-navy);">Software Built</h4>
+                <p class="text-muted">Developed by engineers who understand secure, high-speed digital infrastructure.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-box">
+                <i class="fas fa-steering-wheel feature-icon"></i>
+                <h4 style="font-weight: 800; color: var(--brand-navy);">Driver Insight</h4>
+                <p class="text-muted">Designed with direct feedback from Ethiopian drivers to ensure practical solutions.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-box">
+                <i class="fas fa-bus feature-icon"></i>
+                <h4 style="font-weight: 800; color: var(--brand-navy);">Owner Driven</h4>
+                <p class="text-muted">Tailored for transport owners to maximize efficiency and service quality.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-panel mt-5 text-center">
+        <h2 style="font-weight: 800; font-size: 2.5rem; margin-bottom: 30px;">Direct Support Line</h2>
+        <div class="phone-badge mb-4">
+            <i class="fas fa-phone-alt mr-3"></i> +251 975 143 134
+        </div>
+        <div class="mt-4">
+            <p style="font-weight: 600; opacity: 0.8; margin-bottom: 20px;">Available 24/7 for all your travel inquiries</p>
+            <a href="#" class="btn btn-outline-light btn-lg mx-2 px-4" style="border-radius: 12px;"><i class="fab fa-telegram-plane mr-2"></i> Telegram</a>
+            <a href="#" class="btn btn-outline-success btn-lg mx-2 px-4" style="border-radius: 12px;"><i class="fab fa-whatsapp mr-2"></i> WhatsApp</a>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main" style="background: var(--brand-navy); color: white; padding: 60px 0 30px; margin-top: 80px; text-align: center;">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p style="opacity: 0.5;">© 2026 Busfermata • Shaping the Future of Ethiopian Mobility</p>
+        <div class="mt-4">
+            <i class="fab fa-facebook mx-3"></i><i class="fab fa-telegram mx-3"></i><i class="fab fa-instagram mx-3"></i>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+        dateInput.style.display = (dateInput.style.display === 'none' || dateInput.style.display === '') ? 'inline-block' : 'none';
+        if(dateInput.style.display === 'inline-block') dateInput.focus();
+    });
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

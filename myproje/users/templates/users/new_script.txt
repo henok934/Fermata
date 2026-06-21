@@ -1,0 +1,42 @@
+cat << 'EOF' > new_script.txt
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: "en", 
+            includedLanguages: "en,am,om,ti", 
+            autoDisplay: false
+        }, "google_translate_element");
+    }
+
+    function changeLanguage(l) {
+        localStorage.setItem("userLanguage", l);
+        location.reload(); 
+    }
+
+    (function applyLanguagePersistence() {
+        const savedLang = localStorage.getItem("userLanguage");
+        if (savedLang && savedLang !== "en") {
+            // Hide the page content to prevent English flickering
+            document.documentElement.style.visibility = 'hidden';
+
+            var checkExist = setInterval(function() {
+                var selectField = document.querySelector("select.goog-te-combo");
+                if (selectField) {
+                    selectField.value = savedLang;
+                    selectField.dispatchEvent(new Event("change"));
+                    
+                    // Show page once translation is triggered
+                    setTimeout(() => {
+                        document.documentElement.style.visibility = 'visible';
+                    }, 150); 
+                    
+                    clearInterval(checkExist);
+                }
+            }, 50);
+
+            // Safety timeout
+            setTimeout(() => { document.documentElement.style.visibility = 'visible'; }, 3000);
+        }
+    })();
+</script>
+EOF

@@ -1,0 +1,307 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Retrieve Your Ticket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --error-red: #dc2626;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            display: flex; flex-direction: column; min-height: 100vh;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main {
+            background: white; padding: 12px 0; border-bottom: 5px solid var(--brand-gold);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .brand-logo { height: 50px; border-radius: 8px; border: 2px solid var(--brand-navy); }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; text-transform: uppercase; line-height: 1; }
+        .nav-link { font-weight: 700; color: var(--brand-navy) !important; font-size: 13px; text-transform: uppercase; padding: 10px 15px !important; transition: 0.3s; }
+        .nav-link:hover { color: var(--brand-gold) !important; }
+
+        /* --- HERO SLIDER --- */
+        .hero-slider .carousel-item { height: 400px; background-size: cover; background-position: center; }
+        .slider-overlay {
+            background: rgba(0, 38, 77, 0.7); height: 100%; width: 100%;
+            display: flex; align-items: center; justify-content: center; color: white; text-align: center;
+        }
+
+        /* --- GLASSMORPISM ERROR TOAST --- */
+        .intl-error-toast {
+            position: fixed; top: 100px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; min-width: 350px; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 1px solid rgba(220, 38, 38, 0.1); overflow: hidden;
+            display: none; animation: slideDownFade 0.5s forwards;
+        }
+        .toast-content { display: flex; align-items: center; padding: 16px 20px; gap: 15px; }
+        .toast-icon { width: 40px; height: 40px; background: #fef2f2; color: #dc2626; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .toast-message { display: flex; flex-direction: column; flex-grow: 1; }
+        .toast-title { font-weight: 800; color: #1e293b; font-size: 11px; text-transform: uppercase; }
+        .toast-desc { color: #64748b; font-size: 13px; font-weight: 600; }
+        .toast-progress { height: 4px; width: 100%; background: #dc2626; transform-origin: left; }
+        .active-progress { animation: progressOut 5s linear forwards; }
+        
+        @keyframes slideDownFade { from { top: -50px; opacity: 0; } to { top: 100px; opacity: 1; } }
+        @keyframes progressOut { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+        /* --- FORM CARD --- */
+        .retrieve-container {
+            max-width: 800px; margin: -60px auto 60px; background: white; 
+            padding: 40px; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            position: relative; z-index: 10;
+        }
+        .input-group-custom label { font-weight: 800; color: var(--brand-navy); font-size: 11px; margin-bottom: 8px; display: block; letter-spacing: 1px; }
+        .input-field { 
+            background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; 
+            padding: 12px 18px; display: flex; align-items: center; margin-bottom: 20px; transition: 0.3s;
+        }
+        .input-field:focus-within { border-color: var(--brand-navy); background: white; }
+        .input-field input { border: none; background: transparent; width: 100%; outline: none; font-weight: 700; color: var(--brand-navy); }
+        .input-field i { color: #94a3b8; margin-right: 12px; }
+
+        .btn-retrieve {
+            background: var(--brand-navy); color: white !important; font-weight: 800; height: 60px;
+            border-radius: 14px; width: 100%; text-transform: uppercase; border: none; transition: 0.3s;
+        }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 40px 0; margin-top: auto; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="intl-error-toast" id="djangoError" {% if error %}style="display: block;"{% endif %}>
+    <div class="toast-content">
+        <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+        <div class="toast-message">
+            <span class="toast-title">System Message</span>
+            <span class="toast-desc" id="errorDesc">{% if error %}{{ error }}{% endif %}</span>
+        </div>
+        <button class="bg-transparent border-0" onclick="closeError()"><i class="fas fa-times text-muted"></i></button>
+    </div>
+    <div class="toast-progress {% if error %}active-progress{% endif %}" id="toastBar"></div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+          <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+	    <div>
+<span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span>
+</br>
+                <h5 class="brand-tagline" style="color: #007A78 !important; font-weight: bold !important; display: inline; margin: 0; padding: 0;">Digital Technology</h5>
+	    </div>
+        </a>
+	<style>
+  .brand-subtext {
+    color: yellow;
+    font-size: 0.8rem; /* This minimizes the size */
+    text-transform: uppercase;
+  }
+</style>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item ml-lg-3">
+                    <a class="btn px-4" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; border-radius:10px;" href="{% url 'book' %}">BOOK NOW</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="heroSlider" class="carousel slide hero-slider" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active" style="background-image: url('../static/images/home_slider.jpg');">
+            <div class="slider-overlay">
+                <div class="container">
+                    <h1 class="display-4 font-weight-bold">Retrieve Your Ticket</h1>
+                    <p class="lead">Lost your confirmation? Find it here in seconds.</p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" style="background-image: url('../static/images/home_slider.jpg');">
+            <div class="slider-overlay">
+                <div class="container">
+                    <h1 class="display-4 font-weight-bold">Seamless Travel</h1>
+                    <p class="lead">Digital ticketing for the modern Ethiopian traveler.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#heroSlider" data-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+    <a class="carousel-control-next" href="#heroSlider" data-slide="next"><span class="carousel-control-next-icon"></span></a>
+</div>
+
+<div class="retrieve-container">
+    <form id="ticketForm" action="{% url 'get_ticket' %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group-custom">
+                    <label>FIRST NAME <span class="text-danger">*</span></label>
+                    <div class="input-field"><i class="fas fa-user"></i><input type="text" name="firstname" id="fname" required class="cap-input"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group-custom">
+                    <label>FATHER NAME <span class="text-danger">*</span></label>
+                    <div class="input-field"><i class="fas fa-users"></i><input type="text" name="lastname" id="lname" required class="cap-input"></div>
+                </div>
+            </div>
+        </div>
+
+	<div class="row">
+    <div class="col-md-6">
+        <div class="input-group-custom">
+            <label>FROM (DEPARTURE) <span class="text-danger">*</span></label>
+            <div class="input-field">
+                <i class="fas fa-bus"></i>
+		<!-- <input list="city-list" name="depcity" id="departure_input" placeholder="Origin" required>-->
+		                    <input list="city-list" name="depcity" placeholder="e.g. Addis Ababa" required id="departure_input"      oninput="let v=this.value.replace(/\s/g, ''); this.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group-custom">
+            <label>TO (DESTINATION) <span class="text-danger">*</span></label>
+            <div class="input-field">
+                <i class="fas fa-location-dot"></i>
+		<!-- <input list="city-list" name="descity" id="destination_input" placeholder="Destination" required>-->
+		                    <input list="city-list" name="descity" placeholder="e.g. Hawassa" required       oninput="let v=this.value.replace(/\s/g, ''); this.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();" id="destination_input">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+       <datalist id="city-list">
+    {% for city in des %}
+        {% if city.depcity != 'Asko' and city.depcity != 'Lamberet' and city.depcity != 'Kality' and city.depcity != 'Autobustera' and city.depcity != 'Ayertena' %}
+            <option value="{{ city.depcity }}">
+        {% endif %}
+    {% endfor %}
+</datalist>
+<!--
+<datalist id="city-list">
+    {% for city in des %}
+        {% if city.depcity %}
+            <option value="{{ city.depcity }}">
+        {% endif %}
+    {% endfor %}
+</datalist>
+-->
+	<div class="input-group-custom">
+            <label>TRAVEL DATE <span class="text-danger">*</span></label>
+            <div class="input-field"><i class="fas fa-calendar-alt"></i><input type="date" name="date" required></div>
+        </div>
+        <button type="submit" class="btn-retrieve">Search and Download</button>
+    </form>
+</div>
+<footer class="footer-main text-center">
+    <div class="container">
+        <p class="small opacity-50 m-0">© 2026 Busfermata Digital Technology. All Rights Reserved.</p>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const toast = document.getElementById('djangoError');
+    const toastBar = document.getElementById('toastBar');
+    const errorDesc = document.getElementById('errorDesc');
+    function showError(msg) {
+        errorDesc.innerText = msg;
+        toast.style.display = 'block';
+        toast.style.opacity = '1';
+        toastBar.classList.remove('active-progress');
+        void toastBar.offsetWidth; 
+        toastBar.classList.add('active-progress');
+        setTimeout(closeError, 5000);
+    }
+
+    function closeError() {
+        toast.style.opacity = '0';
+        setTimeout(() => { toast.style.display = 'none'; }, 500);
+    }
+
+    if (toast.style.display === 'block') setTimeout(closeError, 5000);
+
+    document.getElementById('ticketForm').addEventListener('submit', function(e) {
+        const fname = document.getElementById('fname').value.trim().toLowerCase();
+        const lname = document.getElementById('lname').value.trim().toLowerCase();
+        const dep = document.getElementById('depcity').value;
+        const des = document.getElementById('descity').value;
+
+        if (fname === lname && fname !== "") {
+            e.preventDefault();
+            showError("First Name and Last Name cannot be the same!");
+        } else if (dep === des && dep !== "") {
+            e.preventDefault();
+            showError("Departure and Destination cannot be the same city!");
+        }
+    });
+
+    document.querySelectorAll('.cap-input').forEach(i => {
+        i.addEventListener('input', function() {
+            let p = this.selectionStart;
+            this.value = this.value.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            this.setSelectionRange(p, p);
+        });
+    });
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

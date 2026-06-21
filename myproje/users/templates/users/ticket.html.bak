@@ -1,0 +1,2680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Ticket</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body>
+<div class="super_container">
+	<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="user_box ml-auto">
+							<div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+							<div class="user_box_register user_box_link"><a href="{% url 'registor' %}">register</a></div>			
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+			
+
+		<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">HOME</a>
+        </li>
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+<li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+<li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    // Automatically submit the form when a date is selected
+    document.getElementById('dateInput').addEventListener('change', function() {
+ document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</header>
+</br> 
+<style>
+  .center-input {
+    text-align: center;
+  }
+  .form-row {
+    display: flex;
+    align-items: center;
+  }
+  .form-row div {
+    margin-right: 40px;
+  }
+</style>
+</br></br></br></br></br></br></br>
+</br>
+
+{% if success %}
+    <div class="success">
+    <h3 style="color: green; margin-left: 150px;"><b>{{ success }}</b><span style="margin-left:30px;" class="symbol">✔</span></h3>
+    
+    </div>
+{% endif %}
+        <img src="{{ qr_code }}" alt="QR Code">
+
+{% if error %}
+    <div class="success">
+    <h3 style="color: red; margin-left: 150px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">X</span></h3>
+    </div>
+{% endif %}
+
+{% if routes %}
+  {% for route in routes %}
+<style>
+    body {
+        background-color: pink;
+    }
+    .error {
+        background-color: lightcoral;
+        display: inline-block;
+        padding: 10px;
+        margin-left: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .symbol {
+        background-color: pink;
+        color: black;
+        font-size: 24px;
+        padding: 5px;
+        margin-left: 70px;    }
+</style>
+</br></br></br>
+
+<h3 style="color: blue; margin: 0 auto; text-align: right; white-space: nowrap; max-width: 100%;"><b style="color: green; margin-right: 20px;">Travel Date</b><b style="margin-right: 30px;">{{ route.date }}</b></h3>
+      <div class="container fill_height">
+        <div class="row fill_height">
+
+          <div class="col fill_height">
+		  </br>
+    <h3 style="text-align: center; margin-left: -60px; background-color: green; color: white; display: inline-block;">
+	 <strong style="background-color: green; color: white;">{{ remaining_seats }}:</strong><span style="background-color: green; color: white;">Seats Left</span></h3>
+<div class="search_panel active">
+
+<form action="{% url 'ticket' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+	   {% csrf_token %}
+    <div class="search_item">
+      {{new_account}}
+
+<div style="text-align: center; margin: 0 auto;">
+    <h3 style="color: blue; white-space: nowrap; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;">
+        <b class="from-label" style="color: green; margin-left: 300px;">From:</b>
+        <b>{{ route.depcity }}</b>
+        <b style="color: green; margin-left: 10px;">To:</b>
+        <b>{{ route.descity }}</b>
+    </h3>
+</div>
+
+<style>
+    @media (min-width: 769px) {
+        .from-label {
+            margin-left: 40px; /* Adjust this value for desired space */
+        }
+    }
+</style>
+
+
+<style>
+    @media (max-width: 768px) {
+        h3 {
+            margin: 0; /* Ensure no margin on the h3 */
+            padding: 0; /* Ensure no padding on the h3 */
+        }
+        h3 b {
+            margin-top: -100px !important; /* Set top margin to 0 for smaller devices */
+            margin-left: 0; /* Adjust left margin if needed */
+            padding: 0; /* Add padding if necessary */
+        }
+    }
+</style>
+
+
+
+<style>                  
+#firstname {
+width: 280px;
+height: 40px;
+}
+</style>
+<style>
+        .seat-selection {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 5px 0;
+        }
+        .seat {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .seat.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .center-input {
+            text-align: center;
+        }
+    </style>
+
+<div class="form-row">
+<div style="display: flex; align-items: center; margin-left: 200px;">
+    <div style="margin-right: 10px; white-space: nowrap;">First Name:</div>
+    <input type="text" id="firstname" name="firstname" maxlength="15" class="form-control" style="width: 200px; text-align: center; text-transform: capitalize;" oninput="validatedepcity(this)" required>
+    <span id="error-message" style="color: red; display: none; position: absolute; top: 100%; left: 0;"></span>
+</div>
+<script>
+function validatedepcity(input) {
+    var value = input.value.trim();
+    var errorMessage = document.getElementById("error-message");
+    if (!value.match(/^[a-zA-Z]+$/)) {
+        errorMessage.textContent = "Please enter a character for city.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a character for city.");
+    } else if (value.length < 4) {
+        errorMessage.textContent = "Please enter at least 4 characters.";
+        input.setCustomValidity("Please enter at least 4 characters.");
+        errorMessage.style.display = "block";
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+    input.value = value.charAt(0).toUpperCase() + value.slice(1);
+}
+</script>
+<div style="display: flex; align-items: center; margin-left: 200px;">
+   <div style="margin-right: 10px; white-space: nowrap;">Last Name:</div>
+    <input type="text" id="lastname" name="lastname" maxlength="15" class="form-control" style="width: 200px; text-align: center; text-transform: capitalize;" oninput="validatedepcity(this)" required>
+    <span id="error-message" style="color: red; display: none; position: absolute; top: 100%; left: 0;"></span>
+</div>
+<script>
+function validatedepcity(input) {
+    var value = input.value.trim();
+    var errorMessage = document.getElementById("error-message");
+    if (!value.match(/^[a-zA-Z]+$/)) {
+        errorMessage.textContent = "Please enter a character for name.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a character for name.");
+    } else if (value.length < 4) {
+        errorMessage.textContent = "Please enter at least 4 characters.";
+        input.setCustomValidity("Please enter at least 4 characters.");
+        errorMessage.style.display = "block";
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+    input.value = value.charAt(0).toUpperCase() + value.slice(1);
+}
+</script>
+
+<div style="display: flex; align-items: center; margin-left: 200px;">
+    <div>Phone:</div>
+    <input type="text" id="phone" name="phone" maxlength="10" class="form-control" style="width: 200px; text-align: center;" oninput="validatePhone(this)" required>
+    <div id="phoneError" style="color: red;"></div>
+</div>
+<script>
+function validatePhone(input) {
+    var phoneError = document.getElementById("phoneError");
+    var phoneNumber = input.value.replace(/[^0-9]/g, '');
+    if (isNaN(parseInt(phoneNumber))) {
+        phoneError.textContent = "Please enter a number for phone number.";
+        input.setCustomValidity("Please enter a number.");
+    } else if (!phoneNumber.startsWith("09")) {
+        phoneError.textContent = "Please start with 09.";
+        input.setCustomValidity("Please start with 09.");
+    } else if (phoneNumber.length !== 10) {
+        phoneError.textContent = "Please enter 10 digits only.";
+        input.setCustomValidity("Please enter 10 digits only.");
+    } else {
+        phoneError.textContent = "";
+        input.setCustomValidity("");
+    }
+}
+</script>
+
+<div style="text-align: center; margin-top: 20px;margin-left:350px;">
+    <button id="submitButton" class="btn btn-primary">Book</button>
+</div>
+        <input type="hidden" size="30" name="depcity" value="{{ route.depcity }}" maxlength="20" required class="center-input" readonly style="width: 120px;">
+        <input type="hidden" size="30" name="descity" value="{{ route.descity }}" maxlength="20" required class="center-input" readonly style="width: 120px;">
+<div style="display: flex; align-items: center; margin-left: 800px; margin-top: 20px;">
+	<style>
+        .inline-text {
+            color: blue;
+            display: inline; /* Ensures the text is inline */
+            margin: 0;      /* Removes default margins */
+        }
+    </style>
+
+<!--
+<div class="seat-container">
+    <select name="no_seat" id="seat_no" class="form-control" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+    <input type="text" id="selected_seat" name="no_seat" class="form-control" placeholder="Selected Seat" readonly />
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}" data-value="{{ seat }}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space below dropdown */
+        width: 300px; /* Width of the input */
+        border-radius: 20px; /* Rounded corners */
+        padding: 10px; /* Padding inside the input */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        justify-content: center; /* Center seats in the row */
+        gap: 10px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 30px; /* Width of the seat */
+        height: 30px; /* Height of the seat */
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        background-color: green; /* Default color */
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+</style>
+
+<script>
+    const selectElement = document.getElementById('seat_no');
+    const inputElement = document.getElementById('selected_seat');
+    const buttonElement = document.getElementById('submit_button');
+
+    selectElement.addEventListener('change', function() {
+        inputElement.value = this.value; // Update input with selected seat
+    });
+
+    buttonElement.addEventListener('click', function() {
+        alert('Selected Seat: ' + inputElement.value); // Example action on submit
+    });
+</script>
+-->
+
+
+
+
+
+
+<!--
+    <div class="seat-container">
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}" data-value="{{ seat }}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        justify-content: center; /* Center seats in the row */
+        gap: 10px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 30px; /* Width of the seat */
+        height: 30px; /* Height of the seat */
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        background-color: green; /* Default color */
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+</style>
+-->
+
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space below dropdown */
+        width: 300px; /* Width of the dropdown */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        justify-content: center; /* Center seats in the row */
+        gap: 10px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 30px; /* Width of the seat */
+        height: 30px; /* Height of the seat */
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        background-color: green; /* Default color */
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+</style>
+-->
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter|divisibleby:5 %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space below dropdown */
+        width: 300px; /* Width of the dropdown */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        justify-content: center; /* Center seats in the row */
+        gap: 10px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 30px; /* Width of the seat */
+        height: 30px; /* Height of the seat */
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        background-color: green; /* Default color */
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space below dropdown */
+        width: 300px; /* Width of the dropdown */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        justify-content: center; /* Center seats in the row */
+        gap: 10px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 30px; /* Width of the seat */
+        height: 30px; /* Height of the seat */
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        background-color: green; /* Default color */
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+</style>
+-->
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <div class="custom-select">
+        <div class="selected" id="selected">Select a seat</div>
+        <div class="options">
+            {% for seat in all_seats %}
+                <div class="option {% if seat in booked_seats %}booked{% endif %}" data-value="{{ seat }}">
+                    {{ seat }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .custom-select {
+        position: relative;
+        width: 300px;
+        cursor: pointer;
+        border-radius: 20px;
+        background-color: white;
+        border: 1px solid #ccc;
+    }
+    .selected {
+        padding: 10px;
+        border-radius: 20px;
+        text-align: center;
+    }
+    .options {
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    .option {
+        padding: 10px;
+        border-radius: 20px;
+        text-align: center;
+        background-color: green; /* Default color */
+        color: white;
+        margin: 5px 0;
+    }
+    .option.booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+</style>
+
+<script>
+    document.getElementById('selected').addEventListener('click', function() {
+        const options = document.querySelector('.options');
+        options.style.display = options.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', function() {
+            if (!this.classList.contains('booked')) {
+                document.getElementById('selected').innerText = this.innerText;
+                document.querySelector('.options').style.display = 'none';
+            }
+        });
+    });
+</script>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space below dropdown */
+        border-radius: 20px; /* Circular background */
+        padding: 10px; /* Space inside the dropdown */
+        background-color: white; /* Background color */
+        border: 1px solid #ccc; /* Border color */
+    }
+    .form-control option {
+        border-radius: 20px; /* Circular background for options */
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter == 2 or forloop.counter == 5 or forloop.counter == 7 %}</div><div class="row">{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space between dropdown and seats */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        gap: 20px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        background-color: green; /* Default color */
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+</style>
+-->
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" class="{% if seat in booked_seats %}booked{% endif %}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space between dropdown and seats */
+        padding: 10px;
+        border-radius: 5px; /* Rounded corners */
+    }
+    .form-control option {
+        border-radius: 20px; /* Circular background */
+        padding: 10px; /* Space inside options */
+    }
+    .booked {
+        background-color: red; /* Booked color */
+    }
+    .seat:not(.booked) {
+        background-color: green; /* Unbooked color */
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter == 2 or forloop.counter == 5 or forloop.counter == 7 %}</div><div class="row">{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space between dropdown and seats */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        gap: 20px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .seat:not(.booked) {
+        background-color: green; /* Unbooked color */
+    }
+</style>
+-->
+
+
+
+
+<!--
+<select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="showSeats();">
+    <option value="" disabled selected>Select a seat</option>
+    {% for seat in all_seats %}
+        <option value="{{ seat }}" {% if seat in booked_seats %}disabled{% endif %}>{{ seat }}</option>
+    {% endfor %}
+</select>
+
+<div id="seat-display" class="seat-container" style="display: none; margin-top: 20px;">
+    {% for seat in all_seats %}
+        <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+             id="seat-{{ seat }}"
+             onclick="selectSeat('{{ seat }}');"
+             {% if seat in booked_seats %} title="Booked"{% endif %}>
+            {{ seat }}
+        </div>
+    {% endfor %}
+</div>
+
+<div id="seat-message" style="color: blue; display: none;"></div>
+<input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px;">
+
+<style>
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: green; /* Unbooked color */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .selected {
+        background-color: yellow; /* Highlight selected seat */
+    }
+</style>
+
+<script>
+    function showSeats() {
+        const seatDisplay = document.getElementById('seat-display');
+        seatDisplay.style.display = 'block'; // Show the seat display
+    }
+
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`#seat-${seat}.booked`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block';
+            return;
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block';
+
+        // Highlight selected seat
+        const seatElement = document.getElementById(`seat-${seat}`);
+        seatElement.classList.add('selected');
+    }
+</script>
+-->
+
+
+
+<!--
+<select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateSeat();">
+    <option value="" disabled selected>Select a seat</option>
+</select>
+
+<div class="seat-container">
+    {% for seat in all_seats %}
+        <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+             id="seat-{{ seat }}"
+             onclick="selectSeat('{{ seat }}');"
+             {% if seat in booked_seats %} title="Booked"{% endif %}>
+            {{ seat }}
+        </div>
+    {% endfor %}
+</div>
+
+<div id="seat-message" style="color: blue; display: none;"></div>
+<input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px;">
+
+<style>
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: green; /* Unbooked color */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .selected {
+        background-color: yellow; /* Highlight selected seat */
+    }
+</style>
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`#seat-${seat}.booked`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block';
+            return;
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block';
+
+        // Highlight selected seat
+        const seatElement = document.getElementById(`seat-${seat}`);
+        seatElement.classList.add('selected');
+
+        // Update dropdown value
+        const seatSelect = document.getElementById('seat_no');
+        seatSelect.value = seat; // Update dropdown to selected seat
+    }
+
+    function updateSeat() {
+        const seatSelect = document.getElementById('seat_no');
+        const selectedSeat = seatSelect.value;
+        selectSeat(selectedSeat);
+    }
+</script>
+-->
+
+
+<!--
+<div class="seat-container">
+    <div class="custom-dropdown">
+        <div class="selected" id="selected-seat">Select a seat</div>
+        <div class="options">
+            {% for seat in all_seats %}
+                <div class="option {% if seat in booked_seats %}booked{% endif %}" 
+                     {% if seat in booked_seats %}disabled{% endif %}>
+                    {{ seat }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .custom-dropdown {
+        position: relative;
+        width: 300px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: center;
+    }
+    .selected {
+        padding: 10px;
+        background-color: white;
+    }
+    .options {
+        display: none;
+        position: absolute;
+        width: 100%;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        z-index: 1;
+    }
+    .option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin: 5px auto;
+        color: white;
+        cursor: pointer;
+    }
+    .option.booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .option:not(.booked) {
+        background-color: green; /* Unbooked color */
+    }
+    .custom-dropdown:hover .options {
+        display: block;
+    }
+</style>
+-->
+
+
+<!--
+<script>
+    document.querySelector('.selected').addEventListener('click', function() {
+        const options = document.querySelector('.options');
+        options.style.display = options.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', function() {
+            if (!this.classList.contains('booked')) {
+                document.getElementById('selected-seat').innerText = this.innerText;
+                document.querySelector('.options').style.display = 'none';
+            }
+        });
+    });
+</script>
+<div class="seat-container">
+    <div class="custom-dropdown">
+        <div class="selected" id="selected-seat">Select a seat</div>
+        <div class="options">
+            {% for seat in all_seats %}
+                <div class="option {% if seat in booked_seats %}booked{% endif %}" 
+                     {% if seat in booked_seats %}disabled{% endif %}>
+                    {{ seat }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .custom-dropdown {
+        position: relative;
+        width: 300px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: center;
+    }
+    .selected {
+        padding: 10px;
+        background-color: white;
+    }
+    .options {
+        display: none;
+        position: absolute;
+        width: 100%;
+        max-height: 120px; /* Limit height to show only a few options */
+        overflow-y: auto; /* Enable scrolling */
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        z-index: 1;
+    }
+    .option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin: 5px auto;
+        color: white;
+        cursor: pointer;
+    }
+    .option.booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .option:not(.booked) {
+        background-color: green; /* Unbooked color */
+    }
+    .custom-dropdown:hover .options {
+        display: block;
+    }
+</style>
+
+<script>
+    document.querySelector('.selected').addEventListener('click', function() {
+        const options = document.querySelector('.options');
+        options.style.display = options.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', function() {
+            if (!this.classList.contains('booked')) {
+                document.getElementById('selected-seat').innerText = this.innerText;
+                document.querySelector('.options').style.display = 'none';
+            }
+        });
+    });
+</script>
+-->
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter == 2 or forloop.counter == 5 or forloop.counter == 7 %}</div><div class="row">{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space between dropdown and seats */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        gap: 20px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .seat:not(.booked) {
+        background-color: green; /* Unbooked color */
+    }
+</style>
+-->
+
+<!--
+<div class="seat-container">
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter == 2 or forloop.counter == 5 or forloop.counter == 7 %}</div><div class="row">{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        gap: 20px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .seat:not(.booked) {
+        background-color: green; /* Unbooked color */
+    }
+</style>
+-->
+
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% else %}style="color: green;"{% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="seat-display">
+        <div class="row">
+            {% for seat in all_seats %}
+                <div class="seat {% if seat in booked_seats %}booked{% endif %}">
+                    {{ seat }}
+                </div>
+                {% if forloop.counter == 2 or forloop.counter == 5 or forloop.counter == 7 %}</div><div class="row">{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 20px; /* Space between dropdown and seats */
+    }
+    .seat-display {
+        display: flex;
+        flex-direction: column; /* Stacks rows vertically */
+        align-items: center; /* Center rows */
+    }
+    .row {
+        display: flex;
+        gap: 20px; /* Space between seats */
+        margin-bottom: 10px; /* Space between rows */
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Circular shape */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .seat:not(.booked) {
+        background-color: green; /* Unbooked color */
+    }
+</style>
+-->
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" 
+                {% if seat in booked_seats %}
+                    disabled style="color: red;"
+                {% else %}
+                    style="color: green;"
+                {% endif %}>
+                <span class="seat-circle {% if seat in booked_seats %}booked{% endif %}">{{ seat }}</span>
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .seat-circle {
+        display: inline-block;
+        width: 30px;  /* Adjust size as needed */
+        height: 30px; /* Adjust size as needed */
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px; /* Center text vertically */
+        margin-right: 5px;
+        background-color: green; /* Unbooked color */
+        color: white;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+    }
+</style>
+-->
+
+
+
+
+
+
+
+<!--
+<div class="seat-container">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required>
+        <option value="" disabled selected>Select a seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}" 
+                {% if seat in booked_seats %}
+                    disabled style="color: white; background-color: red;"
+                {% else %}
+                    style="background-color: green;"
+                {% endif %}>
+                {{ seat }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<style>
+    .seat-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .form-control {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 16px;
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="seat-container" style="margin-top: 20px;">
+ <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateSeat();" required>
+    <option value="" disabled selected>Select a seat</option>
+    {% for seat in all_seats %}
+        <option value="{{ seat }}" {% if seat in booked_seats %}disabled style="color: red;"{% endif %}>{{ seat }}</option>
+    {% endfor %}
+</select>
+</div>
+<div id="seat-message" style="color: blue; display: none;"></div>
+<input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px;">
+
+<style>
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: green; /* Unbooked color */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .selected {
+        background-color: yellow; /* Highlight selected seat */
+    }
+</style>
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`#seat-${seat}.booked`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block';
+            return;
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block';
+
+        // Highlight selected seat
+        const seatElement = document.getElementById(`seat-${seat}`);
+        seatElement.classList.add('selected');
+
+        // Update dropdown value
+        const seatSelect = document.getElementById('seat_no');
+        seatSelect.value = seat; // Update dropdown to selected seat
+    }
+
+    function updateSeat() {
+        const seatSelect = document.getElementById('seat_no');
+        const selectedSeat = seatSelect.value;
+        selectSeat(selectedSeat);
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+ <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateSeat();">
+    <option value="" disabled selected>Select a seat</option>
+</select>
+
+<div class="seat-container">
+    {% for seat in all_seats %}
+        <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+             id="seat-{{ seat }}"
+             onclick="selectSeat('{{ seat }}');"
+             {% if seat in booked_seats %} title="Booked"{% endif %}>
+            {{ seat }}
+        </div>
+    {% endfor %}
+</div>
+
+<div id="seat-message" style="color: blue; display: none;"></div>
+<input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px;">
+
+<style>
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: green; /* Unbooked color */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .selected {
+        background-color: yellow; /* Highlight selected seat */
+    }
+</style>
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`#seat-${seat}.booked`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block';
+            return;
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block';
+
+        // Highlight selected seat
+        const seatElement = document.getElementById(`seat-${seat}`);
+        seatElement.classList.add('selected');
+        
+        // Update dropdown value
+        const seatSelect = document.getElementById('seat_no');
+        seatSelect.value = seat; // Update dropdown to selected seat
+    }
+
+    function updateSeat() {
+        const seatSelect = document.getElementById('seat_no');
+        const selectedSeat = seatSelect.value;
+        selectSeat(selectedSeat);
+    }
+</script>
+-->
+
+
+
+
+
+
+
+
+
+
+<!--
+<select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateSeat();">
+<option value="" disabled selected>Select a seat</option>
+    {% for seat in all_seats %}
+        <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+             onclick="selectSeat('{{ seat }}');"
+             {% if seat in booked_seats %} title="Booked"{% endif %}>
+            {{ seat }}
+        </div>
+    {% endfor %}
+</select>
+
+<div id="seat-message" style="color: blue; display: none;"></div>
+<input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px;">
+<style>
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: green; /* Unbooked color */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .booked {
+        background-color: red; /* Booked color */
+        cursor: not-allowed;
+    }
+    .selected {
+        background-color: yellow; /* Highlight selected seat */
+    }
+</style>
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`.seat.booked[title="${seat}"]`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block';
+            return;
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block';
+
+        // Highlight selected seat
+        const seatElement = document.querySelector(`.seat:contains('${seat}')`);
+        seatElement.classList.add('selected');
+    }
+
+    function updateSeat() {
+        const seatSelect = document.getElementById('seat_no');
+        const selectedSeat = seatSelect.value;
+        selectSeat(selectedSeat);
+    }
+</script>
+-->
+
+
+
+
+
+
+<!--
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateWenberkutr(); updateSeatMessage();">
+    <option value="" disabled selected>Select a seat</option>
+    {% for seat in all_seats %}
+        <option value="{{ seat }}">{{ seat }}</option>
+    {% endfor %}
+</select>
+
+<img src="../static/images/bus3.jpg" alt="Driver" width="100" height="80" style="margin-right: 5px; margin-left: -150px; margin-top:-1500px;">
+
+<style>
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 500px;
+        margin: 20px auto;
+        margin-top: -300px;
+        margin-left: -150px;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: green;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .booked {
+        background-color: red;
+        cursor: not-allowed;
+    }
+    .selected {
+        background-color: yellow;
+        margin-top: -100px;
+    }
+</style>
+
+<div class="seat-container">
+    {% for seat in all_seats %}
+        <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+             onclick="selectSeat('{{ seat }}');"
+             {% if seat in booked_seats %} title="Booked"{% endif %}>
+            {{ seat }}
+        </div>
+    {% endfor %}
+</div>
+
+<div id="seat-message" style="color: blue; display: none;"></div>
+<input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px;">
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`.seat.booked[title="${seat}"]`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block'; // Show booked message
+            return; // Prevent selecting a booked seat
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block'; // Show selected seat message
+
+        seatMessage.style.position = 'absolute';
+        seatMessage.style.top = '-400px'; // Adjust as needed
+        seatMessage.style.left = '30%'; // Center horizontally
+        seatMessage.style.transform = 'translateX(-50%)'; // Center alignment
+
+        // Highlight selected seat
+        const seatElement = document.querySelector(`.seat:contains('${seat}')`);
+        seatElement.classList.add('selected');
+    }
+</script>
+-->
+
+
+
+<!--
+<select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateWenberkutr(); updateSeatMessage();">
+
+ <img src="../static/images/bus3.jpg" alt="Driver" width="100" height="80" style="margin-right: 5px; margin-left: -150px; margin-top:-1500px;">
+
+<style>
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* Five seats per row */
+        gap: 20px; /* Space between seats */
+        max-width: 500px; /* Adjust width as needed */
+        margin: 20px auto; /* Center the container */
+	margin-top:-300px;
+	margin-left:-150px;
+    }
+    .seat {
+        width: 40px; /* Circle width */
+        height: 40px; /* Circle height */
+        background-color: green; /* Available seat color */
+        color: white; /* Text color */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%; /* Make it circular */
+        cursor: pointer; /* Pointer on hover */
+        transition: background-color 0.3s;
+        font-size: 14px; /* Adjust font size as needed */
+    }
+    .booked {
+        background-color: red; /* Booked seat color */
+        cursor: not-allowed; /* Not allowed for booked seats */
+    }
+    .selected {
+        background-color: yellow; /* Color for selected seat */
+	margin-top:-100px;
+    }
+</style>
+ 
+<div class="seat-container">
+    {% for seat in all_seats %}
+        <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+             onclick="selectSeat('{{ seat }}');"
+             {% if seat in booked_seats %} title="Booked"{% endif %}>
+            {{ seat }}
+        </div>
+    {% endfor %}
+</div>
+
+<div id="seat-message" style="color: blue; display: none;"></div>
+<input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px;">
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`.seat.booked[title="${seat}"]`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block'; // Show booked message
+            return; // Prevent selecting a booked seat
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block'; // Show selected seat message
+
+	seatMessage.style.position = 'absolute'; // or 'fixed' depending on your layout
+	seatMessage.style.top = '-400'; // Adjust as needed
+	seatMessage.style.left = '30%'; // Center horizontally
+	seatMessage.style.transform = 'translateX(-50%)'; // Center alignment
+
+        // Highlight selected seat
+        const seatElement = document.querySelector(`.seat:contains('${seat}')`);
+        seatElement.classList.add('selected');
+    }
+</script>
+-->
+
+
+<!--
+<div style="display: flex; align-items: center; margin-left: 800px; margin-top: 20px;">
+    <style>
+        .inline-text {
+            color: blue;
+            display: inline;
+            margin: 0;
+        }
+        .seat-row {
+            display: flex;
+            margin: 5px 0;
+        }
+        .seat {
+            margin: 0 15px;
+            color: green;
+        }
+        .booked {
+            color: red;
+        }
+    </style>
+
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateWenberkutr(); updateSeatMessage();">
+        <option value="">Select a Seat</option>
+        {% for seat in all_seats %}
+            <option value="{% if seat in booked_seats %}""{% else %}{{ seat }}{% endif %}"
+                    style="color: {% if seat in booked_seats %} red {% else %} green {% endif %};"
+                    {% if seat in booked_seats %} disabled {% endif %}>
+                {{ seat }}{% if seat in booked_seats %} (Booked){% endif %}
+            </option>
+        {% endfor %}
+    </select>
+    
+    <div id="seat-message" style="margin-left: 20px; color: blue; display: none;">This seat is booked.</div>
+    
+    <input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" required class="center-input" readonly style="width: 120px;">
+</div>
+
+<div class="seats-container" style="margin-left: 800px; margin-top: 20px;">
+    <div class="seat-row">
+        {% for seat in seat_numbers %}
+            <span class="seat">{{ seat }}</span>
+            {% if seat == 2 %}
+                <span style="margin-left: 50px;"></span> 
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="seat-row">
+        {% for seat in seat_numbers %}
+            {% if seat >= 6 %}
+                <span class="seat">{{ seat }}</span>
+                {% if seat == 8 %}
+                    <span style="margin-left: 50px;"></span> 
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function updateSeatMessage() {
+        const selectElement = document.getElementById('seat_no');
+        const messageElement = document.getElementById('seat-message');
+
+        if (selectElement.value) {
+            messageElement.style.display = 'block';
+        } else {
+            messageElement.style.display = 'none';
+        }
+    }
+
+    function updateWenberkutr() {
+        const seatSelect = document.getElementById('seat_no');
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedValue = seatSelect.value;
+        seatMessage.style.display = 'none';
+        wenberkutrInput.value = "";
+
+        if (selectedValue) {
+            {% for seat in booked_seats %}
+                if (selectedValue == "{{ seat }}") {
+                    seatMessage.textContent = "This seat is booked.";
+                    seatMessage.style.display = 'block';
+                    wenberkutrInput.value = "";
+                    seatSelect.value = "";
+                    return;
+                }
+            {% endfor %}
+            wenberkutrInput.value = selectedValue;
+        }
+    }
+</script>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div style="margin-left: 800px; margin-top: 20px;">
+    <style>
+        .seat-row {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .circle {
+            width: 40px; /* Circle width */
+            height: 40px; /* Circle height */
+            border: 2px solid green; /* Circle border color */
+            border-radius: 50%; /* Makes it a circle */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px; /* Space between circles */
+            background-color: white; /* Circle background color */
+            color: green; /* Text color */
+            font-weight: bold; /* Bold text */
+            font-size: 16px; /* Font size */
+        }
+    </style>
+
+    <div class="seat-row">
+        {% for seat in all_seats %}
+            <div class="circle">{{ seat }}</div>
+        {% endfor %}
+    </div>
+</div>
+
+<div style="display: flex; align-items: center; margin-left: 800px; margin-top: 20px;">
+    <select name="seat_no" id="seat_no" class="form-control" style="width:300px; color: green; text-align: center;" required onchange="updateWenberkutr(); updateSeatMessage();">
+        <option value="">Select a Seat</option>
+        {% for seat in all_seats %}
+            <option value="{{ seat }}"
+                    style="color: {% if seat in booked_seats %} red {% else %} green {% endif %};">
+                {{ seat }}{% if seat in booked_seats %} (Booked){% endif %}
+            </option>
+        {% endfor %}
+    </select>
+    <div id="seat-message" style="margin-left: 20px; color: blue; display: none;"></div>
+    
+    <input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" required class="center-input" readonly style="width: 120px;">
+</div>
+
+<script>
+    function updateSeatMessage() {
+        const selectElement = document.getElementById('seat_no');
+        const messageElement = document.getElementById('seat-message');
+
+        if (selectElement.value) {
+            messageElement.style.display = 'block';
+        } else {
+            messageElement.style.display = 'none';
+        }
+    }
+
+    function updateWenberkutr() {
+        const seatSelect = document.getElementById('seat_no');
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedValue = seatSelect.value;
+        seatMessage.style.display = 'none';  // Hide message initially
+        wenberkutrInput.value = "";  // Reset the hidden input
+        
+        if (selectedValue) {
+            {% for seat in booked_seats %}
+                if (selectedValue == "{{ seat }}") {
+                    seatMessage.textContent = "This seat is booked.";
+                    seatMessage.style.display = 'block';  // Show message
+                    wenberkutrInput.value = "";  // Clear value since the seat is booked
+                    seatSelect.value = "";  // Reset selection
+                    return;
+                }
+            {% endfor %}
+            wenberkutrInput.value = selectedValue;  // Set value if seat is not booked
+        }
+    }
+</script>
+-->
+
+
+
+
+
+
+
+<!--
+</br></br></br></br></br></br></br></br>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align to the top */
+        height: 100vh; /* Full viewport height */
+        margin: 0; /* Remove default margin */
+    }
+
+    .ticket-container {
+        border: 1px solid #333; /* Minimized border */
+        border-radius: 8px; /* Slightly rounded corners */
+        padding: 10px; /* Reduced padding */
+        max-width: 600px; /* Width of the ticket */
+        background-color: #f9f9f9; /* Light background color */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        position: relative; /* Position for centering */
+        margin-top: 20px; /* Space from the top */
+    }
+
+    .driver {
+        position: absolute; /* Position driver element */
+        top: -20px; /* Adjust position */
+        left: -20px; /* Adjust position */
+        font-size: 12px; /* Font size for driver */
+        color: #333; /* Driver text color */
+    }
+
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* Five seats per row */
+        gap: 10px; /* Space between seats */
+        margin: 20px 0; /* Space above and below seat container */
+    }
+
+    .seat {
+        width: 35px; /* Circle width */
+        height: 35px; /* Circle height */
+        background-color: green; /* Available seat color */
+        color: white; /* Text color */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%; /* Make it circular */
+        cursor: pointer; /* Pointer on hover */
+        transition: background-color 0.3s;
+        font-size: 12px; /* Adjust font size */
+    }
+
+    .booked {
+        background-color: red; /* Booked seat color */
+        cursor: not-allowed; /* Not allowed for booked seats */
+    }
+
+    .selected {
+        background-color: yellow; /* Color for selected seat */
+    }
+
+    #seat-message {
+        color: blue; /* Color for seat message */
+        margin-top: 10px; /* Space above the message */
+        text-align: center; /* Center the message */
+    }
+</style>
+
+<div class="ticket-container">
+    <div class="driver">Driver: John Doe</div>
+    <div class="seat-container">
+        {% for seat in all_seats %}
+            <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+                 onclick="selectSeat('{{ seat }}');"
+                 {% if seat in booked_seats %} title="Booked"{% endif %}>
+                {{ seat }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="seat-message" style="display: none;"></div>
+    <input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px; display: none;">
+</div>
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`.seat.booked[title="${seat}"]`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block'; // Show booked message
+            return; // Prevent selecting a booked seat
+        }
+        
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block'; // Show selected seat message
+
+        // Highlight selected seat
+        const seatElement = document.querySelector(`.seat:contains('${seat}')`);
+        seatElement.classList.add('selected');
+    }
+</script>
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Center vertically */
+        height: 100vh; /* Full viewport height */
+        margin: 0; /* Remove default margin */
+        background-color: #e0e0e0; /* Light background for contrast */
+    }
+
+    .ticket-container {
+        border: 1px solid #333; /* Minimized border */
+        border-radius: 8px; /* Rounded corners */
+        padding: 10px; /* Reduced padding */
+        max-width: 600px; /* Width of the ticket */
+        background-color: #f9f9f9; /* Light background color */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        position: relative; /* Position for centering */
+    }
+
+    .driver {
+        position: absolute; /* Position driver element */
+        top: -20px; /* Adjust position */
+        left: -20px; /* Adjust position */
+        font-size: 12px; /* Font size for driver */
+        color: #333; /* Driver text color */
+    }
+
+    .seat-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* Five seats per row */
+        gap: 10px; /* Space between seats */
+        margin: 20px 0; /* Space above and below seat container */
+    }
+
+    .seat {
+        width: 35px; /* Circle width */
+        height: 35px; /* Circle height */
+        background-color: green; /* Available seat color */
+        color: white; /* Text color */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%; /* Make it circular */
+        cursor: pointer; /* Pointer on hover */
+        transition: background-color 0.3s;
+        font-size: 12px; /* Adjust font size */
+    }
+
+    .booked {
+        background-color: red; /* Booked seat color */
+        cursor: not-allowed; /* Not allowed for booked seats */
+    }
+
+    .selected {
+        background-color: yellow; /* Color for selected seat */
+    }
+
+    #seat-message {
+        color: blue; /* Color for seat message */
+        margin-top: 10px; /* Space above the message */
+        text-align: center; /* Center the message */
+    }
+</style>
+
+<div class="ticket-container">
+    <div class="driver">Driver: John Doe</div>
+    <div class="seat-container">
+        {% for seat in all_seats %}
+            <div class="seat {% if seat in booked_seats %}booked{% endif %}"
+                 onclick="selectSeat('{{ seat }}');"
+                 {% if seat in booked_seats %} title="Booked"{% endif %}>
+                {{ seat }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="seat-message" style="display: none;"></div>
+    <input type="hidden" name="no_seat" id="wenberkutr" value="" maxlength="10" class="center-input" readonly style="width: 120px; display: none;">
+</div>
+
+<script>
+    function selectSeat(seat) {
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        const seatMessage = document.getElementById('seat-message');
+        const selectedSeat = document.querySelector('.selected');
+
+        // Reset previously selected seat
+        if (selectedSeat) {
+            selectedSeat.classList.remove('selected');
+        }
+
+        // Check if the seat is booked
+        if (document.querySelector(`.seat.booked[title="${seat}"]`)) {
+            seatMessage.textContent = "This seat is booked.";
+            seatMessage.style.display = 'block'; // Show booked message
+            return; // Prevent selecting a booked seat
+        }
+
+        wenberkutrInput.value = seat; // Set the hidden input value
+        seatMessage.textContent = `Selected Seat: ${seat}`;
+        seatMessage.style.display = 'block'; // Show selected seat message
+
+        // Highlight selected seat
+        const seatElement = document.querySelector(`.seat:contains('${seat}')`);
+        seatElement.classList.add('selected');
+    }
+</script>
+-->
+
+<input type="hidden" size="30" name="date" value="{{ route.date }}" maxlength="20" required class="center-input" readonly style="width: 120px;"> 
+<script>
+    function updateWenberkutr() {
+        const seatSelect = document.getElementById('seat_no');
+        const wenberkutrInput = document.getElementById('wenberkutr');
+        wenberkutrInput.value = seatSelect.value; // Set the hidden input value to the selected seat
+    }
+</script>
+	<input type="hidden" size="30" name="price" value="{{ route.price|default:'0' }}" maxlength="10" required class="center-input" readonly style="width: 120px;">
+        <input type="hidden" name="side_no" value="{{ route.side_no }}" maxlength="10" required class="center-input" readonly style="width: 120px;">
+        <input type="hidden" name="plate_no" value="{{ route.plate_no }}" maxlength="10" required class="center-input" readonly style="width: 120px;">
+<script>
+function validateSeatNo(input) {
+    var seatNoError = document.getElementById("seatNoError");
+    var seatNo = input.value.replace(/[^0-9]/g, '');
+    if (seatNo === '') {
+        seatNoError.textContent = "Invalid seat number!";
+        seatNoError.style.display = "block";
+        input.setCustomValidity("Invalid seat number!");
+    } else {
+        seatNoError.textContent = "";
+        seatNoError.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+</script>
+<div style="text-align: center; margin-left: 450px;">
+	</br></br></br></br>
+		   
+ {% endfor %}
+ {% endif %}
+
+		    </div>
+	  	  </div>
+                </div>
+	      </form>
+
+	   </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="row intro_items">
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_1.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>BahirDar</h1>					
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_2.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>Mekelle</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_3.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>Jimma</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="cta_slider_nav cta_slider_prev">
+					<svg version="1.1" id="Layer_4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+						<defs>
+							<linearGradient id='cta_grad_prev'>
+								<stop offset='0%' stop-color='#fa9e1b'/>
+								<stop offset='100%' stop-color='#8d4fff'/>
+							</linearGradient>
+						</defs>
+						<path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+						M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+						C22.545,2,26,5.541,26,9.909V23.091z"/>
+						<polygon class="nav_arrow" fill="#F3F6F9" points="15.044,22.222 16.377,20.888 12.374,16.885 16.377,12.882 15.044,11.55 9.708,16.885 11.04,18.219 
+						11.042,18.219 "/>
+					</svg>
+				</div>
+				<div class="cta_slider_nav cta_slider_next">
+					<svg version="1.1" id="Layer_5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+						<defs>
+							<linearGradient id='cta_grad_next'>
+								<stop offset='0%' stop-color='#fa9e1b'/>
+								<stop offset='100%' stop-color='#8d4fff'/>
+							</linearGradient>
+						</defs>
+					<path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+					M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+					C22.545,2,26,5.541,26,9.909V23.091z"/>
+					<polygon class="nav_arrow" fill="#F3F6F9" points="13.044,11.551 11.71,12.885 15.714,16.888 11.71,20.891 13.044,22.224 18.379,16.888 17.048,15.554 
+					17.046,15.554 "/>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="contact">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="contact_image">	
+			</div>
+		</div>
+</div>
+</div>
+
+
+<div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                                <div>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved designed by guzo team <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#" target="_blank">Ticket team</a></div>                                      </div>
+                                </div>
+                                <div class="col-lg-9 order-lg-2 order-1">
+                                        <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                                                <div class="footer_nav">
+                                                        <ul class="footer_nav_list">
+                                                                <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'get_ticket' %}">show ticket</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'book' %}">book</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'logout' %}">logout</a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/js/offers_custom.js"></script>
+</body>
+</html>
+

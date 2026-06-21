@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Ticket Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .remove-btn {
+            background-color: #f44336; /* Red */
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+    <form action="{% url 'ticket' %}" method="post"  id="combinedForm">
+        <div id="ticketContainer">
+            <div class="form-section">
+                <h2>Person 1</h2>
+                <label for="firstname1">First Name:</label><br>
+                <input type="text" id="firstname1" name="firstname" required><br><br>
+                <label for="lastname1">Last Name:</label><br>
+                <input type="text" id="lastname1" name="lastname" required><br><br>
+                <label for="phone1">Phone:</label><br>
+                <input type="tel" id="phone1" name="phone" required><br><br>
+                <label for="depcity1">Departure City:</label><br>
+                <input type="text" id="depcity1" name="depcity" required><br><br>
+                <label for="descity1">Destination City:</label><br>
+                <input type="text" id="descity1" name="descity" required><br><br>
+                <label for="date1">Date:</label><br>
+                <input type="date" id="date1" name="date" required><br><br>
+                <label for="plate_no1">Plate No:</label><br>
+                <input type="text" id="plate_no1" name="plate_no" required><br><br>
+                <label for="side_no1">Side No:</label><br>
+                <input type="text" id="side_no1" name="side_no" required>
+		<label for="side_no1">No Seat:</label><br>
+                <input type="text" id="no_seat" name="no_seat" required>
+
+            </div>
+        </div>
+
+        <button type="button" id="addTicket">Add Another Ticket</button>
+        <button type="submit">Submit All</button>
+    </form>
+
+    <script>
+        let ticketCount = 1;
+
+        document.getElementById('addTicket').onclick = function() {
+            const ticketContainer = document.getElementById('ticketContainer');
+            const newTicket = document.createElement('div');
+            newTicket.className = 'form-section';
+            newTicket.innerHTML = `
+                <h2>Person ${ticketCount + 1}</h2>
+                <label for="firstname${ticketCount + 1}">First Name:</label><br>
+                <input type="text" id="firstname${ticketCount + 1}" name="firstname" required><br><br>
+                <label for="lastname${ticketCount + 1}">Last Name:</label><br>
+                <input type="text" id="lastname${ticketCount + 1}" name="lastname" required><br><br>
+                <label for="phone${ticketCount + 1}">Phone:</label><br>
+                <input type="tel" id="phone${ticketCount + 1}" name="phone" required><br><br>
+                <label for="depcity${ticketCount + 1}">Departure City:</label><br>
+                <input type="text" id="depcity${ticketCount + 1}" name="depcity" required><br><br>
+                <label for="descity${ticketCount + 1}">Destination City:</label><br>
+                <input type="text" id="descity${ticketCount + 1}" name="descity" required><br><br>
+                <label for="date${ticketCount + 1}">Date:</label><br>
+                <input type="date" id="date${ticketCount + 1}" name="date" required><br><br>
+                <label for="plate_no${ticketCount + 1}">Plate No:</label><br>
+                <input type="text" id="plate_no${ticketCount + 1}" name="plate_no" required><br><br>
+                <label for="side_no${ticketCount + 1}">Side No:</label><br>
+                <input type="text" id="side_no${ticketCount + 1}" name="side_no" required>
+	   <label for="no_seat${ticketCount + 1}">No seat:</label><br>
+                <input type="text" id="no_seat${ticketCount + 1}" name="no_seat" required>
+
+            `;
+            ticketContainer.appendChild(newTicket);
+            ticketCount++;
+        };
+
+        document.getElementById('combinedForm').onsubmit = function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (!data[key]) {
+                    data[key] = [];
+                }
+                data[key].push(value);
+            });
+            console.log('Form Data Submitted:', data);
+            // Here you can send the data to your backend using fetch or axios
+            // Example:
+            // fetch('/api/ticket-booking/', {
+            //     method: 'POST',
+            //     body: JSON.stringify(data),
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // });
+            alert('All data submitted!');
+        };
+    </script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

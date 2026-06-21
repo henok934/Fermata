@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Delete Route</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        :root { 
+            --brand-navy: #00264d; /* Updated to match Businsert.html dark navy */
+            --brand-gold: #ffcc00; 
+            --brand-dark: #0f172a; 
+            --surface-gray: #f1f5f9; /* Soft gray from Businsert.html */
+            --danger: #ef4444; 
+            --teal-accent: #007A78;
+            --white: #ffffff;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--surface-gray); 
+            margin: 0; 
+            color: #1e293b; 
+            font-size: 14px;
+        }
+
+        /* --- TOP UTILITY BAR (Businsert.html Style) --- */
+        .top-bar-mini {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 6px 15px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .logout-link {
+            color: var(--brand-gold);
+            text-decoration: none;
+            padding: 2px 10px;
+            border: 1px solid var(--brand-gold);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .logout-link:hover { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
+
+        /* --- USER SPECIFIC NAVBAR STYLING (Businsert.html Style) --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 10px 0;
+            border-bottom: 3px solid var(--brand-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .nav-logo-full { height: 44px; border-radius: 6px; border: 1.5px solid white; }
+        .brand-name-main { color: white; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; display: block; line-height: 1.2; }
+        .brand-subtext { color: var(--brand-gold); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+
+        .home-btn-active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        .home-btn-active:hover { color: var(--brand-gold); text-decoration: none; }
+
+        .intl-select {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+        .intl-select option { background: var(--brand-navy); color: white; }
+
+        /* Layout Architecture Containers */
+        .page-container { padding: 40px 15px; max-width: 1200px; margin: 0 auto; }
+        
+        .content-card { 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,38,77,0.06); 
+            overflow: hidden; 
+            border: 1px solid #e2e8f0; 
+        }
+        
+        .card-header-custom { 
+            background: #f8fafc; 
+            padding: 25px 30px; 
+            border-bottom: 2px solid #e2e8f0; 
+            text-align: center; 
+        }
+        
+        /* Premium Data Presentation Elements */
+        .intl-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        .intl-table thead tr { 
+            background-color: #10b981; 
+            color: white; 
+        }
+        .intl-table th { 
+            padding: 18px 15px; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            letter-spacing: 0.8px; 
+        }
+        .intl-table td { 
+            padding: 18px 15px; 
+            border-bottom: 1px solid #f1f5f9; 
+            vertical-align: middle; 
+            font-size: 14px;
+        }
+        .intl-table tbody tr:hover { 
+            background-color: #f8fafc; 
+        }
+        
+        .route-path { font-weight: 800; color: var(--brand-navy); font-size: 15px; }
+        .route-arrow { color: var(--brand-gold); margin: 0 8px; }
+        .badge-info-pill { 
+            display: inline-flex;
+            align-items: center;
+            background: #f1f5f9; 
+            color: #475569; 
+            font-size: 12px; 
+            font-weight: 700; 
+            padding: 6px 12px; 
+            border-radius: 8px; 
+            margin: 2px;
+            white-space: nowrap;
+        }
+        
+        .badge-info-pill i {
+            color: var(--brand-navy);
+            opacity: 0.7;
+        }
+
+        /* Action Buttons */
+        .btn-delete-circle { 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 12px; 
+            border: none; 
+            background: #fee2e2; 
+            color: var(--danger); 
+            transition: var(--transition-smooth); 
+            cursor: pointer; 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-delete-circle:hover { 
+            background: var(--danger); 
+            color: white; 
+            transform: scale(1.05) translateY(-1px);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.25);
+        }
+
+        /* --- MOBILE MEDIA BREAKPOINT REFACTORING ENGINE --- */
+        @media (max-width: 991.98px) {
+            .navbar-collapse { background: #001a35; padding: 20px; margin-top: 10px; border-radius: 8px; }
+            .intl-select { width: 100%; margin: 5px 0; }
+            .home-btn-active { display: block; margin-bottom: 10px; text-align: center; }
+
+            .intl-table, .intl-table thead, .intl-table tbody, .intl-table th, .intl-table td, .intl-table tr { 
+                display: block; 
+            }
+            
+            .intl-table thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            .intl-table tbody tr {
+                border-bottom: 3px solid #e2e8f0;
+                padding: 20px;
+                background: #ffffff;
+                margin-bottom: 10px;
+            }
+            
+            .intl-table td { 
+                border: none;
+                padding: 10px 0;
+                text-align: left !important;
+                position: relative;
+            }
+
+            .intl-table td:nth-of-type(1)::before { content: "Route Identifier Index: "; font-weight: 800; color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+            .intl-table td:nth-of-type(2)::before { content: "Network Corridor: "; font-weight: 800; color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+            .intl-table td:nth-of-type(3)::before { content: "Primary Schedule Timings: "; font-weight: 800; color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+            .intl-table td:nth-of-type(4)::before { content: "Target Travel Date Info: "; font-weight: 800; color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+            .intl-table td:nth-of-type(5)::before { content: "Assigned Side Identification: "; font-weight: 800; color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+            .intl-table td:nth-of-type(6)::before { content: "Assigned Plate Log Registry: "; font-weight: 800; color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+            .intl-table td:nth-of-type(7) {
+                padding-top: 15px;
+                border-top: 1px dashed #e2e8f0;
+                margin-top: 12px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .intl-table td:nth-of-type(7)::before {
+                content: "Network Data Purge: ";
+                font-weight: 800;
+                color: #dc2626;
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+
+            .btn-delete-circle {
+                width: 100%;
+                max-width: 180px;
+                height: 46px;
+                border-radius: 10px;
+                font-weight: 700;
+                font-size: 13px;
+                gap: 8px;
+            }
+            .btn-delete-circle::after { content: "Remove Route"; }
+        }
+
+        /* --- HIDE GOOGLE TRANSLATION CONFLICTS --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+</head>
+<body>
+
+<!-- --- TOP UTILITY BAR (From Businsert.html) --- -->
+<div class="top-bar-mini">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <span><i class="fa fa-headset mr-2"></i> Support: +251 975143134</span>
+        <a href="{% url 'logout' %}" class="logout-link">LOGOUT</a>
+    </div>
+</div>
+
+<!-- --- NAVIGATION BAR (From Businsert.html) --- -->
+<nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+    <div class="container-fluid">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+            <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+                {% if company.logo %}
+                    <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+                {% else %}
+                    <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+                {% endif %}
+            </div>
+
+            <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+                <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+                <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+                    {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+                    {% if level %}
+                        <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+                    {% endif %}
+                </span>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navSystem">
+            <div class="d-lg-flex align-items-center ml-auto">
+                <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+
+                <div class="select-cluster d-lg-flex">
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled>Bus Registration</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+                        <option value="{% url 'special_route' %}">Add New Route</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Operational Reports</option>
+                        <option value="{% url 'myroute' %}">Route Data</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+
+
+
+		    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Management</option>
+                        <option value="{% url 'updatebus' %}">Update Buss</option>
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_active' %}">Active Route</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_bus_change' %}">Bus Change</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}">Route Delete</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
+                        {% endif %}
+
+                        <option value="{% url 'busdelete' %}">Delete Bus</option>
+                    </select>
+
+		    <!--
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled>Management</option>
+                        <option value="{% url 'updatebus' %}">Update Buss</option>
+                              {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_active' %}">Active Route</option>
+    {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
+    {% endif %}
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_route_delete' %}">Route Delete</option>
+    {% endif %}
+        {% if level == 'Special Bus' %}
+                                 <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
+    {% endif %}
+
+
+                        <option value="{% url 'busdelete' %}">Delete Bus</option>
+                    </select>
+		    -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="content-card">
+        <div class="card-header-custom">
+            <h5 class="m-0 font-weight-bold text-dark">Network Route Deletion</h5>
+            <small class="text-danger font-weight-bold d-block mt-2">Warning: This action will cancel all active bookings for the selected route.</small>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="intl-table">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 60px;">ID</th>
+                        <th>Route Map (Origin to Destination)</th>
+                        <th>Schedule Details</th>
+                        <th>Travel Date</th>
+                        <th>Side Number</th>
+                        <th>Plate Number</th>
+                        <th class="text-center" style="width: 140px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for route in routes %}
+                    <tr>
+                        <td class="text-md-center font-weight-bold text-muted">{{ forloop.counter }}</td>
+                        <td>
+                            <div class="route-path">
+                                {{ route.depcity }} <i class="fas fa-long-arrow-alt-right route-arrow"></i> {{ route.descity }}
+                            </div>
+                            <div class="small font-weight-bold text-primary mt-1 d-block d-md-none">
+                                <i class="fas fa-bus mr-1"></i> Operator: {{ route.scname }}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.date|slice:10 }}</span>
+                            <span class="badge-info-pill"><i class="far fa-clock mr-1"></i> {{ route.time }}</span>
+                        </td>
+                        <td>
+                            <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.side_no|slice:10 }}</span>
+                        </td>
+                        <td>
+                            <span class="badge-info-pill"><i class="fas fa-hashtag mr-1"></i> {{ route.plate_no|slice:10 }}</span>
+                        </td>
+                        <td class="font-weight-bold text-primary d-none d-md-table-cell">
+                            {{ route.scname }}
+                        </td>
+                        <td class="text-md-center">
+                            <form action="{% url 'special_route_delete' %}" method="POST" onsubmit="return confirm('PERMANENT ACTION: Delete this route mapping?');" style="margin:0; padding:0;">
+                                {% csrf_token %}
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                                <input type="hidden" name="descity" value="{{ route.descity }}">
+                                <input type="hidden" name="date" value="{{ route.date }}">
+                                <input type="hidden" name="plate_no" value="{{ route.plate_no }}">
+                                <input type="hidden" name="side_no" value="{{ route.side_no }}">
+                                <button type="submit" class="btn-delete-circle" title="Delete Route Mapping">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted font-weight-bold">No active routes found in the registry.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- --- FOOTER (From Businsert.html Style Context) --- -->
+<footer class="py-4 text-center text-muted border-top bg-white mt-5">
+    <div class="container">
+        <p class="mb-0" style="font-size: 11px; font-weight: 600;">© 2026 Busfermata TRANSPORT TECHNOLOGY | ENTERPRISE SYSTEM v4.2</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

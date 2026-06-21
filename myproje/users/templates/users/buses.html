@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Bus Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root { --brand-navy: #00264d; --brand-gold: #ffcc00; --brand-dark: #0f172a; --surface-gray: #f8fafc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface-gray); margin: 0; }
+        
+        /* Navigation Styles */
+        .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 13px; }
+        .navbar-main { background: #ffffff; padding: 12px 0; border-bottom: 5px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 22px; text-transform: uppercase; line-height: 1; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 1px; display: block; }
+        
+        /* Custom Select Styles */
+        .custom-nav-select { border: 2px solid #e2e8f0; font-size: 11px; font-weight: 800; border-radius: 8px; height: 38px; min-width: 155px; color: var(--brand-navy); text-transform: uppercase; cursor: pointer; }
+
+        /* --- WIDTH MINIMIZATION --- */
+        .table-container-fixed { 
+            max-width: 1000px; 
+            margin: 40px auto; 
+            padding: 0 15px;
+        }
+
+        .content-card { 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            padding: 25px; 
+            border-top: 5px solid var(--brand-navy); 
+        }
+
+        /* Attractive Table Styling */
+        .styled-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        .styled-table th { 
+            background: #f1f5f9; 
+            padding: 12px; 
+            font-size: 10px; 
+            text-transform: uppercase; 
+            font-weight: 800; 
+            color: #64748b; 
+            text-align: center; 
+        }
+        .styled-table td { 
+            padding: 12px; 
+            background: #ffffff; 
+            border-top: 1px solid #edf2f7; 
+            border-bottom: 1px solid #edf2f7; 
+            vertical-align: middle; 
+            text-align: center; 
+            font-weight: 600; 
+            color: var(--brand-navy);
+            font-size: 13px;
+        }
+        
+        /* Level Badge Color Rules */
+        .lvl-badge {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        .lvl-special { background-color: #fef3c7; color: #d97706; border: 1px solid #fcd34d; }
+        .lvl-1 { background-color: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .lvl-2 { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+        .lvl-3 { background-color: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+        /* Status & Plate Styling */
+        .plate-badge { background: #1e293b; color: #ffffff; padding: 5px 10px; border-radius: 6px; font-family: monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status-active-wrapper { display: inline-flex; align-items: center; gap: 8px; color: #15803d; font-size: 12px; font-weight: 700; }
+        .pulse-icon { width: 10px; height: 10px; background-color: #22c55e; border-radius: 50%; position: relative; }
+        .pulse-icon::after { content: ""; position: absolute; width: 100%; height: 100%; background-color: #22c55e; border-radius: 50%; animation: pulse-animation 1.5s infinite; }
+        @keyframes pulse-animation { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 30px 0; text-align: center; margin-top: 50px; border-top: 5px solid var(--brand-gold); }
+        
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-headset mr-2"></i> Support: <b>+251975143134</b></span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold text-decoration-none small"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#adminNavbar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <div class="navbar-nav ml-auto">
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}" selected>View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="table-container-fixed">
+    <div class="content-card">
+        <div class="text-center mb-4">
+            <h4 class="font-weight-bold" style="color: var(--brand-navy);">Bus Inventory Management</h4>
+        </div>
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">No.</th>
+                        <th>Share Company</th>
+                        <th>Level</th>
+                        <th>No. of Seats</th>
+                        <th>Plate No</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bus in buses %}
+                        {% if bus.level|lower == "special" or bus.level|lower == "special bus" %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ bus.name }}</td>
+                            <td><span class="lvl-badge lvl-special">Special Bus</span></td>
+                            <td>{{ bus.no_seats }} Seats</td>
+                            <td><span class="plate-badge">{{ bus.plate_no }}</span></td>
+                            <td>
+                                <div class="status-active-wrapper">
+                                    <div class="pulse-icon"></div>
+                                    <span>Active</span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for bus in buses %}
+                        {% if bus.level == "1" or bus.level == 1 or bus.level|lower == "level 1" or bus.level|lower == "1st" %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ bus.name }}</td>
+                            <td><span class="lvl-badge lvl-1">Level 1</span></td>
+                            <td>{{ bus.no_seats }} Seats</td>
+                            <td><span class="plate-badge">{{ bus.plate_no }}</span></td>
+                            <td>
+                                <div class="status-active-wrapper">
+                                    <div class="pulse-icon"></div>
+                                    <span>Active</span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for bus in buses %}
+                        {% if bus.level == "2" or bus.level == 2 or bus.level|lower == "level 2" or bus.level|lower == "2nd" %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ bus.name }}</td>
+                            <td><span class="lvl-badge lvl-2">Level 2</span></td>
+                            <td>{{ bus.no_seats }} Seats</td>
+                            <td><span class="plate-badge">{{ bus.plate_no }}</span></td>
+                            <td>
+                                <div class="status-active-wrapper">
+                                    <div class="pulse-icon"></div>
+                                    <span>Active</span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for bus in buses %}
+                        {% if bus.level == "3" or bus.level == 3 or bus.level|lower == "level 3" or bus.level|lower == "3rd" %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ bus.name }}</td>
+                            <td><span class="lvl-badge lvl-3">Level 3</span></td>
+                            <td>{{ bus.no_seats }} Seats</td>
+                            <td><span class="plate-badge">{{ bus.plate_no }}</span></td>
+                            <td>
+                                <div class="status-active-wrapper">
+                                    <div class="pulse-icon"></div>
+                                    <span>Active</span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <p class="small mb-0">© 2026 Busfermata Digital Technology</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

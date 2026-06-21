@@ -1,0 +1,383 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Reschedule Journey | Busfermata Global</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --ethiopian-red: #d4111e;
+            --primary: #00264d;     
+            --accent: #ffcc00;      
+            --danger: #dc2626;      
+            --success: #10b981;     
+            --bg-soft: #f8fafc;
+            --shadow: 0 10px 40px -10px rgba(0, 38, 77, 0.08);
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-soft); 
+            color: #1e293b;
+            margin: 0;
+        }
+
+        /* --- NAVIGATION --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 70px !important; width: auto; border-radius: 10px; 
+            margin-right: 15px; border: 3px solid var(--brand-navy);
+            transition: 0.3s ease;
+        }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 1px; display: block; }
+        
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 13px; }
+        .nav-link:hover { color: var(--ethiopian-red) !important; }
+
+        /* --- RESCHEDULE IDENTITY MATRICES --- */
+        .passenger-summary-bar {
+            background: linear-gradient(135deg, var(--brand-navy), #003d7a);
+            color: white; border-radius: 16px; padding: 25px; box-shadow: var(--shadow);
+        }
+
+        /* --- INTERNATIONALLY DESIGNED BUS ROWS --- */
+        .journey-card {
+            background: white; border-radius: 16px; border: 1px solid #e2e8f0;
+            transition: all 0.25s ease; overflow: hidden; margin-bottom: 20px;
+        }
+        .journey-card:hover {
+            transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0,38,77,0.06);
+            border-color: #cbd5e1;
+        }
+
+        /* Dynamic Bus Components styling */
+        .bus-identity-badge {
+            background: #eff6ff; color: #1e40af; font-weight: 800;
+            font-size: 12px; padding: 5px 12px; border-radius: 6px;
+            letter-spacing: 0.3px; border: 1px solid #bfdbfe; text-transform: uppercase;
+        }
+        .plate-identity-badge {
+            background: #f1f5f9; color: #475569; font-weight: 700;
+            font-size: 11px; padding: 5px 12px; border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .level-badge {
+            background: #f0fdf4; color: #166534; font-weight: 700;
+            font-size: 11px; padding: 5px 12px; border-radius: 50px;
+            border: 1px solid #bbf7d0; text-transform: uppercase;
+        }
+
+        .city-title { font-size: 19px; font-weight: 800; color: var(--brand-navy); }
+
+        .seat-badge {
+            font-weight: 700; font-size: 13px; background-color: #fffbeb; color: #d97706;
+            padding: 6px 14px; border-radius: 8px; border: 1px solid #fde68a; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .seat-badge.none {
+            color: var(--danger); background-color: #fef2f2; border-color: #fca5a5;
+        }
+
+        .btn-action-reschedule {
+            background: var(--brand-navy); color: white; border-radius: 8px;
+            padding: 12px 24px; font-weight: 800; font-size: 13px; border: none;
+            transition: 0.2s ease; text-transform: uppercase; letter-spacing: 0.5px; width: 100%;
+        }
+        .btn-action-reschedule:hover { background: var(--ethiopian-red); color: white; box-shadow: 0 4px 12px rgba(212,17,30,0.2); }
+        .btn-action-reschedule.disabled-sold-out { background: #e2e8f0 !important; color: #94a3b8 !important; cursor: not-allowed; box-shadow: none !important; }
+
+        /* --- HIDE GOOGLE TRANSLATE BANNER CORES --- */
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; }
+        body { top: 0px !important; position: static !important; }
+        html { margin-top: 0px !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF LOGIN</a>
+    </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+          <!--  <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Logo">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+	    <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>-->
+	     <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <i class="fas fa-bars" style="color: var(--brand-navy);"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item ml-lg-3">
+                    <a href="{% url 'book' %}" class="btn" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; border-radius:8px; padding: 8px 20px;">BOOK NOW</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-5">
+    <div class="passenger-summary-bar mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h5 class="mb-1 text-warning font-weight-bold">Rescheduling Log for: {{ firstname }} {{ lastname }}</h5>
+                <p class="mb-0 opacity-75 small"><i class="fas fa-phone mr-1"></i> {{ phone }} &bull;</p>
+            </div>
+            <div class="col-md-4 text-md-right mt-3 mt-md-0">
+                <span class="d-inline-block bg-white text-dark px-3 py-2 rounded font-weight-bold small shadow-sm">
+                    Original Date: <strong class="text-danger">{{ da }}</strong>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="font-weight-bold text-dark m-0">Departure Date: <span class="text-primary">{{ new_date }}</span></h4>
+        <span class="text-muted small font-weight-bold">Available: {{ routes|length }} Departures</span>
+    </div>
+
+    {% for item in routes %}
+    <div class="journey-card">
+        <div class="p-4">
+            <div class="row align-items-center">
+		<!--
+                <div class="col-lg-4 mb-3 mb-lg-0">
+                    <div class="city-title d-flex align-items-center mb-2">
+                        <span>{{ item.route.depcity }}</span>
+                        <i class="fas fa-arrow-right mx-3 text-muted" style="font-size: 14px;"></i>
+                        <span>{{ item.route.descity }}</span>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center" style="gap: 8px;">
+                        <span class="bus-identity-badge">
+                            <i class="fas fa-bus mr-1"></i> {{ item.name }}
+                        </span>
+                        <span class="plate-identity-badge">
+                            <i class="fas fa-id-card mr-1"></i> {{ item.route.plate_no }}
+                        </span>
+                    </div>
+                </div>
+		-->
+
+
+		<div class="col-lg-4 mb-3 mb-lg-0">
+    <div class="city-title d-flex align-items-center mb-2">
+        <span class="mr-2" style="color: #94a3b8; font-weight: 700; font-size: 16px;">
+            {{ forloop.counter | stringformat:"02d" }}.
+        </span>
+
+        <span>{{ item.route.depcity }}</span>
+        <i class="fas fa-arrow-right mx-3 text-muted" style="font-size: 14px;"></i>
+        <span>{{ item.route.descity }}</span>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center" style="gap: 8px; margin-left: 28px;">
+        <span class="bus-identity-badge">
+            <i class="fas fa-bus mr-1"></i> {{ item.name }}
+        </span>
+        <span class="plate-identity-badge">
+            <i class="fas fa-id-card mr-1"></i> {{ item.route.plate_no}}
+        </span>
+    </div>
+</div>
+                <div class="col-sm-6 col-lg-3 mb-3 mb-sm-0">
+                    <div class="mb-2"><span class="small font-weight-bold text-muted text-uppercase">Bus Level</span></div>
+                    <span class="level-badge"><i class="fas fa-crown mr-1"></i> {{ item.levels }}</span>
+                </div>
+
+                <div class="col-sm-6 col-lg-2 mb-3 mb-sm-0">
+                    <div class="mb-2"><span class="small font-weight-bold text-muted text-uppercase">Seat Status</span></div>
+                    {% if item.remaining_seats > 0 and item.route.is_active %}
+                    <div class="seat-badge">
+                        <span class="spinner-grow spinner-grow-sm text-warning" style="width:7px; height:7px;" role="status"></span>
+                        <i class="fas fa-chair"></i> {{ item.remaining_seats }} It remains
+
+                    </div>
+                    {% else %}
+                    <div class="seat-badge none">
+                        <i class="fas fa-times-circle"></i> አልቋል (Sold Out)
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-3 text-lg-right">
+                    <form action="{% url 'Sel' %}" method="post" class="m-0">
+                        {% csrf_token %}
+			<!--
+                        <input type="hidden" name="firstname" value="{{ firstname }}">
+                        <input type="hidden" name="lastname" value="{{ lastname }}">
+                        <input type="hidden" name="depcity" value="{{ depcity }}">
+                        <input type="hidden" name="descity" value="{{ descity }}">
+                        <input type="hidden" name="phone" value="{{ phone }}">
+                        <input type="hidden" name="email" value="{{ email }}">
+                        <input type="hidden" name="gender" value="{{ gender }}">
+                        <input type="hidden" name="passenger_type" value="{{ passenger_type }}">
+                        <input type="hidden" name="price" value="{{ price }}">
+                        <input type="hidden" name="da" value="{{ da }}">
+                        <input type="hidden" name="new_date" value="{{ new_date }}">
+                        <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                        <input type="hidden" name="side_no" value="{{ side_no }}">
+			-->
+			 <input type="hidden" name="dep" value="{{ depcity }}">
+                        <input type="hidden" name="last" value="{{ lastname }}">
+                        <input type="hidden" name="first" value="{{ firstname }}">
+                        <input type="hidden" name="des" value="{{ descity }}">
+                        <input type="hidden" name="gender" value="{{ gender }}">
+                        <input type="hidden" name="passenger_type" value="{{ passenger_type }}">
+                        <input type="hidden" name="pr" value="{{ price }}">
+                        <input type="hidden" name="plate" value="{{ plate_no }}">
+                        <input type="hidden" name="side" value="{{ side_no }}">
+                        <input type="hidden" name="da" value="{{ da }}">
+                        <input type="hidden" name="email" value="{{ email }}">
+                        <input type="hidden" name="phone" value="{{ phone }}">
+                        <input type="hidden" name="gender" value="{{ gender }}">
+                        <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                        <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                        <input type="hidden" name="price" value="{{ item.route.price }}">
+                        <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                        <input type="hidden" name="date" value="{{ item.route.date }}">
+
+                        {% if item.remaining_seats > 0 and item.route.is_active %}
+                        <button type="submit" class="btn-action-reschedule">
+                            Confirm Selection <i class="fas fa-chevron-right ml-1" style="font-size:11px;"></i>
+                        </button>
+                        {% else %}
+                        <button type="button" class="btn-action-reschedule disabled-sold-out" disabled>
+                            አልቋል (Sold Out)
+                        </button>
+                        {% endif %}
+                    </form>
+
+		  <!--
+		    <form action="{% url 'Sel' %}" method="post">
+                                {% csrf_token %}
+                        <input type="hidden" name="dep" value="{{ depcity }}">
+                        <input type="hidden" name="last" value="{{ lastname }}">
+                        <input type="hidden" name="first" value="{{ firstname }}">
+                        <input type="hidden" name="des" value="{{ descity }}">
+                        <input type="hidden" name="gender" value="{{ gender }}">
+                        <input type="hidden" name="passenger_type" value="{{ passenger_type }}">
+                        <input type="hidden" name="pr" value="{{ price }}">
+                        <input type="hidden" name="plate" value="{{ plate_no }}">
+                        <input type="hidden" name="side" value="{{ side_no }}">
+                        <input type="hidden" name="da" value="{{ da }}">
+                        <input type="hidden" name="email" value="{{ email }}">
+                        <input type="hidden" name="phone" value="{{ phone }}">
+                        <input type="hidden" name="gender" value="{{ gender }}">
+                        <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                        <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                        <input type="hidden" name="price" value="{{ item.route.price }}">
+                        <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                        <input type="hidden" name="date" value="{{ item.route.date }}">
+                                <button type="submit" class="btn-select-main" {% if item.remaining_seats == 'Full' %} disabled {% endif %}>
+                                    {% if item.remaining_seats == 'Full' %}Fully Booked{% else %}Select Seat{% endif %}
+                                </button>
+                            </form>
+		  -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="text-center py-5 bg-white rounded shadow-sm border">
+        <i class="fas fa-bus-slash text-muted mb-3" style="font-size: 48px;"></i>
+        <h5 class="font-weight-bold text-dark">No Alternative Schedules Found</h5>
+        <p class="text-muted small">There are no operational routes available for selection on the requested date.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<footer class="bg-white py-5 mt-5 border-top">
+    <div class="container text-center">
+        <img src="{% static 'images/l.jpeg' %}" height="35" class="mb-3 grayscale" style="filter: grayscale(1); opacity: 0.5; border-radius: 4px;">
+        <p class="small text-muted mb-0">© 2026 Busfermata Digital Technology. Global Standards. Local Service.</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

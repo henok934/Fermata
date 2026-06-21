@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>City</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+ <link rel="stylesheet" href="/changebus/css/style.css">
+ <script src="/changebus/js/script.js"></script>
+</head>
+<body>
+<div class="super_container">
+        <header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+
+
+<div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+                                                        <div class="user_box_register user_box_link"><a href="{% url 'registor' %}"></a></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+                    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Register Bus</option>
+                                <option value="{% url 'route' %}">Register Route</option>
+                                <option value="{% url 'registor' %}">Register Admin</option>
+                                <option value="{% url 'city' %}">Register City</option>
+                                <option value="{% url 'worker' %}">Register Driver</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                                <option value="{% url 'changebus' %}">Change Bus</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'routes' %}">Show Routes</option>
+                                <option value="{% url 'users' %}">Show Users</option>
+                                <option value="{% url 'buses' %}">Show Buses</option>
+                                <option value="{% url 'comments' %}">Show Comments</option>
+                                <option value="{% url 'driver' %}">Driver</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                                <option value="{% url 'citydelete' %}">Delete City</option>
+                                <option value="{% url 'routedelete' %}">Delete Route</option>
+                                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+</div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+</style>
+
+<style>
+    /* Basic responsiveness */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: flex-start; /* Align items to the left */
+        }
+
+        .main_nav_item {
+            margin-right: 0; /* Remove right margin for stacked items */
+            margin-bottom: 10px; /* Add bottom margin for spacing */
+        }
+
+        .logo {
+            flex-grow: 1; /* Allow logo to take available space */
+            text-align: center; /* Center logo on small screens */
+        }
+    }
+</style>
+
+
+
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>City</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body>
+<div class="super_container">
+        <header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+
+
+<div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+                                                        <div class="user_box_register user_box_link"><a href="{% url 'registor' %}"></a></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+
+
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+                    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Register Bus</option>
+                                <option value="{% url 'route' %}">Register Route</option>
+                                <option value="{% url 'registor' %}">Register Admin</option>
+                                <option value="{% url 'city' %}">Register City</option>
+                                <option value="{% url 'worker' %}">Register Driver</option>
+ </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                                <option value="{% url 'changebus' %}">Change Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'routes' %}">Show Routes</option>
+                                <option value="{% url 'users' %}">Show Users</option>
+                                <option value="{% url 'buses' %}">Show Buses</option>
+                                <option value="{% url 'comments' %}">Show Comments</option>
+                                <option value="{% url 'driver' %}">Driver</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                                <option value="{% url 'citydelete' %}">Delete City</option>
+                                <option value="{% url 'routedelete' %}">Delete Route</option>
+                                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+</style>
+
+<style>
+    /* Basic responsiveness */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: flex-start; /* Align items to the left */
+        }
+
+        .main_nav_item {
+            margin-right: 0; /* Remove right margin for stacked items */
+            margin-bottom: 10px; /* Add bottom margin for spacing */
+        }
+
+        .logo {
+            flex-grow: 1; /* Allow logo to take available space */
+            text-align: center; /* Center logo on small screens */
+        }
+    }
+</style>
+-->
+
+</header>
+</div>
+	</br></br></br></br></br></br></br></br></br></br>
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #4CAF50;">
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">No</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Departure</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Destination</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Date</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Plate No</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Side No</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Select Side</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Select Plate No</h4>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 8px; text-align: center;">
+                <b style="color: red;">{{ loop.index }}</b>
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="date" value="{{ route.date }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="plate_no" value="{{ route.plate_no }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <select name="new_side_no" required class="check_in search_input" style="width: 100%; height: 35px; margin-left: 0;" onchange="updateOtherSelect(this, 'new_plate_no', 'side_no', 0, this.selectedIndex)">
+                    <option value="">Select Side</option>
+                    {% for d in buses %}
+                        <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td style="padding: 8px;">
+                <select name="new_plate_no" required class="check_in search_input" style="width: 100%; height: 35px; margin-left: 0;" onchange="updateOtherSelect(this, 'new_side_no', 'side_no', 1, this.selectedIndex)">
+                    <option value="">Select Plate No</option>
+                    {% for d in buses %}
+                        <option value="{{ d.plate_no }}">{{ d.plate_no }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td style="padding: 8px;">
+                <form action="http://127.0.0.1:8000/changebus/changebus/" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="submit" value="Change Bus" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #3E8E41;">
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Departure</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Destination</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Date</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Side No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">New Side</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Action</h4>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 5px; text-align: center;">
+                <b style="color: brown;">{{ forloop.counter }}</b>
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="date" value="{{ route.date }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <form action="{% url 'changebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <select name="new_side_no" required class="check_in search_input" style="width: 100px; height: 30px; margin-left: 0; color: brown; background-color: #e0e0e0;">
+                        <option value="">Select Side</option>
+                        {% for d in buses %}
+                            <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ route.descity }}">
+                    <input type="hidden" name="date" value="{{ route.date }}">
+                    <input type="hidden" name="side_no" value="{{ route.side_no }}">
+                    <input type="submit" value="Change" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+-->
+
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #3E8E41;">
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Departure</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Destination</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Date</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Side No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">New Side</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Action</h4>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 5px; text-align: center;">
+                <b style="color: brown;">{{ forloop.counter }}</b>
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="date" value="{{ route.date }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <select name="new_side_no" required class="check_in search_input" style="width: 100%; height: 30px; color: brown; background-color: #e0e0e0;">
+                    <option value="">Select Side</option>
+                    {% for d in buses %}
+                        <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <form action="{% url 'changebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ route.descity }}">
+                    <input type="hidden" name="date" value="{{ route.date }}">
+                    <input type="hidden" name="side_no" value="{{ route.side_no }}">
+                    <input type="submit" value="Change" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+-->
+
+
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1> 
+  {% if success %}
+    <div class="success">
+    <h5 style="color: yellow; margin-left: 450px;"><b>{{ success }}</b><span style="margin-left:30px;" class="symbol">✔</span></h5>
+    </div>
+    {% endif %}
+      {% if error %}
+    <div class="success">
+    <h5 style="color: red; margin-left: 400px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">X</span></h5>
+    </div>
+    {% endif %}
+<br>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #3E8E41;">
+            <th style="padding: 3px; border-bottom: 2px solid #fff;"> <!-- Added border-bottom -->
+                <h5 style="color: white; margin: 0;">No</h5>
+            </th>
+            <th style="padding: 3px; border-bottom: 2px solid #fff;">
+                <h5 style="color: white; margin: 0;">Departure</h5>
+            </th>
+            <th style="padding: 3px; border-bottom: 2px solid #fff;">
+                <h5 style="color: white; margin: 0;">Destination</h5>
+            </th>
+            <th style="padding: 3px; border-bottom: 2px solid #fff;">
+                <h5 style="color: white; margin: 0;">Date</h5>
+            </th>
+            <th style="padding: 3px; border-bottom: 2px solid #fff;">
+                <h5 style="color: white; margin: 0;">Side No</h5>
+            </th>
+            <th style="padding: 3px; border-bottom: 2px solid #fff;">
+                <h5 style="color: white; margin: 0;">New Side</h5>
+            </th>
+            <th style="padding: 3px; border-bottom: 2px solid #fff;">
+                <h5 style="color: white; margin: 0;">Action</h5>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 5px; text-align: center;">
+                <b style="color: brown;">{{ forloop.counter }}</b>
+            </td>
+                <form action="{% url 'changebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+            <td style="padding: 5px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="date" value="{{ route.date }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <select name="new_side_no" required class="check_in search_input" style="width: 100px; height: 30px; color: brown; background-color: #e0e0e0;">
+                    <option value="">Select Side</option>
+                    {% for d in buses %}
+                        <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+	    <!--
+            <td style="padding: 5px; text-align: center;">
+                <form action="{% url 'changebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ route.descity }}">
+                    <input type="hidden" name="date" value="{{ route.date }}">
+                    <input type="hidden" name="side_no" value="{{ route.side_no }}">
+		    -->
+		    <td style="padding: 5px;">
+                    <input type="submit" value="Change" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px; margin-right:10px;">
+		    </td>
+                </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #3E8E41;">
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Departure</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Destination</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Date</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Side No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">New Side</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Action</h4>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 5px; text-align: center;">
+                <b style="color: brown;">{{ forloop.counter }}</b>
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="date" value="{{ route.date }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <select name="new_side_no" required class="check_in search_input" style="width: 100px; height: 30px; color: brown; background-color: #e0e0e0;">
+                    <option value="">Select Side</option>
+                    {% for d in buses %}
+                        <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <form action="{% url 'changebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ route.descity }}">
+                    <input type="hidden" name="date" value="{{ route.date }}">
+                    <input type="hidden" name="side_no" value="{{ route.side_no }}">
+                    <input type="submit" value="Change" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #3E8E41;">
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Departure</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Destination</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Date</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Side No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">New Side</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Action</h4>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 5px; text-align: center;">
+                <b style="color: brown;">{{ forloop.counter }}</b>
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="date" value="{{ route.date }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <select name="new_side_no" required class="check_in search_input" style="width: 100%; height: 30px; color: brown; background-color: #e0e0e0;">
+                    <option value="">Select Side</option>
+                    {% for d in buses %}
+                        <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <form action="{% url 'changebus' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ route.descity }}">
+                    <input type="hidden" name="date" value="{{ route.date }}">
+                    <input type="hidden" name="side_no" value="{{ route.side_no }}">
+                    <input type="submit" value="Change" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #3E8E41;">
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Departure</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Destination</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Date</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Side No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">new Side</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="color: white; margin: 0;">Action</h4>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 5px; text-align: center;">
+                <b style="color: brown;">{{ forloop.counter }}</b>
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="date" value="{{ route.date }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 5px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+	    </td>
+
+            <td style="padding: 5px;">
+                <select name="new_side_no" required class="check_in search_input" style="width: 100px; height: 30px; margin-left: 0; color: brown; background-color: #e0e0e0;">
+    <option value="">Select Side</option>
+    {% for d in buses %}
+        <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+    {% endfor %}
+  </select>
+            </td>
+
+            <td style="padding: 5px;">
+                <form action="http://127.0.0.1:8000/changebus/changebus/" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="submit" value="Change" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="width: 100%; max-width: 600px; background-color: #f8f8f8; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 8px;">
+                <h4 style="color: red; margin: 0;">No</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Departure</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Destination</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Date</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Plate No</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Side No</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Select Side</h4>
+            </th>
+            <th style="padding: 8px;">
+                <h4 style="color: white; margin: 0;">Select Plate No</h4>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f0f0f0;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 8px; text-align: center;">
+                <b style="color: brown;">{{ loop.index }}</b>
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="date" value="{{ route.date }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="plate_no" value="{{ route.plate_no }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" style="width: 100%; height: 30px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 12px;">
+            </td>
+            <td style="padding: 8px;">
+                <select name="new_side_no" required class="check_in search_input" style="width: 100%; height: 35px; margin-left: 0;" onchange="updateOtherSelect(this, 'new_plate_no', 'side_no', 0, this.selectedIndex)">
+                    <option value="">Select Side</option>
+                    {% for d in buses %}
+                        <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td style="padding: 8px;">
+                <select name="new_plate_no" required class="check_in search_input" style="width: 100%; height: 35px; margin-left: 0;" onchange="updateOtherSelect(this, 'new_side_no', 'side_no', 1, this.selectedIndex)">
+                    <option value="">Select Plate No</option>
+                    {% for d in buses %}
+                        <option value="{{ d.plate_no }}">{{ d.plate_no }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td style="padding: 8px;">
+                <form action="http://127.0.0.1:8000/changebus/changebus/" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="submit" value="Change Bus" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 12px;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Adjust font size for mobile */
+        }
+        input, select {
+            font-size: 12px; /* Maintain smaller font size for inputs */
+        }
+    }
+</style>
+-->
+
+
+<!--
+<h1 style="margin-left: 20px; color: blue;"><b>Change Bus</b></h1>
+<br>
+<table style="margin-left: 20px; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 16px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 10px;">
+                <h3><b style="color: red;">No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Departure</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Destination</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Date</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Plate No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Side No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Select Side</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Select Plate No</b></h3>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for route in routes %}
+        <tr>
+            <td style="padding: 10px; text-align: center;">
+                <b style="color: brown;">{{ loop.index }}</b>
+            </td>
+            <td style="padding: 10px;">
+                <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="height: 30px; width: 100%; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+            </td>
+            <td style="padding: 10px;">
+                <input type="text" name="descity" value="{{ route.descity }}" readonly style="height: 30px; width: 100%; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+            </td>
+            <td style="padding: 10px;">
+                <input type="text" name="date" value="{{ route.date }}" style="height: 30px; width: 100%; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+            </td>
+            <td style="padding: 10px;">
+                <input type="text" name="plate_no" value="{{ route.plate_no }}" style="height: 30px; width: 100%; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+            </td>
+            <td style="padding: 10px;">
+                <input type="text" name="side_no" value="{{ route.side_no }}" style="height: 30px; width: 100%; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+            </td>
+            <td style="padding: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <select name="new_side_no" required class="check_in search_input" style="height: 40px; width: 100%; margin-left: 20px;" onchange="updateOtherSelect(this, 'new_plate_no', 'side_no', 0, this.selectedIndex)">
+                        <option value="">Select Side</option>
+                        {% for d in buses %}
+                            <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </td>
+            <td style="padding: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <select name="new_plate_no" required class="check_in search_input" style="height: 40px; width: 100%; margin-left: 20px;" onchange="updateOtherSelect(this, 'new_side_no', 'side_no', 1, this.selectedIndex)">
+                        <option value="">Select Plate No</option>
+                        {% for d in buses %}
+                            <option value="{{ d.plate_no }}">{{ d.plate_no }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </td>
+            <td style="padding: 10px;">
+                <form action="http://127.0.0.1:8000/changebus/changebus/" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="submit" value="Change Bus" style="height: 30px; width: 100%; background-color: blue; color: white; border: none; border-radius: 10px; font-weight: bold;">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+-->
+
+
+
+
+
+
+<!--
+<h1 style="margin-left:300px;color:blue;"><b>Change Bus</b> </h1></br>
+<table style="margin-left: 20px; width: 200px; background-color: lightgray;">
+  <thead>
+    <tr style="background-color: lightgray; width: 300px;">
+      <th style="padding-top: 10px;"></th>
+    </tr>
+    <tr>
+      <th><h3><b style="color: red; background-color: green;">No</b></h3></th>
+      <th><h3><b style="color: white; background-color: green; margin-left: 10px;">Departure</b></h3></th>
+      <th><h3><b style="color: white; background-color: green; margin-left: 10px;">Destination</b></h3></th>
+      <th><h3><b style="color: white; background-color: green; margin-left: 30px;">Date</b></h3></th>
+      <th><h3><b style="color: white; background-color: green; margin-left: 10px; padding: 5px; display: inline-block; white-space: nowrap;">Plate_no</b></h3></th>
+      <th><h3><b style="color: white; background-color: green; margin-left: 10px; padding: 5px; display: inline-block; white-space: nowrap;">Side No</b></h3></th>
+      <th><h3><b style="color: white; background-color: green; margin-left: 10px; padding: 5px; display: inline-block; white-space: nowrap;">Select Side</b></h3></th>
+      <th><h3><b style="color: white; background-color: green; margin-left: 0px; padding: 5px; display: inline-block; white-space: nowrap;">Select plate No</b></h3></th>
+    </tr>
+  </thead>
+  <tbody style="background-color: lightgray; margin-left: 50px;">
+    {% for route in routes %}
+    <tr>
+      <td><h3><b style="color: brown;">{{ loop.index }}</b></h3></td>
+      <td>
+        <form action="http://127.0.0.1:8000/changebus/changebus/" method="POST">
+		{% csrf_token %}
+          <input type="text" name="depcity" value="{{ route.depcity }}" readonly style="height: 30px; margin-left: 20px; width: 100px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+      </td>
+      <td>
+        <input type="text" name="descity" value="{{ route.descity }}" readonly style="height: 30px; width: 100px; margin-left: 20px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+      </td>
+      <td>
+        <input type="text" name="date" value="{{ route.date }}" style="height: 30px; margin-left: 20px; width: 100px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+      </td>
+      <td>
+        <input type="text" name="plate_no" value="{{ route.plate_no }}" style="height: 30px; width: 100px; margin-left: 20px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+      </td>
+      <td>
+        <input type="text" name="side_no" value="{{ route.side_no }}" style="height: 30px; width: 100px; margin-left: 20px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+      </td>
+<td>
+  <div style="display: flex; align-items: center;">
+    <table style="display: inline-block;">
+      <tbody>
+        {% if buses %}
+          <tr>
+            <td>
+              <div>
+                <div style="display: flex; align-items: center;">
+                  <select name="new_side_no" required="required" class="check_in search_input" style="height: 40px; width: 150px; margin-left: 20px;" onchange="updateOtherSelect(this, 'new_plate_no', 'side_no', 0, this.selectedIndex)">
+                    <option value="">Select Side</option>
+                    {% for d in buses %}
+                      <option value="{{ d.sideno }}">{{ d.sideno }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</td>
+<td>
+  <div style="display: flex; align-items: center;">
+    <table style="display: inline-block;">
+      <tbody>
+        {% if buses %}
+          <tr>
+            <td>
+              <div>
+                <div style="display: flex; align-items: center;">
+                  <select name="new_plate_no" required="required" class="check_in search_input" style="height: 40px; width: 150px; margin-left: 20px;" onchange="updateOtherSelect(this, 'new_side_no', 'side_no', 1, this.selectedIndex)">
+                    <option value="">Select Plate No</option>
+                    {% for d in buses %}
+                      <option value="{{ d.plate_no }}">{{ d.plate_no }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</td>
+
+<script>
+  function updateOtherSelect(currentSelect, otherSelectName, inputClassName, inputIndex, currentIndex) {
+    var otherSelectDropdowns = document.getElementsByName(otherSelectName);
+    var sideNoElements = document.getElementsByClassName(inputClassName);
+
+    otherSelectDropdowns[inputIndex].selectedIndex = currentIndex;
+
+    for (var i = 0; i < sideNoElements.length; i++) {
+      sideNoElements[i].value = currentSelect.options[currentIndex].value;
+    }
+  }
+</script>
+<td>
+<input type="submit" value="Change Bus" style="height: 30px; width: 100px; margin-left: 20px; background-color: blue; color: white; border: none; border-radius: 10px; font-weight: bold;">
+          </td>
+        </form>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+-->
+
+
+
+
+
+
+
+
+
+
+
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+  <div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                                <div><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="#">Ticket Team</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+                                        </div>
+                                </div>
+                                <div class="col-lg-9 order-lg-2 order-1">
+                                        <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                                                <div class="footer_nav">
+                                                        <ul class="footer_nav_list">
+                                             		<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+</body>
+</html>

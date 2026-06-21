@@ -1,0 +1,1482 @@
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>select route</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+<div class="super_container">
+<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		
+
+<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">HOME</a>
+        </li>
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Manage Ticket</a>
+    </li>
+</ul>
+<li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+<li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+ document.getElementById('dateInput').addEventListener('change', function() {
+ document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+	</header>
+
+	-->
+
+
+
+	<!--
+	<div class="menu trans_500">
+		<div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+			<div class="menu_close_container"><div class="menu_close"></div></div>
+			<div class="logo menu_logo"><a href="#"><img src="../static/images/logo.png" alt=""></a></div>
+			<ul>
+			  <li class="main_nav_item"><a href="{% url 'about' %}">home</a></li>
+                          <li class="main_nav_item"><a href="{% url 'get_ticket' %}">show ticket</a></li>
+                          <li class="main_nav_item"><a href="{% url 'book' %}">book</a></li>
+			   <li class="main_nav_item"><a href="{% url 'ticketinfo' %}">Selectbus</a></li>
+                          <li class="main_nav_item"><a href="{% url 'logout' %}">logout</a></li>
+			</ul>
+		</div>
+	-->
+
+
+<!--
+<header class="header">
+
+
+
+<div class="top_bar">
+
+
+
+<div class="container">
+
+
+
+<div class="row">
+
+
+
+<div class="col d-flex flex-row">
+
+
+
+<div class="phone">+251 975143134</div>
+
+
+
+<div class="social">
+
+
+
+
+
+
+
+        <ul class="social_list">
+
+
+
+<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+
+
+
+                                                            <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>                                                                  <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+                                                <div class="user_box ml-auto">
+
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+
+
+
+                                                        <div class="user_box_register user_box_link"><a href="#"></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                </div>
+
+
+
+                                        </div>
+
+
+
+                                </div>
+
+   </div>
+
+
+
+                </div>
+
+</div>
+
+</div>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+
+  <li class="main_nav_item">
+	</br></br></br>
+            <a href="#" class="d-flex align-items-center" style="text-decoration: none;">
+
+                                <img src="../static/images/l.jpeg" alt="" style="width: 150px; height: 150px; margin-left: 60px; margin-top: 30px;">
+                <span style="color: white;"></span>
+
+            </a>
+
+        </li>
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: -10px;">
+
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Register</option>
+
+                 <option value="{% url 'sc' %}">Add Sc</option>
+
+                <option value="{% url 'route' %}">Register Route</option>
+
+                <option value="{% url 'registor' %}">Register Admin</option>
+
+    <option value="{% url 'worker' %}">Registor Booker</option>
+
+                <option value="{% url 'city' %}">Register City</option>
+
+                <option value="{% url 'service_fee' %}">Add Service Value</option>
+
+            </select>
+
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Update</option>
+
+                <option value="{% url 'changebus' %}">Change Bus</option>
+
+    <option value="{% url 'scupdate' %}">Share Company Update</option>
+
+    <option value="{% url 'active' %}">Active Routes</option>
+
+    <option value="{% url 'serviceupdate' %}">Service Fee Update</option>
+
+            </select>
+
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Show</option>
+
+                <option value="{% url 'routes' %}">Show Routes</option>
+
+                <option value="{% url 'users' %}">Show Users</option>
+
+    <option value="{% url 'totalballance' %}">Current Balance</option>
+
+    <option value="{% url 'sce' %}">show s.c</option>
+
+                <option value="{% url 'buses' %}">Show Buses</option>
+
+                <option value="{% url 'comments' %}">Show Comments</option>
+
+                <option value="{% url 'driver' %}">Booker</option>
+
+                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+
+            </select>
+
+        </li>
+
+ <li class="main_nav_item" style="margin-right: 10px;">
+
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+
+                <option value="#">Select for Delete</option>
+
+                <option value="{% url 'admindelete' %}">Delete Admin</option>
+
+    <option value="{% url 'scdelete' %}">Delete Share Company</option>
+
+    <option value="{% url 'citydelete' %}">Delete City</option>
+
+                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+
+                <option value="{% url 'routedelete' %}">Delete Route</option>
+
+    <option value="{% url 'workerdelete' %}">Booker Delete</option>
+
+                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+
+            </select>
+
+        </li>
+
+        <li class="footer_nav_item" style="margin-left: 20px;">
+
+            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+
+        </li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';
+            dateInput.focus(); 
+        } else {
+            dateInput.style.display = 'none';
+        }
+    });
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+</div>
+                    </ul>
+ </div>
+  </div>
+        </div>
+    </div>
+</nav>
+</header>
+-->
+
+
+<!--
+<h1 style="text-align: center; color: #1a73e8; font-family: sans-serif; margin-bottom: 20px;">
+    <b>Change Bus Schedule</b>
+</h1>
+
+<table style="margin: 0 auto; width: 100%; max-width: 800px; background-color: white; border-collapse: separate; border-spacing: 0 10px; font-family: sans-serif;">
+    <thead>
+        <tr style="background-color: #2e7d32; color: white;">
+            <th style="padding: 12px; border-radius: 10px 0 0 0; font-size: 14px;">No</th>
+            <th style="padding: 12px; font-size: 14px;">Departure</th>
+            <th style="padding: 12px; font-size: 14px;">Destination</th>
+            <th style="padding: 12px; font-size: 14px;">Travel Date</th>
+            <th style="padding: 12px; font-size: 14px;">Side No</th>
+            <th style="padding: 12px; border-radius: 0 10px 0 0; font-size: 14px;">New Side</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bus in buschange %}
+        <tr style="box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #ffffff;">
+            <td style="text-align: center; padding: 15px; border-bottom: 1px solid #eee; border-left: 1px solid #eee;">
+                <b style="color: #555;">{{ forloop.counter }}</b>
+            </td>
+
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="padding: 10px; text-align: center; color: #1a73e8; background: #f8f9fa; border-radius: 6px; border: 1px dashed #bbb; font-weight: bold;">
+                    {{ bus.depcity }}
+                </div>
+            </td>
+
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="padding: 10px; text-align: center; color: #1a73e8; background: #f8f9fa; border-radius: 6px; border: 1px dashed #bbb; font-weight: bold;">
+                    {{ bus.descity }}
+                </div>
+            </td>
+
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="padding: 10px; text-align: center; color: #333; font-weight: bold;">
+                    {{ bus.date }}
+                </div>
+            </td>
+
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="padding: 10px; text-align: center; color: #d32f2f; background: #fff5f5; border-radius: 6px; font-weight: bold;">
+                    {{ bus.side_no }}
+                </div>
+            </td>
+
+            <td style="padding: 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; border-radius: 0 0 10px 0;">
+                <div style="padding: 10px; text-align: center; color: #ffffff; background: #2e7d32; border-radius: 6px; font-weight: bold; box-shadow: inset 0 0 5px rgba(0,0,0,0.2);">
+                    {{ bus.new_side_no }}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+<!--
+<header class="header">
+
+
+
+                <div class="top_bar">
+
+
+
+                        <div class="container">
+
+
+
+                                <div class="row">
+
+
+
+                                        <div class="col d-flex flex-row">
+
+
+
+                                                <div class="phone">+251 975143134</div>
+
+
+
+                                                <div class="social">
+
+
+
+                                                        <ul class="social_list">
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+
+
+
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+
+                                                        </ul>
+
+
+
+                                                </div>
+
+
+
+                                                <div class="user_box ml-auto">
+
+
+
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+
+
+
+                                                        <div class="user_box_register user_box_link"><a href="#"></a></div>
+
+
+
+                                                </div>
+
+
+
+                                        </div>
+
+
+
+                                </div>
+
+
+
+                        </div>
+
+
+
+                </div>
+
+</div>
+
+
+
+</div>
+
+
+
+</br></br>
+
+
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto; height: 200px;">
+
+  <li class="main_nav_item">
+
+
+
+            <a href="#" class="d-flex align-items-center" style="text-decoration: none;">
+
+
+
+                                <img src="../static/images/l.jpeg" alt="" style="width: 150px; height: 150px; margin-left: 100px; margin-top: 30px;">
+
+
+
+                <span style="color: white;">Ticket</span>
+
+
+
+            </a>
+
+
+
+        </li>
+
+
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+
+
+
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+
+
+
+        </li>
+
+
+
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+
+
+
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+
+
+
+        <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">book</a>
+
+
+
+    </li>
+
+
+
+</ul>
+
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+
+
+
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+
+
+
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Manage Ticket</a>
+
+
+
+    </li>
+
+
+
+</ul>
+
+
+
+<li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+
+
+
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+
+
+
+        </li>
+
+
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+
+
+
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+
+
+
+        </li>
+
+
+
+<li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+
+
+
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" >
+
+
+
+        {% csrf_token %}
+
+
+
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+
+ 🔔<span style="color: red;"><b>{{ buschanges_count }} 
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+    <div id="bus-info">
+
+
+
+        <h5><span id="buschanges-count">0</span></h5>
+
+
+
+        <ul id="city-list"></ul>
+
+
+
+    </div>
+
+
+
+    <script>
+
+
+
+    $(document).ready(function() {
+
+
+
+        $.ajax({
+
+
+
+            url: '/api/about/',
+
+
+
+            type: 'GET',
+
+
+
+            success: function(data) {
+
+
+
+                if (data.buschanges_count !== null) {
+
+
+
+                    $('#buschanges-count').text(data.buschanges_count);
+
+
+
+                }
+
+
+
+            },
+
+ error: function(error) {
+
+
+
+                console.error('Error fetching data:', error);
+
+
+
+            }
+
+
+
+        });
+
+
+
+    });
+
+
+
+    </script>
+
+
+
+</b></span>
+
+
+
+        </button>
+
+
+
+        <br>
+
+
+
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+
+
+
+    </form>
+
+
+
+</li>
+
+<script>
+
+
+
+    document.getElementById('notificationButton').addEventListener('click', function() {
+
+
+
+        var dateInput = document.getElementById('dateInput');
+
+
+
+        if (dateInput.style.display === 'none') {
+
+
+
+            dateInput.style.display = 'inline-block';
+
+
+
+            dateInput.focus(); 
+
+
+
+        } else {
+
+
+
+            dateInput.style.display = 'none';
+
+
+
+        }
+
+
+
+    });
+
+
+
+    document.getElementById('dateInput').addEventListener('change', function() {
+
+
+
+        document.getElementById('search_form_1').submit();
+
+
+
+    });
+
+
+
+</script>
+
+
+
+</div>
+
+
+
+                    </ul>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+</nav>
+
+        </header>
+	-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Available Routes</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #003366;
+            --brand-gold: #ffcc00;
+            --ethiopian-red: #cc0000;
+            --bg-soft: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b; 
+            margin: 0;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main {
+            background: #ffffff;
+            padding: 12px 0;
+            border-bottom: 4px solid var(--brand-gold);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .brand-box img { 
+            height: 65px !important; 
+            border-radius: 8px; 
+            border: 2px solid var(--brand-navy);
+        }
+        .nav-item-link {
+            color: var(--brand-navy);
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        /* --- HERO --- */
+        .route-hero {
+            background: linear-gradient(rgba(0,51,102,0.8), rgba(0,0,0,0.6)), url('../static/images/bus3.jpg');
+            background-size: cover; background-position: center;
+            height: 220px; display: flex; align-items: center; justify-content: center; color: white; text-align: center;
+        }
+
+        /* --- ROUTE CARDS --- */
+        .listing-section { margin-top: -50px; padding-bottom: 80px; }
+        
+        .route-card {
+            background: white; border-radius: 20px; padding: 30px; margin-bottom: 20px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.06); border: 1px solid #f1f5f9;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: 0.3s;
+        }
+        .route-card:hover { transform: translateY(-5px); }
+
+        .city-text { font-size: 1.6rem; font-weight: 800; color: var(--brand-navy); }
+        .arrow-sep { color: var(--brand-gold); margin: 0 15px; }
+        
+        .meta-info { display: flex; gap: 20px; margin-top: 10px; font-weight: 600; color: #64748b; font-size: 0.95rem; }
+        .meta-info i { color: var(--brand-gold); }
+
+        .price-tag { font-size: 2rem; font-weight: 800; color: var(--ethiopian-red); text-align: center; }
+
+        .btn-booking {
+            background: var(--brand-navy); color: white; border: none; padding: 18px 35px;
+            border-radius: 15px; font-weight: 800; text-transform: uppercase; width: 100%;
+        }
+        .btn-booking:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+        .footer-site { background: var(--brand-navy); color: white; padding: 60px 0; text-align: center; margin-top: 50px; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar-main">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <div class="brand-box">
+                <img src="../static/images/l.jpeg" alt="Busfermata Logo">
+            </div>
+            <div class="ml-3">
+                <span style="font-weight: 800; font-size: 22px; color: var(--brand-navy); display: block;">Busfermata</span>
+                <span style="font-size: 9px; color: var(--brand-gold); font-weight: 800; letter-spacing: 1px;">TRANSPORT TECHNOLOGY</span>
+            </div>
+        </a>
+        <div class="d-none d-lg-flex">
+            <a href="{% url 'home' %}" class="nav-item-link">Homee</a>
+            <a href="{% url 'about' %}" class="nav-item-link">About Us</a>
+            <a href="{% url 'get_ticket' %}" class="nav-item-link">My Ticket</a>
+            <a href="{% url 'comment' %}" class="nav-item-link">Feedback</a>
+        </div>
+    </div>
+</nav>
+<header class="route-hero">
+    <div class="container">
+        <h1 style="font-weight: 800;">Available Departures</h1>
+        <p class="lead font-weight-bold">Selected Date: {{ date }}</p>
+    </div>
+</header>
+
+
+
+
+
+
+		</br>
+		</br>
+	</div>
+
+
+{% load i18n %}
+{% load static %}
+
+<style>
+    :root {
+        --primary-blue: #003580;
+        --action-blue: #0071c2;
+        --success-green: #008009;
+        --urgency-red: #d4111e;
+        --text-main: #1a1a1a;
+        --text-muted: #595959;
+        --border-color: #e7e7e7;
+    }
+
+    .booking-section {
+        max-width: 1100px;
+        margin: 20px auto;
+        padding: 0 15px;
+        font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    }
+
+    .section-title {
+        text-align: center;
+        color: var(--primary-blue);
+        font-weight: 700;
+        margin-bottom: 30px;
+        font-size: 28px;
+    }
+
+    /* Table Styling (Desktop) */
+    .table-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+
+    .intl-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .intl-table thead {
+        background-color: #f5f7fa;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .intl-table th {
+        padding: 15px;
+        color: var(--text-muted);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .intl-table td {
+        padding: 18px 15px;
+        border-bottom: 1px solid var(--border-color);
+        vertical-align: middle;
+        font-size: 15px;
+    }
+
+    /* Style Tokens */
+    .city-label { font-weight: 700; color: var(--primary-blue); }
+    .level-badge { 
+        background: #e6f4ea; 
+        color: var(--success-green); 
+        padding: 4px 8px; 
+        border-radius: 4px; 
+        font-size: 12px; 
+        font-weight: 600; 
+    }
+    .price-tag { color: var(--urgency-red); font-weight: 800; font-size: 18px; }
+    .seat-count { font-weight: 600; color: #e65100; }
+
+    /* Button Styling */
+    .btn-select-intl {
+        background-color: var(--action-blue);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+    }
+
+    .btn-select-intl:hover { background-color: #005999; transform: translateY(-1px); }
+    
+    .btn-disabled {
+        background-color: #f2f2f2 !important;
+        color: #a2a2a2 !important;
+        cursor: not-allowed;
+    }
+
+    /* Responsive: Mobile View */
+    @media (max-width: 768px) {
+        .intl-table thead { display: none; }
+        .intl-table td { 
+            display: block; 
+            text-align: right; 
+            padding: 10px 15px;
+            border: none;
+        }
+        .intl-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .intl-table tr {
+            display: block;
+            border-bottom: 8px solid #f5f7fa;
+            padding: 10px 0;
+        }
+    }
+
+    /* Error Styling */
+    .error-toast {
+        background: #fff0f0;
+        border-left: 5px solid var(--urgency-red);
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+<div class="booking-section">
+    <h2 class="section-title">{% trans "Select Departure" %}</h2>
+
+    {% if error %}
+    <div class="error-toast">
+        <span style="color: var(--urgency-red); font-weight: 600;">{{ error }}</span>
+        <button onclick="this.parentElement.style.display='none'" style="border:none; background:none; cursor:pointer;">✕</button>
+    </div>
+    {% endif %}
+
+    <div class="table-container">
+        <table class="intl-table">
+            <thead>
+                <tr>
+                    <th>{% trans "Route" %}</th>
+                    <th>{% trans "Class" %}</th>
+                    <th>{% trans "Departure" %}</th>
+                    <th>{% trans "Price" %}</th>
+                    <th>{% trans "Availability" %}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in routes %}
+                <tr>
+                    <td data-label="Route">
+                        <div class="city-label">{{ item.route.depcity }} → {{ item.route.descity }}</div>
+                    </td>
+                    <td data-label="Class">
+                        <span class="level-badge">{{ item.levels }}</span>
+                    </td>
+                    <td data-label="Departure">
+                        <div style="font-weight: 500;">{{ item.route.date }}</div>
+                    </td>
+                    <td data-label="Price">
+                        <span class="price-tag">${{ item.route.price }}</span>
+                    </td>
+                    <td data-label="Availability">
+                        <span class="seat-count">{{ item.remaining_seats }} {% trans "seats left" %}</span>
+                    </td>
+                    <td>
+                        <form action="{% url 'Select' %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                            <input type="hidden" name="descity" value="{{ item.route.descity }}">
+			    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                            <input type="hidden" name="price" value="{{ item.route.price }}">
+                            <input type="hidden" name="date" value="{{ item.route.date }}">
+                            
+                            <button type="submit" 
+                                    class="btn-select-intl {% if not item.route.is_active %}btn-disabled{% endif %}"
+                                    {% if not item.route.is_active %}disabled{% endif %}>
+                                {% if item.route.is_active %}
+                                    {% trans "Select" %}
+                                {% else %}
+                                    {% trans "Sold Out" %}
+                                {% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!--
+
+	<h2 style="text-align: center; color: blue; margin-buttom:50px;"><b>Select Bus</b></h2>
+       <div class="search_panel active" style="margin-top:10px;">
+<div class="search_panel active" style="margin-top: 10px;">
+
+
+{% load i18n %}
+
+<style>
+    .mini-table-wrapper {
+        width: 100%;
+        overflow-x: auto; /* Allows horizontal swipe on mobile */
+        -webkit-overflow-scrolling: touch;
+        margin: 5px 0;
+    }
+
+    .mini-table {
+        width: 100%;
+        min-width: 500px; /* Prevents text squishing */
+        border-collapse: collapse;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 11px; /* Minimized font size */
+        letter-spacing: -0.2px;
+    }
+
+    /* International Booking Header: Deep Blue */
+    .mini-table thead th {
+        background-color: #003580;
+        color: white;
+        padding: 6px 2px;
+        text-transform: uppercase;
+        font-size: 10px;
+        white-space: nowrap; /* Keeps headers on one line */
+    }
+
+    /* Row Styling */
+    .mini-table td {
+        padding: 5px 2px;
+        text-align: center;
+        border-bottom: 1px solid #e6e6e6;
+        white-space: nowrap;
+    }
+
+    .mini-table tbody tr:nth-child(even) { background-color: #f9f9f9; }
+    .mini-table tbody tr:hover { background-color: #f1f1f1; }
+
+    /* International Color Tokens */
+    .c-no { color: #888; width: 20px; }
+    .c-lvl { color: #008009; font-weight: bold; } /* Green for Level */
+    .c-route { color: #003580; font-weight: 600; } /* Blue for Cities */
+    .c-price { color: #cc0000; font-weight: 800; font-size: 12px; } /* Red for Price */
+    .c-seats { color: #ff8000; font-weight: bold; } /* Orange for Urgency */
+    .c-date { color: #555; font-size: 10px; }
+
+    /* Compact Button */
+    .btn-mini {
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 3px;
+        font-size: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .btn-mini:disabled { background-color: #ccc; cursor: not-allowed; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+{% load i18n %}
+
+<style>
+    .booking-container {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 10px;
+    }
+
+    .booking-table {
+        margin: 0 auto;
+        width: 98%;
+        max-width: 900px;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-size: 13px; /* Smaller, professional font size */
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    /* Professional Header: Booking Blue */
+    .booking-table thead tr {
+        background-color: #003580; 
+        color: #ffffff;
+    }
+
+    .booking-table th {
+        padding: 8px 4px; /* Minimized horizontally */
+        font-weight: 600;
+        text-align: center;
+        border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Alternating Row Colors */
+    .booking-table tbody tr {
+        border-bottom: 1px solid #ebf3ff;
+    }
+    .booking-table tbody tr:nth-child(even) {
+        background-color: #f2f6fa;
+    }
+
+    .booking-table td {
+        padding: 10px 4px; /* Minimized horizontally */
+        vertical-align: middle;
+    }
+
+    /* International Color Coding */
+    .val-no { color: #6b6b6b; font-weight: bold; }
+    .val-level { color: #008009; font-weight: 600; } /* Professional Green */
+    .val-city { color: #003580; font-weight: 700; }  /* Brand Blue */
+    .val-price { color: #b00100; font-weight: bold; font-size: 14px; } /* Urgency Red */
+    .val-seats { color: #e65100; font-weight: bold; } /* Alert Orange */
+
+    /* Action Button: Booking Action Green */
+    .btn-select {
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 12px;
+        cursor: pointer;
+        width: 100%;
+        max-width: 80px;
+        transition: background 0.2s;
+    }
+    .btn-select:hover { background-color: #005999; }
+    .btn-disabled {
+        background-color: #d3d3d3;
+        color: #757575;
+        cursor: not-allowed;
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+<div class="booking-container">
+    <table class="booking-table">
+        <thead>
+            <tr>
+                <th>{% trans "No." %}</th>
+                <th>{% trans "Level" %}</th>
+                <th>{% trans "From" %}</th>
+                <th>{% trans "To" %}</th>
+                <th>{% trans "Price" %}</th>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Seats" %}</th>
+                <th>{% trans "Action" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in routes %}
+            <tr>
+                <td class="val-no" style="text-align: center;">{{ forloop.counter }}</td>
+                <td class="val-level" style="text-align: center;">{{ item.levels }}</td>
+                <td class="val-city" style="text-align: center;">{{ item.route.depcity }}</td>
+                <td class="val-city" style="text-align: center;">{{ item.route.descity }}</td>
+                <td class="val-price" style="text-align: center;">${{ item.route.price }}</td>
+                <td style="text-align: center; color: #4a4a4a;">{{ item.route.date }}</td>
+                <td class="val-seats" style="text-align: center;">{{ item.remaining_seats }}</td>
+                <td style="text-align: center;">
+                    <form action="{% url 'Select' %}" method="post" style="margin: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                        <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                        <input type="hidden" name="price" value="{{ item.route.price }}">
+                        <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                        <input type="hidden" name="date" value="{{ item.route.date }}">
+                        
+                        <button type="submit" 
+                                class="btn-select {% if not item.route.is_active %}btn-disabled{% endif %}"
+                                {% if not item.route.is_active %}disabled{% endif %}>
+                            {% trans "Select" %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+</div>
+<style>
+    @media (max-width: 600px) {
+        table {
+            width: 100%; /* Full width for smaller screens */
+            font-size: 12px; /* Adjust font size */
+        }
+        th, td {
+            padding: 8px; /* Reduce padding */
+        }
+        button {
+            width: 70px; /* Adjust button width */
+        }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+
+
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 14px; /* Slightly smaller font size on mobile */
+            width: 100%; /* Ensure table uses full width */
+        }
+        th, td {
+            padding: 5px; /* Reduced padding for smaller screens */
+        }
+        button {
+            width: 70px; /* Adjust button width for mobile */
+            height: 30px; /* Adjust button height for mobile */
+        }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+{% if error %}
+    <div class="error" style="margin-left: 30px; margin-top: 20px;">
+        <h3 style="color: red;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">X</span></h3>
+    </div>
+{% endif %}
+-->
+
+
+</br></br></br>
+  </br></br></br></br></br></br></br</br>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

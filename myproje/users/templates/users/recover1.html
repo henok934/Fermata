@@ -1,0 +1,319 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Balance Recovery & Refund | Busfermata Luxury</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --success-green: #2ecc71;
+            --text-muted: #64748b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8fafc; 
+            color: var(--brand-dark); 
+            margin: 0;
+        }
+
+        /* --- NAVIGATION --- */
+        .top-bar-intl { 
+            background: var(--brand-dark); 
+            color: white; 
+            padding: 8px 0; 
+            font-size: 13px; 
+        }
+        .navbar-main {
+            background: #ffffff; 
+            padding: 12px 0; 
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+        }
+        .brand-logo-box {
+            background: white; 
+            padding: 5px; 
+            border-radius: 10px; 
+            border: 2.5px solid var(--brand-navy);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .brand-logo { height: 50px !important; width: auto; border-radius: 5px; }
+        .brand-text-main { 
+            font-weight: 800; 
+            color: var(--brand-navy); 
+            font-size: 24px; 
+            text-transform: uppercase; 
+            line-height: 0.8; 
+            margin-left: 12px; 
+        }
+        .brand-tag { 
+            color: var(--brand-gold); 
+            font-weight: 800; 
+            font-size: 9px; 
+            letter-spacing: 1.2px; 
+            display: block; 
+            margin-left: 12px; 
+        }
+        .nav-link-custom { 
+            color: var(--brand-navy) !important; 
+            font-weight: 700; 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            padding: 10px 15px !important; 
+        }
+        .login-pill {
+            border: 1px solid var(--brand-navy);
+            border-radius: 50px;
+            padding: 8px 24px !important;
+            transition: 0.3s;
+        }
+        .login-pill:hover {
+            background: var(--brand-navy);
+            color: white !important;
+        }
+
+        /* --- REFUND UI LAYOUT --- */
+        .summary-banner {
+            background: #7c2d12; 
+            color: white; 
+            padding: 25px; 
+            border-radius: 15px;
+            margin-top: 40px; 
+            box-shadow: 0 10px 25px rgba(124,45,18,0.15);
+        }
+        .payment-card-main { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 40px; 
+            border: 1px solid #e2e8f0; 
+            margin-top: 30px; 
+        }
+        .bank-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 20px; 
+        }
+        .bank-option {
+            border: 2px solid #e2e8f0; 
+            border-radius: 15px; 
+            padding: 20px; 
+            text-align: center;
+            cursor: pointer; 
+            transition: 0.3s; 
+            background: white;
+        }
+        .bank-option:hover { border-color: var(--brand-navy); }
+        .bank-option.active { 
+            border-color: var(--success-green); 
+            background-color: #f0fdf4; 
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.1); 
+        }
+        .bank-option img { height: 45px; object-fit: contain; margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto; }
+        .bank-option span { font-weight: 800; font-size: 12px; text-transform: uppercase; color: var(--brand-navy); }
+        
+        .form-control-custom {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 25px 15px;
+            font-weight: 600;
+        }
+        .form-control-custom:focus {
+            border-color: var(--brand-navy);
+            box-shadow: none;
+        }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar-intl">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-shield-check mr-2"></i> Authorized Balance Reversal Portal</span>
+        <div class="d-none d-md-block"><i class="fas fa-headset mr-2"></i> Support: +251 1158 227 938</div>
+    </div>
+</div>
+
+<nav class="navbar-main navbar navbar-expand-lg">
+    <div class="container">
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
+            <div class="brand-logo-box">
+                <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Logo">
+            </div>
+            <div>
+                <span class="brand-text-main">Busfermata</span>
+                <span class="brand-tag">TRANSPORT TECHNOLOGY</span>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:var(--brand-navy)"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'book' %}">Book</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Feedback</a></li>
+                <li class="nav-item ml-lg-3"><a class="nav-link nav-link-custom login-pill" href="{% url 'login' %}">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <div id="initialCancelContainer" class="payment-card-main shadow-sm text-center">
+                <i class="fas fa-reply-all fa-3x text-warning mb-3"></i>
+                <h4 class="font-weight-bold" style="color:var(--brand-navy)">Balance Recovery Allocation</h4>
+                <p class="text-muted">An account balance of <strong>{{ total_price }} ETB</strong> remains available from your adjustments.</p>
+                <button type="button" class="btn btn-primary px-5 py-3 font-weight-bold mt-2" style="background:var(--brand-navy); border:none; border-radius:10px;" onclick="showBankSelection()">
+                    INITIATE BALANCE REFUND
+                </button>
+            </div>
+            <form action="{% url 'recover' %}" method="post" id="cancelForm" class="d-none payment-card-main shadow-sm">
+                {% csrf_token %}
+                {% if tickets %}
+                    {% with ticket=tickets|first %}
+                        <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+                        <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+                        <input type="hidden" name="date" value="{{ ticket.date }}">
+                        <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+                        <input type="hidden" name="side_no" value="{{ ticket.side_no }}">
+			<input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+			<input type="hidden" name="descity" value="{{ ticket.descity }}">
+                    {% endwith %}
+                {% endif %}
+                <input type="hidden" name="price" value="{{ total_price }}">
+
+                <h4 class="font-weight-bold mb-2 text-dark">Process Reimbursement</h4>
+                <p class="small text-muted mb-4">Total Refundable Value: <strong class="text-danger" style="font-size:16px;">{{ total_price }} ETB</strong></p>
+
+                <label class="small font-weight-bold text-uppercase tracking-wider text-muted">Select Payout Wallet Channel</label>
+                <div class="bank-grid mb-4">
+                    <label class="bank-option" onclick="selectBank(this, 'telebirr')">
+                        <input type="radio" name="refund_method" value="telebirr" required style="display:none;">
+                        <img src="{% static 'images/Tele.png' %}" alt="Telebirr">
+                        <span>Telebirr</span>
+                    </label>
+                    <label class="bank-option" onclick="selectBank(this, 'cbe')">
+                        <input type="radio" name="refund_method" value="cbe" style="display:none;">
+                        <img src="{% static 'images/cbe.png' %}" alt="CBE">
+                        <span>CBE Birr</span>
+                    </label>
+                    <label class="bank-option" onclick="selectBank(this, 'boa')">
+                        <input type="radio" name="refund_method" value="boa" style="display:none;">
+                        <img src="{% static 'images/BOA.png' %}" alt="Abyssinia">
+                        <span>Abyssinia</span>
+                    </label>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="small font-weight-bold text-dark">Account / Phone Number</label>
+                    <input type="text" id="refund_account" name="refund_account" class="form-control form-control-custom" 
+                           placeholder="Select a financial merchant network above" required autocomplete="off"
+                           inputmode="numeric"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    <small id="helper_text" class="text-muted d-block mt-2 font-weight-bold" style="font-size: 11px;"></small>
+                </div>
+
+                <button type="submit" class="btn btn-danger btn-block font-weight-bold py-3 text-uppercase" style="border-radius:10px; font-size:15px; letter-spacing:0.5px;" onclick="return validateRefundForm()">
+                    CONFIRM AND DISBURSE REFUND
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<footer class="footer-intl">
+    <div class="container">
+        <h5 class="font-weight-bold mb-2">Busfermata Digital Technology</h5>
+        <p class="small opacity-50 mb-0">Connecting Ethiopia with Excellence</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let activeMinLength = 0;
+let activeMaxLength = 0;
+let expectedPrefix = "";
+
+function showBankSelection() {
+    document.getElementById('initialCancelContainer').classList.add('d-none');
+    document.getElementById('cancelForm').classList.remove('d-none');
+}
+
+function selectBank(element, method) {
+    document.querySelectorAll('.bank-option').forEach(opt => opt.classList.remove('active'));
+    element.classList.add('active');
+    element.querySelector('input[type="radio"]').checked = true;
+
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+    
+    input.value = ""; 
+    helper.className = "text-muted d-block mt-2 font-weight-bold";
+
+    if (method === 'telebirr') {
+        activeMinLength = 10; activeMaxLength = 10; expectedPrefix = "09";
+        input.placeholder = "e.g., 0912345678";
+        helper.innerText = "Enter 10 digits starting with 09";
+    } else if (method === 'cbe') {
+        activeMinLength = 13; activeMaxLength = 13; expectedPrefix = "1000";
+        input.placeholder = "e.g., 1000123456789";
+        helper.innerText = "Enter 13 digits starting with 1000";
+    } else if (method === 'boa') {
+        activeMinLength = 8; activeMaxLength = 8; expectedPrefix = "48";
+        input.placeholder = "e.g., 48123456";
+        helper.innerText = "Enter 8 digits starting with 48";
+    }
+    
+    input.maxLength = activeMaxLength;
+    input.focus();
+}
+
+function validateRefundForm() {
+    const radioSelected = document.querySelector('input[name="refund_method"]:checked');
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+
+    if (!radioSelected) {
+        alert("Please select a bank option first.");
+        return false;
+    }
+    const val = input.value;
+    if (val.length !== activeMaxLength || !val.startsWith(expectedPrefix)) {
+        helper.className = "text-danger d-block mt-2 font-weight-bold";
+        helper.innerText = `Invalid formatting. Must be exactly ${activeMaxLength} digits starting with "${expectedPrefix}".`;
+        input.focus();
+        return false;
+    }
+    return true;
+}
+</script>
+</body>
+</html>

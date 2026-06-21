@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>driver delete</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+                    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Register Bus</option>
+                                <option value="{% url 'route' %}">Register Route</option>
+                                <option value="{% url 'registor' %}">Register Admin</option>
+                                <option value="{% url 'city' %}">Register City</option>
+                                <option value="{% url 'worker' %}">Register Driver</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                                <option value="{% url 'changebus' %}">Change Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'routes' %}">Show Routes</option>
+                                <option value="{% url 'users' %}">Show Users</option>
+                                <option value="{% url 'buses' %}">Show Buses</option>
+                                <option value="{% url 'comments' %}">Show Comments</option>
+                                <option value="{% url 'driver' %}">Driver</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                                <option value="{% url 'citydelete' %}">Delete City</option>
+                                <option value="{% url 'routedelete' %}">Delete Route</option>
+                                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+</style>
+
+
+        </header>
+
+
+
+<!--
+<div class="menu trans_500">
+                <div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="menu_close_container"><div class="menu_close"></div></div>
+                        <div class="logo menu_logo"><a href="#"><img src="../static/images/logo.png" alt=""></a></div>
+                        <ul>
+
+			<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+                        </ul>
+                </div>
+        </div>
+	-->
+
+
+
+	</br></br></br></br></br></br>
+	</br></br></br>
+
+
+
+<h2 style="text-align: center; color: blue;"><b>Delete Driver</b></h2>
+      {% if success %}
+    <div class="success">
+    <h4 style="color: yellow; text-align: center;"><b>{{ success }}</b><span style="margin-left:30px;" class="symbol">✔</span></h4>
+    </div>
+    {% endif %}
+
+{% if error %}
+    <div class="error-message" style="text-align: center; padding: 10px; color: red; margin: 20px 0; border: 1px solid #f5c6cb; border-radius: 5px;">
+        <h5 style="margin: 0; font-size: 16px;">
+            <b>{{ error }}</b>
+            <span style="margin-left: 10px;" class="symbol">X</span>
+        </h5>
+    </div>
+{% endif %}
+
+
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse;">
+    <thead>
+        <style>
+            th {
+                background-color: #4CAF50; /* Green background */
+                color: white;              /* White text */
+                padding: 10px;            /* Padding for cells */
+                text-align: center;        /* Align text to the center */
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2; /* Zebra striping for rows */
+            }
+            td {
+                padding: 10px;             /* Padding for cells */
+            }
+            input {
+                height: 30px;              /* Reduced height */
+
+width: calc(130% - 10px);  /* Full width minus padding */
+                margin: 0;                 /* Reset margin */
+                padding: 5px;              /* Padding inside input */
+                text-align: center;        /* Center text */
+                color: blue;               /* Text color */
+                border-radius: 5px;       /* Rounded corners */
+                border: 1px solid #ccc;    /* Border style */
+                font-weight: bold;         /* Bold text */
+                box-sizing: border-box;    /* Include padding and border in width */
+                font-size: 14px;           /* Font size */
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 600px) {
+                table {
+width: 95%; /* Use more width on smaller screens */
+                    margin: 10px; /* Margin for small screens */
+                }
+                input {
+                    width: 100%; /* Full width for inputs */
+                }
+            }
+        </style>
+        <tr>
+            <th style="width: 50px;">No</th>
+            <th style="width: 120px;">First Name</th>
+            <th style="width: 100px;">Last Name</th>
+            <th style="width: 100px;">Plate No</th>
+            <th style="width: 100px;">Side No</th>
+            <th style="width: 80px;">Action</th>
+        </tr>
+    </thead>
+<tbody>
+         {% for route in driver %}
+        <tr>
+            <td style="text-align: center; color: brown;">
+                <h3>{{ forloop.counter }}</h3>
+            </td>
+
+            <td>
+                    <form action="{% url 'workerdelete' %}" method="POST">
+                    {% csrf_token %}
+                <input type="text" name="fname" style="width:100px;" value="{{ route.fname|slice:15 }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="lname" value="{{ route.lname|slice:10 }}" readonly>
+            </td>
+<td>
+                <input type="text" name="plate_no" value="{{ route.plate_no|slice:10 }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="side_no" style="width:60px;" value="{{ route.side_no|slice:10 }}" readonly>
+            </td>
+            <td>
+                    <button type="submit" class="btn btn-danger" style="width: 80px;">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </br></br></br>
+
+
+
+
+
+
+
+
+</br></br></br></br>
+  <div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                                <div>
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="#">Ticket Team</a>
+</div>
+                                </div>
+                                </div>
+                                <div class="col-lg-9 order-lg-2 order-1">
+                                        <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                                                <div class="footer_nav">
+                                                        <ul class="footer_nav_list">
+                                             		<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+<li class="main_nav_item"><a href="{% url 'businsert' %}">Insert Bus</a></li>
+<li class="main_nav_item"><a href="{% url 'route' %}">Route insert</a></li>
+<li class="footer_nav_item"><a href="{% url 'admins' %}" style="color:white;">Create Admin</a></li>
+<li class="footer_nav_item"><a href="{% url 'city' %}" style="color:white;">Insert City</a></li>
+    <option value="{% url 'driver' %}">Drivers</option>
+    <option value="{% url 'driver' %}">Drivers</option>
+<select onchange="location.href = this.value;"><option value="#">Select for Show</option><option value="{% url 'routes' %}">show routes</option><option value="{% url 'users' %}">show Users</option><option value="{% url 'buses' %}">show Buses</option><option value="{% url 'comments' %}">All Comments</option></select>
+<select onchange="location.href = this.value;"><option value="#">Select for Delete</option><option value="{% url 'admindelete' %}">Delete Admin</option><option value="{% url 'commentdelete' %}">Delete Comment</option><option value="{% url 'busdelete' %}">Delete Bus</option><option value="{% url 'citydelete' %}">Delete City</option><option value="{% url 'routedelete' %}">Delete Route</option></select>
+<li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;">Logout</a></li>
+
+
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+</body>
+</html>

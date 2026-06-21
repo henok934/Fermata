@@ -1,0 +1,655 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Select Your Route</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --ethiopian-red: #d4111e;
+            --bg-soft: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b; 
+            margin: 0;
+        }
+
+        /* --- NAVIGATION --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 70px !important; width: auto; border-radius: 10px; 
+            margin-right: 15px; border: 3px solid var(--brand-navy);
+            transition: 0.3s ease;
+        }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 1px; display: block; }
+        
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 13px; }
+        .nav-link:hover { color: var(--ethiopian-red) !important; }
+
+        /* --- HERO SLIDER --- */
+        .hero-banner {
+            height: 35vh;
+            background: linear-gradient(rgba(0,38,77,0.8), rgba(0,0,0,0.7)), url('{% static "images/home_slider.jpg" %}');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            color: white; text-align: center;
+        }
+
+        /* --- PROGRESS TRACKER --- */
+        .step-container {
+            display: flex; justify-content: center; margin-top: -30px; margin-bottom: 40px; gap: 10px;
+        }
+        .step {
+            background: white; padding: 12px 20px; border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); font-weight: 800;
+            font-size: 11px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;
+        }
+        .step.active { background: var(--brand-gold); color: var(--brand-navy); border: 2px solid var(--brand-navy); }
+        .step.pending { background: #e2e8f0; color: #94a3b8; }
+
+        /* --- ROUTE LISTING CARDS --- */
+        .listing-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .booking-card {
+            background: white; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
+        }
+        
+        .table-intl { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .table-intl thead { background: var(--brand-navy); }
+        .table-intl th { padding: 18px 20px; text-transform: uppercase; font-size: 12px; color: #ffffff; font-weight: 700; letter-spacing: 0.5px; }
+        .table-intl td { padding: 22px 20px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        .table-intl tbody tr:hover { background-color: #f8fafc; }
+
+        .city-box { font-size: 17px; font-weight: 800; color: var(--brand-navy); display: flex; align-items: center; }
+        
+        /* INTERNATIONAL WAY BUS NAME & INFO STYLING */
+        .bus-badge {
+            background: #eff6ff; color: #1e40af; padding: 4px 10px;
+            border-radius: 6px; font-size: 12px; font-weight: 800; border: 1px solid #bfdbfe;
+            display: inline-flex; align-items: center; gap: 6px; text-transform: uppercase;
+        }
+        .plate-badge {
+            background: #f1f5f9; color: #475569; padding: 4px 10px;
+            border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid #e2e8f0;
+            display: inline-flex; align-items: center; gap: 4px;
+        }
+        .level-badge { 
+            background: #f0fdf4; color: #166534; padding: 6px 14px; 
+            border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid #bbf7d0;
+            text-transform: uppercase; display: inline-block;
+        }
+        .price-tag { color: var(--ethiopian-red); font-weight: 800; font-size: 20px; }
+        .price-currency { font-size: 12px; font-weight: 700; color: #64748b; }
+
+        .seat-badge {
+            color: #d97706; font-weight: 700; font-size: 13px; background-color: #fffbeb; 
+            padding: 6px 12px; border-radius: 8px; border: 1px solid #fde68a; 
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .seat-badge.none {
+            color: #dc2626; background-color: #fef2f2; border-color: #fca5a5;
+        }
+
+        .btn-select {
+            background: var(--brand-navy); color: white; border: none;
+            padding: 12px; border-radius: 8px; font-weight: 800; font-size: 13px;
+            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); width: 100%; text-transform: uppercase;
+            letter-spacing: 0.5px; cursor: pointer;
+        }
+        .btn-select:hover { background: var(--ethiopian-red); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(212, 17, 30, 0.2); }
+        .btn-select.btn-disabled { background: #e2e8f0 !important; color: #94a3b8 !important; cursor: not-allowed; box-shadow: none !important; transform: none !important; }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 991px) {
+            .navbar-collapse { background: white; padding: 20px; margin-top: 10px; border-radius: 10px; }
+            .step-container { flex-direction: column; align-items: center; }
+            .table-intl thead { display: none; }
+            .table-intl td { display: block; text-align: center; padding: 15px; border: none; }
+            .table-intl td:not(:last-child) { border-bottom: 1px dashed #f1f5f9; }
+            .booking-card { margin-bottom: 20px; padding: 10px; }
+            .city-box { justify-content: center; }
+        }
+        
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF LOGIN</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+           <!-- <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Logo">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+	   -->
+	    <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <i class="fas fa-bars" style="color: var(--brand-navy);"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item ml-lg-3">
+                    <a href="{% url 'book' %}" class="btn" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; border-radius:8px; padding: 8px 20px;">BOOK NOW</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-banner">
+    <h1 style="font-weight: 800; font-size: 2.5rem; margin-bottom: 10px;">Available Departures</h1>
+    <p style="font-weight: 600; opacity: 0.9; font-size: 1.1rem;">Found Routes for: {{ date }}</p>
+</section>
+
+<div class="listing-wrapper">
+    <div class="step-container">
+        <div class="step active"><i class="fas fa-bus"></i> 1. Select Bus</div>
+        <div class="step pending"><i class="fas fa-couch"></i> 2. Choose Seat</div>
+        <div class="step pending"><i class="fas fa-credit-card"></i> 3. Payment</div>
+	        <div class="step pending"><i class="fas fa-credit-card"></i> 4. print / Download</div>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger shadow-sm mb-4" style="border-radius: 12px; border: none; font-weight: 700;">
+        <i class="fas fa-exclamation-circle mr-2"></i> {{ error }}
+    </div>
+    {% endif %}
+
+
+<!--
+<div class="booking-card">
+    <table class="table-intl">
+        <thead>
+            <tr>
+                <th style="width: 60px;">No.</th>
+                <th>Route & Bus Details</th>
+                <th>Bus Level</th>
+                <th>Departure Date</th>
+                <th>Ticket Price</th>
+                <th>Availability</th>
+                <th style="width: 160px; text-align: center;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in routes %}
+            <tr>
+                <td style="font-weight: 700; color: #94a3b8; font-size: 14px;">
+                    {{ forloop.counter | stringformat:"02d" }}.
+                </td>
+                <td>
+                    <div class="city-box mb-2">
+                        <span>{{ item.route.depcity }}</span>
+                        <i class="fas fa-long-arrow-alt-right mx-2" style="color: #64748b; font-size: 14px;"></i>
+                        <span>{{ item.route.descity }}</span>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center" style="gap: 8px;">
+
+                        {# --- NEW LOGIC START --- #}
+                        {% if item.levels == "Special Bus" %}
+                            {# Luxury Sunlong Coach profile style #}
+                            <span class="bus-badge-special">
+                                <i class="fas fa-bus-alt" style="font-size: 11px;"></i> Premium {{ item.name }}
+                            </span>
+                        {% else %}
+                            {# Regular cross-country bus style for 1st, 2nd, 3rd levels #}
+                            <span class="bus-badge">
+                                <i class="fas fa-bus" style="font-size: 11px;"></i> Cross-Country {{ item.name }}
+                            </span>
+                        {% endif %}
+                        {# --- NEW LOGIC END --- #}
+
+                        <span class="plate-badge">
+                            <i class="fas fa-id-card"></i> {{ item.route.plate_no }}
+                        </span>
+                    </div>
+                </td>
+                <td><span class="level-badge">{{ item.levels }}</span></td>
+
+                <td>
+                    <div style="font-weight: 700; color: #334155; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="far fa-calendar-alt text-muted"></i> {{ item.route.date }}
+                    </div>
+                </td>
+                <td>
+                    <div class="price-tag">
+                        {{ item.route.price }} <span class="price-currency">ETB</span>
+                    </div>
+                </td>
+                <td>
+                    {% if item.remaining_seats > 0 and item.route.is_active %}
+                    <div class="seat-badge">
+                        <span class="spinner-grow spinner-grow-sm text-warning" style="width: 8px; height: 8px; animation-duration: 1.2s;" role="status"></span>
+                        <i class="fas fa-users"></i> {{ item.remaining_seats }} It remains
+                    </div>
+                    {% else %}
+                    <div class="seat-badge none">
+                        <i class="fas fa-times-circle"></i> Sold Out
+                    </div>
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="{% url 'Select' %}" method="post" style="margin: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                        <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                        <input type="hidden" name="price" value="{{ item.route.price }}">
+                        <input type="hidden" name="date" value="{{ item.route.date }}">
+                        <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                        <button type="submit" class="btn-select {% if not item.route.is_active or item.remaining_seats <= 0 %}btn-disabled{% endif %}"
+                                {% if not item.route.is_active or item.remaining_seats <= 0 %}disabled{% endif %}>
+                            {% if item.route.is_active and item.remaining_seats > 0 %}
+                                Select <i class="fas fa-chevron-right ml-1" style="font-size: 10px;"></i>
+                            {% else %}
+                                Sold Out
+                            {% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+-->
+
+
+<div class="booking-card">
+    <table class="table-intl">
+        <thead>
+            <tr>
+                <th style="width: 60px;">No.</th>
+                <th>Route & Bus Details</th>
+                <th>Bus Level</th>
+                <th>Departure Date</th>
+                <th>Ticket Price</th>
+                <th>Availability</th>
+                <th style="width: 160px; text-align: center;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in routes %}
+            <tr>
+                <td style="font-weight: 700; color: #94a3b8; font-size: 14px;">
+                    {{ forloop.counter | stringformat:"02d" }}.
+                </td>
+                <td>
+                    <div class="city-box mb-2">
+                        <span>{{ item.route.depcity }}</span>
+                        <i class="fas fa-long-arrow-alt-right mx-2" style="color: #64748b; font-size: 14px;"></i>
+                        <span>{{ item.route.descity }}</span>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center" style="gap: 8px;">
+                        
+                        {# --- NEW LOGIC START --- #}
+                        {% if item.levels == "Special Bus" %}
+                            {# Special Bus specific text and unique CSS class #}
+                            <span class="bus-badge-special">
+                                <i class="fas fa-bus-alt" style="font-size: 11px;"></i> Premium {{ item.name }}
+                            </span>
+                        {% else %}
+                            {# Default: 1st, 2nd, 3rd logic using existing CSS class #}
+                            <span class="bus-badge">
+                                <i class="fas fa-bus" style="font-size: 11px;"></i> {{ item.name }}
+                            </span>
+                        {% endif %}
+                        {# --- NEW LOGIC END --- #}
+
+                        <span class="plate-badge">
+                            <i class="fas fa-id-card"></i> {{ item.route.plate_no }}
+                        </span>
+                    </div>
+                </td>
+                <td><span class="level-badge">{{ item.levels }}</span></td>
+
+                <td>
+                    <div style="font-weight: 700; color: #334155; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="far fa-calendar-alt text-muted"></i> {{ item.route.date }}
+                    </div>
+                </td>
+
+                <td>
+                    <div class="price-tag">
+                        {{ item.route.price }} <span class="price-currency">ETB</span>
+                    </div>
+                </td>
+                <td>
+                    {% if item.remaining_seats > 0 and item.route.is_active %}
+                    <div class="seat-badge">
+                        <span class="spinner-grow spinner-grow-sm text-warning" style="width: 8px; height: 8px; animation-duration: 1.2s;" role="status"></span>
+                        <i class="fas fa-users"></i> {{ item.remaining_seats }} It remains
+                    </div>
+                    {% else %}
+                    <div class="seat-badge none">
+                        <i class="fas fa-times-circle"></i> Sold Out
+                    </div>
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="{% url 'Select' %}" method="post" style="margin: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                        <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                        <input type="hidden" name="price" value="{{ item.route.price }}">
+                        <input type="hidden" name="date" value="{{ item.route.date }}">
+                        <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+
+                        <button type="submit" class="btn-select {% if not item.route.is_active or item.remaining_seats <= 0 %}btn-disabled{% endif %}"
+                                {% if not item.route.is_active or item.remaining_seats <= 0 %}disabled{% endif %}>
+                            {% if item.route.is_active and item.remaining_seats > 0 %}
+                                Select <i class="fas fa-chevron-right ml-1" style="font-size: 10px;"></i>
+                            {% else %}
+                                Sold Out
+                            {% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+<!--
+<div class="booking-card">
+    <table class="table-intl">
+        <thead>
+            <tr>
+                <th style="width: 60px;">No.</th>
+                <th>Route & Bus Details</th>
+                <th>Bus Level</th>
+                <th>Departure Date</th>
+                <th>Ticket Price</th>
+                <th>Availability</th>
+                <th style="width: 160px; text-align: center;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in routes %}
+            <tr>
+                <td style="font-weight: 700; color: #94a3b8; font-size: 14px;">
+                    {{ forloop.counter | stringformat:"02d" }}.
+                </td>
+                <td>
+                    <div class="city-box mb-2">
+                        <span>{{ item.route.depcity }}</span>
+                        <i class="fas fa-long-arrow-alt-right mx-2" style="color: #64748b; font-size: 14px;"></i>
+                        <span>{{ item.route.descity }}</span>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center" style="gap: 8px;">
+                        
+                        {# --- NEW LOGIC START --- #}
+                        {% if item.levels == "Special Bus" %}
+                            {# Special Bus specific text and unique CSS class #}
+                            <span class="bus-badge-special">
+                                <i class="fas fa-bus-alt" style="font-size: 11px;"></i> Premium {{ item.name }}
+                            </span>
+                        {% else %}
+                            {# Default: 1st, 2nd, 3rd logic using existing CSS class #}
+                            <span class="bus-badge">
+                                <i class="fas fa-bus" style="font-size: 11px;"></i> {{ item.name }}
+                            </span>
+                        {% endif %}
+                        {# --- NEW LOGIC END --- #}
+
+                        <span class="plate-badge">
+                            <i class="fas fa-id-card"></i> {{ item.route.plate_no }}
+                        </span>
+                    </div>
+                </td>
+                <td><span class="level-badge">{{ item.levels }}</span></td>
+
+                <td>
+                    <div style="font-weight: 700; color: #334155; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="far fa-calendar-alt text-muted"></i> {{ item.route.date }}
+                    </div>
+                </td>
+
+                <td>
+                    <div class="price-tag">
+                        {{ item.route.price }} <span class="price-currency">ETB</span>
+                    </div>
+                </td>
+                <td>
+                    {% if item.remaining_seats > 0 and item.route.is_active %}
+                    <div class="seat-badge">
+                        <span class="spinner-grow spinner-grow-sm text-warning" style="width: 8px; height: 8px; animation-duration: 1.2s;" role="status"></span>
+                        <i class="fas fa-users"></i> {{ item.remaining_seats }} It remains
+                    </div>
+                    {% else %}
+                    <div class="seat-badge none">
+                        <i class="fas fa-times-circle"></i> Sold Out
+                    </div>
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="{% url 'Select' %}" method="post" style="margin: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                        <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                        <input type="hidden" name="price" value="{{ item.route.price }}">
+                        <input type="hidden" name="date" value="{{ item.route.date }}">
+                        <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+
+                        <button type="submit" class="btn-select {% if not item.route.is_active or item.remaining_seats <= 0 %}btn-disabled{% endif %}"
+                                {% if not item.route.is_active or item.remaining_seats <= 0 %}disabled{% endif %}>
+                            {% if item.route.is_active and item.remaining_seats > 0 %}
+                                Select <i class="fas fa-chevron-right ml-1" style="font-size: 10px;"></i>
+                            {% else %}
+                                Sold Out
+                            {% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+-->
+
+
+<style>
+
+/* Example special badge styling (e.g., gold/dark grey) */
+.bus-badge-special {
+    background-color: #334155; /* Dark grey */
+    color: #f59e0b; /* Amber/Gold text */
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #f59e0b; /* Gold border */
+}
+</style>
+
+
+
+
+    <!--
+    <div class="booking-card">
+        <table class="table-intl">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">No.</th>
+                    <th>Route & Bus Details</th>
+                    <th>Bus Level</th>
+                    <th>Departure Date</th>
+                    <th>Ticket Price</th>
+                    <th>Availability</th>
+                    <th style="width: 160px; text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in routes %}
+                <tr>
+                    <td style="font-weight: 700; color: #94a3b8; font-size: 14px;">
+                        {{ forloop.counter | stringformat:"02d" }}.
+                    </td>
+                    
+                    <td>
+                        <div class="city-box mb-2">
+                            <span>{{ item.route.depcity }}</span>
+                            <i class="fas fa-long-arrow-alt-right mx-2" style="color: #64748b; font-size: 14px;"></i>
+                            <span>{{ item.route.descity }}</span>
+                        </div>
+                        <div class="d-flex flex-wrap align-items-center" style="gap: 8px;">
+                            <span class="bus-badge">
+                                <i class="fas fa-bus" style="font-size: 11px;"></i> {{ item.name }}
+                            </span>
+                            <span class="plate-badge">
+                                <i class="fas fa-id-card"></i> {{ item.route.plate_no }}
+                            </span>
+                        </div>
+                    </td>
+                    <td><span class="level-badge">{{ item.levels }}</span></td>
+                    
+                    <td>
+                        <div style="font-weight: 700; color: #334155; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="far fa-calendar-alt text-muted"></i> {{ item.route.date }}
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <div class="price-tag">
+                            {{ item.route.price }} <span class="price-currency">ETB</span>
+                        </div>
+                    </td>
+                    
+                    <td>
+                        {% if item.remaining_seats > 0 and item.route.is_active %}
+                        <div class="seat-badge">
+                            <span class="spinner-grow spinner-grow-sm text-warning" style="width: 8px; height: 8px; animation-duration: 1.2s;" role="status"></span>
+                            <i class="fas fa-users"></i> {{ item.remaining_seats }} It remains
+                        </div>
+                        {% else %}
+                        <div class="seat-badge none">
+                            <i class="fas fa-times-circle"></i> Sold Out
+                        </div>
+                        {% endif %}
+                    </td>
+                      <td>
+                        <form action="{% url 'Select' %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                            <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                            <input type="hidden" name="price" value="{{ item.route.price }}">
+                            <input type="hidden" name="date" value="{{ item.route.date }}">
+                            <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+
+                            <button type="submit" class="btn-select {% if not item.route.is_active or item.remaining_seats <= 0 %}btn-disabled{% endif %}"
+                                    {% if not item.route.is_active or item.remaining_seats <= 0 %}disabled{% endif %}>
+                                {% if item.route.is_active and item.remaining_seats > 0 %}
+                                    Select <i class="fas fa-chevron-right ml-1" style="font-size: 10px;"></i>
+                                {% else %}
+                                    Sold Out
+                                {% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+-->
+
+
+<footer style="background: var(--brand-navy); color: white; padding: 60px 0 30px; margin-top: 80px; text-align: center;">
+    <div class="container">
+        <h3 style="font-weight: 800; margin-bottom: 20px;">Busfermata Digital Technology</h3>
+        <p style="opacity: 0.6;">© 2026 Busfermata • Modernizing Ethiopian Travel</p>
+        <div class="mt-4">
+            <i class="fab fa-facebook mx-3"></i><i class="fab fa-telegram mx-3"></i><i class="fab fa-instagram mx-3"></i>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

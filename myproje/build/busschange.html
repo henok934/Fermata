@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>bus change</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<header class="header">
+                <!-- Top Bar -->
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+ <nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <!--<div class="logo"><a href="#"><img src="../static/images/logo.png" alt="" style="color:blue;">ticket</a></div>-->
+                                                        <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">Home</a>
+        </li>
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+
+    <li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{count}}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    // Automatically submit the form when a date is selected
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</header>
+	</br></br></br></br></br></br></br></br></br></br></br>
+	 {% if success %}
+    <div class="success">
+    <h3 style="color: yellow; margin-left: 150px;"><b>{{ success }}</b><span style="margin-left:30px;" class="symbol">✔</span></h3>
+    </div>
+    {% endif %}
+      {% if error %}
+    <div class="success">
+    <h3 style="color: red; margin-left: 150px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">X</span></h3>
+    </div>
+    {% endif %}
+
+
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<table style="margin: 0 auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: green; height: 40px;">
+            <th style="padding: 5px; width: 50px; border-right: 2px solid white;"><h3 style="margin: 0; color: red;">No</h3></th>
+            <th style="padding: 5px; width: 120px; border-right: 2px solid white;"><h3 style="margin: 0; color: white;">Departure</h3></th>
+            <th style="padding: 5px; width: 120px; border-right: 2px solid white;"><h3 style="margin: 0; color: white;">Destination</h3></th>
+            <th style="padding: 5px; width: 120px; border-right: 2px solid white;"><h3 style="margin: 0; color: white;">Travel Date</h3></th>
+            <th style="padding: 5px; width: 100px; border-right: 2px solid white;"><h3 style="margin: 0; color: white;">Side No</h3></th>
+            <th style="padding: 5px; width: 100px;"><h3 style="margin: 0; color: white;">New Side</h3></th>
+        </tr>
+        <tr>
+            <td colspan="6" style="border-bottom: 2px solid blue;"></td>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for bus in buschange %}
+        <tr>
+            <td style="text-align: center; border-right: 2px solid white;">
+                <h3><b style="color: brown;">{{ forloop.counter }}</b></h3>
+            </td>
+
+            <td style="text-align: center; border-right: 2px solid white;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.depcity }}
+                </div>
+            </td>
+            <td style="text-align: center; border-right: 2px solid white;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.descity }}
+                </div>
+            </td>
+            <td style="text-align: center; border-right: 2px solid white;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.date }}
+                </div>
+            </td>
+            <td style="text-align: center; border-right: 2px solid white;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.side_no }}
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.new_side_no }}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+<!--
+<h1 style="text-align: center; color: blue;"><b>Change Bus</b></h1>
+<table style="margin: 0 auto; width: 90%; max-width: 450px; background-color: lightgray; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 10px;"><h3><b style="color: red;">No</b></h3></th>
+            <th style="padding: 10px;"><h3><b style="color: white;">Departure</b></h3></th>
+            <th style="padding: 10px;"><h3><b style="color: white;">Destination</b></h3></th>
+            <th style="padding: 10px;"><h3><b style="color: white;">Travel Date</b></h3></th>
+            <th style="padding: 10px;"><h3><b style="color: white;">Side No</b></h3></th>
+            <th style="padding: 10px;"><h3><b style="color: white;">New Side</b></h3></th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for bus in buschange %}
+        <tr>
+            <td style="text-align: center;"><h3><b style="color: brown;">{{ loop.index }}</b></h3></td>
+            <td style="text-align: center;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.depcity }}
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.descity }}
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.date }}
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.side_no }}
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <div style="height: 50px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                    {{ bus.new_side_no }}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+
+<!--
+<h1 style="margin-left:450px;color:blue;"><b>Change Bus</b> </h1></br>
+<table style="margin-left:10px; width: 450px; background-color: lightgray;">
+<thead>
+  <tr style="background-color: lightgray; width: 400px;">
+    <th style="padding-top: 10px;">
+    </th>
+</tr>
+<tr>
+    <th><h3><b style="color: red; background-color: green;">No</b></h3></th>
+    <th><h3><b style="color: white; background-color: green; margin-left: 30px;">Departure</b></h3></th>
+    <th><h3><b style="color: white; background-color: green; margin-left: 25px;">Destination</b></h3></th>
+    <th><h3><b style="color: white; background-color: green; margin-left: 20px;">Travel Date</b></h3></th>
+    <th><h3><b style="color: white; background-color: green; margin-left: 30px;">Side no</b></h3></th>
+    <th><h3><b style="color: white; background-color: green; margin-left: 40px;">new Side</b></h3></th>
+</tr>
+</thead>
+    <tbody style="background-color: lightgray; margin-left: 300px;">
+        {% for bus in buschange%}
+        <tr>
+            <td><h3><b style="color: brown;">{{ loop.index }}</b></h3></td>
+            <td>
+    <input type="text" name="plate_no" value="{{ bus.depcity}}" readonly style="height: 50px; margin-left: 7px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+    </td>
+    <td>
+    <input type="text" name="sideno" value="{{ bus.descity }}" readonly style="height: 50px; margin-left: 7px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+    </td>
+    <td>
+<input type="text" name="no_seats" value="{{bus.date}}" readonly style="height: 50px; margin-left: 7px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;"></td>    
+
+ <td>
+<input type="text" name="no_seats" value="{{bus.side_no}}" readonly style="height: 50px; margin-left: 7px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;"></td> 
+
+ <td>
+<input type="text" name="no_seats" value="{{bus.new_side_no}}" readonly style="height: 50px; margin-left: 7px; text-align: center; color: blue; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;"></td>
+
+</tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+
+</br></br></br></br></br></br></br></br></br>
+
+
+  <div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                                <div><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="#">Ticket Team</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+                                        </div>
+                                </div>
+                                <div class="col-lg-9 order-lg-2 order-1">
+                                        <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                                                <div class="footer_nav">
+                                                        <ul class="footer_nav_list">
+                                             		  <li class="footer_nav_item"><a href="{% url 'home' %}">home</a></li>
+                                                                <li class="footer_nav_item"><a href="{% url 'about' %}">about us</a></li>
+                                                                <li class="footer_nav_item"><a href="{% url 'comment' %}">comment</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'changebuses' %}">newss</a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+</body>
+</html>

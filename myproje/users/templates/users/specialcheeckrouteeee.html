@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Check Route</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --bg-soft: #f1f5f9;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+            --surface-gray: #f8fafc;
+        }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--surface-gray); 
+            margin: 0;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        /* --- TOAST ERROR NOTIFICATION --- */
+        .intl-error-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            border-left: 5px solid #ff4b2b;
+            z-index: 10000;
+            min-width: 320px;
+            animation: slideIn 0.4s ease-out;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .toast-content { display: flex; align-items: center; gap: 12px; }
+        .toast-icon { color: #ff4b2b; font-size: 20px; }
+        .toast-message { display: flex; flex-direction: column; }
+        .toast-title { font-weight: bold; font-size: 14px; color: #333; }
+        .toast-desc { font-size: 13px; color: #666; }
+        .toast-close { background: none; border: none; color: #999; cursor: pointer; margin-left: auto; transition: 0.2s; }
+        .toast-close:hover { color: #333; }
+        .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; background: #eee; }
+        .toast-progress::after { content: ''; position: absolute; left: 0; width: 100%; height: 100%; background: #ff4b2b; animation: progressFill 5s linear forwards; }
+
+        @keyframes slideIn { from { transform: translateX(110%); } to { transform: translateX(0); } }
+        @keyframes progressFill { from { width: 100%; } to { width: 0%; } }
+
+        /* --- TOP UTILITY BAR --- */
+        .top-bar-mini {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 6px 15px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .logout-link {
+            color: var(--brand-gold);
+            text-decoration: none;
+            padding: 2px 10px;
+            border: 1px solid var(--brand-gold);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .logout-link:hover { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
+
+        /* --- NAVBAR STYLING FROM BUSINSERT --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 10px 0;
+            border-bottom: 3px solid var(--brand-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .nav-logo-full { height: 44px; border-radius: 6px; border: 1.5px solid white; }
+        .brand-name-main { color: white; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; display: block; line-height: 1.2; }
+        .brand-subtext { color: var(--brand-gold); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+
+        .home-btn-active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        .home-btn-active:hover { color: var(--brand-gold); text-decoration: none; }
+
+        .intl-select {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+        .intl-select option { background: var(--brand-navy); color: white; }
+
+        /* --- Content Layout --- */
+        .page-container { max-width: 900px; margin: 40px auto; padding: 0 15px; }
+        .content-card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 25px; border-top: 5px solid var(--brand-navy); margin-bottom: 30px; }
+
+        /* --- Footer --- */
+        .footer-main { background: var(--brand-navy); color: rgba(255,255,255,0.8); padding: 40px 0 20px; margin-top: 60px; border-top: 5px solid var(--brand-gold); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 30px; font-size: 11px; text-align: center; }
+
+        @media (max-width: 991px) {
+            .navbar-collapse { background: #001a35; padding: 20px; margin-top: 10px; border-radius: 8px; }
+            .intl-select { width: 100%; margin: 5px 0; }
+            .home-btn-active { display: block; margin-bottom: 10px; text-align: center; }
+        }
+
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        .brand-logo { border: none !important; box-shadow: none !important; border-radius: 0; }
+    </style>
+</head>
+<body>
+
+<!-- TOP UTILITY BAR -->
+<div class="top-bar-mini">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <span><i class="fa fa-headset mr-2"></i> Support: +251 975143134</span>
+        <a href="{% url 'logout' %}" class="logout-link">LOGOUT</a>
+    </div>
+</div>
+
+<!-- DJANGO ERROR NOTIFICATION -->
+{% if error %}
+<div class="intl-error-toast" id="djangoError">
+    <div class="toast-content">
+        <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+        <div class="toast-message">
+            <span class="toast-title">System Message</span>
+            <span class="toast-desc">{{ error }}</span>
+        </div>
+        <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+{% endif %}
+
+<!-- UNIFIED NAV BAR CONSTRUCT -->
+<nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+    <div class="container-fluid">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+            <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+                {% if company.logo %}
+                    <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+                {% else %}
+                    <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+                {% endif %}
+            </div>
+
+            <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+                <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+                <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+                    {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+
+                    {% if level %}
+                        <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+                    {% endif %}
+                </span>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navSystem">
+            <div class="d-lg-flex align-items-center ml-auto">
+                <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+
+                <div class="select-cluster d-lg-flex">
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Bus Registration</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+                        <option value="{% url 'special_route' %}">Add New Route</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Operational Reports</option>
+                        <option value="{% url 'myroute' %}">Route Data</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Management</option>
+                        <option value="{% url 'updatebus' %}">Update Buss</option>
+                         {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_active' %}">Active Route</option>
+    {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
+    {% endif %}
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_route_delete' %}">Route Delete</option>
+    {% endif %}
+        {% if level == 'Special Bus' %}
+                                 <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
+    {% endif %}
+
+                        <option value="{% url 'busdelete' %}">Delete Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT WORKSPACE -->
+<div class="page-container">
+    <div class="content-card" style="max-width: 500px; margin: 0 auto 30px;">
+        <h4 class="text-center font-weight-bold mb-4" style="color: var(--brand-navy);">Ticket Inquiry</h4>
+        <form action="{% url 'specialdeleteticket' %}" method="post">
+            {% csrf_token %}
+            
+            <div style="display: flex; align-items: center; margin: 5px 0;">
+                <label for="depcity" style="color: #003366; font-weight: bold; margin-right: 10px; margin-left: 50px;">
+                    <b>From:</b>
+                </label>
+                <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; color: brown; text-align: left; margin-left: 10px;" required>
+                    <option value="" style="color: green; font-weight: bold;">Select</option>
+                    {% if des %}
+                        {% for depcity in des %}
+                            {% if depcity.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+
+            <div style="display: flex; align-items: center; margin: 5px 0; margin-top: 20px;">
+                <label for="descity" style="color: #003366; font-weight: bold; margin-right: 10px; margin-left: 50px;">
+                    <b>To:</b>
+                </label>
+                <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; color: brown; text-align: left; margin-left: 30px;" required>
+                    <option value="" style="color: green; font-weight: bold;">Select</option>
+                    {% if des %}
+                        {% for depcity in des %}
+                            {% if depcity.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+
+            <div style="display: flex; align-items: center; margin: 5px 0; margin-top:20px;">
+                <label for="date" style="color: #003366; font-weight: bold; margin-right: 10px;margin-left:50px;"><b>Date:</b></label>
+                <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; margin-left:15px; color: brown;" required>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5" style="background-color: var(--brand-navy); border: none;">Search Ticket</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- FOOTER SYSTEM BAR -->
+<footer class="footer-main">
+    <div class="container">
+        <div class="row text-center text-md-left">
+            <div class="col-md-6 mb-3"><h6 class="text-white font-weight-bold">Busfermata<span style="color:var(--brand-gold);">.</span></h6></div>
+            <div class="col-md-6 text-md-right"><p class="small">Support: +251 975 143 134</p></div>
+        </div>
+        <div class="footer-bottom"><p class="mb-0">&copy; 2026 Busfermata Digital Technology.</p></div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function closeError() {
+    const toast = document.getElementById('djangoError');
+    if (toast) {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = '0.4s ease';
+        setTimeout(() => toast.remove(), 400);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('djangoError')) {
+        setTimeout(closeError, 5000);
+    }
+});
+</script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit(){
+    new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+}
+function changeLanguage(l){
+    localStorage.setItem("userLanguage",l);
+    var s=document.querySelector("select.goog-te-combo");
+    if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+}
+window.addEventListener("load",function(){
+    const l=localStorage.getItem("userLanguage");
+    if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+});
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>select route</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+		<!-- Header -->
+<header class="header">
+		<!-- Top Bar -->
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+
+<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <!--<div class="logo"><a href="#"><img src="../static/images/logo.png" alt="" style="color:blue;">ticket</a></div>-->
+                                                        <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">HOME</a>
+        </li>
+
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+<li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+<li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+ document.getElementById('dateInput').addEventListener('change', function() {
+ document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+	</header>
+	<div class="menu trans_500">
+		<div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+			<div class="menu_close_container"><div class="menu_close"></div></div>
+			<div class="logo menu_logo"><a href="#"><img src="../static/images/logo.png" alt=""></a></div>
+			<ul>
+			  <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                          <li class="main_nav_item"><a href="{% url 'get_ticket' %}">show ticket</a></li>
+                          <li class="main_nav_item"><a href="{% url 'book' %}">book</a></li>
+			   <li class="main_nav_item"><a href="{% url 'ticketinfo' %}">Selectbus</a></li>
+                          <li class="main_nav_item"><a href="{% url 'logout' %}">logout</a></li>
+			</ul>
+		</div>
+		</br>
+		</br>
+	</div>
+	</br></br></br></br></br>
+
+	</br></b></br><br>
+</br><br>
+
+	<h2 style="text-align: center; color: blue; margin-buttom:50px;"><b>Select Bus</b></h2>
+       <div class="search_panel active" style="margin-top:10px;">
+
+<!--
+	       <style>
+  .center-input {
+    text-align: center;
+  }
+</style>
+<style>
+  .plate-no-label {
+    margin-bottom: 10px; /* Adjust the value to increase or decrease the space */
+  }
+</style>
+<style>
+    #gender-input {
+        width: 263px;
+    }
+</style>
+-->
+
+
+
+
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 16px; margin-top: 50px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 10px;">
+                <span style="color: red; font-weight: bold; font-size: 14px;">No</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Departure</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Destination</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Plate No</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Travel Date</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Remaining Seats</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Action</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: brown; font-weight: bold; font-size: 14px;">{{ forloop.counter }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.depcity }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.descity }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.plate_no }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.date }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: red; font-weight: bold; font-size: 14px;">{{ item.remaining_seats }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 30px; width: 80px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;"
+                        {% if item.remaining_seats == 'Full' %}disabled{% endif %}>
+                        <span style="color: pink; font-weight: bold; font-size: 14px;">Select</span>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 16px; margin-top-50px;">
+    <thead>
+        <tr style="background-color: green; margin-top:-40px;">
+            <th style="padding: 10px;">
+                <span style="color: red; font-weight: bold; font-size: 14px;">No</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Departure</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Destination</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Plate No</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Travel Date</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Remaining Seats</span>
+            </th>
+            <th style="padding: 10px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Action</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: brown; font-weight: bold; font-size: 14px;">{{ forloop.counter }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.depcity }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.descity }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.plate_no }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.date }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="color: red; font-weight: bold; font-size: 14px;">{{ item.remaining_seats }}</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 30px; width: 80px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;">
+                        <span style="color: pink; font-weight: bold; font-size: 14px;">Select</span>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 14px; /* Slightly smaller font size on mobile */
+            width: 100%; /* Ensure table uses full width */
+        }
+        th, td {
+            padding: 5px; /* Reduced padding for smaller screens */
+        }
+        button {
+            width: 70px; /* Adjust button width for mobile */
+            height: 30px; /* Adjust button height for mobile */
+        }
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 18px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 15px;">
+                <span style="color: red; font-weight: bold; font-size: 16px;">No</span>
+            </th>
+            <th style="padding: 15px;">
+                <span style="color: white; font-weight: bold; font-size: 16px;">Departure</span>
+            </th>
+            <th style="padding: 15px;">
+                <span style="color: white; font-weight: bold; font-size: 16px;">Destination</span>
+            </th>
+            <th style="padding: 15px;">
+                <span style="color: white; font-weight: bold; font-size: 16px;">Plate No</span>
+            </th>
+            <th style="padding: 15px;">
+                <span style="color: white; font-weight: bold; font-size: 16px;">Travel Date</span>
+            </th>
+            <th style="padding: 15px;">
+                <span style="color: white; font-weight: bold; font-size: 16px;">Remaining Seats</span>
+            </th>
+            <th style="padding: 15px;">
+                <span style="color: white; font-weight: bold; font-size: 16px;">Action</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 15px; text-align: center;">
+                <span style="color: brown; font-weight: bold; font-size: 16px;">{{ forloop.counter }}</span>
+            </td>
+            <td style="padding: 15px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 16px;">{{ item.route.depcity }}</span>
+            </td>
+            <td style="padding: 15px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 16px;">{{ item.route.descity }}</span>
+            </td>
+            <td style="padding: 15px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 16px;">{{ item.route.plate_no }}</span>
+            </td>
+            <td style="padding: 15px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 16px;">{{ item.route.date }}</span>
+            </td>
+            <td style="padding: 15px; text-align: center;">
+                <span style="color: red; font-weight: bold; font-size: 16px;">{{ item.remaining_seats }}</span>
+            </td>
+            <td style="padding: 15px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 40px; width: 100px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;">
+                        <span style="color: pink; font-weight: bold; font-size: 16px;">Select</span>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 16px; /* Maintain larger font size on mobile */
+        }
+        th, td {
+            padding: 10px; /* Ensure padding is consistent on smaller screens */
+        }
+        button {
+            width: 80px; /* Adjust button width for mobile */
+            height: 30px; /* Adjust button height for mobile */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 16px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 5px;">
+                <span style="color: red; font-weight: bold; font-size: 14px;">No</span>
+            </th>
+            <th style="padding: 5px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Departure</span>
+            </th>
+            <th style="padding: 5px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Destination</span>
+            </th>
+            <th style="padding: 5px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Plate No</span>
+            </th>
+            <th style="padding: 5px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Travel Date</span>
+            </th>
+            <th style="padding: 5px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Remaining Seats</span>
+            </th>
+            <th style="padding: 5px;">
+                <span style="color: white; font-weight: bold; font-size: 14px;">Action</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 5px; text-align: center;">
+                <span style="color: brown; font-weight: bold; font-size: 14px;">{{ forloop.counter }}</span>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.depcity }}</span>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.descity }}</span>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.plate_no }}</span>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 14px;">{{ item.route.date }}</span>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <span style="color: red; font-weight: bold; font-size: 14px;">{{ item.remaining_seats }}</span>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 35px; width: 90px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;">
+                        <span style="color: pink; font-weight: bold; font-size: 14px;">Select</span>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 14px; /* Slightly larger font size on mobile */
+        }
+        th, td {
+            padding: 4px; /* Reduced padding for smaller screens */
+        }
+        button {
+            width: 80px; /* Smaller button width */
+            height: 30px; /* Smaller button height */
+        }
+    }
+</style>
+-->
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 12px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 3px;">
+                <span style="color: red; font-weight: bold; font-size: 10px;">No</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white; font-weight: bold; font-size: 10px;">Departure</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white; font-weight: bold; font-size: 10px;">Destination</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white; font-weight: bold; font-size: 10px;">Plate No</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white; font-weight: bold; font-size: 10px;">Travel Date</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white; font-weight: bold; font-size: 10px;">Remaining Seats</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white; font-weight: bold; font-size: 10px;">Action</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: brown; font-weight: bold; font-size: 10px;">{{ forloop.counter }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 10px;">{{ item.route.depcity }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 10px;">{{ item.route.descity }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 10px;">{{ item.route.plate_no }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue; font-weight: bold; font-size: 10px;">{{ item.route.date }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: red; font-weight: bold; font-size: 10px;">{{ item.remaining_seats }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 25px; width: 70px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;"
+                        {% if item.remaining_seats == 'Full' %}disabled{% endif %}>
+                        <span style="color: pink; font-weight: bold; font-size: 10px;">Select</span>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 10px; /* Smaller font size on mobile */
+        }
+        th, td {
+            padding: 2px; /* Further reduced padding for smaller screens */
+        }
+        button {
+            width: 60px; /* Smaller button width */
+            height: 20px; /* Smaller button height */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 12px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 3px;">
+                <span style="color: red;">No</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white;">Departure</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white;">Destination</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white;">Plate No</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white;">Travel Date</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white;">Remaining Seats</span>
+            </th>
+            <th style="padding: 3px;">
+                <span style="color: white;">Action</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: brown;">{{ forloop.counter }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue;">{{ item.route.depcity }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue;">{{ item.route.descity }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue;">{{ item.route.plate_no }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: blue;">{{ item.route.date }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <span style="color: red;">{{ item.remaining_seats }}</span>
+            </td>
+            <td style="padding: 3px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 25px; width: 70px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;"
+                        {% if item.remaining_seats == 'Full' %}disabled{% endif %}>
+                        <span style="color: pink;">Select</span>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 10px; /* Smaller font size on mobile */
+        }
+        th, td {
+            padding: 2px; /* Further reduced padding for smaller screens */
+        }
+        button {
+            width: 60px; /* Smaller button width */
+            height: 20px; /* Smaller button height */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse; font-size: 14px;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 5px;">
+                <h4 style="margin: 0; color: red;">No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="margin: 0; color: white;">Departure</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="margin: 0; color: white;">Destination</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="margin: 0; color: white;">Plate No</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="margin: 0; color: white;">Travel Date</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="margin: 0; color: white;">Remaining Seats</h4>
+            </th>
+            <th style="padding: 5px;">
+                <h4 style="margin: 0; color: white;">Action</h4>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 5px; text-align: center;">
+                <h4 style="margin: 0; color: brown;">{{ forloop.counter }}</h4>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <h4 style="margin: 0; color: blue;">{{ item.route.depcity }}</h4>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <h4 style="margin: 0; color: blue;">{{ item.route.descity }}</h4>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <h4 style="margin: 0; color: blue;">{{ item.route.plate_no }}</h4>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <h4 style="margin: 0; color: blue;">{{ item.route.date }}</h4>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <h4 style="margin: 0; color: red;">{{ item.remaining_seats }}</h4>
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 30px; width: 80px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;"
+                        {% if item.remaining_seats == 'Full' %}disabled{% endif %}>
+                        <b style="color: pink;">Select</b>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<style>
+    @media (max-width: 600px) {
+        table {
+            font-size: 12px; /* Smaller font size on mobile */
+        }
+        th, td {
+            padding: 3px; /* Reduced padding for smaller screens */
+        }
+        button {
+            width: 70px; /* Smaller button width */
+            height: 28px; /* Smaller button height */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: green;">
+            <th style="padding: 10px;">
+                <h3><b style="color: red;">No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Departure</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Destination</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Plate No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Travel Date</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Remaining Seats</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white;">Action</b></h3>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: brown;">{{ forloop.counter }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.depcity }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.descity }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.plate_no }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.date }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: red;">{{ item.remaining_seats }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 40px; width: 100px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;"
+                        {% if item.remaining_seats == 'Full' %}disabled{% endif %}>
+                        <b style="color: pink;">Select</b>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+
+
+<!--
+<table style="margin: 20px auto; width: 100%; max-width: 600px; background-color: lightgray; border-collapse: collapse;">
+        <thead>
+        <tr>
+            <th style="width: 50px; background-color: #4CAF50; color: white; padding: 10px; text-align: center;">No</th>
+            <th style="width: 120px; background-color: #4CAF50; color: white; padding: 10px; text-align: center;">Departure</th>
+            <th style="width: 100px; background-color: #4CAF50; color: white; padding: 10px; text-align: center;">Destination</th>
+            <th style="width: 100px; background-color: #4CAF50; color: white; padding: 10px; text-align: center;">Plate No</th>
+            <th style="width: 100px; background-color: #4CAF50; color: white; padding: 10px; text-align: center;">Date</th>
+            <th style="width: 80px; background-color: #4CAF50; color: white; padding: 10px; text-align: center;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in routes %}
+        <tr style="background-color: {% if forloop.counter|divisibleby:2 %}#f2f2f2{% endif %};">
+            <td style="text-align: center; color: brown;">
+                <h3>{{ forloop.counter }}</h3>
+            </td>
+            <td>
+            <form action="{% url 'Select' %}" method="POST">
+             {% csrf_token %}
+            <input type="text" name="depcity" style="width: 100px; height: 30px; padding: 5px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 14px;" value="{{ item.depcity|slice:15 }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="descity" style="width: calc(100% - 10px); height: 30px; padding: 5px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 14px;" value="{{ route.descity|slice:10 }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="plate_no" style="width: 100px; height: 30px; padding: 5px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 14px;" value="{{ route.plate_no|slice:10 }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="date" style="width: 100px; height: 30px; padding: 5px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; font-size: 14px;" value="{{ route.date|slice:10 }}" readonly>
+</td>
+            <td>
+                <button type="submit" style="height: 40px; width: 100px; background-color: blue; text-align: center; color: brown; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+                    <b style="color: pink;">Select</b>
+                </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+
+
+
+
+
+<!--
+<table style="margin-left: 80px; margin-top: 20px; width: 90%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: lightgray;">
+            <th style="padding: 10px;">
+                <h3><b style="color: red; background-color: green;">No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Departure</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Destination</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Plate No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Travel Date</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Remaining Seats</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Action</b></h3>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: brown;">{{ forloop.counter }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.depcity }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.descity }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.plate_no }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.date }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: red;">{{ item.remaining_seats }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 40px; width: 100px;
+                        background-color: {% if item.remaining_seats == 'Full' %}gray{% else %}blue{% endif %};
+                        color: brown; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;"
+                        {% if item.remaining_seats == 'Full' %}disabled{% endif %}>
+                        <b style="color: pink;">Select</b>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+
+
+
+
+<!--
+<table style="margin-left: 80px; margin-top: 20px; width: 90%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: lightgray;">
+            <th style="padding: 10px;">
+                <h3><b style="color: red; background-color: green;">No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Departure</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Destination</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Plate No</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Travel Date</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Remaining Seats</b></h3>
+            </th>
+            <th style="padding: 10px;">
+                <h3><b style="color: white; background-color: green;">Action</b></h3>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color: lightgray;">
+        {% for item in routes %}
+        <tr>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: brown;">{{ forloop.counter }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.depcity }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.descity }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.plate_no }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: blue;">{{ item.route.date }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <h3><b style="color: red;">{{ item.remaining_seats }}</b></h3>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <form action="{% url 'Select' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="depcity" value="{{ item.route.depcity }}">
+                    <input type="hidden" name="descity" value="{{ item.route.descity }}">
+                    <input type="hidden" name="plate_no" value="{{ item.route.plate_no }}">
+                    <input type="hidden" name="date" value="{{ item.route.date }}">
+                    <button type="submit" style="height: 40px; width: 100px; background-color: blue; color: brown; border-radius: 10px; border: 1px solid #ccc; font-weight: bold;">
+                        <b style="color: pink;">Select</b>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+-->
+
+
+
+
+{% if error %}
+    <div class="error" style="margin-left: 30px; margin-top: 20px;">
+        <h3 style="color: red;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">X</span></h3>
+    </div>
+{% endif %}
+
+
+</br></br></br>
+  </br></br></br></br></br></br></br</br>
+</body>
+</html>

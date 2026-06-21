@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>home</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body>
+<div class="super_container">
+        <header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251 1158 227 938</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="https://www.facebook.com/teklemariam.mosse"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>                                                            <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+                                                <div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+<!--
+                <nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <div class="logo"><a href="#"><img src="../static/images/logo.png" alt="">ticket</a></div>
+                                                </div>
+                                                <div class="main_nav_container ml-auto">
+                                                        
+        <ul class="main_nav_list">                                                              </br></br></br></br>
+        <li class="main_nav_item"><a href="{% url 'book' %}">Book</a></li>
+        <li class="main_nav_item"><a href="{% url 'about' %}">About Us</a></li>
+        <li class="main_nav_item"><a href="{% url 'get_ticket' %}">Show your Tickets</a></li>
+        <li class="main_nav_item"><a href="{% url 'comment' %}">Comment</a></li>
+<li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+        
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    document.getElementById('dateInput').addEventListener('change', function() {
+        // Automatically submit the form when a date is selected
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+</div>
+</div>
+<div class="search_panel active">
+            {% if error1 %}
+            <div class="success">
+            <h3 style="color: red; margin-left: 150px;"><b>{{ error1 }}</b><span style="margin-left:30px;" class="symbol"><b>X</br></span></h3>
+    </div>
+{% endif %}
+
+                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                        width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                                                                <g>
+                                                                        <g>
+                                                                                <g>
+                                                                                        <path class="mag_glass" fill="#FFFFFF" d="M78.438,216.78c0,57.906,22.55,112.343,63.493,153.287c40.945,40.944,95.383,63.494,153.287,63.494
+                                                                                        s112.344-22.55,153.287-63.494C489.451,329.123,512,274.686,512,216.78c0-57.904-22.549-112.342-63.494-153.286
+                                                                                        C407.563,22.549,353.124,0,295.219,0c-57.904,0-112.342,22.549-153.287,63.494C100.988,104.438,78.439,158.876,78.438,216.78z
+                                                                                        M119.804,216.78c0-96.725,78.69-175.416,175.415-175.416s175.418,78.691,175.418,175.416
+                                                                                        c0,96.725-78.691,175.416-175.416,175.416C198.495,392.195,119.804,313.505,119.804,216.78z"/>
+                                                                                </g>
+                                                                        </g>
+                                                                        <g>
+                                                                                <g>
+                                                                                        <path class="mag_glass" fill="#FFFFFF" d="M6.057,505.942c4.038,4.039,9.332,6.058,14.625,6.058s10.587-2.019,14.625-6.058L171.268,369.98
+                                                                                        c8.076-8.076,8.076-21.172,0-29.248c-8.076-8.078-21.172-8.078-29.249,0L6.057,476.693
+                             C-2.019,484.77-2.019,497.865,6.057,505.942z"/>
+                                                                                </g>
+                                                                        </g>
+                                                                </g>
+                                                        </svg>
+                                                </div>
+                                                <form id="search_form" class="search_form bez_1">
+                                                <input type="search" class="search_content_input bez_1">
+                                                </form>
+                             -->
+
+
+
+
+
+			<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+  <li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" <!--class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start"-->
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    // Automatically submit the form when a date is selected
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+{% if error1 %}
+    <div class="success">
+    <h6 style="color: red; margin-left: 300px;"><b>{{ error1 }}</b><span style="margin-left:20px;" class="symbol"><b>X</b></span></h6>
+    </div>
+    {% endif %}
+        </header>
+
+
+        </br></br></br>
+	<div class="home">
+	<div class="home_slider_container">
+                        <div class="owl-carousel owl-theme home_slider">
+                                <div class="owl-item home_slider_item">
+                                        <div class="home_slider_background" style="background-image:url(../static/images/home_slider.jpg
+)"></div>
+			          <div class="home_slider_content text-center">
+				 <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                                </br></br></br></br>
+                                                 </br></br></br> </br></br></br>
+                                                 </br> </br></br>
+<!--
+	home_slider.jpg
+
+<form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-row align-items-center justify-content-start" style="margin: 0; padding: 0; background-color: #2a3439; height: auto; width: 100%; max-width: 1400px;height:200px; margin: 10px auto; padding: 20px;">
+ 
+#2a3439
+
+-->
+
+
+<form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-row align-items-center justify-content-start" style="margin: 20px auto 0; padding: 0; background-color: purple; height: auto; width: 100%; max-width: 1400px; padding: 20px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 0;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+<div class="search_item" style="margin: 0;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 0;">
+        <label for="date" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+    </div>
+    <div style="margin: 0; display: block; text-align: center; margin-top: 0;">
+        <button type="submit" style="background-color: yellow; color: black; display: inline-block; width: 130px;margin-top:30px;gheight: 45px; border: none; text-align: center; margin-left: 10px;">
+            Search
+        </button>
+    </div>
+</form>
+
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of items */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: #2a3439; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Further increased max-width */
+        min-height: 100px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 0; /* Remove margin for consistent spacing */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+
+    button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+
+
+/* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-wrap: nowrap; /* Keep items in a single row */
+            justify-content: flex-start; /* Align items to the start */
+        }
+
+        .search_item {
+            margin: 0; /* Maintain no margin for smaller screens */
+        }
+
+        label {
+            margin-left: 0; /* Reset label margins */
+        }
+    }
+</style>
+
+
+
+
+
+
+
+
+                                                </div>                                  </div>
+                                </div>
+                                <div class="owl-item home_slider_item">
+                                        <div class="home_slider_background" style="background-image:url(../static/images/home_slider.jpg)"></div>
+
+                                        <div class="home_slider_content text-center">
+                                                <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                         </br></br></br>
+                                                  </br></br></br>
+
+						  </br></br></br></br></br></br></br></br>
+<!--
+<form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start" style="margin: 0; padding: 0;">
+    {% csrf_token %}
+<div class="search_item" style="margin: 0;">
+    <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 0;">From</label>
+    <select name="depcity" id="depcity" class="form-control" style="width: auto; display: inline-block; margin-left: 0; margin-right: 200px;" required>
+        <option value="" style="color: green; font-weight: bold;">Select Departure</option>
+        {% if des %}
+            {% for depcity in des %}
+                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+</div>
+<div class="search_item" style="margin: 0;">
+<label for="descity" style="color: blue; font-weight: bold;">To</label>
+        <select name="descity" id="descity" class="form-control" style="width: auto; display: inline-block; margin-left: 10px; margin-right: 60px;" required>
+            <option value="" style="color: green; font-weight: bold;">Select Destination</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 0;">
+        <label for="descity" style="color: blue; font-weight: bold;">Date</label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 90px; margin-left: 20px; " required>
+    </div>
+    <div style="margin: 0; display: block; margin-top: 30px;">
+    <button type="submit" style="background-color: yellow; color: black; margin-left: 0px; display: block; width: 100%; padding: 10px; border: none; text-align: center;">
+        Search Travel
+    </button>
+</div>
+</form>
+-->
+
+<form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-row align-items-center justify-content-start" style="margin: 20px auto 0; padding: 0; background-color: cyan; height: auto; width: 100%; max-width: 1400px; padding: 20px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 0;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+<div class="search_item" style="margin: 0;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+<div class="search_item" style="margin: 0;">
+        <label for="date" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+    </div>
+    <div style="margin: 0; display: block; text-align: center; margin-top: 0;">
+        <button type="submit" style="background-color: yellow; color: black; display: inline-block; width: 130px;margin-top:30px;gheight: 45px; border: none; text-align: center; margin-left: 10px;">
+            Search
+        </button>
+    </div>
+</form>
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of items */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: #2a3439; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Further increased max-width */
+        min-height: 100px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 0; /* Remove margin for consistent spacing */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+
+/* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-wrap: nowrap; /* Keep items in a single row */
+            justify-content: flex-start; /* Align items to the start */
+        }
+
+        .search_item {
+            margin: 0; /* Maintain no margin for smaller screens */
+        }
+
+        label {
+            margin-left: 0; /* Reset label margins */
+        }
+    }
+</style>
+
+
+
+</div></div></div>
+ <div class="owl-item home_slider_item">
+                                        <div class="home_slider_background" style="background-image:url(../static/images/home_slider.jpg)"></div>
+                                        <div class="home_slider_content text-center">
+                                                <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                                </br></br></br>
+                                                 </br></br></br></br></br></br></br></br>
+                                                         </br></br></br>
+
+
+
+
+<form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-row align-items-center justify-content-start" style="margin: 20px auto 0; padding: 0; background-color: pink; height: auto; width: 100%; max-width: 1400px; padding: 20px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 0;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+<div class="search_item" style="margin: 0;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 0;">
+        <label for="date" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+    </div>
+    <div style="margin: 0; display: block; text-align: center; margin-top: 0;">
+ <button type="submit" style="background-color: yellow; color: black; display: inline-block; width: 130px;margin-top:30px;gheight: 45px; border: none; text-align: center; margin-left: 10px;">
+            Search
+        </button>
+    </div>
+</form>
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of items */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: #2a3439; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Further increased max-width */
+        min-height: 100px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 0; /* Remove margin for consistent spacing */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+
+    button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+/* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-wrap: nowrap; /* Keep items in a single row */
+            justify-content: flex-start; /* Align items to the start */
+        }
+
+        .search_item {
+            margin: 0; /* Maintain no margin for smaller screens */
+        }
+
+        label {
+            margin-left: 0; /* Reset label margins */
+        }
+    }
+</style>
+
+
+
+<!--
+<form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start" style="margin: 0; padding: 0;">
+    {% csrf_token %}
+<div class="search_item" style="margin: 0;">
+    <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 0;">From</label>
+    <select name="depcity" id="depcity" class="form-control" style="width: auto; display: inline-block; margin-left: 0; margin-right: 200px;" required>
+        <option value="" style="color: green; font-weight: bold;">Select Departure</option>
+        {% if des %}
+            {% for depcity in des %}
+                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+</div>
+
+<div class="search_item" style="margin: 0;">
+<label for="descity" style="color: blue; font-weight: bold;">To</label>
+        <select name="descity" id="descity" class="form-control" style="width: auto; display: inline-block; margin-left: 10px; margin-right: 60px;" required>
+            <option value="" style="color: green; font-weight: bold;">Select Destination</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 0;">
+        <label for="descity" style="color: blue; font-weight: bold;">Date</label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 90px; margin-left: 20px; " required>
+    </div>
+    <div style="margin: 0; display: block; margin-top: 30px;">
+    <button type="submit" style="background-color: yellow; color: black; margin-left: 0px; display: block; width: 100%; padding: 10px; border: none; text-align: center;">
+        Search Travel
+    </button>
+</div>
+</form>
+-->
+
+
+
+ <!--<div class="button home_slider_button"><div class="button_bcg"></div><a href="#">Book today<span></span><span></span><span></span></a></div>
+                                                -->
+
+
+
+                </div></div></div></div>
+                        <div class="home_slider_nav home_slider_prev">
+                                <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+                                        <defs>
+                                                <linearGradient id='home_grad_prev'>
+                                                        <stop offset='0%' stop-color='#fa9e1b'/>
+                                                        <stop offset='100%' stop-color='#8d4fff'/>
+                                                </linearGradient>
+                                        </defs>
+                                        <path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+                                        M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+                                        C22.545,2,26,5.541,26,9.909V23.091z"/>
+                                        <polygon class="nav_arrow" fill="#F3F6F9" points="15.044,22.222 16.377,20.888 12.374,16.885 16.377,12.882 15.044,11.55 9.708,16.885 11.04,18.219
+                                        11.042,18.219 "/>
+                                </svg>
+                        </div>
+<div class="home_slider_nav home_slider_next">
+                                <svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+                                        <defs>
+                                                <linearGradient id='home_grad_next'>
+                                                        <stop offset='0%' stop-color='#fa9e1b'/>
+                                                        <stop offset='100%' stop-color='#8d4fff'/>
+                                                </linearGradient>
+                                        </defs>
+                                <path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+                                M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+                                C22.545,2,26,5.541,26,9.909V23.091z"/>
+                                <polygon class="nav_arrow" fill="#F3F6F9" points="13.044,11.551 11.71,12.885 15.714,16.888 11.71,20.891 13.044,22.224 18.379,16.888 17.048,15.554
+                                17.046,15.554 "/>
+                                </svg>
+                        </div>
+                        <div class="home_slider_dots">
+                                <ul id="home_slider_custom_dots" class="home_slider_custom_dots">
+                                        <li class="home_slider_custom_dot active"><div></div>01.</li>
+                                        <li class="home_slider_custom_dot"><div></div>02.</li>
+                                        <li class="home_slider_custom_dot"><div></div>03.</li>
+                                </ul>
+                        </div>
+
+                </div>
+</div></div></div></div>
+                        <div class="home_slider_nav home_slider_prev">
+                                <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+                                        <defs>
+                                                <linearGradient id='home_grad_prev'>
+                                                        <stop offset='0%' stop-color='#fa9e1b'/>
+                                                        <stop offset='100%' stop-color='#8d4fff'/>
+                                                </linearGradient>
+                                        </defs>
+                                        <path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+                                        M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+                                        C22.545,2,26,5.541,26,9.909V23.091z"/>
+                                        <polygon class="nav_arrow" fill="#F3F6F9" points="15.044,22.222 16.377,20.888 12.374,16.885 16.377,12.882 15.044,11.55 9.708,16.885 11.04,18.219
+                                        11.042,18.219 "/>
+                                </svg>
+                        </div>
+
+        </div>
+ {% if error %}
+    <div class="success">
+            <h3 style="color: red; margin-left: 150px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol"><b>X</br></span></h3>
+    </div>
+{% endif %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                        </div>
+                </div>
+        </div>
+        <div class="intro">
+                <div class="container">
+                        <div class="row">
+                                <div class="col">
+                                        <h2 class="intro_title text-center">We have the best routes</h2>
+                                </div>
+                        </div>
+                        <div class="row intro_items">
+                                <div class="col-lg-4 intro_col">
+                                        <div class="intro_item">
+                                                <div class="intro_item_overlay"></div>
+                                                <div class="intro_item_background" style="background-image:url(../static/images/intro_1.jpg)"></div>
+                                                <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+                                                <div class="intro_center text-center">
+                                                                <h1>BahirDar</h1>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+ <div class="col-lg-4 intro_col">
+                                        <div class="intro_item">
+                                                <div class="intro_item_overlay"></div>
+                                                <!-- Image by https://unsplash.com/@hellolightbulb -->
+                                                <div class="intro_item_background" style="background-image:url(../static/images/intro_2.jpg)"></div>
+                                                <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+                                                        <div class="intro_center text-center">
+                                                                <h1>Mekelle</h1>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-lg-4 intro_col">
+                                        <div class="intro_item">
+                                                <div class="intro_item_overlay"></div>
+                                                <div class="intro_item_background" style="background-image:url(../static/images/intro_3.jpg)"></div>
+                                                <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+                                                        <div class="intro_center text-center">
+                                                                <h1>Jimma</h1>
+                                                                <div class="rating rating_4">
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+
+                        </div>
+                </div>
+        </div>
+        </br>
+        </br>
+        </br>
+        </br>
+<div class="contact">
+                <div class="contact_background" style="margin-buttom:50px;background-image:url(../static/images/contact.png)"></div>
+                </br></br></br> </br></br></br>
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-5">
+                                        <div class="contact_image">
+
+                                        </div>
+                                </div></br></br>
+                                </br>
+                                </br>
+                                </br>
+                                <div class="col-lg-7">
+                                        <div class="contact_form_container">
+                                                <div class="contact_title">get in touch</div>
+                                                <form action="http://127.0.0.1:8000/comment/" method = "post" id="contact_form" class="contact_form">
+                                                         {% csrf_token %}
+                                                        <input type="text" name = "name" id="contact_form_name" class="contact_form_name input_field" placeholder="Name" required="required" data-error="Name is required.">
+                                                        <input type="email" name = "email" id="contact_form_email" class="contact_form_email input_field" placeholder="E-mail" required="required" data-error="Email is required.">
+                                                        <input type="text" name = "phone" id="contact_form_subject" class="contact_form_subject input_field" placeholder="phone" required="required" id="input-field" name="input-field" maxlength="20">
+                                                        <textarea id="contact_form_message" class="text_field contact_form_message" name="message" rows="4" maxlength = "200" placeholder="Message" required="required" data-error="Please, write us a message."></textarea>
+                                                        <button type="submit" id="form_submit_button"style="margin-left:200px;"class="form_submit_button button">submit</button>                                                </form>                                 </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+        </br></br></br>
+<div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                                <div>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved  made by <a href="#" target="_blank">guzo team</a>  </div>
+                                        </div>
+                                </div>
+                                <div class="col-lg-9 order-lg-2 order-1">
+                                        <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                                                <div class="footer_nav">
+                                                        <ul class="footer_nav_list">
+                                                                <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'about' %}">about us</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'offers' %}">cheeck route</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'comment' %}">comment</a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/js/custom.js"></script>
+</body>
+</html>
+

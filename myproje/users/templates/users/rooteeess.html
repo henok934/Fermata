@@ -1,0 +1,412 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Management Portal | Busfermata Digital Technology</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --admin-red: #d4111e;
+            --bg-soft: #f4f7fa;
+            --status-green: #10b981;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. TOP MINI BAR --- */
+        .top-bar-mini {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.8);
+            padding: 8px 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .logout-text {
+            color: var(--brand-gold);
+            text-decoration: none;
+            padding: 4px 12px;
+            border: 1px solid var(--brand-gold);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .logout-text:hover { background: var(--brand-gold); color: var(--brand-navy); }
+
+        /* --- 2. INTERNATIONAL NAVIGATION --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 12px 0;
+            border-bottom: 4px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .nav-logo-full {
+            height: 50px;
+            border-radius: 8px;
+            border: 2px solid white;
+        }
+        /* Updated Brand Text Name */
+        .brand-name-main {
+            display: block;
+            color: white;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+        .brand-subtext {
+            color: var(--brand-gold);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Spacing for International Layout - Pushes Menu to Right */
+        .navbar-collapse {
+            justify-content: flex-end; 
+        }
+
+        /* Professional Home Button Spacing (The Gap) */
+        .home-btn-active {
+            color: white !important;
+            font-weight: 800;
+            background: rgba(255,255,255,0.15);
+            padding: 10px 22px !important;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-right: 45px; /* Significant International Gap */
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        .home-btn-active:hover { background: rgba(255,255,255,0.25); }
+
+        .intl-select {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 9px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 12px;
+            cursor: pointer;
+            outline: none;
+            transition: 0.3s;
+        }
+        .intl-select:hover { border-color: var(--brand-gold); background: rgba(255,255,255,0.15); }
+        .intl-select option { background: var(--brand-navy); color: white; }
+
+        /* --- 3. SYSTEM WELCOME HEADER --- */
+        .hero-title-section {
+            background: linear-gradient(135deg, var(--brand-navy) 0%, #004080 100%);
+            padding: 60px 0 100px;
+            color: white;
+            text-align: center;
+        }
+        .greeting-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--brand-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        .company-welcome {
+            font-weight: 800;
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        .status-container {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .dot {
+            height: 12px;
+            width: 12px;
+            background-color: var(--status-green);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .pulse {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* --- 4. REPORT CARD --- */
+        .report-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: -60px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            border: 1px solid #e2e8f0;
+        }
+        .search-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-end;
+        }
+        .minimal-box { flex: 1; min-width: 200px; }
+        .minimal-box label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .minimal-box input {
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .btn-transit-search {
+            background: var(--brand-navy);
+            color: white;
+            padding: 0 35px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 800;
+            height: 52px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-transit-search:hover { background: var(--admin-red); transform: translateY(-3px); }
+
+        /* --- 5. FOOTER --- */
+        .system-footer {
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 40px 15px;
+            margin-top: 80px;
+            color: #64748b;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse { background: var(--brand-navy); padding: 20px; border-radius: 10px; margin-top: 15px; }
+            .home-btn-active { display: block; text-align: center; margin-right: 0; margin-bottom: 15px; }
+            .intl-select { margin-left: 0; margin-top: 10px; width: 100%; }
+            .company-welcome { font-size: 26px; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<header class="main-system-header">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div><i class="fa fa-phone mr-2"></i> Support: +251 975 143 134</div>
+            <div>
+                <a href="{% url 'logout' %}" class="logout-text">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+        <div class="container-fluid">
+	<!--
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'images/l.jpeg' %}" class="nav-logo-full">
+                <div class="brand-text-wrapper ml-3">
+                    <span class="brand-name-main">Busfermata TRANSPORT </span>
+                    <span class="brand-subtext">{{ name }} Share Company</span>
+                </div>
+            </a>
+	-->
+<!--
+	 <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <div class="nav-logo-container">
+                {% if company.logo %}
+                    <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+                {% else %}
+                    <div class="nav-logo-fallback"><i class="fas fa-bus"></i></div>
+                {% endif %}
+            </div>
+            <div class="brand-text-wrapper ml-3">
+                <span class="brand-name-main">Busfermata Digital Tech</span>
+                <span class="brand-subtext">
+                    {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+                    {% if level %}
+                        <span class="badge badge-warning ml-2 text-dark font-weight-bold" style="font-size: 10px; padding: 3px 8px;">{{ level }}</span>
+                    {% endif %}
+                </span>
+            </div>
+        </a>
+	-->
+<a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="gap: 14px;">
+    <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 85px; height: 85px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+        {% if company.logo %}
+            <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+        {% else %}
+            <div class="nav-logo-fallback" style="font-size: 36px; color: #00264d;"><i class="fas fa-bus"></i></div>
+        {% endif %}
+    </div>
+
+    <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+        <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+            {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+
+            {% if level %}
+                <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+            {% endif %}
+        </span>
+    </div>
+</a>
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navSystem">
+                <div class="d-lg-flex align-items-center">
+                    
+                    <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+                    
+                    <div class="select-cluster d-lg-flex">
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Bus Registration</option>
+                            <option value="{% url 'businsert' %}">Add New Bus</option>
+        <option value="{% url 'special_route' %}">Add New Route</option>
+                        </select>
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Operational Reports</option>
+                            <option value="{% url 'myroute' %}">Route Data</option>
+                            <option value="{% url 'mybus' %}">Bus Status</option>
+                        </select>
+
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Management</option>
+                            <option value="{% url 'updatebus' %}">Update Buss</option>
+			    {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_active' %}">Active Route</option>
+    {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
+    {% endif %}
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_route_delete' %}">Route Delete</option>
+    {% endif %}
+        {% if level == 'Special Bus' %}
+                                 <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
+    {% endif %}
+
+
+                            <option value="{% url 'busdelete' %}">Delete Bus</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="hero-title-section">
+    <div class="container">
+        <div class="user-info">
+            <p class="greeting-text">HI, {{ firstname }} {{ lastname }}</p>
+            <h2 class="company-welcome">Welcome to {{ name }} Share Company</h2>
+            <div class="status-container">
+                <span class="dot pulse"></span> SYSTEM ACTIVE
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
+            <div class="report-card">
+                <form action="{% url 'specific' %}" method="post">
+                    {% csrf_token %}
+                    <div class="search-grid">
+                        <div class="minimal-box">
+                            <label for="from">REPORT START DATE</label>
+                            <input type="date" name="from" id="from" required>
+                        </div>
+                        <div class="minimal-box">
+                            <label for="to">REPORT END DATE</label>
+                            <input type="date" name="to" id="to" required>
+                        </div>
+                        <div class="button-wrapper">
+                            <button type="submit" class="btn-transit-search">
+                                <i class="fas fa-file-invoice mr-2"></i> GENERATE REPORT
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="system-footer text-center">
+    <div class="container">
+        <h6 style="font-weight: 800; color: var(--brand-navy); font-size: 18px;">{{ name }} Share Company</h6>
+        <p class="mb-1">Busfermata Digital Transport Infrastructure</p>
+        <p class="opacity-50" style="font-size: 11px; margin-top: 15px;">
+            © 2026 Busfermata Digital Technology | Enterprise Version 4.2.1-PRO<br>
+            Secure Administrative Gateway
+        </p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

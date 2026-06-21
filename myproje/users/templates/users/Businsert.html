@@ -1,0 +1,502 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bus Registration | Busfermata Digital Technology</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --bg-soft: #f1f5f9;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        /* --- TOP UTILITY BAR --- */
+        .top-bar-mini {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 6px 15px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .logout-link {
+            color: var(--brand-gold);
+            text-decoration: none;
+            padding: 2px 10px;
+            border: 1px solid var(--brand-gold);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .logout-link:hover { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
+
+        /* --- USER SPECIFIC NAVBAR STYLING --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 10px 0;
+            border-bottom: 3px solid var(--brand-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .nav-logo-full { height: 44px; border-radius: 6px; border: 1.5px solid white; }
+        .brand-name-main { color: white; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; display: block; line-height: 1.2; }
+        .brand-subtext { color: var(--brand-gold); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+
+        .home-btn-active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        .home-btn-active:hover { color: var(--brand-gold); text-decoration: none; }
+
+        .intl-select {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+        .intl-select option { background: var(--brand-navy); color: white; }
+
+        /* --- COMPACT FORM CARD --- */
+        .registration-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,38,77,0.06);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            max-width: 560px; /* Minimized Width */
+            margin: 30px auto;
+        }
+
+        .card-accent-header {
+            background: var(--brand-navy);
+            padding: 12px 20px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-label-custom {
+            font-weight: 700;
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .form-control-intl {
+            height: 36px; /* Minimized Height */
+            border-radius: 5px;
+            border: 1.5px solid #e2e8f0;
+            font-weight: 600;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .form-control-intl:focus {
+            border-color: var(--brand-gold);
+            box-shadow: none;
+            background: #fff;
+        }
+
+        .input-group-text-intl {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-right: none;
+            color: #475569;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 0 8px;
+        }
+
+        .btn-register-intl {
+            background: var(--brand-navy);
+            color: var(--white);
+            border: none;
+            height: 44px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .btn-register-intl:hover {
+            background: var(--brand-gold);
+            color: var(--brand-navy);
+            transform: translateY(-1px);
+        }
+
+        /* Responsive UI Fixes */
+        @media (max-width: 991px) {
+            .navbar-collapse { background: #001a35; padding: 20px; margin-top: 10px; border-radius: 8px; }
+            .intl-select { width: 100%; margin: 5px 0; }
+            .home-btn-active { display: block; margin-bottom: 10px; text-align: center; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar-mini">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <span><i class="fa fa-headset mr-2"></i> Support: +251 975143134</span>
+        <a href="{% url 'logout' %}" class="logout-link">LOGOUT</a>
+    </div>
+</div>
+
+
+<nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+    <div class="container-fluid">
+	<a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+
+    <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+        {% if company.logo %}
+	<!-- <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">-->
+	<img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+        {% else %}
+            <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+        {% endif %}
+    </div>
+
+    <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+        <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+            {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+
+            {% if level %}
+                <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+            {% endif %}
+        </span>
+    </div>
+
+</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navSystem">
+            <div class="d-lg-flex align-items-center ml-auto">
+                <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+
+                <div class="select-cluster d-lg-flex">
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Bus Registration</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+        		<option value="{% url 'special_route' %}">Add New Route</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Operational Reports</option>
+                        <option value="{% url 'myroute' %}">Route Data</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Management</option>
+                        <option value="{% url 'updatebus' %}">Update Buss</option>
+			        {% if level == 'Special Bus' %}
+				 <option value="{% url 'special_active' %}">Active Route</option>
+    {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+	
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
+    {% endif %}
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_route_delete' %}">Route Delete</option>
+    {% endif %}
+        {% if level == 'Special Bus' %}
+                                 <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
+    {% endif %}
+
+                        <option value="{% url 'busdelete' %}">Delete Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="registration-card shadow-sm">
+        <div class="card-accent-header">
+            <h6 class="font-weight-800 mb-0"><i class="fas fa-plus-circle mr-2"></i> NEW BUS REGISTRATION</h6>
+            <span class="badge badge-warning" style="font-size: 10px;">ID: AUTO-GEN</span>
+        </div>
+
+        <div class="p-4">
+            {% if success %}
+            <div class="alert alert-success py-2 small border-0 shadow-sm"><i class="fas fa-check mr-2"></i> {{ success }}</div>
+            {% endif %}
+            {% if errors %}
+            <div class="alert alert-danger py-2 small border-0 shadow-sm"><i class="fas fa-times mr-2"></i> {{ errors }}</div>
+            {% endif %}
+
+            <form action="{% url 'businsert' %}" method="post" id="bus_reg_form">
+                {% csrf_token %}
+                <input type="hidden" class="form-control form-control-intl bg-light" value="{{ name }}" readonly>
+                <div class="row">
+                    <div class="col-6 form-group mb-3">
+                        <label class="form-label-custom">First Name <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-intl" name="firstname" placeholder="eg. Abebe" required 
+                               oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '').charAt(0).toUpperCase() + this.value.slice(1).toLowerCase();">
+                    </div>
+                    <div class="col-6 form-group mb-3">
+                        <label class="form-label-custom">Father Name <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-intl" name="lastname" placeholder="eg. Bikela" required
+                               oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '').charAt(0).toUpperCase() + this.value.slice(1).toLowerCase();">
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label-custom">Contact Number <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-intl" name="phone" placeholder="eg. 0912345678" maxlength="10" required 
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-5 form-group mb-3">
+                        <label class="form-label-custom">Plate No <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+		<!--
+		<input type="text" class="form-control form-control-intl" name="plate_no" placeholder="A12345" required 
+                               oninput="handlePlateInput(this);" style="text-transform: uppercase;">
+		-->
+<!--
+		<input type="text"
+       class="form-control form-control-intl"
+       name="plate_no"
+       placeholder="A12345"
+       required
+       oninput="handlePlateInput(this);"
+       style="text-transform: uppercase;
+              padding-left: 45px;
+              background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2220%22><text x=%2210%22 y=%2215%22 font-family=%22Arial, sans-serif%22 font-weight=%22bold%22 fill=%22%23333%22>ET</text></svg>');
+              background-repeat: no-repeat;
+              background-position: left center;">
+	      -->
+
+<div class="plate-input-wrapper">
+    <input type="text" 
+           class="form-control form-control-intl" 
+           name="plate_no" 
+           placeholder="A12345" 
+           required 
+           oninput="handlePlateInput(this);" 
+           style="text-transform: uppercase;">
+</div>
+<style>
+    /* This container holds the input and the permanent ET */
+    .plate-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    /* This creates the permanent ET inside the input */
+    .plate-input-wrapper::before {
+        content: "ET";
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
+        color: #000;
+        z-index: 5;
+        pointer-events: none; /* User cannot click or delete this */
+    }
+
+    /* This pushes the user's typing to the right so it doesn't cover the ET */
+    .plate-input-wrapper input {
+        padding-left: 38px !important;
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+
+<!--
+<input type="text" 
+       class="form-control form-control-intl" 
+       name="plate_no" 
+       value="ET " 
+       required 
+       onkeydown="preventDeletePrefix(event, this);"
+       oninput="handlePlateInputWithPrefix(this);" 
+       onclick="moveCursorToEnd(this);"
+       style="text-transform: uppercase; font-weight: bold; padding-left: 10px;">
+
+<script>
+// 1. Blocks the Backspace and Delete keys from removing "ET "
+function preventDeletePrefix(e, input) {
+    // 3 is the length of "ET "
+    if (input.selectionStart <= 3 && (e.key === 'Backspace' || e.key === 'Delete')) {
+        e.preventDefault();
+    }
+}
+
+// 2. Forces the cursor to stay after "ET " if the user clicks the box
+function moveCursorToEnd(input) {
+    if (input.selectionStart < 3) {
+        input.setSelectionRange(3, 3);
+    }
+}
+
+// 3. Ensures "ET " is always there and cleans the user input
+function handlePlateInputWithPrefix(input) {
+    const prefix = "ET ";
+    
+    // If they somehow managed to delete it (e.g., cut/paste), put it back
+    if (!input.value.startsWith(prefix)) {
+        input.value = prefix + input.value.replace("ET", "").trim();
+    }
+
+    // This is where you can add your custom logic for the plate (like A12345)
+    // For example, limiting the length:
+    if (input.value.length > 10) {
+        input.value = input.value.slice(0, 10);
+    }
+}
+</script> -->
+
+		    </div>
+		    <div class="col-4 form-group mb-3">
+                        <label class="form-label-custom">Side No <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                        <input type="text" id="sideno" name="sideno" class="form-control form-control-intl" placeholder="####" required
+                               oninput="this.value = this.value.replace(/[^0-9]/g, ''); validateSideInput();">
+                    </div>
+		    <!--
+                    <div class="col-3 form-group mb-3">
+                        <label class="form-label-custom">Seats <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-intl" name="no_seats" placeholder="00" maxlength="2" required 
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    </div>
+		    -->
+		    <div class="col-3 form-group mb-3">
+    <label class="form-label-custom">
+        Seats <span class="text-danger" aria-hidden="true">*</span>
+    </label>
+    <input type="text"
+           class="form-control form-control-intl"
+           name="no_seats"
+           placeholder="00"
+           maxlength="2"
+           required
+           oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+</div>
+                </div>
+                <div id="side-error" class="text-danger font-weight-bold mb-3" style="display:none; font-size: 10px; margin-top:-10px;"></div>
+                <button type="submit" class="btn-register-intl shadow-sm mt-2">
+                    SAVE TO REGISTRY <i class="fas fa-save ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="py-4 text-center text-muted border-top bg-white">
+    <div class="container">
+        <p class="mb-0" style="font-size: 11px; font-weight: 600;">© 2026 Busfermata TRANSPORT TECHNOLOGY | ENTERPRISE SYSTEM v4.2</p>
+    </div>
+</footer>
+
+<script>
+    function handlePlateInput(input) {
+        let val = input.value.toUpperCase();
+        const firstChar = val.charAt(0);
+        if (firstChar && /[A-Z]/.test(firstChar)) {
+            input.maxLength = 6;
+            input.value = firstChar + val.slice(1).replace(/[^0-9]/g, '');
+        } else {
+            input.maxLength = 5;
+            input.value = val.replace(/[^0-9]/g, '');
+        }
+    }
+
+    const sideRule = "{{ side }}".trim();
+    const sidenoInput = document.getElementById('sideno');
+    const sideError = document.getElementById('side-error');
+
+    function validateSideInput() {
+        const value = sidenoInput.value;
+        const validStarts = sideRule.split('/').map(part => part.trim());
+        let targetLength = (sideRule === "3") ? 3 : (sideRule.includes('/') ? 4 : sideRule.length);
+        sidenoInput.maxLength = targetLength;
+
+        if (value.length === 0) { sideError.style.display = 'none'; return true; }
+
+        const isValidStart = validStarts.some(s => value.startsWith(s));
+        if (!isValidStart && sideRule !== "3") {
+            sideError.textContent = `* Required: starts with ${validStarts.join(' or ')}`;
+            sideError.style.display = 'block';
+            return false;
+        } else if (value.length !== targetLength) {
+            sideError.textContent = `* Length required: ${targetLength} digits`;
+            sideError.style.display = 'block';
+            return false;
+        } else {
+            sideError.style.display = 'none';
+            return true;
+        }
+    }
+
+    document.getElementById('bus_reg_form').onsubmit = function(e) {
+        if (!validateSideInput()) {
+            e.preventDefault();
+            alert("Please fix the Side Number requirement.");
+        }
+    };
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

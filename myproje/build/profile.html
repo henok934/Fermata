@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Profile</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<div class="top_bar" style="background-color: #005500; height: 40px; width: 100%; position: relative;">
+</div>
+<body>
+<div class="super_container">
+        <header class="header">
+                <div class="top_bar" style="background-color: #005500; height: 40px; width: 100%; position: relative; !important">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+
+
+<div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+                                                        <div class="user_box_register user_box_link"><a href="{% url 'registor' %}"></a></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+							<div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: blue;">ticket</span>
+    </a>
+</div>
+</div>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+        <li class="main_nav_item" style="margin-right: 20px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 10px;">
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                <option value="#">Select for Register</option>
+                <option value="{% url 'businsert' %}">Register Bus</option>
+                <option value="{% url 'route' %}">Register Route</option>
+                <option value="{% url 'registor' %}">Register Admin</option>
+                <option value="{% url 'city' %}">Register City</option>
+                <option value="{% url 'worker' %}">Register Driver</option>
+            </select>
+        </li>
+        <li class="main_nav_item" style="margin-right: 10px;">
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                <option value="#">Select for Update</option>
+                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                <option value="{% url 'changebus' %}">Change Bus</option>
+            </select>
+        </li>
+        <li class="main_nav_item" style="margin-right: 10px;">
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                <option value="#">Select for Show</option>
+                <option value="{% url 'routes' %}">Show Routes</option>
+                <option value="{% url 'users' %}">Show Users</option>
+                <option value="{% url 'buses' %}">Show Buses</option>
+                <option value="{% url 'comments' %}">Show Comments</option>
+                <option value="{% url 'driver' %}">Driver</option>
+                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+            </select>
+        </li>
+        <li class="main_nav_item" style="margin-right: 10px;">
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                <option value="#">Select for Delete</option>
+                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                <option value="{% url 'citydelete' %}">Delete City</option>
+                <option value="{% url 'routedelete' %}">Delete Route</option>
+                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+            </select>
+        </li>
+        <li class="footer_nav_item" style="margin-left: 20px;">
+            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+        </li>
+    </ul>
+</div>
+</div>
+</br></br></br></br></br></br></br>
+</br></br></br></br></br></br></br>
+
+<link rel="stylesheet" href="../static2/styles/profile.css" />
+<main id="main" class="main" style="margin-top: -170px; margin-left: 30px;">
+  <section id="hero">
+    <div class="hero-slider swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" style="background-image: url('../static2/assets/images/profile/care.jpg');"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4">
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            {% if user %}
+            <h2>{{ user.fname }} {{ user.lname }}</h2>
+            <h3>{{ user.phone }}</h3>
+            {% else %}
+            <p>Incorrect user.</p>
+            {% endif %}
+            <img src="../static/images/pro.png" alt="Profile Picture" class="rounded-circle spacer" />
+            <ul class="nav nav-tabs nav-tabs-bordered">
+              <li class="nav-item">
+                <button class="nav-link" id="hide-order-listings">Profile Page</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" id="order-tobe-hided" style="display: none;">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            <h3 id="change-me-if-no-orders">You Have Cards In</h3>
+            <ul class="card-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-8">
+        <div class="card">
+          <div class="card-body pt-3">
+            <ul class="nav nav-tabs nav-tabs-bordered">
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+              </li>
+              <li class="nav-item">
+		      <a href="change_password" class="nav-link">Change Password</a>
+			</li>	
+<style>
+    .success {
+        color: green; /* Green color for success messages */
+    }
+    .error {
+        color: red; /* Red color for error messages */
+    }
+    .symbol {
+        color: green; /* Ensure symbols are also green */
+        margin-left: 5px; /* Optional: adds space between text and symbol */
+    }
+</style>
+
+<!-- <a href="change_password" class="nav-link">Change Password</a>-->
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li style="margin-left: 50px;" class="{% if message.tags %}{{ message.tags }}{% endif %}">
+                {{ message }}
+                {% if message.tags == 'success' %}
+		
+
+		<span style="color: green;" class="symbol">✔</span>
+		<!--
+                    <span style="color: green;" class="symbol">✔</span>
+		-->
+
+
+		    <!-- Checkmark for success -->
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<!--<a href="change_password" class="nav-link">Change Password</a>-->
+              </li>
+            </ul>
+
+            <div class="tab-content pt-2">
+              <div class="tab-pane fade show active" id="profile-overview">
+                <h5 class="card-title">Profile Details</h5>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">First Name</div>
+                  <div class="col-lg-9 col-md-8">{{ user.fname }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Last Name</div>
+                  <div class="col-lg-9 col-md-8">{{ user.lname }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Username</div>
+                  <div class="col-lg-9 col-md-8">{{ user.username }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Phone Number</div>
+                  <div class="col-lg-9 col-md-8">{{ user.phone }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Email</div>
+                  <div class="col-lg-9 col-md-8">{{ user.email }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Gender</div>
+                  <div class="col-lg-9 col-md-8">{{ user.gender }}</div>
+                </div>
+              </div>
+
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <form>
+                  {% csrf_token %}
+                  <div class="row mb-3">
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                    <div class="col-md-8 col-lg-9"> 
+			 <style>
+			.small-image {
+    			height: 100px !important; /* Adjust height */
+    			width: auto; /* Maintain aspect ratio */
+			}
+			</style>
+
+		     <img src="../static/images/profile.png" alt="Profile Image" class="small-image" />
+
+                      <div class="pt-2">
+                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="firstName" type="text" class="form-control" id="firstName" value="{{ user.fname }}" />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="lastName" type="text" class="form-control" id="lastName" value="{{ user.lname }}" />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="username" type="text" class="form-control" id="username" value="{{ user.username }}" />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="gender" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="gender" type="text" class="form-control" id="gender" value="{{ user.gender }}" />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="email" type="text" class="form-control" id="email" value="{{ user.email }}" />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="phone" type="text" class="form-control" id="phone" value="{{ user.phone }}" />
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button class="btn btn-primary" id="btn-profile-change">Save Changes</button>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+		      <!--<h2 class="text-center" style="color: blue;">Change Password</h2>-->
+		 <a href="{% url 'home' %}"  class="text-center" style="color: blue; text-decoration: none;">Change Password</a>
+		 {% if error %}
+		<div class="error">
+        	<h5 style="color: red; margin-left: 90px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">x</span></h5>
+    		</div>
+		{% endif %}
+		{% if success %}
+    		<div class="message success">
+        	<h5 style="margin-left: 50px; color: green;"><b>{{ success }}</b><span class="symbol">✔</span></h5>
+    		</div>
+		{% endif %}
+
+	      <form action="{% url 'change_password' %}" method="POST">
+    				{% csrf_token %}
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="currentPassword" type="password" class="form-control" id="currentPassword" placeholder="Current Password" required />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="newPassword" type="password" class="form-control" id="newPassword" placeholder="New Password" required />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="reNewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="reNewPassword" type="password" class="form-control" id="reNewPassword" placeholder="Repeat New Password" required />
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .spacer {
+      margin-bottom: 40px; /* Adjust the value as needed */
+    }
+
+    @media (max-width: 768px) {
+      #main {
+        margin-left: 0; /* Adjusts margin for smaller screens */
+      }
+      .card {
+        margin-bottom: 20px; /* Adds space between cards on smaller screens */
+      }
+    }
+  </style>
+</main>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Manage Ticket | Busfermata Digital Technology</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-blue: #003DA5;
+            --ticket-white: #ffffff;
+            --muted: #64748b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f1f5f9; 
+            margin: 0; 
+            -webkit-print-color-adjust: exact !important; 
+            print-color-adjust: exact !important; 
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main { background: #fff; padding: 12px 0; border-bottom: 4px solid var(--brand-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .brand-logo { height: 40px; border-radius: 6px; margin-right: 10px; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; text-transform: uppercase; }
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; font-size: 14px; text-transform: uppercase; padding: 10px 15px !important; }
+        .btn-book-nav { background: var(--brand-gold); color: var(--brand-navy) !important; font-weight: 800; border-radius: 8px; }
+
+        /* --- TICKET DESIGN --- */
+        .ticket-container { max-width: 850px; margin: 40px auto; padding: 0 15px; }
+        .ticket-card {
+            background: var(--ticket-white);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        @media (min-width: 768px) { .ticket-card { flex-direction: row; } }
+
+        .ticket-left { flex: 2.5; padding: 40px; border-right: 2px dashed #e2e8f0; position: relative; }
+        /* Decorative notches for the "torn ticket" look */
+        .ticket-left::before, .ticket-left::after {
+            content: ''; height: 24px; width: 24px; background: #f1f5f9; 
+            position: absolute; right: -13px; border-radius: 50%; z-index: 2;
+        }
+        .ticket-left::before { top: -12px; }
+        .ticket-left::after { bottom: -12px; }
+
+        .ticket-right { flex: 1; padding: 40px; background: #fafbfc; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+        .city-name { font-size: 28px; font-weight: 800; color: var(--brand-navy); margin: 0; }
+        .details-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; text-align: left;}
+        .detail-item label { display: block; font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
+        .detail-item span { font-size: 15px; font-weight: 700; color: var(--brand-navy); }
+        .seat-no { background: #eef2ff; color: var(--brand-blue); padding: 5px 12px; border-radius: 8px; font-size: 18px; font-weight: 800; }
+
+        /* --- MANAGE BOOKING AREA --- */
+        .manage-booking { background: #fff; border-radius: 24px; padding: 30px; margin-top: 25px; border: 1px solid #e2e8f0; }
+        .manage-title { font-weight: 800; color: var(--brand-navy); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        .action-row { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8fafc; border-radius: 12px; }
+        .form-label-bold { font-weight: 800; color: #15803d; font-size: 14px; margin-right: 10px; }
+        
+        .input-style { border: 2px solid #cbd5e1; padding: 10px; border-radius: 8px; font-weight: 600; outline: none; }
+        .input-style:focus { border-color: var(--brand-blue); }
+
+        .btn-update-date { background: #22c55e; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-update-name { background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-update-date:hover, .btn-update-name:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* --- SHARE BUTTONS --- */
+        .share-section { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+        .btn-share { padding: 12px 25px; border-radius: 12px; font-weight: 800; border: none; color: white; transition: 0.3s; }
+        .bg-telegram { background: #0088cc; }
+        .bg-whatsapp { background: #25d366; }
+        .bg-print { background: var(--brand-navy); }
+
+        /* --- PRINT ENGINE (Important for "Print not working") --- */
+        @media print {
+            @page { size: auto; margin: 5mm; }
+            body { background: white !important; }
+            .navbar-main, .manage-booking, .share-section, footer, .top-bar { display: none !important; }
+            .ticket-container { margin: 0; padding: 0; width: 100%; max-width: 100%; }
+            .ticket-card { 
+                box-shadow: none !important; 
+                border: 1px solid #000 !important; 
+                flex-direction: row !important; 
+                display: flex !important; 
+                border-radius: 0;
+            }
+            .ticket-left { border-right: 2px dashed #000 !important; flex: 2.5; }
+            .ticket-right { flex: 1; background: white !important; }
+            .ticket-left::before, .ticket-left::after { display: none; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <span class="brand-text">Busfermata</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item ml-lg-2"><a class="nav-link btn-book-nav px-4" href="{% url 'book' %}">BOOK NOW</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-user-lock"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>  
+<div id="ticket-container">
+            {% for ticket in tickets %}
+            <div class="ticket-card">
+                <div class="ticket-header">
+<div class="text-right d-flex flex-column align-items-end">
+    <span class="pnr-tag" style="background:var(--brand-navy, #001f3f); color:white; padding:5px 15px; border-radius:6px; font-weight:800; font-size:14px; letter-spacing: 1px;">
+        PNR: {{ ticket.pnr|default:"DK3S64" }}
+    </span>
+
+    <div class="vehicle-details mt-2 text-right">
+        <h3 class="font-weight-bold mb-0" style="color:var(--brand-navy, #001f3f); font-size: 24px; line-height: 1.2;">
+         Plate: {{ ticket.plate_no|default:"---" }}
+        </h3>
+        <p class="mb-0" style="color:var(--brand-navy, #001f3f); font-size: 18px; opacity: 0.8; font-weight: 600;">
+            Side: {{ ticket.side_no|default:"---" }}
+        </p>
+    </div>
+</div>
+	    </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div><p class="detail-item label">From</p><h2 class="city-name">{{ ticket.depcity }}</h2></div>
+                <div class="text-warning"><i class="fas fa-bus-alt fa-2x"></i></div>
+                <div class="text-right"><p class="detail-item label">To</p><h2 class="city-name">{{ ticket.descity }}</h2></div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item"><label>Passenger Name</label><span>{{ ticket.firstname }} {{ ticket.lastname }}</span></div>
+                <div class="detail-item"><label>Seat Number</label><span class="seat-no">#{{ ticket.no_seat }}</span></div>
+                <div class="detail-item"><label>Gender</label><span>{{ ticket.gender }}</span></div>
+                <div class="detail-item"><label>Travel Date</label><span>{{ ticket.date }}</span></div>
+                <div class="detail-item" style="grid-column: span 2;"><label>Email Address</label><span>{{ ticket.email }}</span></div>
+            </div>
+        </div>
+
+        <div class="ticket-right">
+            <p class="detail-item label mb-2">Security Scan</p>
+                <img src="{{ ticket.qr_code }}" style="width:140px; border:1px solid #ddd; padding:5px; border-radius:10px; background:white;"
+            <h3 class="mt-3 font-weight-bold" style="color:var(--brand-navy);">{{ ticket.price }} ETB</h3>
+            <span class="badge badge-success px-3 py-2">CONFIRMED</span>
+        </div>
+    </div>
+
+    <div class="manage-booking shadow-sm">
+        <h5 class="manage-title"><i class="fas fa-tasks text-primary"></i> Manage This Booking</h5>
+        {% if error %}
+        <div class="no-pdf" style="text-align: center; color: red; background: #fff0f0; border: 1px solid red; padding: 8px; border-radius: 5px; margin-bottom: 15px;">
+            <b>{{ error }}</b>
+        </div>
+        {% endif %}
+ 
+        <form action="{% url 'update_ticket' %}" method="post" class="action-row">
+            {% csrf_token %}
+            <label class="form-label-bold">Reschedule Travel:</label>
+            
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="da" value="{{ ticket.date }}">
+            <input type="hidden" name="price" value="{{ ticket.price }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="phone" value="{{ ticket.phone }}">
+            <input type="hidden" name="gender" value="{{ ticket.gender }}">
+            <input type="hidden" name="side_no" value="{{ ticket.side_no }}">
+            <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+            <input type="hidden" name="email" value="{{ ticket.email }}">
+            <input type="date" name="new_date" required class="input-style">
+            <button type="submit" class="btn-update-date">Update Date</button>
+        </form>
+
+        <form action="{% url 'passenger' %}" method="post" class="action-row">
+            {% csrf_token %}
+            <label class="form-label-bold">Passenger Details:</label>
+            
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="date" value="{{ ticket.date }}">
+            <button type="submit" class="btn-update-name">Edit Passenger Info</button>
+        </form>
+    </div>
+
+    <div class="share-section">
+        <button onclick="window.print()" class="btn-share bg-print">
+            <i class="fas fa-print mr-2"></i> Print / Save PDF
+        </button>
+
+        <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text=My Busfermata Ticket to {{ ticket.descity }}" 
+           class="btn-share bg-telegram text-decoration-none" target="_blank">
+            <i class="fab fa-telegram-plane mr-2"></i> Share Telegram
+        </a>
+
+        <button onclick="shareOnWhatsApp()" class="btn-share bg-whatsapp">
+            <i class="fab fa-whatsapp mr-2"></i> Share WhatsApp
+        </button>
+    </div>
+</div>
+
+<footer style="background:var(--brand-navy); color:white; padding:40px 0; text-align:center; margin-top:60px;">
+    <div class="container">
+        <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technology. Ethiopia's Digital Travel Standard.</p>
+    </div>
+</footer>
+
+<script>
+    // Robust WhatsApp Sharing
+    function shareOnWhatsApp() {
+        const text = encodeURIComponent("My Busfermata E-Ticket: " + window.location.href);
+        window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
+    }
+
+    // Professional Print Helper
+    // Note: window.print() is the ONLY reliable way to capture the QR code 
+    // and layout perfectly without losing style.
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

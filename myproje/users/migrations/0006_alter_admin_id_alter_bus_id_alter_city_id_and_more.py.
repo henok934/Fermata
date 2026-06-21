@@ -1,0 +1,5 @@
+migrations.AlterField(
+    model_name='admin',
+    name='id',
+    field=models.BigIntegerField(primary_key=True),
+)

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Show our tickets</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<!--
+<header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+						<div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}"></a></div>
+                                                        <div class="user_box_register user_box_link"><a href="{% url 'registor' %}"></a></div>
+                                                </div>
+
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+		<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <div class="logo"><a href="#"><img src="../static/images/title.png" alt="">ticket</a></div>
+                                                </div>
+
+								                  <div class="main_nav_container ml-auto">
+                  <ul class="main_nav_list">
+                  <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                  <li class="main_nav_item"><a href="{% url 'myroute' %}">Our Route</a></li>
+                  <li class="main_nav_item"><a href="{% url 'mybus' %}">Our Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'updatebus' %}">Update Bus</a></li>
+		  <li class="main_nav_item"><a href="{% url 'busdelete' %}">Delete Bus</a></li>
+                  <li class="main_nav_item"><a href="{% url 'logout' %}">Logout</a></li>
+                 </ul>
+		
+		<ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: #FFFFFF; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Bus Registor</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'myroute' %}">My Routes</option>
+                                <option value="{% url 'mybus' %}">My Bus</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: #FFFFFF; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+
+                 </div>
+
+                                                <div class="content_search ml-lg-0 ml-auto">
+                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                        width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                                                                <g>
+                                                                        <g>
+                                                                                <g>
+                                                                                        <path class="mag_glass" fill="#FFFFFF" d="M78.438,216.78c0,57.906,22.55,112.343,63.493,153.287c40.945,40.944,95.383,63.494,153.287,63.494
+                                                                                        s112.344-22.55,153.287-63.494C489.451,329.123,512,274.686,512,216.78c0-57.904-22.549-112.342-63.494-153.286
+                                                                                        C407.563,22.549,353.124,0,295.219,0c-57.904,0-112.342,22.549-153.287,63.494C100.988,104.438,78.439,158.876,78.438,216.78z
+                                                                                        M119.804,216.78c0-96.725,78.69-175.416,175.415-175.416s175.418,78.691,175.418,175.416
+                                                                                        c0,96.725-78.691,175.416-175.416,175.416C198.495,392.195,119.804,313.505,119.804,216.78z"/>
+                                                                                </g>
+                                                                        </g>
+                                                                        <g>
+                                                                                <g>
+                                                                                        <path class="mag_glass" fill="#FFFFFF" d="M6.057,505.942c4.038,4.039,9.332,6.058,14.625,6.058s10.587-2.019,14.625-6.058L171.268,369.98
+                                                                                        c8.076-8.076,8.076-21.172,0-29.248c-8.076-8.078-21.172-8.078-29.249,0L6.057,476.693
+                                                                                        C-2.019,484.77-2.019,497.865,6.057,505.942z"/>
+                                                                                </g>
+                                                                        </g>
+                                                                </g>
+                                                        </svg>
+                                                </div>
+                                                <form id="search_form" class="search_form bez_1">
+                                                        <input type="search" class="search_content_input bez_1">
+                                                </form>
+                                                <div class="hamburger">
+                                                        <i class="fa fa-bars trans_200"></i>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </nav>
+        </header>
+-->
+
+
+
+<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info"><i class="fa fa-phone"></i> +251 975143134</div>
+            <div class="auth-box"><a href="{% url 'logout' %}" class="logout-text">LOGOUT</a></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom"
+         style="min-height: 130px !important; display: flex !important; align-items: center !important;">
+
+        <div class="container-fluid d-flex align-items-center justify-content-start">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-container" style="width: 90px; height: 90px;">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-fluid">
+                </div>
+
+                <div class="brand-text-wrapper ml-1">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+<div class="nav-actions-wrapper d-flex align-items-center ml-4">
+                <a href="{% url 'home' %}" class="nav-link home-link-tight"
+                   style="padding-left: 0 !important; margin-left: 0 !important;">HOME</a>
+
+                <div class="select-group d-flex align-items-center ml-3">
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Register New</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Edit Details</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>VIEW DATA</option>
+                        <option value="{% url 'myroute' %}">Routes</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
+                        <option value="#" disabled selected>DELETE ACTIONS</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<style>
+    .bg-navy-custom {
+        background-color: #1a2a6c !important;
+        /* Padding removed to allow inline height to control size precisely */
+        padding: 0 20px !important;
+    }
+
+    .logo-container {
+        background: white;
+        border-radius: 50%;
+        border: 3px solid #f39c12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .nav-logo-fluid {
+        width: 85%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .brand-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+.brand-name-main {
+        color: white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtext {
+        color: #f39c12;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .home-link-tight {
+        color: #f39c12 !important;
+        font-weight: 800;
+        font-size: 1rem;
+        border-right: 1px solid rgba(255,255,255,0.3);
+        padding-right: 15px !important;
+    }
+
+    .mini-transit-select {
+        height: 40px;
+        width: 150px;
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid #f39c12;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 5px;
+
+	 padding: 0 5px;
+        cursor: pointer;
+    }
+
+    .delete-border {
+        border: 2px solid #ff4d4d;
+        color: #ff4d4d;
+    }
+
+    .top-bar-mini {
+        background: #0f172a;
+        color: #fff;
+        padding: 5px 20px;
+        font-size: 0.75rem;
+    }
+
+    .logout-text { color: #ff4d4d; font-weight: 800; text-decoration: none; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+<!--
+<h5 style="margin: 0 auto; padding-left: 130px; display: block; color: blue;">Download Ticket</h5>
+<button onclick="downloadTicket()" style="background-color: #FF9800; margin-left: 150px; padding: 10px 20px; border: none; cursor: pointer; font-size: 16px; color: white;">
+    ⬇️
+</button>
+<div id="ticketContent" style="text-align: center; margin: 0 auto;">
+  {% if route %}
+   <h3>
+<span style="color: #F900FF;"><b>From:</b></span>  <span style="color: #4272FF;"><b>{{ route.0.depcity }}</b></span>
+<span style="color: #F900FF;">To:</span>  <span style="color: #4272FF;"><b>{{ route.0.descity }} </b></span>
+<span style="color: #F900FF;">Travel Date:</span>  <span style="color: #4272FF;"><b>{{ route.0.date }}</b></span>
+</h3>
+  {% else %}
+    <p>No booked tickets available for this route.</p>
+  {% endif %}
+<h1 style="margin: 0 auto; padding-left: 20px; text-align: center; display: block; color:blue;">Booked Tickets</h1>
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Light background for contrast */
+  }
+  h1 {
+    margin: 0; /* Remove margin from h1 */
+  }
+  table {
+    width: 100%; /* Use full width */
+    max-width: 600px; /* Set a max width for larger screens */
+    border-collapse: collapse; /* Ensure borders are collapsed */
+    margin: 10px auto; /* Center the table and add vertical margin */
+    background-color: #f9f9f9; /* Background color for the table */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+  th, td {
+ border: 2px solid #007BFF; /* Border color */
+    padding: 8px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+    font-size: 14px; /* Font size */
+    word-wrap: break-word; /* Allow word wrapping */
+  }
+  th {
+    background-color: #e9ecef; /* Light gray background for header */
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+ h1 {
+      margin: 0; /* Ensure no margin on small devices */
+    }
+    table {
+      margin-top: 0; /* Remove top margin for small devices */
+    }
+    th, td {
+      font-size: 12px; /* Smaller font size for mobile */
+      padding: 6px; /* Slightly less padding for mobile */
+    }
+  }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+<table>
+  <thead>
+    <tr>
+            <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th {
+        background-color: #4CAF50; /* Green background */
+color: white;              /* White text */
+        padding: 10px;            /* Padding for cells */
+        text-align: left;         /* Align text to the left */
+    }
+    th:first-child {
+        text-align: center;       /* Center align the first column */
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Zebra striping for rows */
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+      <th>No.</th>
+      <th>First Name</th>
+      <th>Father Name</th>
+      <th>Phone</th>
+      <th>Departure</th>
+      <th>Destination</th>
+      <th>Date</th>
+      <th>Seat No</th>
+      <th>Price</th>
+      <th>Side No</th>
+      <th>Plate No</th>
+      <th>Cheeck</th>
+    </tr>
+  </thead>
+  <tbody>
+ {% for rout in route %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ rout.firstname }}</td>
+        <td>{{ rout.lastname }}</td>
+        <td>{{ rout.phone }}</td>
+        <td>{{ rout.depcity}}</td>
+        <td>{{ rout.descity}}</td>
+        <td>{{ rout.date}}</td>
+ <td>{{ rout.no_seat}}</td>
+        <td>{{ rout.price }}</td>
+        <td>{{ rout.side_no }}</td>
+        <td>{{ rout.plate_no }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<script>
+  function downloadTicket() {
+    const ticketContent = document.getElementById("ticketContent").outerHTML;
+    const ticketBlob = new Blob([ticketContent], { type: "text/html" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(ticketBlob);
+    downloadLink.download = "ticket.html";
+    downloadLink.click();
+  }
+</script>
+-->
+
+<div style="max-width: 1000px; margin: 0 auto; padding: 20px; font-family: 'Segoe UI', Arial, sans-serif;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <h5 style="margin: 0; color: #1a2a6c; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 1rem;">Manifest & Tickets</h5>
+        <button onclick="downloadTicket()" style="background-color: #f39c12; border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3); transition: 0.3s;">
+            <span style="font-size: 20px;">⬇️</span>
+        </button>
+    </div>
+
+    <div id="ticketContent" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee;">
+
+        <div style="background: #1a2a6c; color: white; padding: 30px; text-align: center;">
+            {% if route %}
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="text-align: right;">
+                        <small style="opacity: 0.8; text-transform: uppercase; font-size: 0.7rem;">From</small>
+                        <div style="font-size: 1.5rem; font-weight: 800;">{{ route.0.depcity }}</div>
+                    </div>
+                    <div style="font-size: 1.5rem; opacity: 0.5;">✈️</div>
+                    <div style="text-align: left;">
+                        <small style="opacity: 0.8; text-transform: uppercase; font-size: 0.7rem;">To</small>
+                        <div style="font-size: 1.5rem; font-weight: 800;">{{ route.0.descity }}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; display: inline-block; background: rgba(255,255,255,0.1); padding: 5px 20px; border-radius: 20px; font-size: 0.9rem;">
+                    📅 Date: <strong>{{ route.0.date }}</strong>
+                </div>
+            {% else %}
+                <p style="margin: 0;">No journey data available.</p>
+            {% endif %}
+        </div>
+
+        <h2 style="text-align: center; margin: 30px 0 10px 0; color: #2d3748; font-weight: 300;">Passenger Manifest</h2>
+
+        <div style="overflow-x: auto; padding: 0 20px 30px 20px;">
+            <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #edf2f7;">
+                        <th style="padding: 15px; text-align: center; color: #718096; font-size: 0.75rem; text-transform: uppercase;">#</th>
+                        <th style="padding: 15px; text-align: left; color: #718096; font-size: 0.75rem; text-transform: uppercase;">Passenger Name</th>
+                        <th style="padding: 15px; text-align: left; color: #718096; font-size: 0.75rem; text-transform: uppercase;">Contact</th>
+                        <th style="padding: 15px; text-align: center; color: #718096; font-size: 0.75rem; text-transform: uppercase;">Seat</th>
+                        <th style="padding: 15px; text-align: center; color: #718096; font-size: 0.75rem; text-transform: uppercase;">Price</th>
+                        <th style="padding: 15px; text-align: center; color: #718096; font-size: 0.75rem; text-transform: uppercase;">Vehicle Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rout in route %}
+                    <tr style="border-bottom: 1px solid #f7fafc; transition: 0.2s;">
+                        <td style="padding: 15px; text-align: center; font-weight: bold; color: #1a2a6c;">{{ forloop.counter }}</td>
+                        <td style="padding: 15px;">
+                            <div style="font-weight: 700; color: #2d3748;">{{ rout.firstname }} {{ rout.lastname }}</div>
+                        </td>
+                        <td style="padding: 15px; color: #4a5568;">{{ rout.phone }}</td>
+                        <td style="padding: 15px; text-align: center;">
+                            <span style="background: #ebf8ff; color: #3182ce; padding: 4px 10px; border-radius: 6px; font-weight: bold;">{{ rout.no_seat }}</span>
+                        </td>
+                        <td style="padding: 15px; text-align: center; font-weight: 700; color: #38a169;">{{ rout.price }}</td>
+                        <td style="padding: 15px; text-align: center;">
+                            <div style="font-size: 0.8rem; color: #718096;">
+                                Plate: <span style="font-family: monospace; color: #2d3748; font-weight: bold;">{{ rout.plate_no }}</span><br>
+                                Side: {{ rout.side_no }}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+  function downloadTicket() {
+    // International standard: We wrap the content in a basic HTML structure for better printing
+    const content = document.getElementById("ticketContent").innerHTML;
+    const style = `
+        <style>
+            body { font-family: sans-serif; padding: 20px; background: white; }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { border-bottom: 1px solid #eee; padding: 12px; font-size: 12px; }
+            .header { background: #1a2a6c; color: white; padding: 20px; text-align: center; border-radius: 10px; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+        </style>
+    `;
+    const fullHtml = `<html><head>${style}<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head><body>${content}<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body></html>`;
+
+    const ticketBlob = new Blob([fullHtml], { type: "text/html" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(ticketBlob);
+    downloadLink.download = "Travel_Manifest.html";
+    downloadLink.click();
+  }
+</script>
+
+</br></br></br</br></br>
+  </br></br></br>
+  <!--
+  <div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                        </div>
+                                </div>
+                                <div class="col-lg-9 order-lg-2 order-1">
+                                        <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                                                <div class="footer_nav">
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+  -->
+
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Booked Tickets</title>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+    {% if success %}
+        <div class="success">
+            <h6 style="color: green; margin-left: 300px;"><b>{{ success }}</b><span style="margin-left:20px;" class="symbol"><b></b></span></h6>
+        </div>
+    {% endif %}
+
+    {% if tickets %}
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+
+        <script>
+            function downloadTicket() {
+                // Get the content to be downloaded (includes all tickets)
+                const ticketContent = document.getElementById("ticketContent").outerHTML;
+
+                // Define styles for the downloaded HTML
+                const styles = `
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                            background-color: #f4f4f4;
+                        }
+                        #ticketContent {
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                        .single-ticket {
+                            border: 1px solid #4CAF50;
+                            border-radius: 8px;
+                            padding: 10px;
+                            background-color: white;
+                            margin-bottom: 20px;
+                        }
+                        h1 {
+                            color: purple;
+                            text-align: center;
+                        }
+                        h3 {
+                            color: green;
+                            margin: 0;
+                            padding: 3px 0;
+                            text-align: left;
+                        }
+                        b {
+                            color: blue;
+                        }
+                        .qr-code {
+                            width: 250px;
+                            height: auto;
+                            border: 2px solid #4CAF50;
+                            border-radius: 4px;
+                            float: right;
+                            margin: 10px;
+                        }
+                        .total-tickets {
+                            text-align: center;
+                            color: #333;
+                            font-weight: bold;
+                            margin-top: 20px;
+                        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+                    </style>
+                `;
+
+                // Full HTML for download (includes all tickets and styles)
+                const fullContent = `
+                    <html>
+                        <head>
+                            <title>Downloaded Tickets</title>
+                            ${styles}
+                        <style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+                        <body>
+                            <div class="top_bar" style="background-color: #005500; height: 40px; width: 100%; position: relative;"></div>
+                            ${ticketContent}
+                        <div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+                    </html>
+</html>

@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Busfermata Digital Technology - Manifest</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-navy: #001f3f;
+            --brand-gold: #ffcc00;
+            --danger: #ef4444;
+            --glass-light: rgba(255, 255, 255, 0.15);
+        }
+
+        /* --- NAVBAR BASE --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            border-bottom: 2px solid var(--brand-gold);
+            padding: 8px 15px;
+        }
+
+        .intl-select {
+            background: var(--glass-light);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 10px;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .intl-select:hover { background: rgba(255,255,255,0.25); }
+        .intl-select option { background: var(--brand-navy); color: white; }
+
+        .home-btn-active {
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            border: 1px solid var(--brand-gold);
+            padding: 6px 12px;
+            border-radius: 5px;
+            text-decoration: none !important;
+            transition: 0.3s;
+        }
+        .home-btn-active:hover {
+            background: var(--brand-gold);
+            color: var(--brand-navy);
+        }
+
+        /* --- FILTER BAR --- */
+        .filter-utility-bar {
+            background: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 10px 0;
+        }
+
+        .date-input-mini {
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            color: var(--brand-navy);
+        }
+
+        /* --- TABLE ARCHITECTURE --- */
+        .table-intl-container {
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .table-intl th {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            vertical-align: middle !important;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .table-intl td {
+            vertical-align: middle !important;
+        }
+
+        .count-cell {
+            font-weight: bold;
+            color: var(--brand-navy);
+        }
+
+        /* --- SCREEN SIZE BREAKPOINT OPTIMIZATIONS --- */
+        @media (max-width: 576px) {
+            /* Transforms 9-Column Rows into Clean Dynamic Micro-Cards on Small Phones */
+            .responsive-stack-table, 
+            .responsive-stack-table thead, 
+            .responsive-stack-table tbody, 
+            .responsive-stack-table th, 
+            .responsive-stack-table td, 
+            .responsive-stack-table tr { 
+                display: block; 
+                width: 100% !important;
+            }
+            
+            .responsive-stack-table thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            .responsive-stack-table tr { 
+                border-bottom: 2px solid #dee2e6;
+                margin-bottom: 12px;
+                padding: 10px 6px;
+                background: #fff;
+            }
+            
+            .responsive-stack-table td { 
+                border: none !important;
+                position: relative;
+                padding-left: 45% !important; 
+                text-align: right !important;
+                padding-top: 5px !important;
+                padding-bottom: 5px !important;
+                font-size: 12px !important;
+            }
+            
+            /* Generates English/Amharic data markers dynamically */
+            .responsive-stack-table td:before { 
+                content: attr(data-label);
+                position: absolute;
+                top: 5px;
+                left: 8px;
+                width: 40%; 
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: #64748b;
+                font-size: 11px;
+            }
+            
+            .responsive-stack-table td:last-child {
+                text-align: center !important;
+                padding-left: 0 !important;
+                margin-top: 8px;
+                border-top: 1px dashed #dee2e6 !important;
+            }
+            .responsive-stack-table td:last-child:before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 1199.98px) {
+            .navbar-collapse {
+                background: var(--brand-navy);
+                padding: 15px;
+                margin-top: 10px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                border-radius: 6px;
+            }
+            
+            .select-cluster {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                margin-top: 10px;
+            }
+
+            .intl-select {
+                margin-left: 0 !important;
+                width: 100%;
+            }
+            .home-btn-active {
+                display: block;
+                text-align: center;
+            }
+        }
+
+        /* --- HIDE TRANSLATION UI OVERLAYS --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+        <div class="container-fluid">
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="gap: 14px;">
+                <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+                    {% if company.logo %}
+                        <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+                    {% else %}
+                        <div class="nav-logo-fallback" style="font-size: 22px; color: #00264d;"><i class="fas fa-bus"></i></div>
+                    {% endif %}
+                </div>
+
+                <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center;">
+                    <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+                    <span class="brand-subtext" style="color: #ffcc00; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+                        {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+                        {% if level %}
+                            <span class="badge badge-warning text-dark font-weight-bold" style="font-size: 9px; padding: 2px 6px; font-weight: 800; background-color: #ffcc00; border-radius: 4px;">LEVEL: {{ level }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navSystem">
+                <div class="d-xl-flex align-items-center ml-auto">
+                    <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+
+                    <div class="select-cluster d-xl-flex ml-xl-2">
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Bus Registration</option>
+                            <option value="{% url 'businsert' %}">Add New Bus</option>
+			    <option value="{% url 'special_route' %}">Add New Route</option>
+                        </select>
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Operational Reports</option>
+                            <option value="{% url 'myroute' %}">Route Data</option>
+                            <option value="{% url 'mybus' %}">Bus Status</option>
+                        </select>
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Management</option>
+			    {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_active' %}">Active Route</option>
+    {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
+    {% endif %}
+                     {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_route_delete' %}">Route Delete</option>
+    {% endif %}
+
+                            <option value="{% url 'updatebus' %}">Update Buss</option>
+                            <option value="{% url 'busdelete' %}">Delete Bus</option>
+                        </select>
+                        <a href="{% url 'logout' %}" class="btn btn-sm btn-danger ml-xl-3 font-weight-bold" style="font-size: 11px; padding: 6px 12px;">LOGOUT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="filter-utility-bar">
+        <div class="container d-flex justify-content-center align-items-center">
+            <form action="{% url 'specific' %}" method="post" class="form-inline">
+                {% csrf_token %}
+                <span class="mr-3 font-weight-bold text-muted small">RANGE:</span>
+                <input type="date" name="from" class="date-input-mini mr-2" required>
+                <input type="date" name="to" class="date-input-mini mr-3" required>
+                <button type="submit" class="btn btn-sm btn-dark font-weight-bold px-3" style="font-size: 10px;">REFRESH</button>
+            </form>
+        </div>
+    </section>
+</header>
+
+<main class="main-viewport pt-4 pb-5">
+    <div class="container-fluid px-2 px-md-4 mx-auto" style="max-width: 100%;">
+        <div class="table-intl-container">
+            
+            <table class="table table-sm table-hover table-intl responsive-stack-table w-100 m-0" style="table-layout: auto; font-size: 13px;">
+                <thead>
+                    <tr class="small text-muted">
+                        <th style="width: 3%;">#</th>
+                        <th>ልክስ (Phone)</th>
+                        <th>ሰሌዳ (Plate)</th>
+                        <th>መንገድ (Route)</th>
+                        <th>የተሳፋሪ ስም (Name)</th>
+                        <th class="text-center">የተሳፋሪ ዓይነት (Type)</th>
+                        <th class="text-center">መቀመጫ (Seat)</th>
+                        <th>PRICE</th>
+                        <th class="text-center">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in route %}
+                    <tr>
+                        <td data-label="#" class="count-cell text-center py-2 text-muted">{{ forloop.counter }}</td>
+                        <td data-label="ልክስ (Phone)" class="text-muted font-weight-bold py-2">#{{ ticket.phone }}</td>
+                        <td data-label="ሰሌዳ (Plate)" class="py-2">
+                            <span class="badge badge-dark p-1 font-weight-bold" style="letter-spacing: 0.5px; background-color: #1e293b;">
+                                {{ ticket.plate_no }}
+                            </span>
+                        </td>
+                        <td data-label="መንገድ (Route)" class="font-weight-bold text-secondary py-2">{{ ticket.depcity }} ወደ {{ ticket.descity }}</td>
+                        <td data-label="የተሳፋሪ ስም (Name)" class="name-cell font-weight-bold py-2 text-primary">{{ ticket.firstname }} {{ ticket.lastname }}</td>
+                        <td data-label="የተሳፋሪ ዓይነት (Type)" class="text-center py-2"><span class="badge badge-light text-dark px-2 py-1" style="border: 1px solid #dee2e6;">{{ ticket.passenger_type }}</span></td>
+                        <td data-label="መቀመጫ (Seat)" class="text-center font-weight-bold py-2">{{ ticket.no_seat }}</td>
+                        
+                        <td data-label="PRICE" class="font-weight-bold text-success py-2" style="line-height: 1.1;">
+                            {{ ticket.price }} <br>
+                            <small class="text-muted font-weight-normal" style="font-size: 10px;">የኢትዮጵያ ብር</small>
+                        </td>
+                        
+                        <td class="text-center py-2">
+                            <button onclick="window.print()" class="btn btn-sm btn-link text-primary p-0" title="Print Ticket">
+                                <i class="fas fa-print" style="font-size: 14px;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-muted font-italic">Manifest empty for selected range.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({
+            pageLanguage:"en",
+            includedLanguages:"en,am,om,ti",
+            autoDisplay:false
+        }, "google_translate_element");
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

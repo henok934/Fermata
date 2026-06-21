@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>bus update</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+		<!--
+		<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <div class="logo"><a href="#"><img src="../static/images/logo.png" alt="">ticket</a></div>
+                                                </div>
+                                                <div class="main_nav_container ml-auto">
+                                                 <ul class="main_nav_list">
+
+
+						 <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Routes</option>
+                           <option value="{% url 'admins' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'admins' %}">Register Admin </option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+                                                 </ul>
+                                                </div>
+                                                <div class="content_search ml-lg-0 ml-auto">
+                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                        width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                                                                <g>
+                                                                        <g>
+                                                                                <g>
+                                                                                        <path class="mag_glass" fill="#FFFFFF" d="M78.438,216.78c0,57.906,22.55,112.343,63.493,153.287c40.945,40.944,95.383,63.494,153.287,63.494
+                                                                                        s112.344-22.55,153.287-63.494C489.451,329.123,512,274.686,512,216.78c0-57.904-22.549-112.342-63.494-153.286
+                                                                                        C407.563,22.549,353.124,0,295.219,0c-57.904,0-112.342,22.549-153.287,63.494C100.988,104.438,78.439,158.876,78.438,216.78z
+                                                                                        M119.804,216.78c0-96.725,78.69-175.416,175.415-175.416s175.418,78.691,175.418,175.416
+                                                                                        c0,96.725-78.691,175.416-175.416,175.416C198.495,392.195,119.804,313.505,119.804,216.78z"/>
+                                                                                </g>
+                                                                        </g>
+                                                                        <g>
+                                                                                <g>
+                                                                                        <path class="mag_glass" fill="#FFFFFF" d="M6.057,505.942c4.038,4.039,9.332,6.058,14.625,6.058s10.587-2.019,14.625-6.058L171.268,369.98
+                                                                                        c8.076-8.076,8.076-21.172,0-29.248c-8.076-8.078-21.172-8.078-29.249,0L6.057,476.693
+                                                                                        C-2.019,484.77-2.019,497.865,6.057,505.942z"/>
+                                                                                </g>
+                                                                        </g>
+                                                                </g>
+                                                        </svg>
+                                                </div>
+                                                <form id="search_form" class="search_form bez_1">
+                                                        <input type="search" class="search_content_input bez_1">
+                                                </form>
+                                                <div class="hamburger">
+                                                        <i class="fa fa-bars trans_200"></i>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </nav>
+		-->
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+                    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Register Bus</option>
+                                <option value="{% url 'route' %}">Register Route</option>
+                                <option value="{% url 'registor' %}">Register Admin</option>
+                                <option value="{% url 'city' %}">Register City</option>
+                                <option value="{% url 'worker' %}">Register Driver</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                                <option value="{% url 'changebus' %}">Change Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'routes' %}">Show Routes</option>
+                                <option value="{% url 'users' %}">Show Users</option>
+                                <option value="{% url 'buses' %}">Show Buses</option>
+                                <option value="{% url 'comments' %}">Show Comments</option>
+                                <option value="{% url 'driver' %}">Driver</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                                <option value="{% url 'citydelete' %}">Delete City</option>
+                                <option value="{% url 'routedelete' %}">Delete Route</option>
+                                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+</style>
+</header>
+
+<!--
+<div class="menu trans_500">
+                <div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="menu_close_container"><div class="menu_close"></div></div>
+                        <div class="logo menu_logo"><a href="#"><img src="../static/images/logo.png" alt=""></a></div>
+                        <ul>
+			<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Routes</option>
+                           <option value="{% url 'admins' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'admins' %}">Register Admin </option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    			   <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+                        </ul>
+                </div>
+        </div>
+-->
+
+
+
+	<style>
+        .change-side-number-title {
+            text-align: center;
+            color: blue;
+            margin: 2rem 0; /* Use rem for responsive spacing */
+            margin-top: 30vh; /* 10% of the viewport height for responsive top margin */
+            font-size: 2rem; /* Adjust font size for better readability */
+        }
+
+        /* Media Query for Smaller Screens */
+        @media (max-width: 600px) {
+            .change-side-number-title {
+                font-size: 1.5rem; /* Smaller font size on smaller screens */
+                margin-top: 20vh; /* Reduce margin on smaller screens */
+            }
+        }
+    </style>
+<style>
+    .error {
+    color: red;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    margin-left: 150px; /* Adjust margin as needed */
+    white-space: nowrap; /* Prevent line wrapping */
+}
+
+.symbol {
+    margin-left: 30px; /* Space between the error message and the symbol */
+}
+</style>
+
+    <!--<h4 style="text-align: center; color: blue; margin: 10px 0; margin-top:200px;"><b><strong>Change Side Number</strong></b></h4>-->
+
+<h4 class="change-side-number-title"><b>Change Side Number</b></h4>
+
+<!--
+ {% if success %}
+    <div class="success">
+    <h5 style="color: yellow; margin-left: 300px;"><b>{{ success }}</b><span style="margin-left:30px;" class="symbol">✔</span></h5>
+    </div>
+    {% endif %}
+      {% if error %}
+    <div class="success">
+    <h6 style="color: red; margin-left: 300px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">X</span></h6>
+    </div>
+    {% endif %}
+-->
+
+<style>
+
+.success-message, .error-message {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center align the content */
+    margin: 10px auto; /* Center the messages horizontally */
+    max-width: 80%; /* Limit the width for better responsiveness */
+}
+
+.success-message {
+    color: yellow; /* Color for success messages */
+    margin-left: 350px;
+    margin-top: -30px;
+}
+
+.error-message {
+    color: red; /* Color for error messages */
+    margin-left: 500px;
+    margin-top: -30px;
+}
+
+.symbol {
+    margin-left: 10px; /* Space between the message and the symbol */
+}
+
+ @media (max-width: 900px) {
+            .success-message, .error-message {
+                font-size: 1.3rem; /* Adjust font size for medium screens */
+                margin: 8px auto; /* Reduce margins on medium screens */
+		margin-left: 50px;
+		margin-top: -30px;
+            }
+        }
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+    .success-message, .error-message {
+        font-size: 1.2rem; /* Adjust font size for smaller screens */
+        margin: 5px auto;
+	margin-left: 50px;
+    	margin-top: -30px;
+    }
+}
+</style>
+
+
+{% if success %}
+<div class="success">
+    <h5 class="success-message"><b>{{ success }}</b><span class="symbol">✔</span></h5>
+</div>
+{% endif %}
+
+{% if error %}
+<div class="error">
+    <h6 class="error-message"><b>{{ error }}</b><span class="symbol">X</span></h6>
+</div>
+{% endif %}
+
+<style>
+.responsive-table {
+    width: 100%;
+    max-width: 500px; /* Maximum width of the table */
+    margin: 20px auto; /* Center the table */
+    background-color: lightgray;
+    border-collapse: collapse;
+}
+
+.responsive-table th,
+.responsive-table td {
+    padding: 10px; /* Increased padding for better spacing */
+    text-align: center; /* Center align text */
+}
+
+.responsive-table th {
+    background-color: green;
+    color: white;
+}
+
+.responsive-table input {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    text-align: center;
+    color: blue;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    padding: 5px; /* Added padding for better visuals */
+}
+
+.responsive-table button {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    background-color: blue;
+    color: brown;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.error-message {
+    color: red;
+    display: none; /* Hide error message by default */
+}
+
+/* Media Query for Medium Screens */
+@media (max-width: 900px) {
+    .responsive-table {
+        max-width: 90%; /* Increase table width on medium screens */
+    }
+
+    .responsive-table input, .responsive-table button {
+        height: 30px; /* Adjust height for medium screens */
+    }
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+    .responsive-table {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+
+    .responsive-table th, .responsive-table td {
+        padding: 5px; /* Reduce padding on smaller screens */
+    }
+
+    .responsive-table input, .responsive-table button {
+        height: 28px; /* Adjust height for smaller screens */
+    }
+}
+</style>
+
+<table class="responsive-table">
+    <thead>
+        {% if error1 %}
+        <div class="error">
+            <h6 style="color: red;"><b>{{ error1 }}</b><span class="symbol">X</span></h6>
+        </div>
+        {% endif %}
+        <tr>
+            <th>No</th>
+            <th>Plate No</th>
+            <th>Side No</th>
+            <th>No Seat</th>
+            <th>New Side</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bus in buses %}
+        <tr>
+            <td style="color: brown; text-align: center;">{{ forloop.counter }}</td>
+            <td>
+                <form action="#" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="text" name="plate_no" value="{{ bus.plate_no }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="sideno" value="{{ bus.sideno }}" readonly>
+            </td>
+            <td>
+                <input type="text" name="no_seats" value="{{ bus.no_seats }}">
+            </td>
+            <td>
+                <input type="text" name="new_sideno" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, ''); validateside(this);" required>
+                <div id="error-message-{{ forloop.counter }}" style="color: red; display: none;"></div>
+            </td>
+            <td>
+                <button type="submit"><b style="color: red;">Change</b></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+function validateside(input) {
+    var value = input.value.trim();
+    var index = input.closest('tr').rowIndex; // Get row index
+    var errorMessage = document.getElementById("error-message-" + index);
+    
+    if (isNaN(value)) {
+        errorMessage.textContent = "Please enter a number for the sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a number.");
+    } else if (value.length !== 4) {
+        errorMessage.textContent = "Please enter a 4-digit sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a 4-digit number.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+</script>
+
+
+
+<!--
+<style>
+.responsive-table {
+    width: 100%;
+    max-width: 500px; /* Maximum width of the table */
+    margin: 20px auto; /* Center the table */
+    background-color: lightgray;
+    border-collapse: collapse;
+}
+
+.responsive-table th,
+.responsive-table td {
+    padding: 10px; /* Increased padding for better spacing */
+    text-align: center; /* Center align text */
+}
+
+.responsive-table th {
+    background-color: green;
+    margin-buttom:30px;
+    color: white;
+}
+
+.responsive-table input {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    text-align: center;
+    color: blue;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    padding: 5px; /* Added padding for better visuals */
+}
+
+.responsive-table button {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    background-color: blue;
+    color: brown;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.error-message {
+    color: red;
+    display: error1; /* Hide error message by default */
+}
+
+/* Media Query for Medium Screens */
+@media (max-width: 900px) {
+    .responsive-table {
+        max-width: 90%; /* Increase table width on medium screens */
+    }
+
+    .responsive-table input, .responsive-table button {
+        height: 30px; /* Adjust height for medium screens */
+    }
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+    .responsive-table {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+
+    .responsive-table th, .responsive-table td {
+        padding: 5px; /* Reduce padding on smaller screens */
+    }
+
+    .responsive-table input, .responsive-table button {
+        height: 28px; /* Adjust height for smaller screens */
+    }
+}
+
+.responsive-table {
+    width: 100%;
+    max-width: 500px; /* Maximum width of the table */
+    margin: 20px auto; /* Center the table */
+    background-color: lightgray;
+    border-collapse: collapse;
+}
+
+.responsive-table th, 
+.responsive-table td {
+    padding: 10px; /* Increased padding for better spacing */
+    text-align: center; /* Center align text */
+}
+
+.responsive-table th {
+    background-color: green;
+    color: white;
+}
+
+.responsive-table input {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    text-align: center;
+    color: blue;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    padding: 5px; /* Added padding for better visuals */
+}
+
+.responsive-table button {
+    height: 35px; /* Increased height for better usability */
+    width: 100%; /* Full width of the cell */
+    background-color: blue;
+    color: brown;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.error-message {
+    color: red;
+    display: none; /* Hide error message by default */
+}
+
+/* Media Query for Medium Screens */
+@media (max-width: 900px) {
+    .responsive-table {
+        max-width: 90%; /* Increase table width on medium screens */
+    }
+
+    .responsive-table input, .responsive-table button {
+        height: 30px; /* Adjust height for medium screens */
+    }
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+    .responsive-table {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+
+    .responsive-table th, .responsive-table td {
+        padding: 5px; /* Reduce padding on smaller screens */
+    }
+
+    .responsive-table input, .responsive-table button {
+        height: 28px; /* Adjust height for smaller screens */
+    }
+}
+</style>
+
+<table style="width: 100%; max-width: 500px; margin: 20px auto; background-color: lightgray; border-collapse: collapse;">
+    <thead>
+	    {% if error1 %}
+<div class="error">
+    <h6 style="color="red;"><b>{{ error1 }}</b><span class="symbol">X</span></h6>
+</div>
+{% endif %}
+        <tr>
+            <th style="background-color: green; color: white; padding: 5px;">No</th>
+            <th style="background-color: green; color: white; padding: 5px;">Plate No</th>
+            <th style="background-color: green; color: white; padding: 5px;">Side No</th>
+            <th style="background-color: green; color: white; padding: 5px;">No Seat</th>
+            <th style="background-color: green; color: white; padding: 5px;">New Side</th>
+            <th style="background-color: green; color: white; padding: 5px;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bus in buses %}
+        <tr>
+            <td style="padding: 5px; color: brown; text-align: center;">{{ forloop.counter }}</td>
+            <td>
+                <form action="#" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="text" name="plate_no" value="{{ bus.plate_no }}" readonly style="height: 30px; width: 80%; max-width: 70px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; padding: 2px;">
+            </td>
+            <td>
+                <input type="text" name="sideno" value="{{ bus.sideno }}" readonly style="height: 30px; width: 80%; max-width: 70px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; padding: 2px;">
+            </td>
+            <td>
+                <input type="text" name="no_seats" value="{{ bus.no_seats }}" style="height: 30px; width: 80%; max-width: 70px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; padding: 2px;">
+            </td>
+            <td>
+                <input type="text" name="new_sideno" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, ''); validateside(this);" required style="height: 30px; width: 80%; max-width: 70px; text-align: center; color: blue; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; padding: 2px;">
+                <div id="error-message-{{ forloop.counter }}" style="color: red; display: none;"></div>
+            </td>
+            <td>
+                <button type="submit" style="height: 30px; width: 80%; max-width: 70px; background-color: blue; color: brown; border-radius: 5px; border: 1px solid #ccc; font-weight: bold;"><b style="color: red;">Change</b></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+function validateside(input) {
+    var value = input.value.trim();
+    var index = input.closest('tr').rowIndex; // Get row index
+    var errorMessage = document.getElementById("error-message-" + index);
+    
+    if (isNaN(value)) {
+        errorMessage.textContent = "Please enter a number for the sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a number.");
+    } else if (value.length !== 4) {
+        errorMessage.textContent = "Please enter a 4-digit sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a 4-digit number.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+</script>
+
+-->
+
+
+<script>
+function validateside(input) {
+    var value = input.value.trim();
+    var index = input.closest('tr').rowIndex; // Get row index
+    var errorMessage = document.getElementById("error-message-" + index);
+    
+    if (isNaN(value)) {
+        errorMessage.textContent = "Please enter a number for the sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a number.");
+    } else if (value.length !== 4) {
+        errorMessage.textContent = "Please enter a 4-digit sideno.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Please enter a 4-digit number.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+</script>
+
+
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+  <div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                                <div><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="#">Ticket Team</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+                                        </div>
+                                </div>
+                           <div class="col-lg-9 order-lg-2 order-1">
+                           <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                           <div class="footer_nav">
+                           <ul class="footer_nav_list">
+			   <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Routes</option>
+                           <option value="{% url 'admins' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'admins' %}">Register Admin </option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="../static/js/contact_custom.js"></script>
+</body>
+</html>

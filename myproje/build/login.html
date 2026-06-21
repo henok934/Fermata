@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>login</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<div class="top_bar" style="background-color: #005500; height: 40px; width: 100%; position: relative;">
+</div>
+<body>
+<div class="super_container">
+	<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="user_box ml-auto">
+							<div class="user_box_login user_box_link"><a href="{% url 'login' %}"></a></div>
+							<div class="user_box_register user_box_link"><a href="#"></a></div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+
+<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+	<li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">Home</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+</li>
+<li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';
+            dateInput.focus();
+        } else {
+            dateInput.style.display = 'none';
+        }
+    });
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+  </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+  {% if error1 %}
+    <div class="success">
+        <h6 style="color: red; margin-left: 300px;"><b>{{ error1 }}</b><span style="margin-left:20px;" class="symbol"><b>X</b></span></h6>
+    </div>
+    {% endif %}
+
+	</header>
+
+
+
+	</br></br></br>
+	  {% if error %}
+    <div class="success">
+            </br></br></br></br></br></br></br>
+            <h3 style="color: red; margin-left: 150px; display: inline-block; white-space: nowrap;">
+  <b>{{ error }}</b>
+  <span style="margin-left: 30px;" class="symbol">X</span>
+</h3>
+    </div>
+    {% endif %}
+
+	<div class="search17">					
+    <div class="container fill_height">
+        <div class="row fill_height">
+            <div class="col fill_height">
+                <div class="search_panel active">
+
+
+<style>
+    form#search_form_1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%; /* Ensure it takes full width */
+        max-width: 400px; /* Set a max width for larger devices */
+        margin: auto; /* Center the form horizontally */
+    }
+    .search_item {
+        padding: 15px; /* Reduced padding for a more compact look */
+        background-color: lightgray; /* Optional: background color for the whole item */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+    .form-group {
+        margin-bottom: 10px; /* Reduced margin between form groups */
+    }
+    .form-control {
+        height: 36px; /* Set a specific height for input fields */
+        padding: 6px 12px; /* Adjusted padding for inputs */
+    }
+    button {
+        height: 36px; /* Consistent button height */
+    }
+</style>
+
+<form method="post" action="{% url 'login' %}" id="search_form_1" class="search_panel_content d-flex flex-column align-items-center" style="margin-top:-50px;">
+    {% csrf_token %}
+    <div class="search_item w-100">
+        <h4 class="mb-3">Login</h4>
+<div class="form-group d-flex align-items-center">
+    <label for="username" class="mr-2" style="width: 100px;">Username:</label>
+    <input type="text" size="50" name="username" class="form-control search_input" placeholder="Username" style="flex: 1; max-width: 200px;" required> 
+</div>
+<div class="form-group d-flex align-items-center">
+    <label for="password" class="mr-2" style="width: 100px;">Password:</label>
+    
+    <input type="password" id="password" name="password" class="form-control search_input" style="flex: 1; max-width: 200px;" pattern="[A-Za-z0-9]{4,30}" maxlength="30" required>
+    <!--
+    <input type="password" id="password" name="password" class="form-control search_input" style="flex: 1; max-width: 200px;" pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&*!~])[A-Za-z\d@#$%^&*!~]{4,30}" maxlength="30" required>-->
+
+    <button type="button" onclick="togglePasswordVisibility()" class="btn btn-outline-secondary ml-2"><b>Show</b></button>
+</div>
+          <div class="form-group">
+            <label for="role"><b style="margin-left:-150px;">Role:</b></label>
+            <select id="role" name="role" class="form-control" style="width:100px; height:30px; margin-left:100px;" required>
+                <option value="#" disabled selected required>Select</option>
+                <option value="user">Admin</option>
+                <option value="worker">Driver</option>
+            </select>
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary"><b>Login</b></button>
+        </div>
+        <br>
+        <div class="text-center">
+            <span>Do,nt Account?&nbsp;&nbsp;<a href="#" class="text-primary"><b>Sign Up</b></a></span>
+        </div>
+    </div>
+</form>
+
+<script>
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        passwordInput.type = (passwordInput.type === "password") ? "text" : "password";
+    }
+</script>
+
+</div>
+            </div>
+        </div>
+    </div>
+</div>	
+</div>
+	</div>
+	<div class="row intro_items">
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_1.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>BahirDar</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_2.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>Mekelle</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_3.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>Jimma</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="copyright">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3 order-lg-1 order-2  ">
+			<div class="copyright_content d-flex flex-row align-items-center">
+				<div><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved designend  by <a href="#" target="_blank">guzo Team </a></div>			</div>
+		</div>
+		<div class="col-lg-9 order-lg-2 order-1">
+			<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+				<div class="footer_nav">
+					 <ul class="main_nav_list">
+                                         <li class="main_nav_item"><a href="{% url 'home' %}">Home</a></li>
+                                         <li class="main_nav_item"><a href="{% url 'about' %}">About Us</a></li>
+                                         <li class="main_nav_item"><a href="{% url 'comment' %}">Comment</a></li>
+                                         </ul>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/js/custom.js"></script>
+</body>
+</html>

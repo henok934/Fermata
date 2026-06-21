@@ -1,0 +1,9 @@
+HTTP/1.1 301 Moved Permanently
+Date: Thu, 22 Jan 2026 18:33:48 GMT
+Server: WSGIServer/0.2 CPython/3.10.12
+Content-Type: text/html; charset=utf-8
+Location: https://127.0.0.1:8000/
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+Cross-Origin-Opener-Policy: same-origin
+

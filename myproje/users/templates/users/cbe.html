@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CBE Birr | Busfermata Secure</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root { --cbe-purple: #732a82; --cbe-gold: #ffcc00; --brand-navy: #00264d; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f7f9; margin: 0; }
+
+        /* NAVIGATION */
+        .navbar-main { background: #fff; padding: 12px 0; border-bottom: 5px solid var(--cbe-purple); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .nav-link-intl { color: var(--brand-navy) !important; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 10px 15px !important; }
+        .btn-login-intl { background: var(--brand-navy); color: white !important; border-radius: 8px; padding: 8px 20px !important; }
+
+        /* PAYMENT CARD */
+        .payment-box { max-width: 480px; margin: 60px auto; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 20px 50px rgba(115, 42, 130, 0.15); border: 1px solid #e2e8f0; }
+        
+        /* WHITE HEADER AS REQUESTED */
+        .cbe-header-white { background: #ffffff; padding: 40px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+        
+        .payment-body { padding: 40px; }
+        
+        .form-control-intl { height: 60px; border-radius: 12px; border: 2px solid #e2e8f0; font-size: 18px; font-weight: 700; text-align: center; color: var(--cbe-purple); transition: 0.3s; }
+        .form-control-intl:focus { border-color: var(--cbe-purple); outline: none; }
+        
+        .btn-cbe { background: var(--cbe-purple); color: white; font-weight: 800; height: 60px; border-radius: 12px; border: none; width: 100%; font-size: 18px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .btn-cbe:hover { background: #5a2066; transform: translateY(-2px); box-shadow: 0 8px 15px rgba(115, 42, 130, 0.2); }
+        
+        /* ERROR BLOCK */
+        .error-alert-box { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 12px 15px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        #inlineError { color: #dc3545; font-size: 13px; font-weight: 700; margin-top: 8px; display: none; text-align: left; }
+
+        .footer-intl { background: var(--brand-navy); color: white; padding: 50px 0; text-align: center; margin-top: 80px; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+<!--
+<nav class="navbar-main navbar navbar-expand-lg">
+    <div class="container">
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
+            <img src="../static/images/l.jpeg" height="50" style="border-radius: 8px;">
+            <div class="ml-2">
+                <div style="font-weight:800; color:var(--brand-navy); font-size:20px; line-height:1;">Busfermata</div>
+                <div style="font-weight:800; color:var(--cbe-purple); font-size:9px; letter-spacing:1px;">TRANSPORT TECHNOLOGY</div>
+            </div>
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li><a class="nav-link nav-link-intl" href="{% url 'home' %}">Home</a></li>
+                <li><a class="nav-link nav-link-intl" href="{% url 'book' %}">Book</a></li>
+                <li><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li><a class="nav-link nav-link-intl" href="{% url 'about' %}">About us</a></li>
+                <li><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="ml-3"><a class="nav-link nav-link-intl btn-login-intl" href="{% url 'login' %}">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<nav class="navbar-main navbar navbar-expand-lg navbar-light">
+    <div class="container">
+
+	<!--
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
+            <img src="../static/images/l.jpeg" height="50" style="border: 2px solid var(--brand-navy); border-radius: 8px;">
+            <div class="ml-2 text-left">
+                <div style="font-weight:800; color:var(--brand-navy); font-size:20px; line-height:1;">Busfermata</div>
+                <div style="font-weight:800; color:var(--brand-gold); font-size:9px; letter-spacing:1.2px;">TRANSPORT TECHNOLOGY</div>
+            </div>
+        </a>
+	-->
+	<a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#BusfermataNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="BusfermataNavbar">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'book' %}">Book</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'about' %}">About us</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
+		<!-- <li class="nav-item ml-lg-3"><a class="nav-link nav-link-intl btn-login-intl" href="{% url 'login' %}">Login</a></li>-->
+		<li class="nav-item ml-lg-3">
+    <a class="nav-link nav-link-intl px-4 rounded-pill border"
+       style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;"
+       href="{% url 'book' %}">Book Now</a>
+</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="payment-box">
+        <div class="cbe-header-white">
+            <img src="../static/images/cbe.png" alt="CBE Birr" style="height: 60px; margin-bottom: 10px;">
+            <h4 class="font-weight-bold mb-1" style="color: var(--cbe-purple);">CBE Birr Payment</h4>
+            <p class="mb-0 text-muted small">Official Bank Checkout</p>
+        </div>
+        
+        <div class="payment-body">
+            {% if error %}
+            <div class="error-alert-box" id="djangoError">
+                <span><b>{{ error }}</b></span>
+                <span style="cursor:pointer; font-weight:800;" onclick="document.getElementById('djangoError').style.display='none'">X</span>
+            </div>
+            {% endif %}
+
+            <div class="text-center mb-4">
+                <small class="text-muted font-weight-bold">AMOUNT TO PAY</small>
+                <h2 class="font-weight-bold" style="color: var(--cbe-purple);">{{ price }} ETB</h2>
+            </div>
+
+            <form action="{% url 'cbe' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-4">
+                    <label class="small font-weight-bold text-muted">CBE ACCOUNT NUMBER</label>
+                    <input type="text" name="account" id="accInput" class="form-control form-control-intl" placeholder="1000XXXXXXXXX" maxlength="13" required>
+                    <div id="inlineError"><i class="fas fa-exclamation-triangle mr-1"></i> Start with 1000 (13 digits)</div>
+                </div>
+                <input type="hidden" name="price" value="{{ price }}">
+                <button type="submit" class="btn-cbe" onclick="return validateCbe()">Proceed to Verification</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-intl">
+    <div class="container">
+        <p class="mb-2">Support Helpline: <span style="color:var(--cbe-gold); font-weight:800;">0975143134</span></p>
+        <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technology.</p>
+    </div>
+</footer>
+
+<script>
+function validateCbe() {
+    const input = document.getElementById('accInput');
+    const error = document.getElementById('inlineError');
+    const pattern = /^1000\d{9}$/;
+    if (!pattern.test(input.value)) {
+        error.style.display = 'block';
+        input.style.borderColor = '#dc3545';
+        return false;
+    }
+    return true;
+}
+</script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

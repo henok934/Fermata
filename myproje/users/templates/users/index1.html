@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Ethiopia's Digital Transport Network</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* --- NAVIGATION RESTORED & ENHANCED --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+
+        .brand-logo { 
+            height: 90px !important; 
+            width: auto; 
+            border-radius: 12px; 
+            margin-right: 20px; 
+            border: 4px solid var(--brand-navy) !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: 0.3s ease;
+        }
+
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 32px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 11px; letter-spacing: 2px; display: block; margin-top: 5px; }
+
+        .nav-links { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
+        .nav-links a { 
+            color: var(--brand-navy); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 14px; 
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #cc0000; }
+
+        /* --- HERO & BOOKING --- */
+        .hero-wrapper {
+            height: 45vh;
+            background: linear-gradient(rgba(0,38,77,0.7), rgba(0,0,0,0.6)), url('../static/images/home_slider.jpg');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
+        }
+
+        .booking-container {
+            width: 95%; max-width: 1140px; background: white; padding: 30px; border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15); display: flex; gap: 15px; align-items: flex-end;
+            margin: -60px auto 0; position: relative;
+        }
+
+        .input-group-custom { flex: 1; }
+        .input-group-custom label { font-weight: 800; color: var(--brand-navy); font-size: 12px; margin-bottom: 8px; display: block; }
+        .input-field { background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 8px; padding: 12px; display: flex; align-items: center; }
+        .input-field input { border: none; background: transparent; width: 100%; outline: none; font-weight: 700; }
+
+        .btn-search { background: var(--brand-navy); color: white; font-weight: 800; height: 55px; padding: 0 35px; border-radius: 8px; border: none; transition: 0.3s; }
+        .btn-search:hover { background: #cc0000; transform: translateY(-2px); }
+
+        /* --- REGIONAL SECTION --- */
+        .region-card { 
+            background: white; border-top: 5px solid var(--brand-navy); 
+            padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%;
+        }
+        .region-name { font-weight: 800; font-size: 20px; color: var(--brand-navy); margin-bottom: 15px; display: block; border-bottom: 2px solid var(--brand-gold); padding-bottom: 5px; }
+        .city-item { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 15px; }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0 30px; margin-top: 80px; text-align: center; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF LOGIN PORTAL</a>
+    </div>
+</div>
+
+<nav class="navbar-main">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <ul class="nav-links d-none d-lg-flex">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'get_ticket' %}">My Ticket</a></li>
+            <li><a href="{% url 'comment' %}">Feedback</a></li>
+        </ul>
+
+        <div>
+            <a href="{% url 'book' %}" class="btn" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; padding:12px 25px; border-radius:8px;">BOOK NOW</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-wrapper">
+    <h1 style="font-size: 3.5rem; font-weight: 800; margin: 0;">የኢትዮጵያ ኩራት</h1>
+    <p style="font-size: 1.2rem; font-weight: 600;">Modernizing the Way Ethiopia Travels</p>
+</section>
+
+<div class="booking-container">
+    <form action="{% url 'book' %}" method="post" style="display: contents;">
+        {% csrf_token %}
+        <div class="input-group-custom">
+            <label>DEPARTURE TERMINAL</label>
+            <div class="input-field">
+                <i class="fas fa-map-marker-alt mr-2 text-muted"></i>
+                <input type="text" name="depcity" placeholder="From City..." required>
+            </div>
+        </div>
+        <div class="input-group-custom">
+            <label>DESTINATION HUB</label>
+            <div class="input-field">
+                <i class="fas fa-location-arrow mr-2 text-muted"></i>
+                <input type="text" name="descity" placeholder="To City..." required>
+            </div>
+        </div>
+        <div class="input-group-custom" style="flex: 0.6;">
+            <label>TRAVEL DATE</label>
+            <div class="input-field">
+                <input type="date" name="date" required>
+            </div>
+        </div>
+        <button type="submit" class="btn-search">SEARCH BUS</button>
+    </form>
+</div>
+
+
+
+<section class="container" style="margin-top: 100px;">
+    <div class="text-center mb-5">
+        <h2 style="font-weight: 800; color: var(--brand-navy); font-size: 32px;">Our Primary Routes</h2>
+        <p class="text-muted">Direct Connections across the Ethiopian Highlands</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="region-card">
+                <span class="region-name">NORTHERN</span>
+                <span class="city-item">Bahir Dar</span>
+                <span class="city-item">Gonder</span>
+                <span class="city-item">Mekele</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="region-card">
+                <span class="region-name">SOUTHERN</span>
+                <span class="city-item">Hawassa</span>
+                <span class="city-item">Arba Minch</span>
+                <span class="city-item">Dilla</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="region-card">
+                <span class="region-name">WESTERN</span>
+                <span class="city-item">Jimma</span>
+                <span class="city-item">Nekemte</span>
+                <span class="city-item">Gambela</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="region-card">
+                <span class="region-name">EASTERN</span>
+                <span class="city-item">Dire Dawa</span>
+                <span class="city-item">Harar</span>
+                <span class="city-item">Jigjiga</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="opacity-50">© 2026 Busfermata • National Travel Solutions</p>
+        <div class="mt-4">
+            <i class="fab fa-facebook mx-2"></i>
+            <i class="fab fa-telegram mx-2"></i>
+            <i class="fab fa-instagram mx-2"></i>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // 3D Interactive Logo Effect
+    const brand = document.querySelector('.brand-area');
+    const logo = document.querySelector('.brand-logo');
+
+    brand.addEventListener('mousemove', (e) => {
+        const rect = brand.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / 10;
+        const y = (e.clientY - rect.top - rect.height / 2) / 10;
+        logo.style.transform = `perspective(1000px) rotateX(${-y}deg) rotateY(${x}deg) scale(1.05)`;
+    });
+
+    brand.addEventListener('mouseleave', () => {
+        logo.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+    });
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

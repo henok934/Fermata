@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Ethiopia's Premier Transport Network</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d; /* Deep Trust Blue */
+            --brand-gold: #ffcc00; /* National Star Yellow */
+            --brand-red: #cc0000;
+            --accent-light: #f1f5f9;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            color: #1e293b;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- GLOBAL NAVIGATION --- */
+        .top-bar {
+            background: var(--brand-navy);
+            color: white;
+            padding: 10px 0;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-main {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 4px solid var(--brand-gold);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+        }
+
+        .brand-logo { 
+            height: 85px !important; 
+            width: auto;
+            border-radius: 12px;
+            border: 4px solid var(--brand-navy);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .brand-logo:hover { transform: scale(1.05) rotate(1deg); }
+
+        .brand-text { 
+            font-weight: 800; 
+            font-size: 32px; 
+            color: var(--brand-navy); 
+            line-height: 0.9;
+            text-transform: uppercase;
+        }
+
+        .brand-tagline { 
+            color: var(--brand-gold); 
+            font-weight: 800; 
+            font-size: 11px; 
+            letter-spacing: 3px; 
+        }
+
+        .nav-links { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
+        .nav-links a { 
+            color: var(--brand-navy); 
+            font-weight: 700; 
+            font-size: 14px; 
+            text-transform: uppercase; 
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--brand-red); }
+
+        /* --- HERO & BOOKING --- */
+        .hero-section {
+            height: 60vh;
+            background: linear-gradient(rgba(0,38,77,0.7), rgba(0,0,0,0.5)), url('../static/images/home_slider.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-section h1 { font-size: 4.5rem; font-weight: 800; margin-bottom: 10px; }
+
+        .booking-card {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            margin-top: -100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .input-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            transition: 0.3s;
+        }
+        .input-box:focus-within { border-color: var(--brand-navy); background: white; }
+        
+        .input-box input, .input-box select {
+            border: none;
+            background: transparent;
+            width: 100%;
+            outline: none;
+            font-weight: 700;
+            color: var(--brand-navy);
+            font-size: 16px;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, var(--brand-navy) 0%, #004080 100%);
+            color: white;
+            border: none;
+            height: 65px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-search:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,38,77,0.3); }
+
+        /* --- ROUTES SECTION --- */
+        .region-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 6px solid var(--brand-gold);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            height: 100%;
+        }
+        .region-card:hover { transform: scale(1.03); }
+        .region-title { font-weight: 800; color: var(--brand-navy); font-size: 22px; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; }
+        .city-tag { display: block; margin-bottom: 10px; font-weight: 600; color: #64748b; font-size: 15px; }
+        .city-tag i { color: var(--brand-gold); margin-right: 10px; }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 80px 0 40px; text-align: center; margin-top: 100px; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-certificate mr-2"></i> Ethiopian Transport Authority Certified</span>
+        <div class="d-flex gap-4">
+            <a href="{% url 'login' %}"><i class="fas fa-user-shield mr-1"></i> STAFF PORTAL</a>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar-main">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div class="ml-3">
+                <span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span>
+                <br/>
+                <h3 class="brand-tagline" style="color: #007A78 !important; font-weight: bold !important; display: inline; margin: 0; padding: 0;">Digital Technology</h3>
+            </div>
+        </a>
+
+        <ul class="nav-links d-none d-lg-flex">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'get_ticket' %}">My Ticket</a></li>
+            <li><a href="{% url 'comment' %}">Feedback</a></li>
+        </ul>
+
+        <div class="notification-area">
+             <button class="btn btn-link p-0 position-relative" id="notificationButton">
+                <span style="font-size: 24px;">🔔</span>
+                <span class="badge badge-danger position-absolute" style="top: -5px; right: -5px; border-radius: 50%;">{{ buschanges_count }}</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-section">
+    <div class="container">
+        <h1>የኢትዮጵያ ኩራት</h1>
+        <p class="lead font-weight-bold" style="font-size: 1.5rem; opacity: 0.9;">Redefining National Mobility with Smart Technology</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="booking-card">
+	    {% if error %}
+            <div class="alert-box error-alert" id="djangoError">
+                <span><i class="fas fa-exclamation-circle mr-2"></i><b>{{ error }}</b></span>
+                <span class="symbol-x" onclick="document.getElementById('djangoError').style.display='none'">X</span>
+            </div>
+            {% endif %}
+
+        <form action="{% url 'book' %}" method="post">
+            {% csrf_token %}
+            <div class="row align-items-end">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <label class="font-weight-bold small text-muted">DEPARTURE TERMINAL</label>
+                    <div class="input-box">
+                        <select name="depcity" required>
+                            <option value="">Select City</option>
+                            {% for city in des %}
+                                <option value="{{ city.depcity }}">{{ city.depcity }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <label class="font-weight-bold small text-muted">DESTINATION HUB</label>
+                    <div class="input-box">
+                        <select name="descity" required>
+                            <option value="">Select Destination</option>
+                            {% for city in des %}
+                                <option value="{{ city.depcity }}">{{ city.depcity }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <label class="font-weight-bold small text-muted">TRAVEL DATE</label>
+                    <div class="input-box">
+                        <input type="date" name="date" required>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <button type="submit" class="btn-search">FIND TRAVEL</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<section class="container" style="margin-top: 100px;">
+    <div class="text-center mb-5">
+        <h2 style="font-weight: 800; color: var(--brand-navy); font-size: 38px;">Strategic Regional Routes</h2>
+        <div style="width: 80px; height: 5px; background: var(--brand-gold); margin: 20px auto;"></div>
+    </div>
+
+    
+    <div class="row mt-5">
+        <div class="col-md-3 mb-4">
+            <div class="region-card">
+                <div class="region-title">NORTHERN</div>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Bahir Dar</span>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Gonder</span>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Mekele</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="region-card" style="border-left-color: var(--brand-red);">
+                <div class="region-title">SOUTHERN</div>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Hawassa</span>
+                <span class="city-item">Arba Minch</span>
+                <span class="city-item">Dilla</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="region-card" style="border-left-color: #008000;">
+                <div class="region-title">WESTERN</div>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Jimma</span>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Nekemte</span>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Gambela</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="region-card" style="border-left-color: var(--brand-navy);">
+                <div class="region-title">EASTERN</div>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Dire Dawa</span>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Harar</span>
+                <span class="city-tag"><i class="fas fa-check-circle"></i> Jigjiga</span>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer-main">
+    <div class="container">
+        <h2 class="font-weight-bold mb-4">Busfermata Digital Technology</h2>
+        <p style="color: var(--brand-gold); font-weight: 700; font-size: 1.2rem;">Seamlessly Connecting Ethiopia</p>
+        <div class="social-icons my-4">
+            <i class="fab fa-facebook-f mx-3" style="font-size: 20px;"></i>
+            <i class="fab fa-telegram mx-3" style="font-size: 20px;"></i>
+            <i class="fab fa-instagram mx-3" style="font-size: 20px;"></i>
+        </div>
+        <hr style="border-color: rgba(255,255,255,0.1); width: 60%; margin: 30px auto;">
+        <p class="opacity-50 small">© 2026 Busfermata Digital Tech • All Rights Reserved</p>
+    </div>
+</footer>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

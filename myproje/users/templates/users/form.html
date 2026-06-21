@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Info Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin-bottom: 20px; }
+        #response { margin-top: 20px; border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<h1>Check Route Information</h1>
+<form id="routeForm">
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required><br><br>
+    
+    <label for="depcity">Departure City:</label>
+    <input type="text" id="depcity" name="depcity" required><br><br>
+    
+    <label for="descity">Destination City:</label>
+    <input type="text" id="descity" name="descity" required><br><br>
+    
+    <button type="submit">Submit</button>
+</form>
+
+<div id="response"></div>
+
+<script>
+    document.getElementById('routeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const date = document.getElementById('date').value;
+        const depcity = document.getElementById('depcity').value;
+        const descity = document.getElementById('descity').value;
+
+        fetch('http://localhost:8000/users/show-routes/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date, depcity, descity })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('response').innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+            document.getElementById('response').innerText = 'Error: ' + error;
+        });
+    });
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

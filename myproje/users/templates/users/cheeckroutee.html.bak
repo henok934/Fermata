@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>check route</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body>
+<div class="super_container">
+	<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251 1158 227 938</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="user_box ml-auto">
+							<div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		 <nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+						<div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+	<li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">Home</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+
+
+	 </li>
+</ul>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:5px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+<li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{buschanges_count}}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    // Automatically submit the form when a date is selected
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+ {% if error %}
+    <div class="success">
+        <h6 style="color: red; margin-left: 300px;"><b>{{ error }}</b><span style="margin-left:20px;" class="symbol"><b>X</b></span></h6>
+    </div>
+    {% endif %}
+
+	</header>
+	<div class="menu trans_500">
+		<div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+			<div class="menu_close_container"><div class="menu_close"></div></div>
+			<div class="logo menu_logo"><a href="#"><img src="../static/images/logo.png" alt=""></a></div>
+			<ul>
+				   <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                                   <li class="main_nav_item"><a href="{% url 'get_ticket' %}">show ticket</a></li>
+                                   <li class="main_nav_item"><a href="{% url 'book' %}">book</a></li>
+				   <li class="main_nav_item"><a href="{% url 'book' %}">book</a></li>
+                                   <li class="main_nav_item"><a href="{% url 'logout' %}">logout</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="offers">
+		<!--<div class="search10">-->
+		<div class="search_inner">
+				<div class="container fill_height no-padding">
+					<div class="row fill_height no-margin">
+						<div class="col fill_height no-padding">
+							<div class="container fill_height">
+								<div class="row fill_height">
+									<div class="col fill_height">
+										</br></br> </br></br>
+</br></br>
+
+
+<style>
+    body {
+        background-color: pink;
+    }
+    
+    .error {
+        display: inline-block;
+        padding: 10px;
+        margin-left: 20px;
+    }
+    
+    .symbol {
+        color: red;
+        font-size: 24px;
+        padding: 5px;
+        margin-left: 20px;
+    }
+</style>
+
+ <div class="search_panel active" style="background-color: #E0F7FA;">
+	    <form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-wrap align-items-center justify-content-start" style="margin: 20px auto; padding: 10px; width: 100%; max-width: 400px; background-color: #FFFFFF; auto;">
+        {% csrf_token %}
+<div style="display: flex; align-items: center; margin: 5px 0; margin-top:30px;">
+    <label for="depcity" style="color: #003366; font-weight: bold; margin-right: 10px; margin-left: 50px;"><b>From:</b></label>
+    <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; color: brown; text-align: left; margin-left: 10px; color:brown;" required>
+        <option value="" style="color: green; font-weight: bold;">Select</option>
+        {% if des %}
+            {% for depcity in des %}
+                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+</div>
+<div style="display: flex; align-items: center; margin: 5px 0;margin-top:20px;">
+    <label for="descity" style="color: #003366; font-weight: bold; margin-right: 10px; margin-left:50px;"><b>To:</b></label>
+    <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; margin-left:30px;color: brown; text-align: left; color:brown;" required>
+        <option value="" style="color: green; font-weight: bold;">Select</option>
+        {% if des %}
+            {% for depcity in des %}
+                <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+</div>
+</br>
+<div style="display: flex; align-items: center; margin: 5px 0; margin-top:20px;">
+    <label for="date" style="color: #003366; font-weight: bold; margin-right: 10px;margin-left:50px;"><b>Date:</b></label>
+    <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; margin-left:15px;color: brown; text-align: left; color:brown;" required>
+</div>
+<div style="margin: 20px 0; text-align: center; display: block;">
+    <button type="submit" style="background-color: #4CAF50; color: #FFFFFF; width: 100px; height: 45px; border: none; text-align: center; margin-left:140px; color: yellow; margin-top:5px;">
+        Search
+    </button>
+</div>
+    </form>
+</div>
+
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping for smaller screens */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: pink; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 800px; /* Max-width */
+        min-height: 200px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 5px; /* Add margin for spacing between items */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+
+    button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: center; /* Center items */
+        }
+
+        .search_item {
+            width: 100%; /* Full width for input elements */
+            margin: 10px 0; /* Vertical margin for spacing */
+        }
+
+        button {
+            margin-top: 20px; /* Space above the button */
+        }
+    }
+</style>
+
+
+<!--
+<div class="search_panel active">
+    <form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-row align-items-center justify-content-start" style="margin: 20px auto 0; padding: 0; background-color: pink; height: auto; width: 100%; max-width: 1400px; padding: 20px;">
+        {% csrf_token %}
+        <div class="search_item" style="margin: 0;">
+            <label for="depcity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>From</b></label>
+            <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; color: brown; text-align: left;" required>
+                <option value="" style="color: green; font-weight: bold;">Select</option>
+                {% if des %}
+                    {% for depcity in des %}
+                        <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="search_item" style="margin: 0;">
+            <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>To</b></label>
+            <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; color: brown; text-align: left;" required>
+                <option value="" style="color: green; font-weight: bold;">Select</option>
+                {% if des %}
+                    {% for depcity in des %}
+                        <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="search_item" style="margin: 0;">
+            <label for="date" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>Date</b></label>
+            <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; color: brown; text-align: left;" required>
+        </div>
+        <div style="margin: 0; display: block; text-align: center; margin-top: 20px;">
+            <button type="submit" style="background-color: yellow; color: black; display: inline-block; width: 130px; height: 45px; border: none; text-align: center;">
+                Search
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping for smaller screens */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: pink; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Max-width */
+        min-height: 200px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 5px; /* Add margin for spacing between items */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+
+    button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: center; /* Center items */
+        }
+
+        .search_item {
+            width: 100%; /* Full width for input elements */
+            margin: 10px 0; /* Vertical margin for spacing */
+        }
+
+        button {
+            margin-top: 20px; /* Space above the button */
+        }
+    }
+</style>
+-->
+
+
+
+
+<!--
+<div class="search_panel active">
+<form action="http://127.0.0.1:8000/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-row align-items-center justify-content-start" style="margin: 20px auto 0; padding: 0; background-color: pink; height: auto; width: 100%; max-width: 1400px; padding: 20px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 0;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 0;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+ <div class="search_item" style="margin: 0;">
+        <label for="date" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+    </div>
+    <div style="margin: 0; display: block; text-align: center; margin-top: 0;">
+        <button type="submit" style="background-color: yellow; color: black; display: inline-block; width: 130px;margin-top:30px;gheight: 45px; border: none; text-align: center; margin-left: 10px;">
+            Search
+        </button>
+    </div>
+</form>
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of items */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: #2a3439; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Further increased max-width */
+        min-height: 100px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 0; /* Remove margin for consistent spacing */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+
+    button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-wrap: nowrap; /* Keep items in a single row */
+            justify-content: flex-start; /* Align items to the start */
+        }
+	.search_item {
+            margin: 0; /* Maintain no margin for smaller screens */
+        }
+
+        label {
+            margin-left: 0; /* Reset label margins */
+        }
+    }
+</style>
+</div>
+-->
+									</div>
+								</div>
+							</div>		
+						</div>			
+									</div>
+									</div>
+									</div>
+			
+				</div>
+			</div>
+		</div>
+
+
+	<div class="intro">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2 class="intro_title text-center">We have the best routes</h2>
+				</div>
+			</div>
+			<div class="row intro_items">
+				<!-- Intro Item -->
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@dnevozhai -->
+						<div class="intro_item_background" style="background-image:url(../static/images/intro_1.jpg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+						<div class="intro_center text-center">
+								<h1>BahirDar</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Intro Item -->
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@hellolightbulb -->
+						<div class="intro_item_background" style="background-image:url(../static/images/intro_2.jpg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+							<div class="intro_center text-center">
+								<h1>Mekelle</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Intro Item -->
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@willianjusten -->
+						<div class="intro_item_background" style="background-image:url(../static/images/intro_3.jpg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+							<div class="intro_center text-center">
+								<h1>Jimma</h1>
+								<div class="rating rating_4">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+				<!-- Intro Item -->
+	<div class="intro">
+		<div class="container">
+			<div class="row intro_items">
+
+				<!-- Intro Item -->
+
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@dnevozhai -->
+						<div class="intro_item_background" style="background-image:url(../static/images/hawasa.jpg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+						<div class="intro_center text-center">
+								<h1>Hawasa</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Intro Item -->
+
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@hellolightbulb -->
+						<div class="intro_item_background" style="background-image:url(../static/images/dredawa1.jpeg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+							<div class="intro_center text-center">
+								<h1>Dredawa</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Intro Item -->
+
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@willianjusten -->
+						<div class="intro_item_background" style="background-image:url(../static/images/gonder.jpeg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+							<div class="intro_center text-center">
+								<h1>Gonder</h1>
+							<div class="rating rating_4">
+							</div>
+						</div>
+				</div>
+			</div>
+			</div>		
+		</div>
+	</div>
+<div class="intro">
+		<div class="container">
+			<div class="row intro_items">
+
+				<!-- Intro Item -->
+
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@dnevozhai -->
+						<div class="intro_item_background" style="background-image:url(../static/images/harer.jpg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+						<div class="intro_center text-center">
+								<h1>Harer</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Intro Item -->
+
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@hellolightbulb -->
+						<div class="intro_item_background" style="background-image:url(../static/images/desse.jpg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+							<div class="intro_center text-center">
+								<h1>Dessie</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Intro Item -->
+
+				<div class="col-lg-4 intro_col">
+					<div class="intro_item">
+						<div class="intro_item_overlay"></div>
+						<!-- Image by https://unsplash.com/@willianjusten -->
+						<div class="intro_item_background" style="background-image:url(../static/images/arbaminch.jpg)"></div>
+						<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+							<div class="intro_center text-center">
+								<h1>Arbaminch</h1>
+								<div class="rating rating_4">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	</br>
+	</br>
+	</br>
+<!-- Copyright -->
+	<div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 order-lg-1 order-2  ">
+					<div class="copyright_content d-flex flex-row align-items-center">
+						<div>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved designed by guzo team <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#" target="_blank">Ticket team</a></div>					</div>
+				</div>
+				<div class="col-lg-9 order-lg-2 order-1">
+					<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+						<div class="footer_nav">
+							<ul class="footer_nav_list">
+							   	<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'get_ticket' %}">show ticket</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'book' %}">book</a></li>
+                                                        	<li class="main_nav_item"><a href="{% url 'logout' %}">logout</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/js/offers_custom.js"></script>
+</body>
+</html>
+

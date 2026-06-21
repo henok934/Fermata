@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Manage Ticket | Busfermata Digital Tech</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-blue: #003DA5;
+            --bg-body: #f1f5f9;
+            --muted: #64748b;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-body); top: 0px !important; position: static !important; }
+        html { margin-top: 0px !important; }
+
+        /* --- NAVBAR STYLES --- */
+        .navbar-main {
+            background: white; padding: 12px 0; border-bottom: 5px solid var(--brand-gold);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .brand-logo { border: none !important; box-shadow: none !important; border-radius: 0; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 14px; }
+        .btn-book-nav { background: var(--brand-gold); color: var(--brand-navy) !important; border-radius: 10px; font-weight: 800; }
+
+        /* --- UPDATE FORM SECTION --- */
+        .update-panel {
+            background: #fff; border-radius: 20px; padding: 30px;
+            max-width: 850px; margin: 30px auto 50px; border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+        .form-control-custom {
+            border: 2px solid #f1f5f9; border-radius: 12px; padding: 12px;
+            font-weight: 700; transition: 0.3s; height: auto;
+        }
+        .form-control-custom:focus { border-color: var(--brand-blue); box-shadow: none; }
+        .btn-update-submit {
+            background: var(--brand-navy); color: white; font-weight: 800;
+            border-radius: 12px; padding: 16px 30px; width: 100%; border: none;
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-update-submit:hover { background: #001a33; color: white; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,38,77,0.15); }
+        .data-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.3px; }
+
+        /* --- ITINERARY QUICK BADGE --- */
+        .itinerary-badge {
+            background: #f8fafc; 
+            border-radius: 14px; 
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .itinerary-badge:hover {
+            background: #f1f5f9;
+        }
+
+        /* --- TOAST ENGINE NOTIFICATIONS --- */
+        .toast-container-custom {
+            margin-bottom: 20px;
+        }
+        .toast-error-custom {
+            background: #fff5f5; border-left: 5px solid #e74c3c; border-radius: 8px; padding: 15px 20px; color: #c0392b; font-weight: 700;
+        }
+
+        /* --- HIDE GOOGLE TRANSLATE FLOATING UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div class="ml-2">
+                <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78; font-weight:bold; margin:0; padding:0;">Digital Technology</h6>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: #f8f9fa; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item ml-lg-2"><a class="nav-link btn-book-nav px-4" href="{% url 'book' %}">BOOK NOW</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-user-lock"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4"> 
+    <div id="ticket-container">
+        {% if ticket %}
+
+        {% if error %}
+        <div class="toast-container-custom" id="djangoError">
+            <div class="toast-error-custom shadow-sm d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-exclamation-triangle mr-2"></i> {{ error }}</span>
+                <button type="button" class="close" onclick="closeNotification('djangoError')"><span>×</span></button>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="update-panel shadow-lg">
+            
+            <div class="p-3 itinerary-badge shadow-sm mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-4 d-flex align-items-center border-right mb-2 mb-md-0">
+                        <span class="p-2 bg-white rounded-circle mr-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="fas fa-calendar-alt text-primary" style="color: var(--brand-navy) !important;"></i>
+                        </span>
+                        <div>
+                            <span class="data-label mb-0">Departure Date</span>
+                            <strong style="color: var(--brand-navy); font-size: 15px; font-weight: 800;">
+                                {% if ticket.date|date:"d M, Y" %}{{ ticket.date|date:"d M, Y" }}{% else %}{{ ticket.date }}{% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5 d-flex align-items-center border-right mb-2 mb-md-0">
+                        <span class="p-2 bg-white rounded-circle mr-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="fas fa-route text-success"></i>
+                        </span>
+                        <div>
+                            <span class="data-label mb-0">Assigned Route Path</span>
+                            <strong style="color: var(--brand-navy); font-size: 14px; font-weight: 800; text-transform: uppercase;">
+                                {{ ticket.depcity }} <i class="fas fa-long-arrow-alt-right mx-1 text-muted"></i> {{ ticket.descity }}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-md-right">
+                        <span class="data-label mb-0">Current Passenger</span>
+                        <strong style="color: #007A78; font-size: 13px; font-weight: 700;">{{ ticket.firstname }} {{ ticket.lastname }}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="font-weight-bold mb-4" style="color: var(--brand-navy);">
+                <i class="fas fa-user-edit mr-2"></i>Transfer to Another Person
+            </h5>
+            
+            <form action="{% url 'passenger' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+                <input type="hidden" name="descity" value="{{ ticket.descity }}">
+                <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+                <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+                <input type="hidden" name="date" value="{{ ticket.date }}">
+                <input type="hidden" name="phone" value="{{ ticket.phone }}">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="new_firstname" class="data-label">First Name</label>
+                        <input type="text"
+                               id="new_firstname"
+                               name="new_firstname"
+                               class="form-control form-control-custom"
+                               placeholder="e.g., Abraham"
+                               oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
+                               required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="new_lastname" class="data-label">Father Name</label>
+                        <input type="text"
+                               id="new_lastname"
+                               name="new_lastname"
+                               class="form-control form-control-custom"
+                               placeholder="e.g., Bekele"
+                               oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
+                               required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="new_gender" class="data-label">Gender</label>
+                        <select id="new_gender" name="new_gender" class="form-control form-control-custom" style="height: calc(1.5em + .75rem + 11px);" required>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="new_phone" class="data-label">Phone Number</label>
+                        <input type="tel"
+                               id="new_phone"
+                               name="new_phone"
+                               class="form-control form-control-custom"
+                               placeholder="e.g., 0912345678"
+                               maxlength="10"
+                               pattern="^(09|07)\d{8}$"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                               required>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn-update-submit w-100 shadow-sm">
+                            <i class="fas fa-exchange-alt mr-2"></i> Confirm Ticket Transfer
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+
+<footer style="background:var(--brand-navy); color:white; padding:30px 0; text-align:center;">
+    <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technology. Ethiopia's Digital Standard.</p>
+</footer>
+
+<div id="google_translate_element" style="display:none;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){
+            s.value=l;
+            s.dispatchEvent(new Event("change"))
+        }
+    }
+    function closeNotification(id) {
+        var el = document.getElementById(id);
+        if(el) { el.style.display = 'none'; }
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){
+            setTimeout(()=>{changeLanguage(l)},1000)
+        }
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

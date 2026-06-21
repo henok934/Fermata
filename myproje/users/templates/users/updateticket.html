@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Passenger Details | Busfermata Luxury Travel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #0A3977;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --primary: #0052cc;
+            --teal-accent: #007A78;
+            --booked: #dfe1e6;
+            --selected: #36b37e;
+            --card-shadow: 0 10px 30px rgba(10, 57, 119, 0.05);
+            --nav-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            margin: 0; 
+            color: #334155;
+            min-height: 100vh;
+        }
+
+        /* --- LOGO & PREMIUM NAVIGATION --- */
+        .navbar-main {
+            background: #ffffff; 
+            padding: 12px 0; 
+            border-bottom: 4px solid var(--brand-gold);
+            box-shadow: var(--nav-shadow); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            transition: var(--transition-smooth);
+        }
+        
+        .brand-area {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+            text-decoration: none !important;
+            transition: var(--transition-smooth);
+        }
+        
+        .brand-area:hover {
+            opacity: 0.95;
+        }
+
+        .brand-logo { 
+            width: 140px !important; 
+            height: 85px !important; 
+            object-fit: contain !important; 
+            margin: 0 !important; 
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .brand-text-wrapper {
+            display: flex !important; 
+            flex-direction: column !important; 
+            justify-content: center !important;
+        }
+
+        .brand-title {
+            color: var(--brand-navy) !important; 
+            font-weight: 800 !important;
+            font-size: 24px !important;
+            letter-spacing: -0.5px;
+            margin: 0 !important; 
+            padding: 0 !important; 
+            line-height: 1.1 !important;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            color: var(--teal-accent) !important;
+            font-weight: 700 !important; 
+            font-size: 11px !important;
+            letter-spacing: 1px;
+            margin: 0 !important; 
+            padding: 0 !important; 
+            line-height: 1.2 !important;
+            text-transform: uppercase;
+            margin-top: 2px !important;
+        }
+        
+        .navbar-toggler {
+            border: none !important;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background-color: #f1f5f9;
+            transition: var(--transition-smooth);
+        }
+        
+        .navbar-toggler:hover {
+            background-color: #e2e8f0;
+        }
+
+        .nav-link-custom {
+            color: #475569 !important; 
+            font-weight: 700; 
+            font-size: 14px; 
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            padding: 10px 18px !important; 
+            transition: var(--transition-smooth);
+            border-radius: 8px;
+        }
+        
+        .nav-link-custom:hover { 
+            color: var(--brand-navy) !important; 
+            background-color: #f8fafc;
+        }
+        
+        .nav-item.active .nav-link-custom {
+            color: var(--brand-navy) !important;
+            background-color: #f0f5ff;
+        }
+
+        .login-pill { 
+            background: var(--brand-navy); 
+            color: white !important; 
+            border-radius: 8px; 
+            padding: 10px 24px !important; 
+            box-shadow: 0 4px 12px rgba(10, 57, 119, 0.15);
+        }
+        
+        .login-pill:hover {
+            background: #072b5c;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(10, 57, 119, 0.2);
+            color: white !important;
+        }
+
+        /* --- GLOBAL FLIGHT-STYLE TRIP SUMMARY --- */
+        .trip-summary { 
+            background: linear-gradient(135deg, var(--brand-navy) 0%, #06234d 100%); 
+            color: white; 
+            padding: 24px 30px; 
+            border-radius: 16px; 
+            margin-bottom: 35px; 
+            box-shadow: 0 12px 35px rgba(10, 57, 119, 0.12);
+            border-left: 6px solid var(--brand-gold);
+        }
+        
+        .summary-label {
+            color: var(--brand-gold);
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+        
+        .summary-value {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        /* --- CARDS & FORMS --- */
+        .passenger-card { 
+            background: #ffffff; 
+            border-radius: 20px; 
+            padding: 35px; 
+            margin-bottom: 30px; 
+            border: 1px solid rgba(226, 232, 240, 0.8); 
+            box-shadow: var(--card-shadow);
+        }
+        
+        .card-header-title {
+            font-weight: 800; 
+            color: var(--brand-navy);
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .input-label-custom {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #64748b;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control-intl { 
+            height: 52px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            font-size: 15px;
+            border: 2px solid #e2e8f0; 
+            background: #f8fafc; 
+            color: #1e293b;
+            transition: var(--transition-smooth);
+        }
+        
+        .form-control-intl:focus {
+            border-color: var(--brand-navy);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(10, 57, 119, 0.08);
+        }
+        
+        .input-group-prepend-custom .input-group-text {
+            background-color: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            color: #94a3b8;
+            padding-left: 18px;
+            padding-right: 14px;
+        }
+        
+        .form-control-intl.border-left-0 {
+            border-left: none;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .form-control-intl[readonly] {
+            background-color: #f1f5f9;
+            color: #64748b;
+            border-color: #e2e8f0;
+            cursor: not-allowed;
+        }
+        
+        .cap-input { text-transform: capitalize; }
+        
+        .seat-select-custom {
+            cursor: pointer !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%230A3977' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 16px center !important;
+            background-size: 12px 12px !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            padding-right: 40px !important;
+        }
+
+        /* --- ACCESSIBLE MODERN SEAT MAP MODAL --- */
+        .seat-modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 2050; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(8px); 
+            animation: fadeIn 0.25s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content-custom { 
+            background: #ffffff; 
+            margin: 5vh auto; 
+            padding: 28px; 
+            width: 95%; 
+            max-width: 450px; 
+            border-radius: 24px; 
+            max-height: 90vh; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .seat-scroll-area { 
+            overflow-y: auto; 
+            flex-grow: 1; 
+            padding: 15px 5px;
+            margin-right: -5px;
+        }
+        
+        /* Premium custom scrollbar styling */
+        .seat-scroll-area::-webkit-scrollbar { width: 6px; }
+        .seat-scroll-area::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .seat-scroll-area::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .seat-scroll-area::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .seat-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr) 20px repeat(2, 1fr); 
+            gap: 10px; 
+            padding: 10px 0;
+        }
+        
+        .seat-rect { 
+            height: 48px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 10px; 
+            font-weight: 800; 
+            color: #475569;
+            background: #ffffff;
+            transition: var(--transition-smooth);
+        }
+        
+        .seat-rect i { 
+            font-size: 16px; 
+            color: #94a3b8; 
+            margin-bottom: 2px;
+            transition: var(--transition-smooth);
+        }
+        
+        .seat-rect:hover:not(.booked) {
+            border-color: var(--brand-navy);
+            background: #f0f5ff;
+            color: var(--brand-navy);
+        }
+        
+        .seat-rect:hover:not(.booked) i {
+            color: var(--brand-navy);
+        }
+        
+        .seat-rect.selected { 
+            background: var(--selected) !important; 
+            color: white !important; 
+            border-color: var(--selected) !important; 
+        }
+        
+        .seat-rect.selected i { color: white !important; }
+        
+        .seat-rect.booked { 
+            background: #f1f5f9; 
+            cursor: not-allowed; 
+            opacity: 0.6; 
+            border: 2px solid #e2e8f0; 
+            color: #94a3b8; 
+        }
+        
+        .seat-rect.booked i {
+            color: #cbd5e1;
+        }
+
+        /* --- TRANSACTION PRICING PANEL --- */
+        .price-summary-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px 25px;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--card-shadow);
+            min-width: 280px;
+        }
+        
+        .btn-update-checkout {
+            background: linear-gradient(135deg, var(--brand-gold) 0%, #f5c200 100%);
+            color: var(--brand-navy) !important;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            height: 56px;
+            border-radius: 14px;
+            border: none;
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.25);
+            transition: var(--transition-smooth);
+        }
+        
+        .btn-update-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 204, 0, 0.35);
+        }
+        
+        .btn-update-checkout:active {
+            transform: translateY(0);
+        }
+
+        .footer-dark { 
+            background: var(--brand-navy); 
+            color: #94a3b8; 
+            padding: 50px 0; 
+            text-align: center; 
+            border-top: 5px solid var(--brand-gold);
+            margin-top: 80px;
+        }
+        
+        .footer-dark h5 {
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        /* --- CLEANING GOOGLE TRANSLATION CONFLICTS --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar-main navbar navbar-expand-lg">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo">
+            <div class="brand-text-wrapper">
+                <h2 class="brand-title">Busfermata</h2>
+                <h6 class="brand-subtitle">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon d-flex align-items-center justify-content-center">
+                <i class="fas fa-bars" style="color: var(--brand-navy); font-size: 20px;"></i>
+            </span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item active"><a class="nav-link nav-link-custom" href="{% url 'book' %}">Book</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Feedback</a></li>
+                <li class="nav-item ml-lg-3"><a class="nav-link nav-link-custom login-pill" href="{% url 'login' %}">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-5">
+    {% for route in routes %}
+    <div class="trip-summary shadow d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+        <div class="mb-3 mb-md-0">
+            <small class="summary-label">Departure</small>
+            <div class="summary-value">{{ route.depcity }}</div>
+        </div>
+        <div class="d-none d-md-block px-3">
+            <i class="fas fa-long-arrow-alt-right fa-2x opacity-50 text-white"></i>
+        </div>
+        <div class="mb-3 mb-md-0">
+            <small class="summary-label">Destination</small>
+            <div class="summary-value">{{ route.descity }}</div>
+        </div>
+        <div class="text-left text-md-right ml-0 ml-md-auto">
+            <small class="summary-label">Travel Date</small>
+            <div class="summary-value text-white">{{ route.date }}</div>
+        </div>
+    </div>
+
+    <form action="{% url 'ticket' %}" method="post" id="search_form_1" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div id="passenger-container">
+            <div class="passenger-card">
+                <div class="d-flex align-items-center mb-4 border-bottom pb-3">
+                    <h5 class="font-weight-bold mb-0 card-header-title">
+                        <i class="fas fa-shield-alt mr-2 text-primary"></i> Passenger Ticket Verification
+                    </h5>
+                </div>
+
+                <input type="hidden" name="pr[]" value="{{ pr }}" required>
+                <input type="hidden" name="da[]" value="{{ da }}" required>
+                <input type="hidden" name="side[]" value="{{ side }}" required>
+                <input type="hidden" name="plate[]" value="{{ plate }}" required>
+                <input type="hidden" name="price[]" value="{{ route.price|default:'0' }}" required>
+                <input type="hidden" name="side_no[]" value="{{ route.side_no }}" required>
+                <input type="hidden" name="plate_no[]" value="{{ route.plate_no }}" required>
+                <input type="hidden" name="date[]" value="{{ route.date }}" required>
+                <input type="hidden" name="depcity[]" value="{{ route.depcity }}" required>
+                <input type="hidden" name="descity[]" value="{{ route.descity }}" required>
+                <input type="hidden" name="passenger_type[]" value="{{ passenger_type }}" required>
+                <input type="hidden" name="phone[]" value="{{ phone }}" required>
+                <input type="hidden" name="email[]" value="{{ email }}" required>
+                <input type="hidden" name="gender[]" value="{{ gender }}" required>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group mb-0">
+                            <label class="input-label-custom">First Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend input-group-prepend-custom">
+                                    <span class="input-group-text bg-white">
+                                        <i class="fas fa-user small"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="firstname[]" class="form-control form-control-intl cap-input border-left-0" oninput="handleNameInput(this)" value="{{ first }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group mb-0">
+                            <label class="input-label-custom">Father Name / Last Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend input-group-prepend-custom">
+                                    <span class="input-group-text bg-white">
+                                        <i class="fas fa-users small"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="lastname[]" class="form-control form-control-intl cap-input border-left-0" oninput="handleNameInput(this)" value="{{ last }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group mb-0">
+                            <label class="input-label-custom">Seat Selection</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend input-group-prepend-custom">
+                                    <span class="input-group-text bg-white">
+                                        <i class="fas fa-chair text-primary small"></i>
+                                    </span>
+                                </div>
+                                <select name="no_seat[]" class="form-control form-control-intl seat-trigger seat-select-custom border-left-0 font-weight-bold text-primary" onmousedown="event.preventDefault(); openSeatModal(this);" required style="border-radius: 0 12px 12px 0;">
+                                    <option value="" disabled selected>Select seat from live map...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center justify-content-end mt-5">
+            <div class="col-md-5 text-right">
+                <div class="price-summary-box d-inline-block text-left mb-3">
+                    <span class="d-block small font-weight-bold text-uppercase tracking-wider text-muted mb-1" style="font-size: 11px; letter-spacing: 0.5px;">Total Transaction Price</span>
+                    <h3 class="font-weight-bold mb-0 text-primary" style="font-size: 28px;">
+                        <span id="totalDisplay" class="font-weight-800">{{ route.price }}</span> <small class="h5 font-weight-bold text-muted" style="font-size: 16px; margin-left: 2px;">ETB</small>
+                    </h3>
+                </div>
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-lg btn-block btn-update-checkout px-5 text-uppercase shadow-sm">
+                        Proceed to Update <i class="fas fa-chevron-right ml-2" style="font-size: 12px;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% endfor %}
+</div>
+
+<div id="seatModal" class="seat-modal">
+    <div class="modal-content-custom shadow-lg">
+        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-3">
+            <h6 class="font-weight-bold mb-0 text-dark" style="font-size: 16px;"><i class="fas fa-bus mr-2 text-primary"></i>Interactive Bus Seat Plan</h6>
+            <button type="button" class="close" onclick="closeModal()" style="font-size: 28px; line-height: 0.5; padding: 10px; margin-top: -10px;">&times;</button>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded mb-2" style="font-size: 11px; font-weight: 600;">
+            <div class="d-flex align-items-center gap-1"><span class="d-inline-block rounded-sm mr-1" style="width:12px; height:12px; background:#fff; border:1px solid #cbd5e1;"></span> Available</div>
+            <div class="d-flex align-items-center gap-1"><span class="d-inline-block rounded-sm mr-1" style="width:12px; height:12px; background:var(--selected);"></span> Selected</div>
+            <div class="d-flex align-items-center gap-1"><span class="d-inline-block rounded-sm mr-1" style="width:12px; height:12px; background:#f1f5f9; border:1px solid #e2e8f0;"></span> Booked</div>
+        </div>
+
+        <div class="seat-scroll-area">
+            <div class="seat-grid">
+                {% for seat in all_seats %}
+                    <div class="seat-rect {% if seat in booked_seats %}booked{% endif %}" data-id="{{ seat }}" onclick="confirmSeat(this)">
+                        <i class="fas fa-chair"></i>
+                        <span>{{ seat }}</span>
+                    </div>
+                    {% if forloop.counter|add:"-3"|divisibleby:5 %}<div style="width:20px;"></div>{% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-block mt-3" onclick="closeModal()" style="border-radius: 10px; height: 44px; font-weight: 700;">Cancel Selection</button>
+    </div>
+</div>
+
+<footer class="footer-dark">
+    <div class="container">
+        <h5 class="mb-2">Busfermata Digital Technology</h5>
+        <p class="small opacity-50 mb-0">© 2026 Busfermata • Premium Digital Travel System Solutions</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let activeSelect = null;
+
+    function handleNameInput(input) {
+        let val = input.value;
+        if (val.length > 0) {
+            input.value = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+        }
+    }
+
+    function openSeatModal(el) {
+        activeSelect = el;
+        // Clean current selection visual highlight first inside modal
+        document.querySelectorAll('.seat-rect.selected').forEach(rect => rect.classList.remove('selected'));
+        
+        // Highlight already picked seat if matching value inside the select list exists
+        if(el.value) {
+            const match = document.querySelector(`.seat-rect[data-id="${el.value}"]`);
+            if(match) match.classList.add('selected');
+        }
+        
+        document.getElementById('seatModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('seatModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function confirmSeat(el) {
+        if (el.classList.contains('booked')) return;
+        
+        document.querySelectorAll('.seat-rect.selected').forEach(rect => rect.classList.remove('selected'));
+        el.classList.add('selected');
+        
+        activeSelect.innerHTML = `<option value="${el.dataset.id}" selected>Seat ${el.dataset.id}</option>`;
+        
+        // Explicitly fire styling adjustments and trigger closing event loop asynchronously
+        setTimeout(closeModal, 200);
+    }
+
+    function calculateTotal() {
+        let total = 0;
+        document.querySelectorAll('.individual-price').forEach(p => total += parseFloat(p.value));
+        document.getElementById('totalDisplay').innerText = total.toFixed(2);
+    }
+</script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

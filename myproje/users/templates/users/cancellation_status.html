@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cancellation Status | Busfermata Digital Tech</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --success-green: #2ecc71;
+            --danger-red: #e74c3c;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f4f7f6; margin: 0; }
+
+        /* --- REQUIRED NAVBAR STYLING --- */
+        .navbar-main {
+            background: white; padding: 12px 0; border-bottom: 5px solid var(--brand-gold);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .brand-logo { height: 50px; border-radius: 8px; margin-right: 12px; }
+        .brand-text { font-size: 24px; font-weight: 800; color: var(--brand-navy); letter-spacing: -0.5px; }
+        .nav-link { font-weight: 600; color: #4b5563 !important; padding: 0.5rem 1rem !important; transition: 0.3s; }
+        .nav-link:hover { color: var(--brand-blue) !important; }
+        .btn-book-nav {
+            background: var(--brand-navy); color: white !important; border-radius: 8px;
+            font-weight: 700; margin-left: 10px; box-shadow: 0 4px 12px rgba(0,38,77,0.15);
+        }
+
+        /* --- STATUS CARD STYLING --- */
+        .main-wrapper {
+            min-height: calc(100vh - 100px);
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .status-container {
+            max-width: 500px; width: 100%; background: white; border-radius: 24px;
+            padding: 40px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .status-icon {
+            width: 80px; height: 80px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; margin: 0 auto 25px; font-size: 35px;
+        }
+        .icon-success { background: #f0fdf4; color: var(--success-green); }
+        .icon-error { background: #fef2f2; color: var(--danger-red); }
+
+        .refund-box {
+            background: #f8fafc; border-radius: 15px; padding: 20px;
+            margin: 25px 0; border: 1px dashed #cbd5e1;
+        }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo">
+            <span class="brand-text">Busfermata</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; font-weight: 600;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee;">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')"><span>English</span><small class="float-right text-muted">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')"><span>አማርኛ</span><small class="float-right text-success">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')"><span>Afaan Oromoo</span><small class="float-right text-muted">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')"><span>ትግርኛ</span><small class="float-right text-muted">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item ml-lg-2"><a class="nav-link btn-book-nav px-4" href="{% url 'book' %}">BOOK NOW</a></li>
+                <li class="nav-item"><a class="nav-link text-navy" href="{% url 'login' %}"><i class="fas fa-user-lock"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="main-wrapper">
+    <div class="status-container">
+        {% if status == 'success' %}
+            <div class="status-icon icon-success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="font-weight-bold" style="color: var(--brand-navy);">Cancellation Success</h2>
+            <p class="text-muted">Your ticket has been removed and the refund is being processed.</p>
+            
+            <div class="refund-box">
+                <small class="text-uppercase font-weight-bold text-muted d-block mb-1">Transaction Details</small>
+                <h6 class="font-weight-bold m-0">{{ message }}</h6>
+            </div>
+            <p class="small text-muted">The refund amount will be credited to your account shortly.</p>
+        {% else %}
+            <div class="status-icon icon-error">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2 class="font-weight-bold" style="color: var(--danger-red);">Cancellation Error</h2>
+            <p class="text-muted">{{ message|default:"We could not complete your cancellation request." }}</p>
+        {% endif %}
+        <hr class="my-4">  
+        <a href="{% url 'home' %}" class="btn btn-navy btn-block py-3 font-weight-bold" style="background: var(--brand-navy); color: white; border-radius: 12px;">
+            BACK TO HOMEPAGE
+        </a>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function changeLanguage(lang) {
+        // Your logic for Google Translate / Language switching
+        console.log("Language changed to: " + lang);
+    }
+</script>
+</body>
+</html>

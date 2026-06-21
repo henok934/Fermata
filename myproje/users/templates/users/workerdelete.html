@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Delete Booker Agent</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        :root { 
+            --brand-navy: #0A3977; 
+            --brand-gold: #ffcc00; 
+            --brand-dark: #0f172a; 
+            --surface-gray: #f8fafc; 
+            --danger: #ef4444; 
+            --teal-accent: #007A78;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--surface-gray); 
+            margin: 0; 
+            color: #1e293b; 
+        }
+
+        /* Top Bar Styling */
+        .top-bar { 
+            background: var(--brand-dark); 
+            color: white; 
+            padding: 10px 0; 
+            font-size: 13px; 
+        }
+
+        /* Header Navigation Components */
+        .navbar-main { 
+            background: #ffffff; 
+            padding: 12px 0; 
+            border-bottom: 5px solid var(--brand-gold); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none !important;
+        }
+
+        .brand-logo { 
+            width: 140px !important; 
+            height: 85px !important; 
+            object-fit: contain !important; 
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+        
+        .brand-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-text { 
+            font-weight: 800; 
+            color: var(--brand-navy) !important; 
+            font-size: 22px; 
+            text-transform: uppercase; 
+            line-height: 1.1; 
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .brand-tagline { 
+            color: var(--teal-accent); 
+            font-weight: 700; 
+            font-size: 11px; 
+            letter-spacing: 0.5px; 
+            margin: 2px 0 0 0;
+            text-transform: uppercase;
+        }
+        
+        .custom-nav-select { 
+            border: 2px solid #e2e8f0; 
+            font-size: 12px; 
+            font-weight: 700; 
+            border-radius: 8px; 
+            height: 42px; 
+            min-width: 150px; 
+            color: var(--brand-navy); 
+            text-transform: uppercase; 
+            margin: 4px; 
+            cursor: pointer; 
+            transition: var(--transition-smooth);
+            background-color: #fff;
+            padding: 0 10px;
+        }
+        .custom-nav-select:hover, .custom-nav-select:focus { 
+            border-color: var(--brand-navy); 
+            background-color: #f0f5ff;
+            outline: none;
+        }
+
+        /* Layout Architecture Containers */
+        .page-container { padding: 40px 15px; max-width: 1000px; margin: 0 auto; }
+        
+        .content-card { 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 12px 35px rgba(10, 57, 119, 0.04); 
+            overflow: hidden; 
+            border: 1px solid rgba(226, 232, 240, 0.8); 
+        }
+        
+        .card-header-custom { 
+            background: #f8fafc; 
+            padding: 30px; 
+            border-bottom: 2px solid #e2e8f0; 
+            text-align: center; 
+        }
+        .card-header-custom h5 { 
+            font-weight: 800; 
+            color: var(--brand-navy); 
+            margin-bottom: 8px; 
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+        .maintenance-badge { 
+            background: #fee2e2; 
+            color: #dc2626; 
+            font-size: 11px; 
+            font-weight: 800; 
+            padding: 6px 16px; 
+            border-radius: 20px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
+        
+        /* Table Presentational System */
+        .table-responsive-wrapper {
+            width: 100%;
+        }
+
+        .intl-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        .intl-table thead tr { 
+            background-color: #10b981; 
+            color: white; 
+        }
+        .intl-table th { 
+            padding: 18px 20px; 
+            font-size: 12px; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            letter-spacing: 0.8px; 
+        }
+        .intl-table td { 
+            padding: 18px 20px; 
+            border-bottom: 1px solid #f1f5f9; 
+            vertical-align: middle; 
+        }
+        .intl-table tbody tr {
+            transition: var(--transition-smooth);
+        }
+        .intl-table tbody tr:hover { 
+            background-color: #f8fafc; 
+        }
+
+        .agent-name { color: #2563eb; font-weight: 800; font-size: 15px; display: block; }
+        .agent-company { color: #64748b; font-size: 12px; font-weight: 700; text-transform: uppercase; display: block; margin-top: 2px; }
+        .contact-box { font-size: 13px; font-weight: 600; color: #475569; margin-top: 4px; }
+        .contact-box i { color: var(--brand-navy); opacity: 0.8; width: 22px; }
+
+        /* Action Controls */
+        .btn-delete-circle { 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 12px; 
+            border: none; 
+            background: #fee2e2; 
+            color: var(--danger); 
+            transition: var(--transition-smooth); 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .btn-delete-circle:hover { 
+            background: var(--danger); 
+            color: white; 
+            transform: scale(1.05); 
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.25);
+        }
+
+        /* --- MOBILE REFACTORING ENGINE (MEDIA BREAKPOINT) --- */
+        @media (max-width: 767.98px) {
+            /* Force flat layout structural tags to render as individual block items */
+            .intl-table, .intl-table thead, .intl-table tbody, .intl-table th, .intl-table td, .intl-table tr { 
+                display: block; 
+            }
+            
+            /* Clean table row headers entirely from the viewport */
+            .intl-table thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            .intl-table tbody tr {
+                border-bottom: 2px solid #e2e8f0;
+                padding: 20px;
+                background: #ffffff;
+            }
+            
+            .intl-table td { 
+                border: none;
+                padding: 8px 0;
+                text-align: left !important;
+                position: relative;
+            }
+
+            /* Map mobile visual keys using CSS pseudo selectors */
+            .intl-table td:nth-of-type(1)::before {
+                content: "Reference ID: ";
+                font-weight: 800;
+                color: #94a3b8;
+                font-size: 11px;
+                text-transform: uppercase;
+                display: block;
+                margin-bottom: 2px;
+            }
+            
+            .intl-table td:nth-of-type(2)::before {
+                content: "Agent Assignment & Name: ";
+                font-weight: 800;
+                color: #94a3b8;
+                font-size: 11px;
+                text-transform: uppercase;
+                display: block;
+                margin-bottom: 2px;
+            }
+            
+            .intl-table td:nth-of-type(3)::before {
+                content: "Contact Records: ";
+                font-weight: 800;
+                color: #94a3b8;
+                font-size: 11px;
+                text-transform: uppercase;
+                display: block;
+                margin-bottom: 4px;
+            }
+
+            /* Format operational cell structures into an isolated block */
+            .intl-table td:nth-of-type(4) {
+                padding-top: 15px;
+                border-top: 1px dashed #e2e8f0;
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .intl-table td:nth-of-type(4)::before {
+                content: "Revoke Credentials: ";
+                font-weight: 800;
+                color: #dc2626;
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+
+            .btn-delete-circle {
+                width: 100%;
+                max-width: 180px;
+                height: 46px;
+                border-radius: 10px;
+                font-weight: 700;
+                font-size: 13px;
+                gap: 8px;
+            }
+            /* Insert readable clear descriptive label on mobile display cards */
+            .btn-delete-circle::after {
+                content: "Delete Booker Agent";
+            }
+        }
+
+        /* Footer Main Layout */
+        .footer-main { 
+            background: var(--brand-navy); 
+            color: rgba(255,255,255,0.6); 
+            padding: 40px 0; 
+            margin-top: 80px; 
+            border-top: 5px solid var(--brand-gold); 
+            text-align: center; 
+            font-size: 14px;
+        }
+
+        /* --- HIDE GOOGLE TRANSLATION CONFLICTS --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-user-shield mr-2"></i> Human Resources Control | Support: <b>+251975143134</b></span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold small text-decoration-none"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo">
+            <div class="brand-text-wrapper">
+                <h2 class="brand-text">BUSFERMATA</h2>
+                <h6 class="brand-tagline">Digital Technology</h6>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+            <div class="navbar-nav ml-auto mt-3 mt-xl-0">
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select" style="color: red; border-color: #ffcccc;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}" selected>Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="content-card">
+        <div class="card-header-custom">
+            <h5>Agent Termination Portal</h5>
+            <span class="maintenance-badge">Restricted Access</span>
+        </div>
+        
+        <div class="table-responsive-wrapper">
+            <table class="intl-table">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 80px;">Ref</th>
+                        <th>Agent Information</th>
+                        <th>Contact Details</th>
+                        <th class="text-center" style="width: 150px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for wor in admins %}
+                    <tr>
+                        <td class="text-md-center font-weight-bold" style="color: #c2410c;">
+                            {{ forloop.counter }}
+                        </td>
+                        <td>
+                            <span class="agent-name">{{ wor.city }}</span>
+                            <span class="agent-company">{{ wor.fname }}</span>
+                        </td>
+                        <td>
+                            <div class="contact-box"><i class="fas fa-envelope"></i> {{ wor.email }}</div>
+                            <div class="contact-box"><i class="fas fa-phone"></i> {{ wor.phone }}</div>
+                        </td>
+                        <td class="text-md-center">
+                            <form action="{% url 'workerdelete' %}" method="POST" onsubmit="return confirm('CRITICAL: Terminate this agent? They will immediately lose system access.');" style="margin:0; padding:0;">
+                                {% csrf_token %}
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="fname" value="{{ wor.fname }}">
+                                <input type="hidden" name="lname" value="{{ wor.lname }}">
+                                <input type="hidden" name="username" value="{{ wor.username }}">
+                                <input type="hidden" name="phone" value="{{ wor.phone }}">
+                                <button type="submit" class="btn-delete-circle" title="Delete Booker Agent">
+                                    <i class="fas fa-user-slash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted font-weight-bold">No active ticket agents found in the registry.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <p class="mb-0">&copy; 2026 Busfermata Digital Technology. Global System Configuration Standard.</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

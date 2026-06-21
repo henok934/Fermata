@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Booking Form</title>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+    <h1>Ticket Booking</h1>
+    <form id="bookingForm">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required><br>
+
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" required><br>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required><br>
+
+        <label for="depcity">Departure City:</label>
+        <input type="text" id="depcity" name="depcity" required><br>
+
+        <label for="descity">Destination City:</label>
+        <input type="text" id="descity" name="descity" required><br>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br>
+
+        <label for="no_seat">Number of Seats:</label>
+        <input type="text" id="no_seat" name="no_seat" required><br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required><br>
+
+        <label for="side_no">Side Number:</label>
+        <input type="text" id="side_no" name="side_no" required><br>
+
+        <label for="plate_no">Plate Number:</label>
+        <input type="text" id="plate_no" name="plate_no" required><br>
+
+        <button type="submit">Book Ticket</button>
+    </form>
+
+    <script>
+        document.getElementById("bookingForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch("http://localhost:8000/book-ticket/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert("Ticket booked successfully!");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was an error booking the ticket.");
+            });
+        });
+    </script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

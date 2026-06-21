@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | System Privilege Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root { 
+            --brand-navy: #00264d; --brand-gold: #ffcc00; --brand-dark: #0f172a; 
+            --surface-gray: #f8fafc; --danger: #dc2626; 
+        }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--surface-gray); 
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; min-height: 100vh;
+        }
+
+        /* Global Header */
+        .top-bar { background: var(--brand-dark); color: white; padding: 5px 0; font-size: 11px; letter-spacing: 0.5px;}
+
+        /* International Navigation */
+        .navbar-main { 
+            background: #ffffff; padding: 8px 0; 
+            border-bottom: 4px solid var(--brand-gold); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
+        }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 18px; text-transform: uppercase; line-height: 1; display: block;}
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 1px; display: block; }
+        
+        .custom-nav-select { 
+            border: 1px solid #cbd5e1; font-size: 10px; font-weight: 700; 
+            border-radius: 6px; height: 34px; min-width: 140px; 
+            color: var(--brand-navy); text-transform: uppercase; margin: 2px;
+            background-color: #fff;
+        }
+
+        /* Layout Centering */
+        .main-content { 
+            flex: 1; display: flex; flex-direction: column; align-items: center; 
+            padding: 15px 8px; 
+        }
+
+        .content-card { 
+            background: white; border-radius: 12px; 
+            border: 1px solid #e2e8f0; overflow: hidden; 
+            width: 100%; /* Mobile default */
+        }
+
+        /* International Table Design */
+        .intl-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .intl-table thead { background-color: var(--brand-navy); color: white; }
+        .intl-table th { padding: 12px 6px; font-size: 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        .intl-table td { padding: 12px 6px; border-bottom: 1px solid #f1f5f9; font-size: 12px; vertical-align: middle; }
+
+        /* Column Controls */
+        .w-no { width: 40px; text-align: center; color: #94a3b8; }
+        .w-profile { width: auto; }
+        .w-access { width: 28%; }
+        .w-contact { width: 25%; }
+        .w-action { width: 50px; text-align: center; }
+
+        .id-badge { font-weight: 800; font-size: 10px; }
+        .username-pill { background: #f8fafc; padding: 3px 6px; border-radius: 4px; font-size: 10px; color: #475569; border: 1px solid #e2e8f0; font-family: monospace;}
+        
+        .btn-terminate { 
+            width: 34px; height: 34px; border-radius: 8px; 
+            border: none; background: #fef2f2; color: var(--danger); 
+            transition: all 0.2s ease;
+        }
+        .btn-terminate:hover { background: var(--danger); color: white; transform: translateY(-1px); }
+
+        /* Global Footer */
+        .footer-main { background: var(--brand-navy); color: white; text-align: center; padding: 25px 15px; margin-top: auto; border-top: 5px solid var(--brand-gold);}
+        .footer-phone { color: var(--brand-gold); font-weight: 800; font-size: 15px; text-decoration: none; margin-left: 5px;}
+
+        /* Desktop Optimization */
+        @media (min-width: 992px) {
+            .main-content { padding-top: 50px; }
+            .content-card { 
+                width: auto; 
+                min-width: 900px; 
+                box-shadow: 0 20px 40px rgba(0,0,0,0.07);
+            }
+            .intl-table { table-layout: auto; }
+            .intl-table th, .intl-table td { font-size: 14px; padding: 15px 35px; }
+            .w-no, .w-access, .w-contact, .w-action { width: auto; }
+            .brand-text { font-size: 22px; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center text-uppercase">
+        <span><i class="fas fa-lock mr-2"></i> Authorized Personnel Only | Security Protocol Active</span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold text-decoration-none">Terminate Session</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"><span class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="mainMenu">
+            <div class="navbar-nav ml-auto">
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>Core System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'changebus' %}">Update Bus Buss</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}">View Bus Buss</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select" style="color: var(--danger); border-color: #fecaca;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}" selected>Revoke Admin Access</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal Hub</option>
+                    <option value="{% url 'commentdelete' %}">Purge Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+{% if error %}
+<div id="status-alert" class="alert alert-danger shadow-sm mb-4 d-flex align-items-center justify-content-between" 
+     style="border-radius: 12px; border-left: 6px solid #b91c1c; background: #fef2f2; color: #991b1b; padding: 15px 20px; font-weight: 700; transition: all 0.5s ease-in-out;">
+    <span>
+        <i class="fas fa-shield-virus mr-3"></i> 
+        <span style="text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display: block; opacity: 0.8;">System Exception</span>
+        {{ error }}
+    </span>
+    <button type="button" class="close" onclick="this.parentElement.remove()" style="outline: none;">&times;</button>
+</div>
+
+<script>
+    // International Standard Auto-Dismissal (5 Seconds)
+    setTimeout(function() {
+        var alert = document.getElementById('status-alert');
+        if (alert) {
+            alert.style.opacity = '0';
+            alert.style.transform = 'translateY(-10px)';
+            setTimeout(function() { alert.remove(); }, 500);
+        }
+    }, 5000);
+</script>
+{% endif %}
+{% if success %}
+<div id="success-alert" class="alert alert-success shadow-sm mb-4 d-flex align-items-center justify-content-between"
+     style="border-radius: 12px; border-left: 6px solid #15803d; background: #f0fdf4; color: #166534; padding: 15px 20px; font-weight: 700; transition: all 0.5s ease-in-out;">
+    <span>
+        <i class="fas fa-check-double mr-3"></i>
+        <span style="text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display: block; opacity: 0.8;">System Confirmation</span>
+        {{ success }}
+    </span>
+    <button type="button" class="close" onclick="this.parentElement.remove()" style="outline: none; color: #166534;">&times;</button>
+</div>
+<script>
+    // International Standard Auto-Dismissal (5 Seconds)
+    setTimeout(function() {
+        var successMsg = document.getElementById('success-alert');
+        if (successMsg) {
+            successMsg.style.opacity = '0';
+            successMsg.style.transform = 'translateY(-10px)';
+            setTimeout(function() { successMsg.remove(); }, 500);
+        }
+    }, 5000);
+</script>
+{% endif %}
+
+<main class="main-content">
+    <div class="mb-3 text-center">
+        <h5 class="font-weight-bold text-uppercase" style="color: var(--brand-navy); letter-spacing: 1px;">Admin Registry</h5>
+        <p class="small text-muted">Manage and Revoke Administrator System Privileges</p>
+    </div>
+
+    <div class="content-card">
+	    <table class="intl-table">
+    <thead>
+        <tr>
+            <th class="w-no">Ref.</th>
+            <th class="w-profile">Legal Name</th>
+            <th class="w-access">Credential</th>
+            <th class="w-contact">Direct Contact</th>
+            <th class="w-action"><i class="fas fa-user-shield"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for admin in admins %}
+            {% if admin.username != "henok" %}  {# INTERNATIONAL EXCLUSION LOGIC #}
+            <tr>
+                <td class="w-no id-badge">{{ forloop.counter }}</td>
+                <td class="w-profile">
+                    <div class="font-weight-bold" style="color: var(--brand-navy);">{{ admin.first_name }} {{ admin.last_name }}</div>
+                    <div class="text-muted" style="font-size: 10px; text-transform: uppercase; font-weight: 600;">Authorized Admin</div>
+                </td>
+                <td class="w-access">
+                    <span class="username-pill" style="font-size: 14px; padding: 6px 14px; font-weight: 800; font-family: 'Courier New', monospace; letter-spacing: 0.5px; border: 2px solid #cbd5e1; border-radius: 6px; color: var(--brand-navy); background: #f1f5f9; display: inline-block;">
+                        @{{ admin.username }}
+                    </span>
+                </td>
+                <td class="w-contact">
+                    <span class="font-weight-bold">{{ admin.phone }}</span>
+                </td>
+                <td class="w-action">
+                    <form action="{% url 'admindelete' %}" method="POST" onsubmit="return confirm('WARNING: Are you sure you want to PERMANENTLY revoke access for this controller?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{ admin.username }}">
+                        <input type="hidden" name="phone" value="{{ admin.phone }}">
+                        <input type="hidden" name="last_name" value="{{ admin.last_name }}">
+                        <input type="hidden" name="first_name" value="{{ admin.first_name }}">
+                        <button type="submit" class="btn-terminate" title="Revoke Privileges"
+                                style="width: 34px; height: 34px; border-radius: 8px; border: none; background: #fef2f2; color: #dc2626;">
+                            <i class="fas fa-user-minus"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+	    <!--
+        <table class="intl-table">
+            <thead>
+                <tr>
+                    <th class="w-no">Ref.</th>
+                    <th class="w-profile">Legal Name</th>
+                    <th class="w-access">Credential</th>
+                    <th class="w-contact">Direct Contact</th>
+                    <th class="w-action"><i class="fas fa-user-shield"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr>
+                    <td class="w-no id-badge">{{ forloop.counter }}</td>
+                    <td class="w-profile">
+                        <div class="font-weight-bold" style="color: var(--brand-navy);">{{ admin.first_name }} {{ admin.last_name }}</div>
+                        <div class="text-muted" style="font-size: 10px; text-transform: uppercase; font-weight: 600;">Authorized Admin</div>
+                    </td>
+                    <td class="w-access">
+			<span class="username-pill" style="font-size: 14px; padding: 6px 14px; font-weight: 800; font-family: 'Courier New', monospace; letter-spacing: 0.5px; border-width: 2px; color: var(--brand-navy);">
+    @{{ admin.username }}
+</span>
+                    </td>
+                    <td class="w-contact">
+                        <span class="font-weight-bold">{{ admin.phone }}</span>
+                    </td>
+                    <td class="w-action">
+                        <form action="{% url 'admindelete' %}" method="POST" onsubmit="return confirm('WARNING: Are you sure you want to PERMANENTLY revoke access for this controller?');">
+                            {% csrf_token %}
+                           <input type="hidden" name="username" value="{{ admin.username }}">
+			   <input type="hidden" name="phone" value="{{ admin.phone }}">
+			   <input type="hidden" name="last_name" value="{{ admin.last_name }}">
+			   <input type="hidden" name="first_name" value="{{ admin.first_name }}">
+                           <button type="submit" class="btn-terminate" title="Revoke Privileges">
+                                <i class="fas fa-user-minus"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+	-->
+    </div>
+</main>
+
+<footer class="footer-main">
+    <div class="container">
+        <p class="mb-1 small text-white-50">&copy; 2026 Busfermata Digital Technology. International System Configuration Division.</p>
+        <p class="mb-0 small">Technical Support: <a href="tel:+251975143134" class="footer-phone">+251975143134</a></p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

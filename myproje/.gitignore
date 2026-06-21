@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+myenv/
+*.log
+
+# Django
+*.pot
+*.pyc
+media/
+

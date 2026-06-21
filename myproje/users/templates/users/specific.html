@@ -1,0 +1,366 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Route Dispatch | Busfermata Digital Technology</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --bg-soft: #f4f7fa;
+            --status-green: #10b981;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b;
+            margin: 0;
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar-mini {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.8);
+            padding: 8px 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .logout-text {
+            color: var(--brand-gold);
+            text-decoration: none;
+            padding: 4px 12px;
+            border: 1px solid var(--brand-gold);
+            border-radius: 4px;
+        }
+
+        /* --- INTERNATIONAL NAV --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 12px 0;
+            border-bottom: 4px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .nav-logo-full { height: 50px; border-radius: 8px; border: 2px solid white; }
+        .brand-name-main { color: white; font-weight: 800; font-size: 16px; text-transform: uppercase; }
+        .brand-subtext { color: var(--brand-gold); font-size: 11px; font-weight: 700; }
+
+        .navbar-collapse { justify-content: flex-end; }
+        .home-btn-active {
+            color: white !important;
+            font-weight: 800;
+            background: rgba(255,255,255,0.15);
+            padding: 10px 22px !important;
+            border-radius: 6px;
+            margin-right: 45px; /* International Gap */
+            letter-spacing: 1px;
+        }
+
+        .intl-select {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 9px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 12px;
+            cursor: pointer;
+        }
+
+        /* --- DISPATCH CONTENT --- */
+        .dispatch-card {
+            background: white;
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dispatch-header-bar {
+            background: var(--brand-navy);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .search-inline-box {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .search-inline-box label {
+            color: var(--brand-gold);
+            font-size: 11px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .search-inline-box input {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 5px;
+            padding: 2px 8px;
+            font-size: 13px;
+        }
+
+        /* --- TABLE STYLE --- */
+        .table thead th {
+            background: #f8fafc;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tbl-input-readonly {
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            color: var(--brand-navy);
+            text-align: center;
+            width: 100%;
+        }
+
+        .plate-badge {
+            background: #f1f5f9;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            border: 1px solid #e2e8f0;
+            font-weight: 800;
+        }
+
+        .btn-action-show {
+            background: var(--brand-navy);
+            color: white;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 6px 20px;
+            border-radius: 6px;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-action-show:hover { background: var(--brand-gold); color: var(--brand-navy); }
+
+        @media (max-width: 991px) {
+            .dispatch-header-bar { flex-direction: column; gap: 20px; }
+            .navbar-collapse { background: var(--brand-navy); padding: 20px; border-radius: 10px; margin-top: 10px; }
+            .home-btn-active { margin-right: 0; margin-bottom: 15px; text-align: center; display: block; }
+            .intl-select { margin-left: 0; width: 100%; margin-top: 10px; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div><i class="fa fa-phone mr-2"></i> Support: +251 975 143 134</div>
+            <a href="{% url 'logout' %}" class="logout-text">LOGOUT</a>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+        <div class="container-fluid">
+	
+	    <!--
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'images/l.jpeg' %}" class="nav-logo-full">
+                <div class="brand-text-wrapper ml-3">
+                    <span class="brand-name-main">Busfermata TRANSPORT</span>
+                    <span class="brand-subtext">{{ name }} Share Company</span>
+                </div>
+            </a>
+	    -->
+	    <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+
+    <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+        {% if company.logo %}
+            <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+        {% else %}
+            <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+        {% endif %}
+    </div>
+
+    <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+        <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+            {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+
+            {% if level %}
+                <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+            {% endif %}
+        </span>
+    </div>
+
+</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navSystem">
+                <div class="d-lg-flex align-items-center">
+                    <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+                    
+                    <div class="select-cluster d-lg-flex">
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Bus Registration</option>
+                            <option value="{% url 'businsert' %}">Add New Bus</option>
+        <option value="{% url 'special_route' %}">Add New Route</option>
+                        </select>
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Operational Reports</option>
+                            <option value="{% url 'myroute' %}">Route Data</option>
+                            <option value="{% url 'mybus' %}">Bus Status</option>
+                        </select>
+                        <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                            <option value="#" disabled selected>Management</option>
+                            <option value="{% url 'updatebus' %}">Update Buss</option>
+			     {% if level == 'Special Bus' %}
+                         <option value="{% url 'special_active' %}">Active Route</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                        {% endif %}
+			       {% if level == 'Special Bus' %}
+                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
+    {% endif %}
+
+                            <option value="{% url 'busdelete' %}">Delete Bus</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+  {% if error %}
+                    <div class="alert alert-danger border-0 small font-weight-bold mb-4">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> {{ error }}
+                    </div>
+                {% endif %}
+                {% if success %}
+                    <div class="alert alert-success border-0 small font-weight-bold mb-4">
+                        <i class="fas fa-check-circle mr-2"></i> {{ success }}
+                    </div>
+                {% endif %}
+
+<div class="container">
+    <div class="dispatch-card">
+        <div class="dispatch-header-bar">
+            <h4 class="mb-0" style="font-weight: 800;"><i class="fas fa-route mr-3"></i>ROUTE DISPATCH LIST</h4>
+            
+            <form action="{% url 'specific' %}" method="post" class="search-inline-box">
+                {% csrf_token %}
+                <div>
+                    <label>FROM</label><br>
+                    <input type="date" name="from" required>
+                </div>
+                <div>
+                    <label>TO</label><br>
+                    <input type="date" name="to" required>
+                </div>
+                <button type="submit" class="btn btn-warning btn-sm font-weight-bold px-3 ml-2">SEARCH</button>
+            </form>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-danger m-3 text-center font-weight-bold">
+            {{ error }} <i class="fas fa-times-circle ml-2"></i>
+        </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="table table-hover text-center mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Dispatch Date</th>
+                        <th>Origin</th>
+                        <th>Destination</th>
+                        <th>Plate Number</th>
+                        <th>Side No</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if routes %}
+                    {% for r in routes %}
+                    <tr>
+                        <td class="align-middle text-muted">{{ forloop.counter }}</td>
+                        <form action="{% url 'Showticketss' %}" method="POST">
+                            {% csrf_token %}
+                            <td class="align-middle"><input type="text" name="date" class="tbl-input-readonly" value="{{ r.date|slice:15 }}" readonly></td>
+                            <td class="align-middle"><input type="text" name="depcity" class="tbl-input-readonly" value="{{ r.depcity|slice:10 }}" readonly></td>
+                            <td class="align-middle"><input type="text" name="descity" class="tbl-input-readonly" value="{{ r.descity|slice:10 }}" readonly></td>
+                            <td class="align-middle"><span class="plate-badge">{{ r.plate_no }}</span><input type="hidden" name="plate_no" value="{{ r.plate_no }}"></td>
+                            <td class="align-middle"><input type="text" name="side_no" class="tbl-input-readonly" value="{{ r.side_no }}" readonly></td>
+                            <td class="align-middle">
+                                <button type="submit" class="btn-action-show">SHOW DATA</button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="py-5 text-muted">
+                            <i class="fas fa-inbox fa-3x mb-3 opacity-20"></i><br>
+                            No records found for the selected date range.
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="py-5 text-center text-muted">
+    <div class="container">
+        <p class="mb-0" style="font-size: 11px;">© 2026 Busfermata Digital Technology | Enterprise System v4.2.1</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

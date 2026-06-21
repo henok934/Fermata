@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>select route</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body style="background-color: lightblue;">
+<div class="super_container">
+<!--
+<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<nav class="main_nav">
+			<div class="container">
+				<div class="row">
+					<div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+						<div class="logo_container">
+							<div class="logo"><a href="#"><img src="../static/images/logo.png" alt="">ticket</a></div>
+						</div>
+			   <div class="main_nav_container ml-auto">
+			    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: #FFFFFF; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Bus Registor</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'myroute' %}">My Routes</option>
+                                <option value="{% url 'mybus' %}">My Bus</option>
+                            </select>
+                        </li>
+<li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: #FFFFFF; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+			   </div>
+						<div class="content_search ml-lg-0 ml-auto">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+								<g>
+									<g>
+										<g>
+											<path class="mag_glass" fill="#FFFFFF" d="M78.438,216.78c0,57.906,22.55,112.343,63.493,153.287c40.945,40.944,95.383,63.494,153.287,63.494
+											s112.344-22.55,153.287-63.494C489.451,329.123,512,274.686,512,216.78c0-57.904-22.549-112.342-63.494-153.286
+											C407.563,22.549,353.124,0,295.219,0c-57.904,0-112.342,22.549-153.287,63.494C100.988,104.438,78.439,158.876,78.438,216.78z
+											M119.804,216.78c0-96.725,78.69-175.416,175.415-175.416s175.418,78.691,175.418,175.416
+											c0,96.725-78.691,175.416-175.416,175.416C198.495,392.195,119.804,313.505,119.804,216.78z"/>
+										</g>
+									</g>
+									<g>
+										<g>
+											<path class="mag_glass" fill="#FFFFFF" d="M6.057,505.942c4.038,4.039,9.332,6.058,14.625,6.058s10.587-2.019,14.625-6.058L171.268,369.98
+											c8.076-8.076,8.076-21.172,0-29.248c-8.076-8.078-21.172-8.078-29.249,0L6.057,476.693
+											C-2.019,484.77-2.019,497.865,6.057,505.942z"/>
+										</g>
+									</g>
+								</g>
+							</svg>
+						</div>
+						<form id="search_form" class="search_form bez_1">
+							<input type="search" class="search_content_input bez_1">
+						</form>
+						<div class="hamburger">
+							<i class="fa fa-bars trans_200"></i>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</nav>
+	</header>
+-->
+
+
+
+<!--
+<header class="header">
+<div class="top_bar">
+<div class="container">
+<div class="row">
+<div class="col d-flex flex-row">
+<div class="phone">+251 975143134</div>
+<div class="social">
+
+        <ul class="social_list">
+<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                            <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+</ul>
+</div>
+
+
+
+                                                <div class="user_box ml-auto">
+
+
+
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+
+
+
+                                                        <div class="user_box_register user_box_link"><a href="#"></a></div>
+
+
+
+                                                </div>
+
+                                        </div>
+
+                                </div>
+
+                        </div>
+                </div>
+</div>
+</div>
+
+</br></br>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+  <li class="main_nav_item">
+            <a href="#" class="d-flex align-items-center" style="text-decoration: none;">
+
+                                <img src="../static/images/l.jpeg" alt="" style="width: 150px; height: 150px; margin-left: 100px; margin-top: 30px;">
+				<span style="color: white;"></span>
+            </a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: -10px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                <option value="#">Select for Register</option>
+                <option value="{% url 'businsert' %}">Bus Registor</option>
+            </select>
+        </li>
+        <li class="main_nav_item" style="margin-right: 10px;">
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                <option value="#">Select for Update</option>
+                <option value="{% url 'updatebus' %}">Update Bus</option>
+            </select>
+        </li>
+
+<li class="main_nav_item" style="margin-right: 10px;">
+   <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+	<option value="#">Select for Show</option>
+	<option value="{% url 'myroute' %}">My Routes</option>
+        <option value="{% url 'mybus' %}">My Bus</option>
+         </select>
+        </li>
+        <li class="main_nav_item" style="margin-right: 10px;">
+            <select onchange="location.href = this.value;" class="custom-select" style="width: auto; min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                <option value="#">Select for Delete</option>
+                <option value="{% url 'busdelete' %}">Delete Bus</option>
+            </select>
+        </li>
+
+        <li class="footer_nav_item" style="margin-left: 20px;">
+            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+        </li>
+
+	<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+
+
+
+        var dateInput = document.getElementById('dateInput');
+
+
+
+        if (dateInput.style.display === 'none') {
+
+
+
+            dateInput.style.display = 'inline-block';
+
+
+
+            dateInput.focus(); 
+
+
+
+        } else {
+
+
+
+            dateInput.style.display = 'none';
+
+
+
+        }
+
+    });
+
+
+
+    document.getElementById('dateInput').addEventListener('change', function() {
+
+
+
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+</div>
+                    </ul>
+
+ </div>
+            </div>
+        </div>
+    </div>
+</nav>
+        </header>
+	-->
+
+
+<!--
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info">
+                <i class="fa fa-phone"></i> <span>+251 975143134</span>
+            </div>
+            <div class="top-links d-flex align-items-center">
+                <div class="social-icons mr-4">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                </div>
+                <div class="auth-box">
+                    {% if user.is_authenticated %}
+                        <span class="user-name-tag"><i class="fa fa-user-circle"></i> {{ user.username }}</span>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="login-btn-mini">LOGIN</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo">
+                <span class="brand-text-transit ml-2">TRANSIT PRO</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#transitNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="transitNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active-link" href="{% url 'home' %}">HOME</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <select onchange="location.href = this.value;" class="transit-select register">
+                            <option value="#" disabled selected>REGISTRATION</option>
+                            <option value="{% url 'businsert' %}">Add New Bus</option>
+                        </select>
+                    </li>
+
+                    <li class="nav-item">
+                        <select onchange="location.href = this.value;" class="transit-select update">
+                            <option value="#" disabled selected>MANAGEMENT</option>
+                            <option value="{% url 'updatebus' %}">Update Details</option>
+                            <option value="{% url 'busdelete' %}">Delete Buss</option>
+                        </select>
+                    </li>
+
+                    <li class="nav-item">
+                        <select onchange="location.href = this.value;" class="transit-select show">
+                            <option value="#" disabled selected>VIEW REPORTS</option>
+                            <option value="{% url 'myroute' %}">My Routes</option>
+                            <option value="{% url 'mybus' %}">My Bus Bus</option>
+                        </select>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="logout-link-special">LOGOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    /* Global System Colors */
+    :root {
+        --navy: #1a2a6c;
+        --gold: #f39c12;
+        --light-bg: #f8fafc;
+    }
+
+    /* Top Bar Styling */
+    .top-bar-mini {
+        background: #0f172a;
+        color: #94a3b8;
+        padding: 5px 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    .social-icons a { color: #94a3b8; margin-left: 12px; transition: 0.3s; }
+    .social-icons a:hover { color: var(--gold); }
+    .login-btn-mini { color: var(--gold); text-decoration: none; letter-spacing: 1px; }
+
+    /* Main Navbar Styling */
+    .bg-navy-custom { background-color: var(--navy) !important; padding: 10px 20px; }
+    
+    .nav-logo {
+        width: 50px; /* Reduced from 150px to look professional */
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid var(--gold);
+        object-fit: cover;
+    }
+
+    .brand-text-transit {
+        font-weight: 800;
+        color: white;
+        letter-spacing: 2px;
+        font-size: 1.1rem;
+    }
+
+    /* Select Dropdowns - International Transit Style */
+    .transit-select {
+        background-color: #2a4858;
+        color: #ffffff;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 4px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin: 5px;
+        outline: none;
+        cursor: pointer;
+        transition: 0.3s;
+        min-width: 140px;
+    }
+    .transit-select:hover { background-color: var(--gold); color: var(--navy); }
+    
+    .nav-link { font-weight: 700; font-size: 0.75rem; margin: 0 10px; color: white !important; }
+    
+    .logout-link-special {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ff4d4d !important;
+        padding: 6px 15px;
+        border-radius: 4px;
+        font-weight: 800;
+        font-size: 0.75rem;
+        text-decoration: none !important;
+        margin-left: 15px;
+    }
+    .logout-link-special:hover { background: #ff4d4d; color: white !important; }
+
+    /* Responsive adjustments */
+    @media (max-width: 1199px) {
+        .navbar-nav { background: #1a2a6c; padding: 20px; border-radius: 8px; margin-top: 10px; }
+        .transit-select { width: 100%; margin: 10px 0; }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+-->
+
+
+<!--<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between">
+            <div class="contact-info"><i class="fa fa-phone"></i> +251 975143134</div>
+            <div class="auth-box"><a href="{% url 'logout' %}" class="logout-text">LOGOUT</a></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom main-nav-height">
+        <div class="container-fluid">
+            
+            <div class="brand-section d-flex align-items-center">
+                <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-large">
+                    <span class="brand-name-lg ml-2">TRANSIT SYSTEM</span>
+                </a>
+                
+                <a href="{% url 'home' %}" class="nav-link home-link-tight ml-4">HOME</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="transitNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    
+                    <li class="nav-item">
+                        <select onchange="location.href = this.value;" class="international-select">
+                            <option value="#" disabled selected>REGISTRATION</option>
+                            <option value="{% url 'businsert' %}">Bus Register</option>
+                        </select>
+                    </li>
+
+                    <li class="nav-item">
+                        <select onchange="location.href = this.value;" class="international-select">
+                            <option value="#" disabled selected>MANAGEMENT</option>
+                            <option value="{% url 'updatebus' %}">Update Bus</option>
+                        </select>
+                    </li>
+
+                    <li class="nav-item">
+                        <select onchange="location.href = this.value;" class="international-select">
+                            <option value="#" disabled selected>VIEW DATA</option>
+                            <option value="{% url 'myroute' %}">My Routes</option>
+                            <option value="{% url 'mybus' %}">My Bus</option>
+                        </select>
+                    </li>
+
+                    <li class="nav-item">
+                        <select onchange="location.href = this.value;" class="international-select delete-select">
+                            <option value="#" disabled selected>DELETE ACTIONS</option>
+                            <option value="{% url 'busdelete' %}">Delete Bus</option>
+                        </select>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    /* 1. Header Height & Color */
+    .bg-navy-custom {
+        background-color: #1a2a6c !important;
+        padding: 15px 30px !important; /* Increased padding for vertical height */
+    }
+
+    /* 2. Logo Size & Tight Spacing */
+    .nav-logo-large {
+        width: 80px; /* Increased size for visibility */
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid #f39c12;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .brand-name-lg {
+        color: white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    /* Minimize distance between logo and Home */
+    .home-link-tight {
+        color: #f39c12 !important;
+        font-weight: 800;
+        font-size: 1rem;
+        padding-left: 10px;
+        border-left: 2px solid rgba(255,255,255,0.2);
+    }
+
+    /* 3. International Select Elements (Larger & Modern) */
+    .international-select {
+        width: 180px; /* Increased width */
+        height: 45px; /* Increased height */
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid #f39c12;
+        border-radius: 8px;
+        padding: 0 10px;
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 8px;
+        cursor: pointer;
+        appearance: none; /* Removes default arrow for custom look */
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a2a6c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 15px;
+    }
+
+    .international-select:hover {
+        background-color: #f39c12;
+        color: white;
+        border-color: white;
+    }
+
+    /* Special styling for Delete to ensure it is displayed clearly */
+    .delete-select {
+        border-color: #ff4d4d;
+        color: #ff4d4d;
+    }
+    .delete-select:hover {
+        background-color: #ff4d4d;
+        color: white;
+    }
+
+    /* 4. Top Bar & Utils */
+    .top-bar-mini {
+        background: #0f172a;
+        color: #fff;
+        padding: 8px 30px;
+        font-size: 0.8rem;
+    }
+
+    .logout-text {
+        color: #ff4d4d;
+        font-weight: 800;
+        text-decoration: none !important;
+    }
+
+    /* Mobile Handling */
+    @media (max-width: 991px) {
+        .navbar-nav { margin-top: 20px; }
+        .international-select { width: 100%; margin-bottom: 10px; }
+        .nav-logo-large { width: 60px; height: 60px; }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+-->
+
+
+
+<!--
+<header class="main-system-header shadow">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info">
+                <i class="fa fa-phone"></i> +251 975143134
+            </div>
+            <div class="auth-box">
+                <a href="{% url 'logout' %}" class="logout-text">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom main-nav-expanded">
+        <div class="container-fluid d-flex align-items-center">
+            
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-safe-area">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-full">
+                </div>
+                <div class="brand-text-wrapper ml-3">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+		    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-content-right d-flex align-items-center ml-auto">
+                <a href="{% url 'home' %}" class="nav-link home-btn-active">HOME</a>
+                
+                <div class="actions-divider"></div>
+
+                <div class="select-cluster d-flex">
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Manage Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>View Data</option>
+                        <option value="{% url 'myroute' %}">Route Reports</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select delete-action">
+                        <option value="#" disabled selected>Delete Actions</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    /* 1. Header Height Increase */
+    .main-nav-expanded {
+        padding-top: 20px !important;    /* Increased vertical space */
+        padding-bottom: 20px !important; /* Increased vertical space */
+        min-height: 100px;               /* Ensures a substantial feel */
+        background-color: #1a2a6c !important;
+    }
+
+    /* 2. International Logo Display (The "Safe Zone") */
+    .logo-safe-area {
+        width: 75px;                     /* Larger container */
+        height: 75px;
+        background: #ffffff;
+        border-radius: 50%;
+        border: 3px solid #f39c12;       /* Bus Yellow/Gold */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;                    /* Internal padding so logo doesn't touch borders */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .nav-logo-full {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;             /* Ensures logo is NEVER cut/clipped */
+        display: block;
+    }
+
+    /* 3. Text Branding */
+    .brand-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .brand-name-main {
+        color: #ffffff;
+        font-weight: 900;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtext {
+        color: #f39c12;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    /* 4. Navigation & Spacing */
+    .nav-link.home-btn-active {
+        color: #f39c12 !important;
+        font-weight: 900;
+        font-size: 1rem;
+        margin-right: 15px;
+    }
+
+    .actions-divider {
+        width: 1px;
+        height: 30px;
+        background: rgba(255,255,255,0.2);
+        margin: 0 15px;
+    }
+
+    /* 5. International Selects (Compact & Sharp) */
+    .intl-select {
+        height: 40px;
+        width: 150px;
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid transparent;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 5px;
+        padding-left: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .intl-select:hover {
+        border-color: #f39c12;
+        transform: translateY(-2px);
+    }
+
+    .delete-action {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* Utils */
+    .top-bar-mini {
+        background: #0f172a;
+        color: #94a3b8;
+        padding: 6px 30px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .logout-text { color: #ff4d4d; text-decoration: none; }
+    .logout-text:hover { color: #ffffff; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+-->
+
+<!--
+<header class="main-system-header shadow">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info">
+                <i class="fa fa-phone"></i> +251 975143134
+            </div>
+            <div class="auth-box">
+                <a href="{% url 'logout' %}" class="logout-text">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom main-nav-expanded">
+        <div class="container-fluid d-flex align-items-center">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-safe-area">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-full">
+                </div>
+                <div class="brand-text-wrapper ml-1">
+                    <span class="brand-name-main">Busfermata Digital Tech</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-content-right d-flex align-items-center ml-4" style="margin-left:-100px;">
+                <a href="{% url 'home' %}" class="nav-link home-btn-active" style="margin-left:-100px;">HOME</a>
+
+                <div class="actions-divider"></div>
+
+                <div class="select-cluster d-flex">
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Manage Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>View Data</option>
+                        <option value="{% url 'myroute' %}">Route Reports</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select delete-action">
+                        <option value="#" disabled selected>Delete Actions</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    /* 1. Header Height */
+    .main-nav-expanded {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        min-height: 90px;
+        background-color: #1a2a6c !important;
+    }
+
+    /* 2. Logo Area */
+    .logo-safe-area {
+        width: 65px; /* Slightly smaller for tighter fit */
+        height: 65px;
+        background: #ffffff;
+        border-radius: 50%;
+        border: 3px solid #f39c12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .nav-logo-full {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+
+    /* 3. Text Branding - Tighter line spacing */
+    .brand-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.0;
+    }
+
+    .brand-name-main {
+        color: #ffffff;
+        font-weight: 900;
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+    }
+
+    .brand-subtext {
+        color: #f39c12;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+
+    /* 4. Navigation & Spacing - Reduced Margins */
+    .nav-link.home-btn-active {
+        color: #f39c12 !important;
+        font-weight: 900;
+        font-size: 0.95rem;
+        margin-right: 8px; /* Reduced from 15px */
+        padding: 0;
+    }
+
+    .actions-divider {
+        width: 1px;
+        height: 25px;
+        background: rgba(255,255,255,0.3);
+        margin: 0 12px; /* Reduced from 15px */
+    }
+
+    /* 5. Dropdowns - Compact "International" Style */
+    .intl-select {
+        height: 36px;
+        width: 135px; /* Narrower for cleaner look */
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid transparent;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 700;
+        margin: 0 3px; /* Minimal space between selects */
+        padding-left: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .intl-select:hover {
+        border-color: #f39c12;
+        background-color: #f8fafc;
+    }
+
+    .delete-action {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* Utils */
+    .top-bar-mini {
+        background: #0f172a;
+        color: #94a3b8;
+        padding: 5px 30px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .logout-text { color: #ff4d4d; text-decoration: none; }
+    .logout-text:hover { color: #ffffff; text-decoration: underline; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+-->
+
+
+<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info"><i class="fa fa-phone"></i> +251 975143134</div>
+            <div class="auth-box"><a href="{% url 'logout' %}" class="logout-text">LOGOUT</a></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom" 
+         style="min-height: 130px !important; display: flex !important; align-items: center !important;">
+
+        <div class="container-fluid d-flex align-items-center justify-content-start">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-container" style="width: 90px; height: 90px;">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-fluid">
+                </div>
+                
+                <div class="brand-text-wrapper ml-1">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-actions-wrapper d-flex align-items-center ml-4">
+                <a href="{% url 'home' %}" class="nav-link home-link-tight" 
+                   style="padding-left: 0 !important; margin-left: 0 !important;">HOME</a>
+
+                <div class="select-group d-flex align-items-center ml-3">
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Register New</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Edit Details</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>VIEW DATA</option>
+                        <option value="{% url 'myroute' %}">Routes</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
+                        <option value="#" disabled selected>DELETE ACTIONS</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    .bg-navy-custom {
+        background-color: #1a2a6c !important;
+        /* Padding removed to allow inline height to control size precisely */
+        padding: 0 20px !important;
+    }
+
+    .logo-container {
+        background: white;
+        border-radius: 50%;
+        border: 3px solid #f39c12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .nav-logo-fluid {
+        width: 85%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .brand-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .brand-name-main {
+        color: white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtext {
+        color: #f39c12;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .home-link-tight {
+        color: #f39c12 !important;
+        font-weight: 800;
+        font-size: 1rem;
+        border-right: 1px solid rgba(255,255,255,0.3);
+        padding-right: 15px !important;
+    }
+
+    .mini-transit-select {
+        height: 40px; 
+        width: 150px;
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 2px solid #f39c12;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 5px;
+        padding: 0 5px;
+        cursor: pointer;
+    }
+
+    .delete-border {
+        border: 2px solid #ff4d4d;
+        color: #ff4d4d;
+    }
+
+    .top-bar-mini {
+        background: #0f172a;
+        color: #fff;
+        padding: 5px 20px;
+        font-size: 0.75rem;
+    }
+
+    .logout-text { color: #ff4d4d; font-weight: 800; text-decoration: none; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+<!--
+<header class="main-system-header shadow-sm">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info"><i class="fa fa-phone"></i> +251 975143134</div>
+            <div class="auth-box"><a href="{% url 'logout' %}" class="logout-text">LOGOUT</a></div>
+        </div>
+    </div>
+
+    
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+    
+    <div class="container-fluid d-flex align-items-center">
+        </div>
+
+        <div class="container-fluid d-flex align-items-center justify-content-start">
+            
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-container">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-fluid">
+                </div>
+	
+		<div class="brand-text-wrapper ml-2">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+
+            </a>
+
+            <div class="nav-actions-wrapper d-flex align-items-center ml-4">
+                <a href="{% url 'home' %}" class="nav-link home-link-tight">HOME</a>
+                
+                <div class="select-group d-flex align-items-center ml-3">
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Register New</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Edit Details</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select">
+                        <option value="#" disabled selected>VIEW DATA</option>
+                        <option value="{% url 'myroute' %}">Routes</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
+                        <option value="#" disabled selected>DELETE ACTIONS</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+-->
+
+
+
+<!--
+<header class="main-system-header shadow">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info">
+                <i class="fa fa-phone"></i> +251 975143134
+            </div>
+            <div class="auth-box">
+                <a href="{% url 'logout' %}" class="logout-text">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom main-nav-expanded">
+        <div class="container-fluid d-flex align-items-center">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-safe-area">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-full">
+                </div>
+                <div class="brand-text-wrapper ml-2">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-content-right d-flex align-items-center ml-auto">
+                <a href="{% url 'home' %}" class="nav-link home-btn-active">HOME</a>
+
+                <div class="actions-divider"></div>
+
+                <div class="select-cluster d-flex">
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Manage Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>View Data</option>
+                        <option value="{% url 'myroute' %}">Route Reports</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select delete-action">
+                        <option value="#" disabled selected>Delete Actions</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<header class="main-system-header shadow">
+    <div class="top-bar-mini">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="contact-info">
+                <i class="fa fa-phone"></i> +251 975143134
+            </div>
+            <div class="auth-box">
+                <a href="{% url 'logout' %}" class="logout-text">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom main-nav-expanded">
+        <div class="container-fluid d-flex align-items-center">
+
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center p-0">
+                <div class="logo-safe-area">
+                    <img src="../static/images/l.jpeg" alt="Logo" class="nav-logo-full">
+                </div>
+                <div class="brand-text-wrapper ml-2">
+                    <span class="brand-name-main">TRANSIT SYSTEM</span>
+                    <span class="brand-subtext"> {{ name }} Share Company </span>
+                </div>
+            </a>
+
+            <div class="nav-content-right d-flex align-items-center ml-auto">
+                <a href="{% url 'home' %}" class="nav-link home-btn-active">HOME</a>
+
+                <div class="actions-divider"></div>
+
+                <div class="select-cluster d-flex">
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Bus Register</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Update Bus</option>
+                        <option value="{% url 'updatebus' %}">Manage Bus</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>View Data</option>
+                        <option value="{% url 'myroute' %}">Route Reports</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+
+                    <select onchange="location.href = this.value;" class="intl-select delete-action">
+                        <option value="#" disabled selected>Delete Actions</option>
+                        <option value="{% url 'busdelete' %}">Remove Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+-->
+
+
+<!--
+<style>
+    .bg-navy-custom {
+        background-color: #1a2a6c !important;
+        padding: 10px 20px !important;
+    }
+
+    /* 1. Logo Fix: Ensures the full image displays inside the circle */
+    .logo-container {
+        width: 65px;
+        height: 65px;
+        background: white;
+        border-radius: 50%;
+        border: 2px solid #f39c12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden; /* Keeps the circle shape */
+    }
+
+    .nav-logo-fluid {
+        width: 90%; /* Scale down slightly to fit the inner circle */
+        height: auto;
+        object-fit: contain; /* CRITICAL: Shows the whole logo without cutting */
+    }
+
+    .brand-name-lg {
+        color: white;
+        font-weight: 800;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    /* 2. Spacing Fix: Pulls selections closer to HOME */
+    .nav-actions-wrapper {
+        gap: 15px; /* Minimal gap between Home and Selections */
+    }
+
+    .home-link-tight {
+        color: #f39c12 !important;
+        font-weight: 800;
+        font-size: 0.9rem;
+        padding: 0 15px !important;
+        border-right: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* 3. Minimized Selection Boxes */
+    .mini-transit-select {
+        height: 35px; /* Minimized height */
+        width: 140px;  /* Reduced width */
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: 1px solid #f39c12;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        margin: 0 5px;
+        padding: 0 5px;
+        cursor: pointer;
+    }
+
+    .delete-border {
+        border: 1px solid #ff4d4d;
+        color: #ff4d4d;
+    }
+
+    .top-bar-mini {
+        background: #0f172a;
+        color: #fff;
+        padding: 5px 20px;
+        font-size: 0.75rem;
+    }
+
+    .logout-text { color: #ff4d4d; font-weight: 800; text-decoration: none; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+-->
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<div class="profile-container">
+    <header class="profile-header d-flex flex-wrap justify-content-between align-items-center">
+        <div class="user-brand d-flex align-items-center">
+            <div class="avatar-wrapper">
+                <img src="../static/images/pro.png" alt="Profile" class="profile-img">
+            </div>
+            <div class="user-info">
+                <p class="greeting-text">HI, {{ firstname }} {{ lastname }}</p>
+                <h2 class="company-welcome">Welcome to {{ name }} Share Company</h2>
+            </div>
+        </div>
+        <div class="status-indicator">
+            <span class="dot pulse"></span> SYSTEM ACTIVE
+        </div>
+    </header>
+
+    <div class="search-section shadow-sm">
+        <form action="{% url 'specific' %}" method="post" id="search_form_1" class="search-form">
+            {% csrf_token %}
+            
+            <div class="search-grid">
+                <div class="minimal-box">
+                    <label for="from">DEPARTURE / FROM</label>
+                    <input type="date" name="from" id="from" required>
+                </div>
+
+                <div class="minimal-box">
+                    <label for="to">ARRIVAL / TO</label>
+                    <input type="date" name="to" id="to" required>
+                </div>
+
+                <div class="button-wrapper">
+                    <button type="submit" class="btn-transit-search">
+                        GENERATE REPORT
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* 1. Global Setup */
+    body {
+        background-color: #f1f5f9;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: #1e293b;
+    }
+
+    .profile-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    /* 2. Professional Header */
+    .profile-header {
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    .profile-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        object-fit: cover;
+        margin-right: 15px;
+    }
+
+    .greeting-text {
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: #f39c12; /* Bus Gold */
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .company-welcome {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a2a6c; /* Navy */
+        margin: 0;
+    }
+
+    .status-indicator {
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: #64748b;
+        background: #fff;
+        padding: 6px 12px;
+        border-radius: 20px;
+        letter-spacing: 1px;
+    }
+
+    .dot.pulse {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        margin-right: 5px;
+        animation: pulse-animation 2s infinite;
+    }
+
+    /* 3. International Search Bar */
+    .search-section {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 12px;
+        border-bottom: 4px solid #f39c12;
+    }
+
+    .search-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        align-items: flex-end;
+    }
+
+    /* Reuse the Minimal Input Style */
+    .minimal-box {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 5px;
+    }
+
+    .minimal-box label {
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: #94a3b8;
+        margin-bottom: 2px;
+        letter-spacing: 1px;
+    }
+
+    .minimal-box input {
+        border: none;
+        outline: none;
+        font-weight: 600;
+        color: #1a2a6c;
+        font-size: 1rem;
+    }
+
+    /* 4. The International Action Button */
+    .btn-transit-search {
+        width: 100%;
+        background: #1a2a6c;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-weight: 800;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        transition: 0.3s;
+    }
+
+    .btn-transit-search:hover {
+        background: #f39c12;
+        color: #1a2a6c;
+    }
+
+    @keyframes pulse-animation {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Mobile Responsive Fixes */
+    @media (max-width: 768px) {
+        .profile-header { text-align: center; justify-content: center; }
+        .user-brand { flex-direction: column; }
+        .profile-img { margin-right: 0; margin-bottom: 10px; }
+        .search-grid { grid-template-columns: 1fr; }
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+
+<!--
+<form action="{% url 'specific' %}" method="post" id="search_form_1" class="search_panel_content" style="margin: 10px 0; width: 100%; max-width: 600px; border: 0; border-radius: 8px; margin-top: 20px; margin-left: 450px; display: flex; align-items: center; gap: 10px;">
+    {% csrf_token %}
+    <label for="from" style="color: blue; font-weight: bold; margin-right: 5px;"><b>From</b></label>
+    <div style="display: flex; align-items: center;">
+    <div style="display: flex; align-items: center; margin-right: 10px;">
+    <input type="date" name="from" id="from" class="form-control" style="width: 100px; height: 30px; color: brown; border: 2px solid #d3d3d3; border-radius: 8px; margin-top: 70px; margin-left: -70px;" required>
+    </div>
+    <div style="display: flex; align-items: center;">
+        <label for="to" style="color: blue; font-weight: bold; margin-right: 5px; margin-left: 60px;"><b>To</b></label>
+        <input type="date" name="to" id="to" class="form-control" style="width: 100px; height: 30px; color: brown; border: 2px solid #d3d3d3; border-radius: 8px; margin-top: 70px; margin-left: -50px;" required>
+    </div>
+</div>
+<button type="submit" style="background-color: yellow; color: blue; width: 100px; height: 30px; border: none; text-align: center; border: 2px solid #d3d3d3; border-radius: 8px; margin-top: 70px; margin-left: 30px;">
+	    <b>Search</b>
+    </button>
+</form>
+<img src="../static/images/pro.png" alt="" style="width: 200px; height: 150px; margin-left: 150px; margin-top: -40px;">
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5; /* Light background for contrast */
+        }
+        .greet {
+            color: #8B4513; /* Brown color */
+            font-size: 24px;
+	    margin-left: 900px;
+	    margin-top: -50px;
+
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+  </style>
+    <p class="greet">
+    <span><b>Well Come To </b></span> <span><b>{{ name }}</b></span> <span><b>Share Company</b></span> <!-- or use your company name here -->
+    </p>
+ 	<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5; /* Light background for contrast */
+        }
+        .greeting {
+            color: #8B4513; /* Brown color */
+            font-size: 24px;
+	    margin-left: 100px;
+
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+   <p class="greeting">
+  
+    </p>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+-->
+
+  </br></br></br>
+
+</br></br></br>
+  </br></br></br></br></br></br></br</br>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

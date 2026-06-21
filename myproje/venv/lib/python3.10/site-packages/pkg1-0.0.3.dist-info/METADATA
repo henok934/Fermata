@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: pkg1
+Version: 0.0.3
+Summary: A daily useful kit by Hong Peng.
+Home-page: https://github.com/zhengxingyu/hpkit.git
+Author: zhengxingyu
+License: MIT
+Platform: UNKNOWN
+Requires-Python: >=3.6.0
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+
+UNKNOWN
+
+

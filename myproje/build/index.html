@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>home</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body>
+<div class="super_container">
+        <header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251 1158 227 938</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="https://www.facebook.com/teklemariam.mosse"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>                                                            <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+                                                <div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+			<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <div class="logo">
+    <a href="#">
+	    </br></br>
+	    <img src="../static/images/download.jpeg" alt="" style="width: 150px; height: 100px; margin-left: -70px;">
+	    <!--<img src="../static/images/images.jpeg" alt="">-->
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+  <li class="main_nav_item" style="display: inline;">
+
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" 
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+	<div>
+    🔔<span style="color:red;" id="buschanges-count"><b>0</b></span>
+</div>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    // Automatically submit the form when a date is selected
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+{% if error1 %}
+    <div class="success">
+    <h6 style="color: red; margin-left: 300px;"><b>{{ error1 }}</b><span style="margin-left:20px;" class="symbol"><b>X</b></span></h6>
+    </div>
+    {% endif %}
+        </header>
+	<div class="home">
+	<div class="home_slider_container">
+		
+                       <!--<div class="owl-carousel owl-theme home_slider">
+			       
+                                <div class="owl-item home_slider_item">
+		       -->
+
+		 
+                                        <div class="home_slider_background" style="background-image:url(../static/images/home_slider.jpg
+)"></div>
+<!--
+                                        <div class="home_slider_background" style="background-image:url(../static/images/i.jpeg
+						    )"></div>-->
+
+					<div class="home_slider_content text-center">
+				<!--
+				
+				 <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+				-->
+                                           </br></br></br></br>
+                                                 </br></br></br> </br></br></br>
+                                                 </br></br></br></br>
+
+						 {% if error1 %}
+    <div class="success">
+    <h6 style="color: red; margin-left: 300px;"><b>{{ error1 }}</b><span style="margin-left:20px;" class="symbol"><b>X</b></span></h6>
+    </div>
+    {% endif %}
+
+
+
+<!--
+<div style="padding: 10px; text-align: left;">
+    <form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content" style="padding: 20px; background-color: cyan; max-width: 700px; width: auto;">
+        {% csrf_token %}
+        <div class="search_item" style="margin: 5px 0; width: 100%;">
+            <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+            <select name="depcity" id="depcity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+                <option value="" style="color: green; font-weight: bold;">Select</option>
+                {% if des %}
+                    {% for depcity in des %}
+                        <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="search_item" style="margin: 5px 0; width: 100%;">
+            <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+            <select name="descity" id="descity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+                <option value="" style="color: green; font-weight: bold;">Select</option>
+                {% if des %}
+                    {% for depcity in des %}
+                        <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="search_item" style="margin: 5px 0; width: 100%;">
+            <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+            <input type="date" name="date" id="date" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+        </div>
+        <div style="margin: 10px 0;">
+            <button type="submit" style="background-color: yellow; color: black; width: 100%; height: 45px; border: none; text-align: center;">
+                Search
+            </button>
+        </div>
+    </form>
+</div>
+-->
+
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px; padding: 20px; background-color: cyan; max-width: 700px; width: auto;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+    </div>
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 100%; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+-->
+
+
+
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px; padding: 20px; background-color: cyan; max-width: 700px; width: 100%;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+    </div>
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 100%; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+-->
+
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px auto; padding: 20px; background-color: cyan; max-width: 700px; width: 100%;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; height: 45px; color: brown;" required>
+    </div>
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 100%; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+-->
+
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px; margin-left: -450px; margin-top: -180px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+    </div>
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+-->
+
+
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; max-width: 700px; width: 200px; box-sizing: border-box; margin-left: -250px;">
+	<style>
+    /* Default margin-left for large devices */
+    #search_form_1 {
+        margin-left: -500px; /* Adjust for large devices */
+    }
+
+    /* Margin for small devices */
+    @media (max-width: 768px) {
+        #search_form_1 {
+            margin-left: -300px; /* Adjust for small devices */
+        }
+    }
+</style>
+-->
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px; margin-left: -450px; margin-top: -180px;">
+-->
+
+<!--
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: '/api/',  // Call the API endpoint
+        type: 'GET',
+        success: function(data) {
+            $('#buschanges-count').text(data.buschanges_count);
+            const cityList = $('#city-list');
+            cityList.empty();
+            data.cities.forEach(function(city) {
+                cityList.append('<li>' + city + '</li>');
+            });
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+});
+</script>
+-->
+
+
+
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <div id="bus-info">
+        <ul id="city-list"></ul>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '/api/',  // Call the API endpoint
+            type: 'GET',
+            success: function(data) {
+                
+                //if (data.buschanges_count !== null) {
+                  //  $('#buschanges-count').text(data.buschanges_count);
+                //}
+                //const cityList = $('#city-list');
+                //cityList.empty();
+                //data.cities.forEach(function(city) {
+                //    cityList.append('<li>' + city + '</li>');
+               // });
+           // },
+           // error: function(error) {
+           //     console.error('Error fetching data:', error);
+           // }
+        //});
+    //});
+    </script>
+
+
+<!--
+<form action="/api/book/" method="post" id="search_form_1" class="search_panel_content">
+    {% csrf_token %}
+    <div class="search_item">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input" name="depcity" required placeholder="Type to search..." style="width: 100%; height: 45px; color: brown;">
+    </div>
+
+    <div class="search_item">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input" name="descity" required placeholder="Type to search..." style="width: 100%; height: 45px; color: brown;">
+    </div>
+
+    <div class="search_item">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" required style="width: 100%; height: 45px; color: brown;">
+    </div>
+
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+
+<div id="results"></div>
+
+<script>
+$(document).ready(function() {
+    $('#search_form_1').on('submit', function(event) {
+        event.preventDefault();  // Prevent the default form submission
+
+        const formData = {
+            depcity: $('#depcity_input').val(),
+            descity: $('#descity_input').val(),
+            date: $('#date').val()
+        };
+
+        $.ajax({
+            url: '/api/book/',  // Ensure this matches your Django URL
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                if (response.routes.length > 0) {
+                    let htmlContent = '<h2>Available Routes:</h2><ul>';
+                    response.routes.forEach(route => {
+                        htmlContent += `<li>Route ID: ${route.route}, Remaining Seats: ${route.remaining_seats}</li>`;
+                    });
+                    htmlContent += '</ul>';
+                    $('#results').html(htmlContent);
+                } else {
+                    $('#results').html('<p>No routes available for the selected criteria.</p>');
+                }
+            },
+            error: function(xhr) {
+                const errorMessage = xhr.responseJSON.error || "An error occurred.";
+                $('#results').html(`<p>${errorMessage}</p>`);
+            }
+        });
+    });
+});
+</script>
+-->
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<form action="/api/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input" name="depcity" required placeholder="Type to search..." style="width: 100%; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input" name="descity" required placeholder="Type to search..." style="width: 100%; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" required style="width: 100%; height: 45px; color: brown;">
+    </div>
+
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+
+<div id="results"></div>
+
+<script>
+$(document).ready(function() {
+    $('#search_form_1').on('submit', function(event) {
+        event.preventDefault();  // Prevent the default form submission
+
+        const formData = {
+            depcity: $('#depcity_input').val(),
+            descity: $('#descity_input').val(),
+            date: $('#date').val()
+        };
+
+        $.ajax({
+            url: '/api/book/',  // Change to your Django URL that handles the booking
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                if (response.routes.length > 0) {
+                    let htmlContent = '<h2>Available Routes:</h2><ul>';
+                    response.routes.forEach(route => {
+                        htmlContent += `<li>Route ID: ${route.route}, Remaining Seats: ${route.remaining_seats}</li>`;
+                    });
+                    htmlContent += '</ul>';
+                    $('#results').html(htmlContent);
+                } else {
+                    $('#results').html('<p>No routes available for the selected criteria.</p>');
+                }
+            },
+            error: function(xhr) {
+                const errorMessage = xhr.responseJSON.error || "An error occurred.";
+                $('#results').html(`<p>${errorMessage}</p>`);
+            }
+        });
+    });
+});
+</script>
+-->
+
+<!--
+<form action="/show-routes/" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px; margin-left: -300px; margin-top: -50px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input" name="depcity"
+               oninput="filterCities('depcity', 'depcity_input'); capitalizeFirstChar('depcity_input');"
+               onblur="correctCity('depcity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input" name="descity"
+               oninput="filterCities('descity', 'descity_input'); capitalizeFirstChar('descity_input');"
+               onblur="correctCity('descity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+    </div>
+
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+
+<div id="results" style="margin-top: 20px;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#search_form_1').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const depcity = $('#depcity_input').val();
+        const descity = $('#descity_input').val();
+        const date = $('#date').val();
+
+        $.ajax({
+            url: '/show-routes/',  // Update this with your actual endpoint
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                depcity: depcity,
+                descity: descity,
+                date: date
+            }),
+            success: function(data) {
+                const tickets = data.tickets;
+                let resultsHtml = '<h3>Available Routes:</h3><ul>';
+                tickets.forEach(ticket => {
+                    resultsHtml += `<li>ID: ${ticket.id}, From: ${ticket.depcity}, To: ${ticket.descity}, Date: ${ticket.date}, Plate No: ${ticket.plate_no}</li>`;
+                });
+                resultsHtml += '</ul>';
+                $('#results').html(resultsHtml); // Display results
+            },
+            error: function(xhr) {
+                $('#results').html('<p style="color: red;">Error fetching routes. Please check your input.</p>');
+            }
+        });
+    });
+});
+</script>
+-->
+
+
+
+
+<form id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold;"><b>From</b></label>
+        <input type="text" id="depcity_input" name="depcity" placeholder="Type to search..." style="width: 100%; height: 45px;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold;"><b>To</b></label>
+        <input type="text" id="descity_input" name="descity" placeholder="Type to search..." style="width: 100%; height: 45px;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" required style="width: 100%; height: 45px;">
+    </div>
+
+    <div style="margin: 10px 0;">
+        <button type="submit" style="background-color: yellow; width: 130px; height: 45px;">Search</button>
+    </div>
+</form>
+
+<div id="results" style="margin-top: 20px;"></div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#search_form_1').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const depcity = $('#depcity_input').val();
+        const descity = $('#descity_input').val();
+        const date = $('#date').val();
+
+        // Get CSRF token for security
+        const csrftoken = '{{ csrf_token }}'; // Pass CSRF token from Django template
+
+        $.ajax({
+            url: '/api/',  // Make sure this matches your URL pattern
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({
+                depcity: depcity,
+                descity: descity,
+                date: date
+            }),
+            success: function(data) {
+                const tickets = data.tickets;
+                let resultsHtml = '<h3>Available Routes:</h3><ul>';
+                tickets.forEach(ticket => {
+                    resultsHtml += `<li>ID: ${ticket.id}, From: ${ticket.depcity}, To: ${ticket.descity}, Date: ${ticket.date}, Plate No: ${ticket.plate_no}</li>`;
+                });
+                resultsHtml += '</ul>';
+                $('#results').html(resultsHtml); // Display results
+            },
+            error: function(xhr) {
+                $('#results').html('<p style="color: red;">Error fetching routes. Please check your input.</p>');
+            }
+        });
+    });
+});
+</script>
+
+
+
+<!--
+<form action="/show-routes/" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input" name="depcity" placeholder="Type to search..." required style="width: 100%; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input" name="descity" placeholder="Type to search..." required style="width: 100%; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" required style="width: 100%; height: 45px; color: brown;">
+    </div>
+
+    <div style="margin: 10px 0;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none;">Search</button>
+    </div>
+</form>
+
+<div id="results" style="margin-top: 20px;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#search_form_1').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const depcity = $('#depcity_input').val();
+        const descity = $('#descity_input').val();
+        const date = $('#date').val();
+        const csrftoken = '{{ csrf_token }}'; // Ensure CSRF token is set
+
+        $.ajax({
+            url: '/show-routes/',  // Ensure this matches your URL pattern
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({
+                depcity: depcity,
+                descity: descity,
+                date: date
+            }),
+            success: function(data) {
+                const tickets = data.tickets;
+                let resultsHtml = '<h3>Available Routes:</h3><ul>';
+                
+                if (tickets.length === 0) {
+                    resultsHtml += '<li>No tickets found for this route.</li>';
+                } else {
+                    tickets.forEach(ticket => {
+                        resultsHtml += `<li>ID: ${ticket.id}, From: ${ticket.depcity}, To: ${ticket.descity}, Date: ${ticket.date}, Plate No: ${ticket.plate_no}</li>`;
+                    });
+                }
+                
+                resultsHtml += '</ul>';
+                $('#results').html(resultsHtml); // Display results
+            },
+            error: function(xhr) {
+                $('#results').html('<p style="color: red;">Error fetching routes. Please check your input.</p>');
+            }
+        });
+    });
+});
+</script>
+-->
+
+
+
+
+
+
+<!--
+<form action="/show-routes/" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input" name="depcity" placeholder="Type to search..." required style="width: 100%; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input" name="descity" placeholder="Type to search..." required style="width: 100%; height: 45px; color: brown; text-align: center;">
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" required style="width: 100%; height: 45px; color: brown;">
+    </div>
+
+    <div style="margin: 10px 0;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none;">Search</button>
+    </div>
+</form>
+
+<div id="results" style="margin-top: 20px;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#search_form_1').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const depcity = $('#depcity_input').val();
+        const descity = $('#descity_input').val();
+        const date = $('#date').val();
+        const csrftoken = '{{ csrf_token }}'; // Ensure CSRF token is set
+
+        $.ajax({
+            url: '/show-routes/',  // Ensure this matches your URL pattern
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({
+                depcity: depcity,
+                descity: descity,
+                date: date
+            }),
+            success: function(data) {
+                const tickets = data.tickets;
+                let resultsHtml = '<h3>Available Routes:</h3><ul>';
+
+                if (tickets.length === 0) {
+                    resultsHtml += '<li>No tickets found for this route.</li>';
+                } else {
+                    tickets.forEach(ticket => {
+                        resultsHtml += `<li>ID: ${ticket.id}, From: ${ticket.depcity}, To: ${ticket.descity}, Date: ${ticket.date}, Plate No: ${ticket.plate_no}</li>`;
+                    });
+                }
+
+                resultsHtml += '</ul>';
+                $('#results').html(resultsHtml); // Display results
+            },
+            error: function(xhr) {
+                $('#results').html('<p style="color: red;">Error fetching routes. Please check your input.</p>');
+            }
+        });
+    });
+});
+</script>
+-->
+
+
+
+
+
+<!--
+<form action="/api/book/" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px; margin-left: -300px; margin-top: -50px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input" name="depcity"
+               oninput="filterCities('depcity', 'depcity_input'); capitalizeFirstChar('depcity_input');"
+               onblur="correctCity('depcity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;">
+        <ul id="depcity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input" name="descity"
+               oninput="filterCities('descity', 'descity_input'); capitalizeFirstChar('descity_input');"
+               onblur="correctCity('descity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;">
+        <ul id="descity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+    </div>
+
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: '/api/',  // Ensure this points to your API endpoint for fetching cities
+        type: 'GET',
+        success: function(data) {
+            if (data.buschanges_count !== null) {
+                $('#buschanges-count').text(data.buschanges_count);
+            }
+            cities = data.cities; // Populate the cities array from the API response
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+});
+</script>
+
+-->
+
+
+
+
+
+<!--
+<form action="{% url 'api-book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px; margin-left: -300px; margin-top: -50px;">
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input"
+               oninput="filterCities('depcity', 'depcity_input'); capitalizeFirstChar('depcity_input');"
+               onblur="correctCity('depcity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;"
+               name="depcity">
+        <ul id="depcity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input"
+               oninput="filterCities('descity', 'descity_input'); capitalizeFirstChar('descity_input');"
+               onblur="correctCity('descity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;"
+               name="descity">
+        <ul id="descity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+    </div>
+
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+-->
+
+
+
+
+<script>
+let cities = [];  // Declare cities array globally
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: '/api/',  // Ensure this points to your API endpoint
+        type: 'GET',
+        success: function(data) {
+            if (data.buschanges_count !== null) {
+                $('#buschanges-count').text(data.buschanges_count);
+            }
+            cities = data.cities; // Populate the cities array from the API response
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+});
+
+
+
+
+function filterCities(selectId, inputId) {
+    const input = document.getElementById(inputId);
+    const filter = input.value.toLowerCase();
+    const list = document.getElementById(selectId + '_list');
+
+    list.innerHTML = '';
+    let hasVisibleItems = false;
+
+    // Filter cities based on user input
+    const filteredCities = cities.filter(city => city.toLowerCase().startsWith(filter));
+    filteredCities.forEach(city => {
+        const li = document.createElement('li');
+        li.textContent = city.charAt(0).toUpperCase() + city.slice(1);  // Capitalize first letter
+        li.style.color = "blue";
+        li.style.fontWeight = "bold";
+        li.style.padding = "5px";
+        li.style.cursor = "pointer";
+        li.style.backgroundColor = "lightyellow";
+        li.onclick = () => selectCity(selectId, city);  // Update the city selection
+        list.appendChild(li);
+        hasVisibleItems = true;
+    });
+
+    list.style.display = hasVisibleItems ? 'block' : 'none';  // Show or hide the list
+}
+
+function selectCity(selectId, city) {
+    const capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);  // Capitalize
+    document.getElementById(selectId + '_input').value = capitalizedCity;  // Update input value
+    document.getElementById(selectId + '_list').style.display = 'none';  // Hide the suggestions
+}
+
+function capitalizeFirstChar(inputId) {
+    const input = document.getElementById(inputId);
+    const value = input.value;
+
+    if (value.length > 0) {
+        input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    }
+}
+
+function correctCity(inputId) {
+    const input = document.getElementById(inputId);
+    const inputValue = input.value.toLowerCase();
+    const matchedCity = cities.find(city => isCloseMatch(city.toLowerCase(), inputValue));
+
+    if (matchedCity) {
+        input.value = matchedCity.charAt(0).toUpperCase() + matchedCity.slice(1);  // Capitalize
+    }
+}
+
+function isCloseMatch(city, input) {
+    let mismatches = 0;
+
+    for (let i = 0; i < Math.max(city.length, input.length); i++) {
+        if (city[i] !== input[i]) {
+            mismatches++;
+            if (mismatches > 3) return false;
+        }
+    }
+    return mismatches <= 3;
+}
+</script>
+
+
+
+
+
+
+
+
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px; margin-left: -300px; margin-top: -50px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input"
+               oninput="filterCities('depcity', 'depcity_input'); capitalizeFirstChar('depcity_input');"
+               onblur="correctCity('depcity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;"
+               name="depcity">
+        <ul id="depcity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input"
+               oninput="filterCities('descity', 'descity_input'); capitalizeFirstChar('descity_input');"
+               onblur="correctCity('descity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;"
+               name="descity">
+        <ul id="descity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+    </div>
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+
+<ul id="depcity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+<ul id="descity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+
+<script>
+let cities = [];  // Declare cities array globally
+
+$(document).ready(function() {
+    $.ajax({
+        url: '/api/',  // Call the API endpoint
+        type: 'GET',
+        success: function(data) {
+            if (data.buschanges_count !== null) {
+                $('#buschanges-count').text(data.buschanges_count);
+            }
+            cities = data.cities; // Use the data from the API response
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+});
+
+function filterCities(selectId, inputId) {
+    const input = document.getElementById(inputId);
+    const filter = input.value.toLowerCase();
+    const list = document.getElementById(selectId + '_list');
+
+    list.innerHTML = '';
+    let hasVisibleItems = false;
+
+    const filteredCities = cities.filter(city => city.toLowerCase().includes(filter));
+    filteredCities.forEach(city => {
+        const li = document.createElement('li');
+        li.textContent = city.charAt(0).toUpperCase() + city.slice(1);  // Capitalize first letter
+        li.style.color = "blue";
+        li.style.fontWeight = "bold";
+        li.style.padding = "5px";
+        li.style.cursor = "pointer";
+        li.style.backgroundColor = "lightyellow";
+        li.onclick = () => selectCity(selectId, city);
+        list.appendChild(li);
+        hasVisibleItems = true;
+    });
+
+    list.style.display = hasVisibleItems ? 'block' : 'none';  // Show or hide the list
+}
+
+function selectCity(selectId, city) {
+    document.getElementById(selectId + '_input').value = city.charAt(0).toUpperCase() + city.slice(1);  // Capitalize
+    document.getElementById(selectId + '_list').style.display = 'none';  // Hide the suggestions
+}
+
+function capitalizeFirstChar(inputId) {
+    const input = document.getElementById(inputId);
+    const value = input.value;
+
+    if (value.length > 0) {
+        input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    }
+}
+
+function correctCity(inputId) {
+    const input = document.getElementById(inputId);
+    const inputValue = input.value.toLowerCase();
+    const matchedCity = cities.find(city => isCloseMatch(city.toLowerCase(), inputValue));
+
+    if (matchedCity) {
+        input.value = matchedCity.charAt(0).toUpperCase() + matchedCity.slice(1);
+    }
+}
+
+function isCloseMatch(city, input) {
+    let mismatches = 0;
+
+    for (let i = 0; i < Math.max(city.length, input.length); i++) {
+        if (city[i] !== input[i]) {
+            mismatches++;
+            if (mismatches > 3) return false;
+        }
+    }
+    return mismatches <= 3;
+}
+</script>
+
+<style>
+    @media (max-width: 768px) {
+        #search_form_1 {
+            margin-left: 20px; /* Add left margin for small devices */
+        }
+    }
+</style>
+-->
+
+
+
+
+
+
+
+
+
+
+<!--
+
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-column" style="margin: 10px 0; padding: 20px; background-color: cyan; width: 200px; max-width: 700px; margin-left: -300px; margin-top: -50px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block;"><b>From</b></label>
+        <input type="text" id="depcity_input"
+               oninput="filterCities('depcity', 'depcity_input'); capitalizeFirstChar('depcity_input');"
+               onblur="correctCity('depcity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;"
+               name="depcity">
+        <ul id="depcity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block;"><b>To</b></label>
+        <input type="text" id="descity_input"
+               oninput="filterCities('descity', 'descity_input'); capitalizeFirstChar('descity_input');"
+               onblur="correctCity('descity_input')"
+               placeholder="Type to search..."
+               style="width: 100%; max-width: 160px; height: 45px; color: brown; text-align: center;"
+               name="descity">
+<ul id="descity_list" style="list-style-type: none; padding: 0; margin: 5px 0; border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto;"></ul>
+    </div>
+    <div class="search_item" style="margin: 5px 0; width: 100%;">
+        <label for="date" style="color: blue; font-weight: bold; display: block;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 100%; max-width: 160px; height: 45px; color: brown;" required>
+    </div>
+    <div style="margin: 10px 0; text-align: left;">
+        <button type="submit" style="background-color: yellow; color: black; width: 130px; height: 45px; border: none; text-align: center;">
+            Search
+        </button>
+    </div>
+</form>
+
+<style>
+    @media (max-width: 768px) { /* Apply margin only on small devices */
+        #search_form_1 {
+            margin-left: 20px; /* Add left margin for small devices */
+        }
+    }
+</style>
+-->
+
+
+<!--
+<script>
+    const cities = [
+        {% if des %}
+            {% for depcity in des %}
+                "{{ depcity.depcity }}",
+            {% endfor %}
+        {% endif %}
+    ];
+
+    function filterCities(selectId, inputId) {
+        const input = document.getElementById(inputId);
+        const filter = input.value.toLowerCase();
+        const list = document.getElementById(selectId + '_list');
+
+        list.innerHTML = '';
+        let hasVisibleItems = false;
+
+        const filteredCities = cities.filter(city => city.toLowerCase().startsWith(filter));
+        filteredCities.forEach(city => {
+            const li = document.createElement('li');
+            li.textContent = city.charAt(0).toUpperCase() + city.slice(1);
+            li.style.color = "blue";
+            li.style.fontWeight = "bold";
+            li.style.padding = "5px";
+            li.style.cursor = "pointer";
+            li.style.backgroundColor = "lightyellow";
+            li.onclick = () => selectCity(selectId, city);
+            list.appendChild(li);
+            hasVisibleItems = true;
+        });
+
+        list.style.display = hasVisibleItems ? 'block' : 'none';
+    }
+function correctCity(inputId) {
+        const input = document.getElementById(inputId);
+        const inputValue = input.value.toLowerCase();
+        const matchedCity = cities.find(city => isCloseMatch(city.toLowerCase(), inputValue));
+
+        if (matchedCity) {
+            input.value = matchedCity.charAt(0).toUpperCase() + matchedCity.slice(1);
+        }
+    }
+
+    function isCloseMatch(city, input) {
+        let mismatches = 0;
+
+        for (let i = 0; i < Math.max(city.length, input.length); i++) {
+            if (city[i] !== input[i]) {
+                mismatches++;
+                if (mismatches > 3) return false;
+            }
+        }
+        return mismatches <= 3;
+    }
+
+    function selectCity(selectId, city) {
+        document.getElementById(selectId + '_input').value = city.charAt(0).toUpperCase() + city.slice(1);
+        document.getElementById(selectId + '_list').style.display = 'none';
+    }
+ function capitalizeFirstChar(inputId) {
+        const input = document.getElementById(inputId);
+        const value = input.value;
+
+        if (value.length > 0) {
+            input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        }
+    }
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '/api/',  // Call the API endpoint
+            type: 'GET',
+            success: function(data) {
+                // Update the bus changes count
+                if (data.buschanges_count !== null) {
+                    $('#buschanges-count').text(data.buschanges_count);
+                }
+
+                // Initialize cities array
+                const cities = data.cities; // Use the data from the API response
+
+                // Populate the cities in the list
+                const cityList = $('#city-list');
+                cityList.empty();  // Clear any existing entries
+                cities.forEach(function(city) {
+                    cityList.append('<li>' + city + '</li>');  // Append each city to the list
+                });
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    });
+
+    // Additional city filtering and selection functions
+    function filterCities(selectId, inputId) {
+        const input = document.getElementById(inputId);
+        const filter = input.value.toLowerCase();
+        const list = document.getElementById(selectId + '_list');
+
+        list.innerHTML = '';
+        let hasVisibleItems = false;
+
+        const filteredCities = cities.filter(city => city.toLowerCase().startsWith(filter));
+        filteredCities.forEach(city => {
+            const li = document.createElement('li');
+            li.textContent = city.charAt(0).toUpperCase() + city.slice(1);
+            li.style.color = "blue";
+            li.style.fontWeight = "bold";
+            li.style.padding = "5px";
+            li.style.cursor = "pointer";
+            li.style.backgroundColor = "lightyellow";
+            li.onclick = () => selectCity(selectId, city);
+            list.appendChild(li);
+            hasVisibleItems = true;
+        });
+
+        list.style.display = hasVisibleItems ? 'block' : 'none';
+    }
+
+    function selectCity(selectId, city) {
+        document.getElementById(selectId + '_input').value = city.charAt(0).toUpperCase() + city.slice(1);
+        document.getElementById(selectId + '_list').style.display = 'none';
+    }
+
+    // Other existing functions...
+    </script>
+
+    -->
+
+
+
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of items */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: #2a3439; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Further increased max-width */
+        min-height: 100px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 0; /* Remove margin for consistent spacing */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+
+    button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+
+
+/* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-wrap: nowrap; /* Keep items in a single row */
+            justify-content: flex-start; /* Align items to the start */
+        }
+
+        .search_item {
+            margin: 0; /* Maintain no margin for smaller screens */
+        }
+
+        label {
+            margin-left: 0; /* Reset label margins */
+        }
+    }
+</style>
+
+
+
+
+
+
+
+
+                                                </div>                                  </div>
+                                </div>
+
+				<!--
+                                <div class="owl-item home_slider_item">
+                                        <div class="home_slider_background" style="background-image:url(../static/images/home_slider.jpg)"></div>
+
+                                        <div class="home_slider_content text-center">
+                                    
+					<div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+-->
+
+
+
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of items */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: #2a3439; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Further increased max-width */
+        min-height: 100px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 0; /* Remove margin for consistent spacing */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+
+/* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-wrap: nowrap; /* Keep items in a single row */
+            justify-content: flex-start; /* Align items to the start */
+        }
+
+        .search_item {
+            margin: 0; /* Maintain no margin for smaller screens */
+        }
+
+        label {
+            margin-left: 0; /* Reset label margins */
+        }
+    }
+</style>
+
+<!--
+</div></div></div>
+
+ <div class="owl-item home_slider_item">
+                                        <div class="home_slider_background" style="background-image:url(../static/images/home_slider.jpg)"></div>
+                                        <div class="home_slider_content text-center">
+                                                <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+-->
+<!--
+<form action="{% url 'book' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-row align-items-center justify-content-start" style="margin: 20px auto 0; padding: 0; background-color: pink; height: auto; width: 100%; max-width: 1400px; padding: 20px;">
+    {% csrf_token %}
+    <div class="search_item" style="margin: 0;">
+        <label for="depcity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>From</b></label>
+        <select name="depcity" id="depcity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+<div class="search_item" style="margin: 0;">
+        <label for="descity" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>To</b></label>
+        <select name="descity" id="descity" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+            <option value="" style="color: green; font-weight: bold;">Select</option>
+            {% if des %}
+                {% for depcity in des %}
+                    <option value="{{ depcity.depcity }}" style="color: blue; font-weight: bold;">{{ depcity.depcity }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="search_item" style="margin: 0;">
+        <label for="date" style="color: blue; font-weight: bold; display: block; margin-left: 5px;"><b>Date</b></label>
+        <input type="date" name="date" id="date" class="form-control" style="width: 160px; height: 45px; margin-left: 5px; color: brown; text-align: left;" required>
+    </div>
+    <div style="margin: 0; display: block; text-align: center; margin-top: 0;">
+ <button type="submit" style="background-color: yellow; color: black; display: inline-block; width: 130px;margin-top:30px;gheight: 45px; border: none; text-align: center; margin-left: 10px;">
+            Search
+        </button>
+    </div>
+</form>
+-->
+
+<style>
+    /* Base styles for the form elements */
+    .search_panel_content {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of items */
+        justify-content: flex-start; /* Align items to the start */
+        padding: 20px; /* Increased padding for better spacing */
+        background-color: #2a3439; /* Background color */
+        width: 100%; /* Make width responsive */
+        max-width: 1400px; /* Further increased max-width */
+        min-height: 100px; /* Set a minimum height for better display */
+        margin: 10px auto; /* Center the form */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for depth */
+    }
+
+    .search_item {
+        margin: 0; /* Remove margin for consistent spacing */
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 160px; /* Set a minimum width for better display */
+    }
+
+    button {
+        width: 130px; /* Set button width */
+        height: 45px; /* Set button height */
+        margin-left: 10px; /* Space from the last item */
+    }
+/* Responsive adjustments */
+    @media (max-width: 600px) {
+        .search_panel_content {
+            flex-wrap: nowrap; /* Keep items in a single row */
+            justify-content: flex-start; /* Align items to the start */
+        }
+
+        .search_item {
+            margin: 0; /* Maintain no margin for smaller screens */
+        }
+
+        label {
+            margin-left: 0; /* Reset label margins */
+        }
+    }
+</style>
+
+
+
+<!--
+
+                </div></div></div></div>
+		-->
+
+                        <div class="home_slider_nav home_slider_prev">
+                                <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+                                        <defs>
+                                                <linearGradient id='home_grad_prev'>
+                                                        <stop offset='0%' stop-color='#fa9e1b'/>
+                                                        <stop offset='100%' stop-color='#8d4fff'/>
+                                                </linearGradient>
+                                        </defs>
+                                        <path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+                                        M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+                                        C22.545,2,26,5.541,26,9.909V23.091z"/>
+                                        <polygon class="nav_arrow" fill="#F3F6F9" points="15.044,22.222 16.377,20.888 12.374,16.885 16.377,12.882 15.044,11.55 9.708,16.885 11.04,18.219
+                                        11.042,18.219 "/>
+                                </svg>
+                        </div>
+<div class="home_slider_nav home_slider_next">
+                                <svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+                                        <defs>
+                                                <linearGradient id='home_grad_next'>
+                                                        <stop offset='0%' stop-color='#fa9e1b'/>
+                                                        <stop offset='100%' stop-color='#8d4fff'/>
+                                                </linearGradient>
+                                        </defs>
+                                <path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+                                M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+                                C22.545,2,26,5.541,26,9.909V23.091z"/>
+                                <polygon class="nav_arrow" fill="#F3F6F9" points="13.044,11.551 11.71,12.885 15.714,16.888 11.71,20.891 13.044,22.224 18.379,16.888 17.048,15.554
+                                17.046,15.554 "/>
+                                </svg>
+                        </div>
+                        <div class="home_slider_dots">
+                                <ul id="home_slider_custom_dots" class="home_slider_custom_dots">
+                                        <li class="home_slider_custom_dot active"><div></div>01.</li>
+                                        <li class="home_slider_custom_dot"><div></div>02.</li>
+                                        <li class="home_slider_custom_dot"><div></div>03.</li>
+                                </ul>
+                        </div>
+
+                </div>
+</div></div></div></div>
+                        <div class="home_slider_nav home_slider_prev">
+                                <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+                                        <defs>
+                                                <linearGradient id='home_grad_prev'>
+                                                        <stop offset='0%' stop-color='#fa9e1b'/>
+                                                        <stop offset='100%' stop-color='#8d4fff'/>
+                                                </linearGradient>
+                                        </defs>
+                                        <path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+                                        M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+                                        C22.545,2,26,5.541,26,9.909V23.091z"/>
+                                        <polygon class="nav_arrow" fill="#F3F6F9" points="15.044,22.222 16.377,20.888 12.374,16.885 16.377,12.882 15.044,11.55 9.708,16.885 11.04,18.219
+                                        11.042,18.219 "/>
+                                </svg>
+                        </div>
+
+        </div>
+ {% if error %}
+    <div class="success">
+            <h3 style="color: red; margin-left: 150px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol"><b>X</br></span></h3>
+    </div>
+{% endif %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                        </div>
+                </div>
+        </div>
+        <div class="intro">
+                <div class="container">
+                        <div class="row">
+                                <div class="col">
+					
+</br></br></br>
+					<!--<h2 class="intro_title text-center" style="color: purple; margin-top: -500x;">We have the best routes</h2>-->
+					<h2 class="intro_title text-center" style="color: purple; margin-top: -50px; margin-button: -30px;">We have the best routes</h2>
+					
+
+					<!--<h2 class="intro_title text-center">We have the best routes</h2>-->
+                                </div>
+                        </div>
+                        <div class="row intro_items">
+                                <div class="col-lg-4 intro_col">
+                                        <div class="intro_item">
+                                                <div class="intro_item_overlay"></div>
+						<!--<div class="intro_item_background" style="background-image:url(../static/images/intro_1.jpg)"></div>-->
+						<div class="intro_item_background" style="background-image: url(../static/images/intro_1.jpg)"></div>
+                                                <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+                                                <div class="intro_center text-center">
+                                                                <h1>BahirDar</h1>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+ <div class="col-lg-4 intro_col">
+                                        <div class="intro_item">
+                                                <div class="intro_item_overlay"></div>
+                                                
+                                                <div class="intro_item_background" style="background-image:url(../static/images/intro_2.jpg);"></div>
+                                                <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+                                                        <div class="intro_center text-center">
+                                                                <h1>Mekelle</h1>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-lg-4 intro_col">
+                                        <div class="intro_item">
+                                                <div class="intro_item_overlay"></div>
+                                                <div class="intro_item_background" style="background-image:url(../static/images/intro_3.jpg)"></div>
+                                                <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+                                                        <div class="intro_center text-center">
+                                                                <h1>Jimma</h1>
+                                                                <div class="rating rating_4">
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+
+                        </div>
+                </div>
+        </div>
+<div class="contact">
+                <div class="contact_background" style="margin-buttom:50px;background-image:url(../static/images/contact.png)"></div>
+                </br></br></br> </br></br></br>
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-5">
+                                        <div class="contact_image">
+
+                                        </div>
+                                </div></br>
+                                <div class="col-lg-7">
+                                        <div class="contact_form_container">
+                                                <div class="contact_title">get in touch</div>
+                                                <form action="{% url 'comment' %}" method = "post" id="contact_form" class="contact_form">
+                                                         {% csrf_token %}
+                                                        <input type="text" name = "name" id="contact_form_name" class="contact_form_name input_field" placeholder="Name" required="required" data-error="Name is required.">
+                                                        <input type="email" name = "email" id="contact_form_email" class="contact_form_email input_field" placeholder="E-mail" required="required" data-error="Email is required.">
+                                                        <input type="text" name = "phone" id="contact_form_subject" class="contact_form_subject input_field" placeholder="phone" required="required" id="input-field" name="input-field" maxlength="20">
+                                                        <textarea id="contact_form_message" class="text_field contact_form_message" name="message" rows="4" maxlength = "200" placeholder="Message" required="required" data-error="Please, write us a message."></textarea>
+                                                        <button type="submit" id="form_submit_button"style="margin-left:200px;"class="form_submit_button button">submit</button>                                                </form>                                 </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+        </br></br></br>
+<div class="copyright">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3 order-lg-1 order-2  ">
+                                        <div class="copyright_content d-flex flex-row align-items-center">
+                                                <div>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved  made by <a href="#" target="_blank">guzo team</a>  </div>
+                                        </div>
+                                </div>
+                                <div class="col-lg-9 order-lg-2 order-1">
+                                        <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                                                <div class="footer_nav">
+                                                        <ul class="footer_nav_list">
+                                                                <li class="main_nav_item"><a href="{% url 'about' %}">home</a></li>
+                                                                <li class="main_nav_item"><a href="{% url 'about' %}">about us</a></li>
+                                                            
+                                                                <li class="main_nav_item"><a href="{% url 'comment' %}">comment</a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/js/custom.js"></script>
+</body>
+</html>
+

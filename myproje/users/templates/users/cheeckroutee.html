@@ -1,0 +1,388 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Ethiopia's Digital Transport Network</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --error-red: #dc2626;
+            --accent-green: #007A78;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main {
+            background: white; padding: 12px 0; border-bottom: 5px solid var(--brand-gold);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .brand-logo { height: 70px !important; border-radius: 0; border: none !important; box-shadow: none !important; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 2px; display: block; }
+
+        /* --- INTERNATIONAL ERROR TOAST --- */
+        .intl-error-toast {
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; min-width: 320px; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 1px solid rgba(220, 38, 38, 0.1); overflow: hidden;
+            animation: slideDownFade 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+        }
+        .toast-content { display: flex; align-items: center; padding: 16px 20px; gap: 15px; }
+        .toast-icon { width: 40px; height: 40px; background: #fef2f2; color: #dc2626; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .toast-message { display: flex; flex-direction: column; flex-grow: 1; }
+        .toast-title { font-weight: 800; color: #1e293b; font-size: 12px; text-transform: uppercase; }
+        .toast-desc { color: #64748b; font-size: 13px; font-weight: 600; }
+        .toast-progress { height: 4px; width: 100%; background: #dc2626; transform-origin: left; animation: progressOut 5s linear forwards; }
+        
+        @keyframes slideDownFade { from { top: -50px; opacity: 0; } to { top: 25px; opacity: 1; } }
+        @keyframes progressOut { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+        /* --- HERO COVER --- */
+        .hero-cover {
+            height: 45vh;
+            background: linear-gradient(rgba(0,38,77,0.75), rgba(0,0,0,0.7)), url('../static/images/home_slider.jpg');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            color: white; text-align: center;
+        }
+
+        /* --- ATTRACTIVE FORM (DATALIST MIX) --- */
+        .booking-container {
+            width: 95%; max-width: 1100px; background: white; padding: 30px; border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 38, 77, 0.25); margin: -80px auto 40px;
+            display: flex; gap: 20px; align-items: flex-end; position: relative; z-index: 10;
+        }
+        .input-group-custom { flex: 1; position: relative; }
+        .input-group-custom label { font-weight: 800; color: var(--brand-navy); font-size: 11px; margin-bottom: 8px; display: block; letter-spacing: 1px; transition: color 0.3s ease; }
+        .input-field { 
+            background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 14px; 
+            padding: 12px 18px; display: flex; align-items: center; transition: 0.3s;
+        }
+        .input-field:focus-within { border-color: var(--brand-navy); background: white; box-shadow: 0 0 0 4px rgba(0,38,77,0.1); }
+        .input-field input { border: none; background: transparent; width: 100%; outline: none; font-weight: 700; color: var(--brand-navy); font-size: 15px; }
+        .input-field i { color: #94a3b8; margin-right: 12px; }
+
+        /* International Dynamic Route Visual Element */
+        .route-indicator { display: flex; align-items: center; justify-content: center; height: 50px; padding-bottom: 2px; color: #cbd5e1; font-size: 20px; font-weight: 700; transition: all 0.3s ease; }
+        .route-indicator.active { color: var(--brand-gold); transform: scale(1.1); }
+
+        .btn-search { 
+            background: var(--brand-navy); color: white; font-weight: 800; height: 54px; 
+            padding: 0 40px; border-radius: 14px; border: none; cursor: pointer; transition: 0.3s;
+        }
+        .btn-search:hover { transform: translateY(-3px); background: #001a35; box-shadow: 0 5px 15px rgba(0,38,77,0.2); }
+
+        /* --- ROUTES --- */
+        .region-card { background: white; border-top: 5px solid var(--brand-navy); padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%; }
+        .region-name { font-weight: 800; color: var(--brand-navy); display: block; border-bottom: 2px solid var(--brand-gold); margin-bottom: 15px; }
+        .city-item { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0; text-align: center; margin-top: auto; }
+
+        @media (max-width: 991px) { 
+            .booking-container { flex-direction: column; align-items: stretch; margin-top: -40px; gap: 10px; } 
+            .route-indicator { transform: rotate(90deg); height: auto; margin: 5px 0; }
+            .route-indicator.active { transform: rotate(90deg) scale(1.1); }
+            .btn-search { width: 100%; } 
+        }
+
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+</head>
+<body>
+
+{% if error %}
+<div class="intl-error-toast" id="djangoError">
+    <div class="toast-content">
+        <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+        <div class="toast-message">
+            <span class="toast-title">System Message</span>
+            <span class="toast-desc">{{ error }}</span>
+        </div>
+        <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+{% endif %}
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="/" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+                 <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+	             <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Tickets</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item ml-lg-3"><a class="btn px-4" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; border-radius:10px;" href="{% url 'book' %}">BOOK NOW</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-cover">
+    <h1 style="font-weight: 800; font-size: 3rem;">የኢትዮጵያ ኩራት</h1>
+    <p style="font-weight: 600; opacity: 0.8; font-size: 1.2rem;">Modernizing Ethiopian Travels</p>
+</section>
+
+<div class="container">
+    <div class="booking-container">
+        <form action="{% url 'book' %}" method="post" style="display: contents;" onsubmit="return validateForm()">
+            {% csrf_token %}
+
+            <div class="input-group-custom">
+                <label id="depcity-label">DEPARTURE CITY</label>
+                <div class="input-field" id="depcity-box">
+                    <i class="fas fa-search"></i>
+                    <input list="cities-from" name="depcity" id="depcity-input" translate="no" placeholder="e.g. Addis Ababa" autocomplete="off" required
+                           oninput="let v=this.value.replace(/[^a-zA-Z\s]/g, ''); this.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase(); handleInputSync('departure');">
+                    <datalist id="cities-from">
+                        {% for city in des %}
+                            {% if city.depcity != 'Asko' and city.depcity != 'Lamberet' and city.depcity != 'Kality' and city.depcity != 'Ayertena' and city.depcity != 'Autobustera' %}
+                                <option value="{{ city.depcity }}">
+                            {% endif %}
+                        {% endfor %}
+                    </datalist>
+                </div>
+            </div>
+
+            <div class="route-indicator" id="direction-arrow" title="Route Direction">
+                <i class="fas fa-long-arrow-alt-right"></i>
+            </div>
+
+            <div class="input-group-custom">
+                <label id="descity-label">DESTINATION CITY</label>
+                <div class="input-field" id="descity-box">
+                    <i class="fas fa-location-dot"></i>
+                    <input list="cities-to" name="descity" id="descity-input" translate="no" placeholder="e.g. Hawassa" autocomplete="off" required       
+                           oninput="let v=this.value.replace(/[^a-zA-Z\s]/g, ''); this.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase(); handleInputSync('destination');">
+                    <datalist id="cities-to">
+                        {% for city in des %}
+                            {% if city.depcity != 'Asko' and city.depcity != 'Lamberet' and city.depcity != 'Autobustera'  and city.depcity != 'Kality' and city.depcity != 'Ayertena' %}
+                                <option value="{{ city.depcity }}">
+                            {% endif %}
+                        {% endfor %}
+                    </datalist>
+                </div>
+           </div>
+
+
+
+            <div class="input-group-custom" style="flex: 0.5;">
+                <label>TRAVEL DATE</label>
+                <div class="input-field">
+                    <input type="date" name="date" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-search">SEARCH ROUTES</button>
+        </form>
+    </div>
+</div>
+
+<section class="container" style="margin-top: 60px;">
+    <div class="text-center mb-5">
+        <h2 style="font-weight: 800; color: var(--brand-navy);">Our Primary Routes</h2>
+        <p class="text-muted">Direct Connections across the Ethiopian Highlands</p>
+    </div>
+    <div class="row">
+        <div class="col-md-3 mb-4"><div class="region-card"><span class="region-name">NORTHERN</span><span class="city-item">Bahir Dar</span><span class="city-item">Gonder</span><span class="city-item">Mekele</span></div></div>
+        <div class="col-md-3 mb-4"><div class="region-card"><span class="region-name">SOUTHERN</span><span class="city-item">Hawassa</span><span class="city-item">Arba Minch</span><span class="city-item">Dilla</span></div></div>
+        <div class="col-md-3 mb-4"><div class="region-card"><span class="region-name">WESTERN</span><span class="city-item">Jimma</span><span class="city-item">Nekemte</span><span class="city-item">Gambela</span></div></div>
+        <div class="col-md-3 mb-4"><div class="region-card"><span class="region-name">EASTERN</span><span class="city-item">Dire Dawa</span><span class="city-item">Harar</span><span class="city-item">Jigjiga</span></div></div>
+    </div>
+</section>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="opacity-50">© 2026 Busfermata • National Travel Solutions</p>
+        <div class="mt-4">
+            <i class="fab fa-facebook mx-2"></i><i class="fab fa-telegram mx-2"></i><i class="fab fa-instagram mx-2"></i>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // International Error Auto-Dismiss
+    function closeError() {
+        const errorBox = document.getElementById('djangoError');
+        if (errorBox) {
+            errorBox.style.transition = "0.5s ease";
+            errorBox.style.opacity = "0";
+            setTimeout(() => errorBox.remove(), 500);
+        }
+    }
+    if (document.getElementById('djangoError')) {
+        setTimeout(closeError, 5000);
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+let originalCities = [];
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Parse baseline collection once layout has initiated
+    const options = document.querySelectorAll("#cities-from option");
+    options.forEach(opt => {
+        const val = opt.value.trim();
+        if(val && !originalCities.includes(val)) {
+            originalCities.push(val);
+        }
+    });
+    updateDatalists();
+});
+
+// Sync orchestration handling real-time matching clearances and colors
+function handleInputSync(changedField) {
+    const depInput = document.getElementById("depcity-input");
+    const desInput = document.getElementById("descity-input");
+    const arrow = document.getElementById("direction-arrow");
+    const depLabel = document.getElementById("depcity-label");
+    const desLabel = document.getElementById("descity-label");
+
+    let depValue = depInput.value.trim();
+    let desValue = desInput.value.trim();
+
+    // Mutual matching rule: clear matching inputs instantly
+    if (depValue === desValue && depValue !== "") {
+        if (changedField === 'departure') {
+            desInput.value = ""; 
+            desValue = "";
+        } else if (changedField === 'destination') {
+            depInput.value = "";
+            depValue = "";
+        }
+    }
+
+    // Dynamic International styling indicators logic
+    if (depValue !== "" && desValue !== "") {
+        arrow.classList.add("active");
+    } else {
+        arrow.classList.remove("active");
+    }
+
+    // Color feedback context updates
+    if (depValue !== "") {
+        depLabel.style.color = "var(--accent-green)";
+    } else {
+        depLabel.style.color = "var(--brand-navy)";
+    }
+
+    if (desValue !== "") {
+        desLabel.style.color = "var(--accent-green)";
+    } else {
+        desLabel.style.color = "var(--brand-navy)";
+    }
+
+    updateDatalists();
+}
+
+function updateDatalists() {
+    const depValue = document.getElementById("depcity-input").value.trim();
+    const desValue = document.getElementById("descity-input").value.trim();
+
+    const fromDatalist = document.getElementById("cities-from");
+    const toDatalist = document.getElementById("cities-to");
+
+    // Dynamic filtering compilation of departure drop-down rules
+    fromDatalist.innerHTML = "";
+    originalCities.forEach(city => {
+        if (city !== desValue) {
+            let opt = document.createElement("option");
+            opt.value = city;
+            fromDatalist.appendChild(opt);
+        }
+    });
+    // Dynamic filtering compilation of destination drop-down rules
+    toDatalist.innerHTML = "";
+    originalCities.forEach(city => {
+        if (city !== depValue) {
+            let opt = document.createElement("option");
+            opt.value = city;
+            toDatalist.appendChild(opt);
+        }
+    });
+}
+function validateForm() {
+    const depValue = document.getElementById("depcity-input").value.trim();
+    const desValue = document.getElementById("descity-input").value.trim();
+    if (depValue === desValue && depValue !== "") {
+        alert("Error: Departure and Destination cities cannot be the same. Please choose different cities!");
+        return false;
+    }
+    return true;
+}
+</script>
+</body>
+</html>

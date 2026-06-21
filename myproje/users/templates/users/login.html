@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Staff Login | Busfermata Digital Tech</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- NAVIGATION --- */
+        .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 13px; }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+        
+        .navbar-main { 
+            background: #ffffff; padding: 10px 0; border-bottom: 5px solid var(--brand-gold); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000;
+        }
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 60px !important; width: auto; border-radius: 10px; margin-right: 15px; 
+            border: 3px solid var(--brand-navy) !important; 
+        }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 24px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 2px; display: block; }
+
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 13px; }
+
+        /* --- LOGIN CARD --- */
+        .login-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+        .login-card {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,38,77,0.1);
+            border: 1px solid rgba(0,38,77,0.05);
+        }
+
+        .form-control {
+            height: 50px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        .btn-login {
+            background: var(--brand-navy);
+            color: white !important;
+            font-weight: 800;
+            height: 55px;
+            border-radius: 10px;
+            width: 100%;
+            text-transform: uppercase;
+            border: none;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .btn-login:hover { background: var(--brand-dark); transform: translateY(-2px); }
+
+        .forgot-link { color: #64748b; font-size: 13px; font-weight: 600; text-decoration: none; }
+
+        /* --- FOOTER --- */
+        .footer-main { background: var(--brand-navy); color: white; padding: 30px 0; text-align: center; }
+
+        @media (max-width: 991px) {
+            .brand-logo { height: 50px !important; }
+            .brand-text { font-size: 18px; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'home' %}"><i class="fas fa-home mr-1"></i> PUBLIC SITE</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+		<li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+
+            </ul>
+            <a href="{% url 'book' %}" class="btn px-4" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; border-radius:8px;">BOOK NOW</a>
+        </div>
+    </div>
+</nav>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="text-center mb-4">
+            <div class="mb-3"><i class="fas fa-user-shield fa-4xl" style="color: var(--brand-navy); font-size: 50px;"></i></div>
+            <h3 class="font-weight-bold" style="color: var(--brand-navy);">Staff Portal</h3>
+            <p class="text-muted small">Access management, driver, or agent tools</p>
+        </div>
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <div class="form-group mb-3">
+                <label class="small font-weight-bold text-muted">SELECT ACCESS ROLE</label>
+                <select name="role" class="form-control" required>
+                    <option value="" disabled selected>-- Select your role --</option>
+                    <option value="user">System Administrator</option>
+                    <option value="sc">Share Company Manager</option>
+                    <option value="worker">Ticketing Agent</option>
+                    <option value="#">Bus Driver</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="small font-weight-bold text-muted">STAFF USERNAME</label>
+                <input type="text" name="username" class="form-control" placeholder="Enter ID/Username" required>
+            </div>
+
+            <div class="form-group mb-1">
+                <label class="small font-weight-bold text-muted">SECURE PASSWORD</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+            </div>
+
+            <div class="text-right mb-4">
+                <a href="{% url 'forgot_password' %}" class="forgot-link small">Forgot Password?</a>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-danger py-2 small text-center"><i class="fas fa-exclamation-triangle mr-1"></i> Access Denied</div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-login">Authorize Access</button>
+        </form>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <p class="mb-0 small">© 2026 Busfermata Digital Technology • Addis Ababa, Ethiopia</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>show ticket</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body bgcolor="pink" style="margin: 0;">
+<div class="super_container">
+	<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="user_box ml-auto">
+
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<nav class="main_nav">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                                                <div class="logo_container">
+                                                        <div class="logo">
+    <a href="#">
+        <img src="../static/images/logo.png" alt="">
+        <span style="color: white;">ticket</span>
+    </a>
+</div>
+</div>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container-fluid" style="background-color: ![#000000][] #000000 padding: 10px; border-radius: 5px;">
+    <ul class="main_nav_list d-flex flex-nowrap align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+	<li class="main_nav_item" style="margin-right: 20px; margin-left: 100px;">
+            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">Home</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left: 20px;">
+            <a href="{% url 'book' %}" style="color: blue; text-decoration: none;">Book</a>
+        </li>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'about' %}" style="color: blue; text-decoration: none;">About Us</a>
+    </li>
+</ul>
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li class="main_nav_item" style="margin-right: 20px; margin-left: 30px; display: inline; white-space: nowrap;">
+        <a href="{% url 'get_ticket' %}" style="color: blue; text-decoration: none;">Show Ticket</a>
+    </li>
+</ul>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
+            <a href="{% url 'comment' %}" style="color: blue; text-decoration: none;">Comment</a>
+        </li>
+        <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
+            <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+        </li>
+<li class="main_nav_item" style="display: inline;">
+    <form action="{% url 'changebuses' %}" method="post" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+        {% csrf_token %}
+        <button type="button" id="notificationButton" style="background: none; border: none; cursor: pointer; margin-left:30px;" class="main_nav_item">
+            🔔<span style="color: red;"><b>{{ buschanges_count }}</b></span>
+        </button>
+        <br>
+        <input type="date" name="date" placeholder="Date" required id="dateInput" style="display: none; margin-left: 10px; width: 120px; background-color: #ffebcd; border: 1px solid #ffa07a; border-radius: 4px; padding: 3px;">
+    </form>
+</li>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateInput = document.getElementById('dateInput');
+
+        // Toggle visibility of date input
+        if (dateInput.style.display === 'none') {
+            dateInput.style.display = 'inline-block';  // Show the date input
+            dateInput.focus(); // Focus on the date input when shown
+        } else {
+            dateInput.style.display = 'none';  // Hide the date input
+        }
+    });
+
+    // Automatically submit the form when a date is selected
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('search_form_1').submit();
+    });
+</script>
+<div class="search_panel active">
+</div>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+{% if error1 %}
+    <div class="success">
+        <h6 style="color: red; margin-left: 300px;"><b>{{ error1 }}</b><span style="margin-left:20px;" class="symbol"><b>X</b></span></h6>
+    </div>
+    {% endif %}
+	</header>
+	</br></br></br></br></br></br>
+<div class="search11 d-flex justify-content-center" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col">
+            <div class="search_panel active">
+                <div class="container mt-4">
+		<form action="{% url 'get_ticket' %}" method="post" id="search_form_1" class="form-container" style="width: 350px; margin: 0 auto;">
+                        {% csrf_token %}
+                              {% if error %}
+<div class="error">
+        <h4 style="color: red; margin-left: 40px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">x</span></h4>
+    </div>
+{% endif %}
+{% if success %}
+    <div class="message success">
+        <h5 style="margin-left: 10px; color: green;"><b>{{ success }}</b><span class="symbol">✔</span></h5>
+    </div>
+{% endif %}
+    <h2 class="form-title text-center">Show Your Ticket</h2>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">First Name:</label>
+        <div class="col-sm-10">
+            <input type="text" id="firstname" name="firstname" maxlength="15"
+                   class="form-control" oninput="validatedepcity(this)" style="width:220px; margin-left:25px; text-align:center; color:blue;"" required>
+            <span id="error-message" class="error-message" style="color: red; display: none;"></span>
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-top:-20px;">
+        <label class="col-sm-2 col-form-label">Last Name:</label>
+        <div class="col-sm-10">
+            <input type="text" id="lastname" name="lastname" maxlength="15" style="width:220px; margin-left:25px; text-align:center; color:blue;"
+                   class="form-control" oninput="validatedepcity(this)" required>
+            <span id="error-message-lastname" class="error-message" style="color: red; display: none;"></span>
+        </div>
+    </div>
+ 
+
+    <div class="form-group row" style="margin-top:-20px;">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Departure:</label>
+    <div class="col-sm-9">
+            <select name="depcity" id="depcity" class="form-control custom-select" required style="color: blue;text-align: center;">
+    <option value="" style="color: green;">Select </option>
+    {% if des %}
+        {% for des in des %}
+            <option value="{{ des.depcity }}">{{ des.depcity }}</option>
+        {% endfor %}
+    {% endif %}
+</select>
+ </div>
+</div>
+<div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Destination:</label>
+    <div class="col-sm-9">
+    <select name="descity" id="descity" class="form-control custom-select" required style="color: blue; text-align: center;">
+    <option value="" style="color: green;">Select</option>
+    {% if des %}
+        {% for des in des %}
+            <option value="{{ des.depcity }}">{{ des.depcity }}</option>
+        {% endfor %}
+    {% endif %}
+</select>
+    </div>
+</div>
+
+<script>
+    function validatedepcity(input) {
+        var value = input.value.trim();
+        var errorMessage = document.getElementById("error-message");
+        if (!value.match(/^[a-zA-Z]+$/)) {
+            errorMessage.textContent = "Please enter a character for name.";
+            errorMessage.style.display = "block";
+            input.setCustomValidity("Please enter a character for name.");
+        } else if (value.length < 4) {
+            errorMessage.textContent = "Please enter at least 4 characters.";
+            input.setCustomValidity("Please enter at least 4 characters.");
+            errorMessage.style.display = "block";
+        } else {
+            errorMessage.style.display = "none";
+            input.setCustomValidity("");
+        }
+        input.value = value.charAt(0).toUpperCase() + value.slice(1);
+    }
+</script>
+
+<div class="form-group row">
+    <label for="side-no-input" class="col-sm-3 col-form-label">Date:</label>
+    <div class="col-sm-9">
+<input type="date" name="date" id="date-input" class="form-control" required style="color: blue;text-align: center;">
+    </div>
+</div>
+                        <div class="form-group text-center">
+                            <input type="submit" style = "margin-left:30px;" value="Submit" class="btn btn-primary">
+                        </div>
+                    </form>
+ </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    .form-container {
+        border: 2px solid #007bff; /* Bootstrap primary color */
+        border-radius: 10px;
+        padding: 20px; /* Padding inside the form */
+        background-color: #f8f9fa; /* Light background */
+        margin: 30px auto; /* Center the form */
+        max-width: 500px; /* Limit the width of the form */
+        width: 100%; /* Full width within the limit */
+    }
+    .form-title {
+        color: blue;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    .error-message {
+        margin-top: 5px;
+    }
+    .input-active {
+        background-color: #d1e7dd; /* Color on focus */
+    }
+    @media (max-width: 768px) {
+        .form-title {
+            font-size: 28px; /* Smaller title on smaller screens */
+        }
+    }
+</style>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="../static/js/offers_custom.js"></script>
+</body>
+</html>
+

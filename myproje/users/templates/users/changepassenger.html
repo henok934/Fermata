@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Update Passenger | Busfermata Digital Network</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-blue: #003DA5;
+            --bg-light: #f8fafc;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-light); color: var(--brand-navy); }
+
+        /* --- HEADER --- */
+        .navbar-main { background: #fff; padding: 15px 0; border-bottom: 4px solid var(--brand-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 22px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- FORM CONTAINER --- */
+        .manage-wrapper { max-width: 600px; margin: 60px auto; padding: 0 20px; }
+        .form-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,38,77,0.07);
+            border: 1px solid #e2e8f0;
+        }
+        .form-header { text-align: center; margin-bottom: 30px; }
+        .form-header i { color: var(--brand-blue); font-size: 40px; margin-bottom: 15px; }
+        .form-header h2 { font-weight: 800; font-size: 24px; color: var(--brand-navy); }
+        .form-header p { color: #64748b; font-size: 14px; }
+
+        /* --- INPUT STYLING --- */
+        .form-group label { font-weight: 700; font-size: 13px; text-transform: uppercase; color: #475569; margin-bottom: 8px; display: block; }
+        .form-control-custom {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+            outline: none;
+        }
+        .form-control-custom:focus { border-color: var(--brand-blue); box-shadow: 0 0 0 4px rgba(0,61,165,0.1); }
+        
+        .btn-submit {
+            width: 100%;
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .btn-submit:hover { background: var(--brand-navy); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        .error-hint { color: #ef4444; font-size: 12px; font-weight: 600; margin-top: 5px; display: none; }
+
+        /* --- FOOTER --- */
+        .footer-simple { text-align: center; padding: 40px 0; color: #94a3b8; font-size: 13px; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container d-flex justify-content-between">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" height="40" class="mr-2 rounded">
+            <span class="brand-text">Busfermata</span>
+        </a>
+        <div class="nav-links">
+            <a href="{% url 'get_ticket' %}" class="btn btn-outline-primary btn-sm font-weight-bold">Back to Ticket</a>
+        </div>
+    </div>
+</nav>
+
+<div class="manage-wrapper">
+    <div class="form-card">
+        <div class="form-header">
+            <i class="fas fa-user-edit"></i>
+            <h2>Passenger Identity</h2>
+            <p>Please enter the legal name as shown on your ID/Passport.</p>
+        </div>
+
+        <form action="{% url 'passenger' %}" method="post" id="passengerForm">
+            {% csrf_token %}
+            
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="date" value="{{ ticket.date }}">
+
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="firstname" id="fname" 
+                       class="form-control-custom" 
+                       value="{{ ticket.firstname }}" 
+                       required oninput="validateName(this)">
+                <div id="fname-error" class="error-hint">Please enter a valid name (min 3 characters).</div>
+            </div>
+
+            <div class="form-group">
+                <label>Father Name</label>
+                <input type="text" name="lastname" id="lname" 
+                       class="form-control-custom" 
+                       value="{{ ticket.lastname }}" 
+                       required oninput="validateName(this)">
+                <div id="lname-error" class="error-hint">Last name is required for travel manifest.</div>
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <select name="gender" class="form-control-custom" required>
+                    <option value="Male" {% if ticket.gender == "Male" %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if ticket.gender == "Female" %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Contact Email</label>
+                <input type="email" name="email" class="form-control-custom" value="{{ ticket.email }}">
+            </div>
+
+            <button type="submit" class="btn-submit">CONFIRM & UPDATE CHANGES</button>
+        </form>
+    </div>
+
+    <div class="footer-simple">
+        © 2026 Busfermata Digital Technology Hub • Ethiopian Digital Standard
+    </div>
+</div>
+
+<script>
+    /**
+     * International Name Validation
+     * Forces capitalization and removes numbers/special chars
+     */
+    function validateName(input) {
+        let value = input.value;
+        const errorBox = document.getElementById(input.id + '-error');
+        
+        // Remove numbers and special characters
+        value = value.replace(/[^A-Za-z\s]/g, '');
+        
+        // Auto-capitalize first letter
+        if (value.length > 0) {
+            value = value.charAt(0).toUpperCase() + value.slice(1);
+        }
+        
+        input.value = value;
+
+        // Show error if too short
+        if (value.length > 0 && value.length < 3) {
+            errorBox.style.display = 'block';
+        } else {
+            errorBox.style.display = 'none';
+        }
+    }
+
+    // Form Submit verification
+    document.getElementById('passengerForm').onsubmit = function() {
+        const fname = document.getElementById('fname').value;
+        const lname = document.getElementById('lname').value;
+        if(fname.length < 3 || lname.length < 3) {
+            alert("Please ensure both names are entered correctly.");
+            return false;
+        }
+        return true;
+    };
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

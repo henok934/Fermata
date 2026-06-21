@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Retrieve Your Ticket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #003366;
+            --brand-gold: #ffcc00;
+            --ethiopian-red: #cc0000;
+            --light-bg: #f4f7fa;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light-bg); color: #1a202c; margin: 0; }
+
+        /* --- PROFESSIONAL NAVIGATION --- */
+        .main-navigation {
+            background: white;
+            padding: 12px 0;
+            border-bottom: 4px solid var(--brand-gold);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .brand-logo-img { height: 70px !important; border-radius: 10px; border: 3px solid var(--brand-navy); }
+
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; align-items: center; }
+        .nav-item-link { color: var(--brand-navy); font-weight: 700; font-size: 13px; text-transform: uppercase; text-decoration: none; transition: 0.3s; }
+        .nav-item-link:hover { color: var(--ethiopian-red); }
+
+        /* Notification Styling */
+        .notif-wrapper { position: relative; display: flex; align-items: center; }
+        #notificationButton { background: none; border: none; cursor: pointer; font-size: 22px; position: relative; }
+        .notif-badge { background: red; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; }
+        #dateInputNotif { display: none; margin-left: 10px; width: 130px; border: 2px solid var(--brand-gold); border-radius: 6px; padding: 5px; }
+
+        /* --- HERO SECTION --- */
+        .page-cover {
+            background: linear-gradient(rgba(0,51,102,0.8), rgba(0,0,0,0.7)), url('../static/images/bus3.jpg');
+            background-size: cover; background-position: center;
+            height: 35vh; display: flex; align-items: center; justify-content: center; color: white; text-align: center;
+        }
+
+        /* --- TICKET RETRIEVAL CARD --- */
+        .retrieval-container { margin-top: -80px; position: relative; z-index: 5; }
+        
+        .ticket-card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--brand-navy);
+        }
+
+        .input-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+        }
+
+        .input-box label {
+            display: block; font-size: 11px; font-weight: 800; color: #64748b; 
+            text-transform: uppercase; margin-bottom: 5px;
+        }
+
+        .input-box input, .input-box select {
+            width: 100%; border: none; background: transparent; 
+            font-weight: 700; color: var(--brand-navy); outline: none;
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, var(--brand-navy) 0%, #0052cc 100%);
+            color: white; border: none; height: 60px; width: 100%;
+            border-radius: 15px; font-weight: 800; text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(0,51,102,0.2); transition: 0.3s;
+        }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,51,102,0.3); }
+
+        /* --- FOOTER --- */
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0; margin-top: 80px; }
+        .footer-logo { height: 60px; border-radius: 8px; border: 2px solid white; margin-bottom: 20px; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="main-navigation">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo-img" alt="Busfermata Logo">
+            <div class="ml-3">
+                <span style="font-weight: 800; font-size: 24px; color: var(--brand-navy); display: block; line-height: 1;">Busfermata</span>
+                <span style="font-size: 9px; color: var(--brand-gold); letter-spacing: 2px; font-weight: 800;">TRANSPORT TECHNOLOGY</span>
+            </div>
+        </a>
+
+        <ul class="nav-links d-none d-lg-flex">
+            <li><a href="{% url 'home' %}" class="nav-item-link">Home</a></li>
+            <li><a href="{% url 'about' %}" class="nav-item-link">About Us</a></li>
+	     <li><a href="{% url 'book' %}" class="nav-item-link">Book</a></li>
+            <li><a href="{% url 'get_ticket' %}" class="nav-item-link" style="color: var(--ethiopian-red);">My Ticket</a></li>
+            <li><a href="{% url 'comment' %}" class="nav-item-link">Feedback</a></li>
+            
+            <li class="notif-wrapper">
+                <form action="{% url 'changebuses' %}" method="post" id="busChangeFormNav">
+                    {% csrf_token %}
+                    <button type="button" id="notificationButton">🔔<span class="notif-badge">{{ buschanges_count }}</span></button>
+                    <input type="date" name="date" required id="dateInputNotif">
+                </form>
+            </li>
+            <li><a href="{% url 'login' %}" class="btn btn-sm btn-primary px-4 font-weight-bold">LOGIN</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="page-cover">
+    <div>
+        <h1 style="font-size: 3rem; font-weight: 800;">Secure Ticket Hub</h1>
+        <p class="lead font-weight-bold">Manage and Download Your Digital Boarding Pass</p>
+    </div>
+</header>
+
+<div class="container retrieval-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="ticket-card">
+                <h3 class="text-center mb-4" style="font-weight: 800; color: var(--brand-navy);">የጉዞ ትኬት ማግኛ (Retrieve Ticket)</h3>
+                
+                <form action="{% url 'get_ticket' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-box">
+                                <label>First Name</label>
+                                <input type="text" name="firstname" class="cap-input" placeholder="e.g. Abebe" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-box">
+                                <label>Father Name</label>
+                                <input type="text" name="lastname" class="cap-input" placeholder="e.g. Bikila" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-box">
+                                <label>Departure City (ከየት)</label>
+                                <select name="depcity" required>
+                                    <option value="">Select Origin</option>
+                                    {% if des %}
+                                        {% for city in des %}
+                                            <option value="{{ city.depcity }}">{{ city.depcity }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-box">
+                                <label>Destination City (ወዴት)</label>
+                                <select name="descity" required>
+                                    <option value="">Select Destination</option>
+                                    {% if des %}
+                                        {% for city in des %}
+                                            <option value="{{ city.depcity }}">{{ city.depcity }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="input-box">
+                                <label>Travel Date</label>
+                                <input type="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <button type="submit" class="btn-main">Generate My Digital Ticket</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<footer class="footer-main">
+    <div class="container text-center">
+        <img src="../static/images/l.jpeg" class="footer-logo" alt="Logo">
+        <h4 style="font-weight: 800;">Busfermata Digital Technology</h4>
+        <p class="opacity-75 mb-4">"Connecting Ethiopia with Reliability and Technology"</p>
+        
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4">
+                <h6 class="font-weight-bold"><i class="fas fa-phone-alt mr-2"></i> PHONE SUPPORT</h6>
+                <p>+251 975 143 134</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="font-weight-bold"><i class="fas fa-map-marker-alt mr-2"></i> HEAD OFFICE</h6>
+                <p>Addis Ababa, Ethiopia</p>
+            </div>
+        </div>
+
+        <div class="pt-4 border-top opacity-50 small">
+            © 2026 Busfermata Digital Technology. All Rights Reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Capitalization Logic for First/Last Name
+    document.querySelectorAll('.cap-input').forEach(function(input) {
+        input.addEventListener('input', function(e) {
+            let cursorPosition = this.selectionStart;
+            let value = this.value;
+            let capitalized = value.split(' ').map(word => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(' ');
+            this.value = capitalized;
+            this.setSelectionRange(cursorPosition, cursorPosition);
+        });
+    });
+
+    // Notification Navigation Toggle
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        var dateIn = document.getElementById('dateInputNotif');
+        dateIn.style.display = (dateIn.style.display === 'none' || dateIn.style.display === '') ? 'inline-block' : 'none';
+        if(dateIn.style.display === 'inline-block') dateIn.focus();
+    });
+
+    document.getElementById('dateInputNotif').addEventListener('change', function() {
+        document.getElementById('busChangeFormNav').submit();
+    });
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

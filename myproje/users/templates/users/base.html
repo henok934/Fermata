@@ -1,0 +1,920 @@
+<!--
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="langSelector" data-toggle="dropdown">
+        <i class="fas fa-language"></i> <span data-key="nav_lang">Language</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" style="min-width: 200px; padding: 10px;">
+        <button class="dropdown-item" onclick="changeLanguage('en')">English</button>
+        <button class="dropdown-item" onclick="changeLanguage('am')">አማርኛ (Amharic)</button>
+        <button class="dropdown-item" onclick="changeLanguage('om')">Afaan Oromoo</button>
+        <button class="dropdown-item" onclick="changeLanguage('ti')">ትግርኛ (Tigrinya)</button>
+        
+        <div id="google_translate_element" style="display:none;"></div>
+    </div>
+</li>
+
+<li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="flex: 1; background-color: #009739;"></div>
+            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+            </div>
+            <div style="flex: 1; background-color: #EF3340;"></div>
+        </div>
+        Language
+    </a>
+    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+
+        <div id="google_translate_element" style="display:none;"></div>
+    </div>
+</li>
+<script>
+// 1. Initialize the Google Translate engine
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,am,om,ti',
+        autoDisplay: false
+    }, 'google_translate_element');
+}
+
+// 2. This is the "Magic" function that makes your new buttons work
+function changeLanguage(langCode) {
+    var selectField = document.querySelector('#google_translate_element select');
+    if (selectField) {
+        selectField.value = langCode;
+        selectField.dispatchEvent(new Event('change'));
+    }
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+-->
+
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* Modern Gemini-Style Dropdown Styling */
+        .gemini-dropdown-menu {
+            border: none !important;
+            border-radius: 12px !important;
+            padding: 12px !important;
+            min-width: 210px !important;
+            margin-top: 10px !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+        }
+
+        .gemini-item {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            border-radius: 8px !important;
+            padding: 10px 15px !important;
+            border: none !important;
+            background: transparent !important;
+            width: 100% !important;
+            text-align: left !important;
+            cursor: pointer !important;
+            transition: background 0.2s ease !important;
+        }
+
+        .gemini-item:hover {
+            background-color: #f8f9fa !important;
+            text-decoration: none !important;
+        }
+
+        /* Hide Google Translate Branding */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
+        body { top: 0px !important; }
+        .goog-te-gadget span { display: none !important; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Logo</a>
+        
+        <ul class="navbar-nav ml-auto" style="display: flex; align-items: center; list-style: none; flex-direction: row;">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'comment' %}" style="color: #333; font-weight: 600; padding: 8px 12px;">Feedback</a>
+            </li>
+
+            <li class="nav-item dropdown" style="margin-left: 10px;">
+                <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                    <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="flex: 1; background-color: #009739;"></div>
+                        <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                        </div>
+                        <div style="flex: 1; background-color: #EF3340;"></div>
+                    </div>
+                    Language
+                </a>
+                
+                <div class="dropdown-menu dropdown-menu-right gemini-dropdown-menu">
+                    <button class="dropdown-item gemini-item" onclick="changeLanguage('en')">
+                        <span>English</span><small style="color: #b2bec3;">EN</small>
+                    </button>
+                    <button class="dropdown-item gemini-item" onclick="changeLanguage('am')">
+                        <span>አማርኛ</span><small style="color: #009739;">AM</small>
+                    </button>
+                    <button class="dropdown-item gemini-item" onclick="changeLanguage('om')">
+                        <span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small>
+                    </button>
+                    <button class="dropdown-item gemini-item" onclick="changeLanguage('ti')">
+                        <span>ትግርኛ</span><small style="color: #b2bec3;">TI</small>
+                    </button>
+
+                    <div id="google_translate_element" style="display:none;"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    // 1. Initialize the hidden Google engine
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,am,om,ti',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+
+    // 2. The Bridge: Makes your Gemini buttons control the engine
+    function changeLanguage(langCode) {
+        var select = document.querySelector('#google_translate_element select');
+        if (select) {
+            select.value = langCode;
+            select.dispatchEvent(new Event('change'));
+        }
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>-->
+
+
+
+
+<!--
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Busfermata{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root { --brand-navy: #00264d; --brand-gold: #ffcc00; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; top: 0px !important; }
+        
+        /* Hide Google Branding */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
+        .goog-te-gadget span { display: none !important; }
+
+        .navbar-main {
+            background: #ffffff;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .shadow-lg { box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important; }
+        .dropdown-item:hover { background-color: #f8f9fa !important; transition: 0.2s; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-main">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: 800; color: var(--brand-navy);">Busfermata</a>
+
+            <ul class="navbar-nav ml-auto" style="display: flex; align-items: center; flex-direction: row;">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'comment' %}" style="color: var(--brand-navy); font-weight: 700; padding: 8px 12px;">Feedback</a>
+                </li>
+
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: var(--brand-navy); font-weight: 700; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee;">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center;"><div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div></div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%;">
+                            <span>English</span><small class="text-muted">EN</small>
+                        </button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%;">
+                            <span>አማርኛ</span><small style="color: #009739;">AM</small>
+                        </button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%;">
+                            <span>Afaan Oromoo</span><small class="text-muted">OR</small>
+                        </button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%;">
+                            <span>ትግርኛ</span><small class="text-muted">TI</small>
+                        </button>
+
+                        <div id="google_translate_element" style="display:none;"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,am,om,ti',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function changeLanguage(langCode) {
+            localStorage.setItem("userLanguage", langCode);
+            var selectField = document.querySelector('#google_translate_element select') || document.querySelector('.goog-te-combo');
+            if (selectField) {
+                selectField.value = langCode;
+                selectField.dispatchEvent(new Event('change'));
+            } else {
+                setTimeout(function() { changeLanguage(langCode); }, 500);
+            }
+        }
+
+        window.addEventListener("load", function() {
+            const saved = localStorage.getItem("userLanguage");
+            if (saved && saved !== "en") {
+                setTimeout(() => { changeLanguage(saved) }, 1200);
+            }
+        });
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
+-->
+
+<!--
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Busfermata | Ethiopia's Digital Transport{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root { --brand-navy: #00264d; --brand-gold: #ffcc00; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; top: 0px !important; position: static !important; }
+
+        /* Hide Google Branding & Toolbars */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon, .skiptranslate iframe { display: none !important; }
+        .goog-te-gadget span { display: none !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        .navbar-main {
+            background: #ffffff;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .shadow-lg { box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important; }
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 14px; }
+        .dropdown-item { cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; transition: 0.2s; }
+        .dropdown-item:hover { background-color: #f8f9fa !important; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-main">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}" style="text-decoration: none;">
+                <span style="font-weight: 800; color: var(--brand-navy); font-size: 24px;">Busfermata</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+
+                    <li class="nav-item dropdown ml-lg-3">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="langDrop" data-toggle="dropdown">
+                            <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 8px; border: 1px solid #eee;">
+                                <div style="flex: 1; background-color: #009739;"></div>
+                                <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center;"><div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div></div>
+                                <div style="flex: 1; background-color: #EF3340;"></div>
+                            </div>
+                            Language
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow-lg border-0" style="border-radius: 12px; min-width: 210px; padding: 12px;">
+                            <button class="dropdown-item" onclick="changeLanguage('en')"><span>English</span><small class="text-muted">EN</small></button>
+                            <button class="dropdown-item" onclick="changeLanguage('am')"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                            <button class="dropdown-item" onclick="changeLanguage('om')"><span>Afaan Oromoo</span><small class="text-muted">OR</small></button>
+                            <button class="dropdown-item" onclick="changeLanguage('ti')"><span>ትግርኛ</span><small class="text-muted">TI</small></button>
+
+                            <div id="google_translate_element" style="display:none;"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        // 1. Initialize Google Translate Engine
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,am,om,ti',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // 2. Function to change language and save to local storage
+        function changeLanguage(langCode) {
+            localStorage.setItem("userLanguage", langCode);
+            const selectField = document.querySelector('.goog-te-combo');
+            if (selectField) {
+                selectField.value = langCode;
+                selectField.dispatchEvent(new Event('change'));
+            }
+        }
+
+        // 3. Persistent Sync: Automatically apply language on every page load
+        (function applyLanguagePersistence() {
+            const savedLang = localStorage.getItem("userLanguage");
+            if (savedLang && savedLang !== "en") {
+                // Use MutationObserver to watch for the Google dropdown being added to the DOM
+                const observer = new MutationObserver((mutations, obs) => {
+                    const selectField = document.querySelector('.goog-te-combo');
+                    if (selectField) {
+                        selectField.value = savedLang;
+                        selectField.dispatchEvent(new Event('change'));
+                        obs.disconnect(); // Stop observing once found and set
+                    }
+                });
+
+                observer.observe(document.documentElement, {
+                    childList: true,
+                    subtree: true
+                });
+
+                // Safety: Stop observer after 8 seconds if Google fails to load
+                setTimeout(() => observer.disconnect(), 8000);
+            }
+        })();
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
+-->
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Busfermata Digital Tech{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        /* 2. THE SECRET: Hide the page content if a language is already selected */
+        .js-loading-lang body {
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* Prevent Google Translate from shifting the layout */
+        body { top: 0px !important; position: static !important; }
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget { display: none !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+
+    <script>
+        // 3. IMMEDIATE CHECK: Run this before the body even loads
+        (function() {
+            const savedLang = localStorage.getItem("userLanguage");
+            if (savedLang && savedLang !== "en") {
+                // Add the class to hide the page immediately
+                document.documentElement.classList.add('js-loading-lang');
+            }
+        })();
+    </script>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold" href="{% url 'home' %}">Busfermata</a>
+
+            <div id="google_translate_element" style="display:none;"></div>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown">
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <button class="dropdown-item" onclick="changeLanguage('en')">English</button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')">አማርኛ (Amharic)</button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')">Afaan Oromoo</button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')">ትግርኛ (Tigrinya)</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        // 4. Initialize Engine
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,am,om,ti',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // 5. Manual Change Function
+        function changeLanguage(langCode) {
+            localStorage.setItem("userLanguage", langCode);
+            const selectField = document.querySelector('.goog-te-combo');
+            if (selectField) {
+                selectField.value = langCode;
+                selectField.dispatchEvent(new Event('change'));
+            }
+            // Ensure page is visible after manual change
+            document.documentElement.classList.remove('js-loading-lang');
+        }
+
+        // 6. AUTO-SYNC LOGIC (MutationObserver is faster than timers)
+        (function() {
+            const savedLang = localStorage.getItem("userLanguage");
+            if (!savedLang || savedLang === "en") {
+                document.documentElement.classList.remove('js-loading-lang');
+                return;
+            }
+
+            const observer = new MutationObserver((mutations, obs) => {
+                const selectField = document.querySelector('.goog-te-combo');
+                if (selectField) {
+                    selectField.value = savedLang;
+                    selectField.dispatchEvent(new Event('change'));
+
+                    // Delay reveal slightly so the text swap finishes first
+                    setTimeout(() => {
+                        document.documentElement.classList.remove('js-loading-lang');
+                    }, 100);
+
+                    obs.disconnect();
+                }
+            });
+
+            observer.observe(document.documentElement, { childList: true, subtree: true });
+
+            // Safety release: show page after 3s even if Google fails
+            setTimeout(() => document.documentElement.classList.remove('js-loading-lang'), 1500);
+        })();
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
+
+
+<!--
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Busfermata Digital Tech{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        /* THE LOCK: If 'is-translating' is present, the page is invisible */
+        .is-translating body {
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* Clean up Google UI leftovers */
+        body { top: 0px !important; position: static !important; }
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget { display: none !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        /* Your existing Navbar Styles */
+        .navbar-main { border-bottom: 5px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-link { font-weight: 700; color: #00264d !important; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+
+    <script>
+        /* STEP 1: Immediate Execution.
+           We check storage before the browser even draws the <body>. */
+        (function() {
+            const savedLang = localStorage.getItem("userLanguage");
+            if (savedLang && savedLang !== "en") {
+                document.documentElement.classList.add('is-translating');
+            }
+        })();
+    </script>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white navbar-main">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold" href="{% url 'home' %}" style="color: #00264d;">Busfermata</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown">Language</a>
+                        <div class="dropdown-menu dropdown-menu-right shadow border-0">
+                            <button class="dropdown-item" onclick="changeLanguage('en')">English</button>
+                            <button class="dropdown-item" onclick="changeLanguage('am')">አማርኛ (Amharic)</button>
+                            <button class="dropdown-item" onclick="changeLanguage('om')">Afaan Oromoo</button>
+                            <button class="dropdown-item" onclick="changeLanguage('ti')">ትግርኛ (Tigrinya)</button>
+                            <div id="google_translate_element" style="display:none;"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        // STEP 2: Google Translate Config
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,am,om,ti',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // STEP 3: The Manual Change (When user clicks)
+        function changeLanguage(langCode) {
+            localStorage.setItem("userLanguage", langCode);
+            const selectField = document.querySelector('.goog-te-combo');
+            if (selectField) {
+                selectField.value = langCode;
+                selectField.dispatchEvent(new Event('change'));
+            }
+            // Ensure page is shown if user manually selects English
+            if(langCode === 'en') {
+                document.documentElement.classList.remove('is-translating');
+            }
+        }
+
+        // STEP 4: The High-Speed Auto-Sync (For every page load)
+        (function() {
+            const savedLang = localStorage.getItem("userLanguage");
+            if (!savedLang || savedLang === "en") {
+                document.documentElement.classList.remove('is-translating');
+                return;
+            }
+
+            // MutationObserver is the fastest way to detect the Google dropdown
+            const observer = new MutationObserver((mutations, obs) => {
+                const selectField = document.querySelector('.goog-te-combo');
+                if (selectField) {
+                    selectField.value = savedLang;
+                    selectField.dispatchEvent(new Event('change'));
+
+                    // Small delay to let the text change before we show the page
+                    setTimeout(() => {
+                        document.documentElement.classList.remove('is-translating');
+                    }, 120);
+
+                    obs.disconnect();
+                }
+            });
+
+            observer.observe(document.documentElement, { childList: true, subtree: true });
+
+            // Safety catch: If Google fails, show the page anyway after 2 seconds
+            setTimeout(() => document.documentElement.classList.remove('is-translating'), 20000);
+        })();
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
+-->
+
+
+<!--
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Busfermata Digital Tech{% endblock %}</title>
+
+    <style>
+        /* This hides the page content globally if a language is saved */
+        .is-translating body {
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* Clean up Google UI */
+        body { top: 0px !important; position: static !important; }
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget { display: none !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+
+    <script>
+        // This runs the millisecond the browser opens the file
+        (function() {
+            const savedLang = localStorage.getItem("userLanguage");
+            // If the user previously picked a language that isn't English, hide the page now
+            if (savedLang && savedLang !== "en") {
+                document.documentElement.classList.add('is-translating');
+            }
+        })();
+    </script>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold" href="{% url 'home' %}">Busfermata</a>
+
+            <div id="google_translate_element" style="display:none;"></div>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Language</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <button class="dropdown-item" onclick="changeLanguage('en')">English</button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')">አማርኛ (Amharic)</button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')">Afaan Oromoo</button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')">ትግርኛ (Tigrinya)</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        // 3. GOOGLE INITIALIZE
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,am,om,ti',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // 4. MANUAL CHANGE (When user clicks)
+        function changeLanguage(langCode) {
+            localStorage.setItem("userLanguage", langCode);
+            const selectField = document.querySelector('.goog-te-combo');
+            if (selectField) {
+                selectField.value = langCode;
+                selectField.dispatchEvent(new Event('change'));
+            }
+            // If they pick English, show page immediately
+            if(langCode === 'en') {
+                document.documentElement.classList.remove('is-translating');
+            }
+        }
+
+        // 5. GLOBAL AUTO-SYNC (The "Flicker" Killer)
+        (function() {
+            const savedLang = localStorage.getItem("userLanguage");
+
+            // If no language or English, show the page immediately
+            if (!savedLang || savedLang === "en") {
+                document.documentElement.classList.remove('is-translating');
+                return;
+            }
+
+            // High-speed watcher for the Google Translate dropdown
+            const observer = new MutationObserver((mutations, obs) => {
+                const selectField = document.querySelector('.goog-te-combo');
+                if (selectField) {
+                    selectField.value = savedLang;
+                    selectField.dispatchEvent(new Event('change'));
+
+                    // Wait a tiny moment (150ms) for text to swap, then show page
+                    setTimeout(() => {
+                        document.documentElement.classList.remove('is-translating');
+                    }, 10000);
+
+                    obs.disconnect();
+                }
+            });
+
+            observer.observe(document.documentElement, { childList: true, subtree: true });
+
+            // Safety catch: If Google fails to load, show page after 2 seconds
+            setTimeout(() => {
+                document.documentElement.classList.remove('is-translating');
+            }, 20000);
+        })();
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
+-->

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Delete Route</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root { --brand-navy: #00264d; --brand-gold: #ffcc00; --brand-dark: #0f172a; --surface-gray: #f8fafc; --danger: #ef4444; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface-gray); margin: 0; color: #1e293b; }
+
+        /* Navigation */
+        .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 13px; }
+        .navbar-main { background: #ffffff; padding: 12px 0; border-bottom: 5px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; text-transform: uppercase; line-height: 1; display: block; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 1px; display: block; }
+        .custom-nav-select { border: 2px solid #e2e8f0; font-size: 11px; font-weight: 800; border-radius: 8px; height: 38px; min-width: 145px; color: var(--brand-navy); text-transform: uppercase; margin: 3px; cursor: pointer; transition: 0.3s; }
+        
+        /* Table Content */
+        .page-container { padding: 40px 15px; max-width: 1100px; margin: 0 auto; }
+        .content-card { background: white; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid #e2e8f0; }
+        .card-header-custom { background: #f8fafc; padding: 25px; border-bottom: 2px solid #e2e8f0; text-align: center; }
+        
+        .intl-table { width: 100%; border-collapse: collapse; }
+        .intl-table thead tr { background-color: #10b981; color: white; }
+        .intl-table th { padding: 15px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .intl-table td { padding: 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        
+        .route-path { font-weight: 800; color: var(--brand-navy); font-size: 14px; }
+        .route-arrow { color: var(--brand-gold); margin: 0 8px; }
+        .badge-info-pill { background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+
+        .btn-delete-circle { width: 40px; height: 40px; border-radius: 10px; border: none; background: #fff1f2; color: var(--danger); transition: 0.3s; cursor: pointer; }
+        .btn-delete-circle:hover { background: var(--danger); color: white; transform: scale(1.1); }
+
+        .footer-main { background: var(--brand-navy); color: rgba(255,255,255,0.7); padding: 40px 0; margin-top: 80px; border-top: 5px solid var(--brand-gold); text-align: center; }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-map-marked-alt mr-2"></i> Route System Analytics Center | Support: <b>+251975143134</b></span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold small text-decoration-none"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+            <div class="navbar-nav ml-auto">
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select" style="color: red; border-color: #ffcccc;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}" selected>Delete Route</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="content-card">
+        <div class="card-header-custom">
+            <h5 class="m-0 font-weight-bold text-dark">Network Route Deletion</h5>
+            <small class="text-danger font-weight-bold">Warning: This action will cancel all active bookings for the selected route.</small>
+        </div>
+        <table class="intl-table">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th>Route Map (Origin to Destination)</th>
+                    <th>Schedule Details</th>
+		    <th>Travel Date</th>
+		    <th>Side number</th>
+		     <th>Plate number</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                      {% for route in routes %}
+
+                <tr>
+                    <td class="text-center font-weight-bold text-muted">{{ forloop.counter }}</td>
+                    <td>
+                        <div class="route-path">
+                            {{ route.depcity }} <i class="fas fa-long-arrow-alt-right route-arrow"></i> {{ route.descity }}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.date|slice:10 }}</span>
+                        <span class="badge-info-pill ml-1"><i class="far fa-clock mr-1"></i> {{ route.time }}</span>
+                    </td>
+		    <td>
+                        <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.side_no|slice:10 }}</span>
+                        <span class="badge-info-pill ml-1"><i class="far fa-clock mr-1"></i></span>
+                    </td>
+		    <td>
+                        <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.plate_no|slice:10 }}</span>
+                        <span class="badge-info-pill ml-1"><i class="far fa-clock mr-1"></i> </span>
+                    </td>
+
+
+                    <td class="font-weight-bold text-primary">{{ route.scname }}</td>
+                    <td class="text-center">
+                        <form action="{% url 'routedelete' %}" method="POST" onsubmit="return confirm('PERMANENT ACTION: Delete this route mapping?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                            <input type="hidden" name="descity" value="{{ route.descity }}">
+                            <input type="hidden" name="date" value="{{ route.date }}">
+                            <input type="hidden" name="plate_no" value="{{ route.plate_no }}">
+			    <input type="hidden" name="side_no" value="{{ route.side_no }}">
+                            <button type="submit" class="btn-delete-circle"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center py-5 text-muted">No active routes found in the registry.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container"><p class="small mb-0">&copy; 2026 Busfermata Digital Technology.</p></div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

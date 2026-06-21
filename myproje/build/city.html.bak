@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>City</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+<body>
+<div class="super_container">
+        <header class="header">
+                <div class="top_bar">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col d-flex flex-row">
+                                                <div class="phone">+251-11-551 82 92</div>
+                                                <div class="social">
+                                                        <ul class="social_list">
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                </div>
+
+
+<div class="user_box ml-auto">
+                                                        <div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+                                                        <div class="user_box_register user_box_link"><a href="{% url 'registor' %}"></a></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+
+
+<nav class="main_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                <div class="logo_container">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="../static/images/logo.png" alt="">
+                            <span style="color: blue;">ticket</span>
+                        </a>
+                    </div>
+                </div>
+
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <div class="container-fluid" style="background-color: #ffcccb; padding: 10px; border-radius: 5px;">
+                    <ul class="main_nav_list d-flex flex-row align-items-center" style="list-style-type: none; padding: 0; margin: 0; overflow-x: auto;">
+                        <li class="main_nav_item" style="margin-right: 20px;">
+                            <a href="{% url 'home' %}" style="color: blue; text-decoration: none;">home</a>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Register</option>
+                                <option value="{% url 'businsert' %}">Register Bus</option>
+                                <option value="{% url 'route' %}">Register Route</option>
+                                <option value="{% url 'registor' %}">Register Admin</option>
+                                <option value="{% url 'city' %}">Register City</option>
+                                <option value="{% url 'worker' %}">Register Driver</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Update</option>
+                                <option value="{% url 'updatebus' %}">Update Side_no</option>
+                                <option value="{% url 'changebus' %}">Change Bus</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Show</option>
+                                <option value="{% url 'routes' %}">Show Routes</option>
+                                <option value="{% url 'users' %}">Show Users</option>
+                                <option value="{% url 'buses' %}">Show Buses</option>
+                                <option value="{% url 'comments' %}">Show Comments</option>
+                                <option value="{% url 'driver' %}">Driver</option>
+                                <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                            </select>
+                        </li>
+                        <li class="main_nav_item" style="margin-right: 10px;">
+                            <select onchange="location.href = this.value;" class="custom-select" style="min-width: 160px; color: #007BFF; background-color: #c8e6c9; border: 1px solid #388e3c; font-size: 14px;">
+                                <option value="#">Select for Delete</option>
+                                <option value="{% url 'admindelete' %}">Delete Admin</option>
+                                <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                                <option value="{% url 'busdelete' %}">Delete Bus</option>
+                                <option value="{% url 'citydelete' %}">Delete City</option>
+                                <option value="{% url 'routedelete' %}">Delete Route</option>
+                                <option value="{% url 'workerdelete' %}">Delete Driver</option>
+                                <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                            </select>
+                        </li>
+                        <li class="footer_nav_item" style="margin-left: 20px;">
+                            <a href="{% url 'logout' %}" style="color: blue; text-decoration: none;">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-wrap: nowrap; /* Ensure items stay in a single line */
+            overflow-x: auto; /* Allow horizontal scrolling */
+        }
+
+        .main_nav_item {
+            margin-right: 10px; /* Maintain margin for spacing */
+        }
+
+        /* Optional: Adjust logo size */
+        .logo img {
+            max-height: 50px; /* Keep logo height manageable */
+        }
+    }
+</style>
+
+
+
+
+<style>
+    /* Basic responsiveness */
+    @media (max-width: 768px) {
+        .main_nav_list {
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: flex-start; /* Align items to the left */
+        }
+
+        .main_nav_item {
+            margin-right: 0; /* Remove right margin for stacked items */
+            margin-bottom: 10px; /* Add bottom margin for spacing */
+        }
+
+        .logo {
+            flex-grow: 1; /* Allow logo to take available space */
+            text-align: center; /* Center logo on small screens */
+        }
+    }
+</style>
+        </header>
+
+
+<div class="search11 d-flex justify-content-center" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col">
+            <div class="search_panel active">
+                <div class="container mt-4">
+
+
+
+<style>
+    /* Remove margin for mobile devices */
+    @media (max-width: 768px) {
+        .form-container {
+            margin-top: 70px !important; /* Force remove top margin on small screens */
+        }
+    }
+</style>
+
+<form action="city" method="post" id="search_form_1" class="form-container" style="margin-top:150px;">
+    {% csrf_token %}
+
+    <h2 class="form-title text-center">Register City</h2>
+                       {% if error %}
+<div class="error">
+        <h5 style="color: red; margin-left: 40px; margin-top:-20px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol">x</span></h5>
+    </div>
+{% endif %}
+{% if success %}
+    <div class="message success">
+        <h5 style="margin-left: 10px; color: green;"><b>{{ success }}</b><span class="symbol">✔</span></h5>
+    </div>
+{% endif %}
+    <div class="form-group row">
+        <label for="mySelect" class="col-sm-3 col-form-label text-center">City Name:</label>
+        <div class="col-sm-6">
+
+	<style>
+    .form-group {
+        position: relative;
+        margin-bottom: 20px; /* Adjust spacing as needed */
+    }
+
+    .floating-label {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        transition: 0.2s ease all;
+        color: #aaa; /* Placeholder color */
+        pointer-events: none; /* Prevents interaction */
+    }
+
+    .form-control {
+        text-align: center;
+        text-transform: capitalize;
+        padding-top: 20px; /* Add padding for the floating label */
+        border: 1px solid #ccc; /* Default border */
+        border-radius: 4px; /* Rounded corners */
+    }
+
+    .form-control:focus {
+        border-color: #007bff; /* Change border color when focused */
+        outline: none; /* Remove default outline */
+    }
+
+    .form-control:focus + .floating-label,
+    .form-control:not(:placeholder-shown) + .floating-label {
+        top: -10px; /* Move label up */
+        left: 10px;
+        font-size: 12px;
+        color: #007bff; /* Change color when focused or filled */
+    }
+</style>
+
+<div class="form-group">
+<!--
+    <style>
+    .form-group {
+        position: relative;
+        margin-bottom: 20px; /* Adjust spacing as needed */
+    }
+
+    .floating-label {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        transition: 0.2s ease all;
+        color: #aaa; /* Placeholder color */
+        pointer-events: none; /* Prevents interaction */
+    }
+
+    .form-control {
+        text-align: center;
+        text-transform: capitalize;
+        padding: 20px 10px 5px; /* Add padding, especially at the top for the floating label */
+        border: none; /* Remove default border */
+        outline: none; /* Remove default outline */
+        box-shadow: none; /* Remove any shadow */
+    }
+
+    .form-control:focus {
+        border: none; /* Ensure no border is shown on focus */
+    }
+
+    .form-control:focus + .floating-label,
+    .form-control:not(:placeholder-shown) + .floating-label {
+        top: -10px; /* Move label up */
+        left: 10px;
+        font-size: 12px;
+        color: #007bff; /* Change color when focused or filled */
+    }
+</style>
+
+
+<style>
+    .form-group {
+        position: relative;
+        margin-bottom: 20px; /* Adjust spacing as needed */
+    }
+
+    .floating-label {
+        position: absolute;
+        left: 10px;
+        top: 15px; /* Adjusted to give more space from the top */
+        transition: 0.2s ease all;
+        color: #aaa; /* Placeholder color */
+        pointer-events: none; /* Prevents interaction */
+    }
+
+    .form-control {
+        text-align: center;
+        text-transform: capitalize;
+        padding-top: 25px; /* Increased padding for the floating label */
+        border: 1px solid #ccc; /* Default border */
+        border-radius: 4px; /* Rounded corners */
+    }
+
+    .form-control:focus {
+        border-color: #007bff; /* Change border color when focused */
+        outline: none; /* Remove default outline */
+    }
+
+    .form-control:focus + .floating-label,
+    .form-control:not(:placeholder-shown) + .floating-label {
+        top: -10px; /* Move label up */
+        left: 10px;
+        font-size: 12px;
+        color: #007bff; /* Change color when focused or filled */
+    }
+</style>
+-->
+
+
+<div class="form-group">
+    <input type="text" class="form-control" id="mySelect" name="depcity" maxlength="15"
+           oninput="validateCity(this); capitalizeFirstLetter(this);" required 
+           style="text-align: center; height: 40px; line-height: 40px; padding: 10px 0; box-sizing: border-box; margin-top:-20px;" 
+           placeholder=" ">
+    <label class="floating-label" for="mySelect">City Name</label>
+    <div id="error-message" style="color: red; display: none;">Please enter a valid city name (letters only)</div>
+</div>
+
+<style>
+    .form-group {
+        position: relative; /* Position relative for label positioning */
+        margin: 20px 0; /* Space around the group */
+    }
+
+    .form-control {
+        display: block; /* Ensure input is a block element */
+        width: 100%; /* Full width for the input */
+        height: 40px; /* Set height */
+        padding: 10px 0; /* Padding for input */
+        text-align: center; /* Center text and placeholder */
+        border: 1px solid #ccc; /* Add border */
+        border-radius: 4px; /* Rounded corners */
+        transition: border-color 0.2s; /* Smooth border transition */
+    }
+
+    .form-control:focus {
+        border-color: #007bff; /* Change border color on focus */
+    }
+
+    .floating-label {
+        position: absolute; /* Position the label absolutely */
+        left: 0;
+        right: 0;
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Adjust to center */
+        text-align: center; /* Center the label text */
+        transition: 0.2s ease all; /* Smooth transition */
+        pointer-events: none; /* Prevent pointer events */
+        color: #aaa; /* Grey color for label */
+    }
+
+    .form-control:focus + .floating-label,
+    .form-control:not(:placeholder-shown) + .floating-label {
+        top: -10px; /* Move the label up */
+        font-size: 12px; /* Smaller font size when floating */
+        color: #007bff; /* Change color when floating */
+    }
+
+    .form-control::placeholder {
+        text-align: center; /* Center the placeholder text */
+        opacity: 0; /* Initially hide the placeholder */
+    }
+</style>
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Trim spaces from the input value
+    input.value = value.trim();
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (input.value === "" || !/^[a-zA-Z\s]*$/.test(input.value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+
+function capitalizeFirstLetter(input) {
+    // Get the current value
+    const value = input.value;
+
+    // Capitalize the first letter and keep the rest as is
+    if (value.length > 0) {
+        input.value = value.charAt(0).toUpperCase() + value.slice(1);
+    }
+}
+</script>
+
+
+
+
+<!--
+<div class="form-group">
+    <input type="text" class="form-control" id="mySelect" name="depcity" maxlength="15"
+           oninput="validateCity(this)" placeholder=" " required style="text-align: center; padding: 10px 0; line-height: 40px; height: 40px; box-sizing: border-box;">
+    <label class="floating-label" for="mySelect">City Name</label>
+    <div id="error-message" style="color: red; display: none;">Please enter a valid city name (letters only)</div>
+</div>
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Trim spaces from the input value
+    input.value = value.trim();
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (input.value === "" || !/^[a-zA-Z\s]*$/.test(input.value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+</script>
+-->
+
+
+<!--
+<div class="form-group">
+    <input type="text" class="form-control" id="mySelect" name="depcity" maxlength="15"
+           oninput="validateCity(this)" placeholder=" " required
+           style="text-align: center; padding: 10px 0; line-height: 40px; height: 40px; box-sizing: border-box;">
+    <label class="floating-label" for="mySelect">City Name</label>
+    <div id="error-message" style="color: red; display: none;">Please enter a valid city name (letters only)</div>
+</div>
+
+<style>
+    .form-control::placeholder {
+        text-align: center; /* Center the placeholder text */
+        opacity: 1; /* Ensure the placeholder is fully opaque */
+    }
+</style>
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Trim spaces from the input value
+    input.value = value.trim();
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (input.value === "" || !/^[a-zA-Z\s]*$/.test(input.value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+</script>
+-->
+
+
+
+<!--
+<div class="form-group">
+    <input type="text" class="form-control" id="mySelect" name="depcity" maxlength="15"
+           oninput="validateCity(this); capitalizeFirstLetter(this);" placeholder="City Name" required 
+           style="text-align: center; height: 40px; line-height: 40px; padding: 0; box-sizing: border-box;">
+    <label class="floating-label" for="mySelect">City Name</label>
+    <div id="error-message" style="color: red; display: none;">Please enter a valid city name (letters only)</div>
+</div>
+
+<style>
+    .form-control {
+        display: block; /* Ensure input is a block element */
+        width: 100%; /* Full width for the input */
+        height: 40px; /* Set height */
+        padding: 10px 0; /* Padding for input */
+        text-align: center; /* Center text and placeholder */
+    }
+
+    .form-control::placeholder {
+        text-align: center; /* Center the placeholder text */
+        opacity: 1; /* Ensure the placeholder is fully opaque */
+    }
+</style>
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Trim spaces from the input value
+    input.value = value.trim();
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (input.value === "" || !/^[a-zA-Z\s]*$/.test(input.value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+
+function capitalizeFirstLetter(input) {
+    // Get the current value
+    const value = input.value;
+
+    // Capitalize the first letter and keep the rest as is
+    if (value.length > 0) {
+        input.value = value.charAt(0).toUpperCase() + value.slice(1);
+    }
+}
+</script>
+-->
+
+
+<!--
+<div class="form-group">
+    <input type="text" class="form-control" id="mySelect" name="depcity" maxlength="15"
+           oninput="validateCity(this)" placeholder=" " required style="text-align: center; padding: 10px 0; line-height: 40px; height: 40px;">
+    <label class="floating-label" for="mySelect">City Name</label>
+    <div id="error-message" style="color: red; display: none;">Please enter a valid city name (letters only)</div>
+</div>
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Trim spaces from the input value
+    input.value = value.trim();
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (input.value === "" || !/^[a-zA-Z\s]*$/.test(input.value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+</script>
+-->
+
+
+
+<!--
+<div class="form-group">
+
+   <input type="text" class="form-control" id="mySelect" name="depcity" maxlength="15"
+       oninput="validateCity(this)" placeholder=" " required style="text-align: center; padding: 15px 0; line-height: 20px; height: 40px;">
+    <label class="floating-label" for="mySelect">City Name</label>
+    <div id="error-message" style="color: red; display: none;">Please enter a valid city name (letters only)</div>
+</div>
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Trim spaces from the input value
+    input.value = value.trim();
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (input.value === "" || !/^[a-zA-Z\s]*$/.test(input.value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+</script>
+-->
+
+
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Trim spaces from the input value
+    input.value = value.trim();
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (input.value === "" || !/^[a-zA-Z\s]*$/.test(input.value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+</script>
+
+            <div id="error-message" style="color: red; display: none;">Please enter a valid city name (letters only)</div>
+        </div>
+    </div>
+    <div class="form-group row justify-content-center">
+        <div class="col-sm-6 text-center">
+            <input type="submit" style="margin-top:-30px; margin-right:5px;" value="Submit" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
+<script>
+function validateCity(input) {
+    const value = input.value;
+    const errorMessage = document.getElementById('error-message');
+
+    // Check if input is empty or contains non-alphabetic characters
+    if (value.trim() === "" || !/^[a-zA-Z\s]*$/.test(value)) {
+        errorMessage.style.display = 'inline';
+        input.value = ''; // Optionally clear the input
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<style>
+    .form-container {
+        border: 2px solid #007bff; /* Bootstrap primary color */
+        border-radius: 10px;
+        padding: 20px; /* Padding inside the form */
+        background-color: #f8f9fa; /* Light background */
+        margin: 30px auto; /* Center the form */
+        max-width: 500px; /* Limit the width of the form */
+        width: 100%; /* Full width within the limit */
+    }
+    .form-title {
+        color: blue;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    .error-message {
+        margin-top: 5px;
+    }
+    .input-active {
+        background-color: #d1e7dd; /* Color on focus */
+    }
+    @media (max-width: 768px) {
+        .form-title {
+            font-size: 28px; /* Smaller title on smaller screens */
+        }
+    }
+</style>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/styles/bootstrap4/popper.js"></script>
+    <script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="../static/js/custom.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

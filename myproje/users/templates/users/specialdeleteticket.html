@@ -1,0 +1,322 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ticket Deletion | Busfermata Digital Technology</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --bg-soft: #f1f5f9;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+            --danger-red: #d9534f;
+        }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-soft); 
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        /* --- TOP UTILITY BAR --- */
+        .top-bar-mini {
+            background: var(--brand-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 6px 15px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .logout-link {
+            color: var(--brand-gold);
+            text-decoration: none;
+            padding: 2px 10px;
+            border: 1px solid var(--brand-gold);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .logout-link:hover { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
+
+        /* --- NAVBAR STYLING COPIED FROM BUSINSERT.HTML --- */
+        .bg-navy-custom {
+            background: var(--brand-navy) !important;
+            padding: 10px 0;
+            border-bottom: 3px solid var(--brand-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .nav-logo-full { height: 44px; border-radius: 6px; border: 1.5px solid white; }
+        .brand-name-main { color: white; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; display: block; line-height: 1.2; }
+        .brand-subtext { color: var(--brand-gold); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+
+        .home-btn-active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        .home-btn-active:hover { color: var(--brand-gold); text-decoration: none; }
+
+        .intl-select {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+        .intl-select option { background: var(--brand-navy); color: white; }
+
+        /* --- WORKSPACE TABLE LAYOUT --- */
+        .table-container-fixed {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 15px;
+        }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 25px;
+            border-top: 5px solid var(--brand-navy);
+        }
+
+        .styled-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        .styled-table th {
+            background: #f1f5f9;
+            padding: 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #64748b;
+            text-align: center;
+        }
+        .styled-table td {
+            padding: 12px;
+            background: #ffffff;
+            border-top: 1px solid #edf2f7;
+            border-bottom: 1px solid #edf2f7;
+            vertical-align: middle;
+            text-align: center;
+            font-weight: 600;
+            color: var(--brand-navy);
+            font-size: 13px;
+        }
+
+        .btn-action-delete {
+            background: var(--danger-red);
+            color: white;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 7px 12px;
+            border-radius: 6px;
+            border: none;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .btn-action-delete:hover {
+            background: #c9302c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse { background: #001a35; padding: 20px; margin-top: 10px; border-radius: 8px; }
+            .intl-select { width: 100%; margin: 5px 0; }
+            .home-btn-active { display: block; margin-bottom: 10px; text-align: center; }
+        }
+
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+        
+        .brand-logo { border: none !important; box-shadow: none !important; border-radius: 0; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar-mini">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <span><i class="fa fa-headset mr-2"></i> Support: +251 975143134</span>
+        <a href="{% url 'logout' %}" class="logout-link">LOGOUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
+    <div class="container-fluid">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+            <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+                {% if company.logo %}
+                    <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+                {% else %}
+                    <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+                {% endif %}
+            </div>
+
+            <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
+                <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+                <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+                    {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+                    {% if level %}
+                        <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+                    {% endif %}
+                </span>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navSystem">
+            <div class="d-lg-flex align-items-center ml-auto">
+                <a href="{% url 'home' %}" class="home-btn-active">HOME</a>
+
+                <div class="select-cluster d-lg-flex">
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Bus Registration</option>
+                        <option value="{% url 'businsert' %}">Add New Bus</option>
+                        <option value="{% url 'special_route' %}">Add New Route</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Operational Reports</option>
+                        <option value="{% url 'myroute' %}">Route Data</option>
+                        <option value="{% url 'mybus' %}">Bus Status</option>
+                    </select>
+                    <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
+                        <option value="#" disabled selected>Management</option>
+                        <option value="{% url 'updatebus' %}">Update Buss</option>
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_active' %}">Active Route</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_route_delete' %}">Route Delete</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'special_bus_change' %}">Bus Change</option>
+                        {% endif %}
+                        {% if level == 'Special Bus' %}
+                            <option value="{% url 'specialdeleteticket' %}" selected>Delete Ticket</option>
+                        {% endif %}
+                        <option value="{% url 'busdelete' %}">Delete Bus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="table-container-fixed">
+    <div class="content-card">
+        <div class="text-center mb-4">
+            <h3 class="font-weight-bold mb-2" style="color: var(--brand-navy);">Manifest Ticket Deletion</h3>
+            <p class="text-muted small">Locate and safely delete individual passenger items inside active travel routing runs.</p>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger font-weight-bold text-center border-0 rounded-lg p-3 shadow-sm mb-4">{{ error }}</div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success font-weight-bold text-center border-0 rounded-lg p-3 shadow-sm mb-4">{{ success }}</div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Passenger Name</th>
+                        <th>Phone Number</th>
+                        <th>Departure</th>
+                        <th>Destination</th>
+                        <th>Travel Date</th>
+                        <th>Plate No</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in route %}
+                    <tr class="ticket-row">
+                        <form method="POST" action="{% url 'specialdeletetickets' %}" onsubmit="return confirm('Are you sure you want to completely delete this passenger ticket record?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+                            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+                            <input type="hidden" name="phone" value="{{ ticket.phone }}">
+                            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+                            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+                            <input type="hidden" name="date" value="{{ ticket.date }}">
+                            <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+
+                            <td>{{ forloop.counter }}</td>
+                            <td class="font-weight-bold notranslate" translate="no">{{ ticket.firstname }} {{ ticket.lastname }}</td>
+                            <td class="notranslate" translate="no">{{ ticket.phone }}</td>
+                            <td class="notranslate" translate="no">{{ ticket.depcity }}</td>
+                            <td class="notranslate" translate="no">{{ ticket.descity }}</td>
+                            <td class="notranslate" translate="no">{{ ticket.date }}</td>
+                            <td>
+                                <span class="badge badge-dark px-2 py-1 font-weight-bold notranslate" translate="no">
+                                    {{ ticket.plate_no }}
+                                </span>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn-action-delete btn-sm">
+                                    <i class="fas fa-trash-alt mr-1"></i> Delete
+                                </button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4 text-muted font-weight-bold">No active dynamic passenger records matched this lookup query sequence.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer class="py-4 text-center text-muted border-top bg-white mt-5">
+    <div class="container">
+        <p class="mb-0" style="font-size: 11px; font-weight: 600;">© 2026 Busfermata TRANSPORT TECHNOLOGY | ENTERPRISE SYSTEM v4.2</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){s.value=l;s.dispatchEvent(new Event("change"))}
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

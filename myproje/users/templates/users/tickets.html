@@ -1,0 +1,2246 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Ticket Pass | Busfermata Digital Tech</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+ /* --- NAVIGATION --- */
+        .navbar-main {
+            background: white; padding: 12px 0; border-bottom: 5px solid var(--brand-gold);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .brand-logo { height: 70px !important; border-radius: 12px; border: 3px solid var(--brand-navy); }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 2px; display: block; }
+
+        /* --- INTERNATIONAL ERROR TOAST --- */
+        .intl-error-toast {
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; min-width: 320px; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 1px solid rgba(220, 38, 38, 0.1); overflow: hidden;
+            animation: slideDownFade 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+        }
+        .toast-content { display: flex; align-items: center; padding: 16px 20px; gap: 15px; }
+        .toast-icon { width: 40px; height: 40px; background: #fef2f2; color: #dc2626; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .toast-message { display: flex; flex-direction: column; flex-grow: 1; }
+        .toast-title { font-weight: 800; color: #1e293b; font-size: 12px; text-transform: uppercase; }
+        .toast-desc { color: #64748b; font-size: 13px; font-weight: 600; }
+        .toast-progress { height: 4px; width: 100%; background: #dc2626; transform-origin: left; animation: progressOut 5s linear forwards; }
+
+        @keyframes slideDownFade { from { top: -50px; opacity: 0; } to { top: 25px; opacity: 1; } }
+        @keyframes progressOut { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+        /* --- HERO COVER --- */
+
+
+	 .hero-cover {
+            height: 45vh;
+            background: linear-gradient(rgba(0,38,77,0.75), rgba(0,0,0,0.7)), url('../static/images/home_slider.jpg');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; text-align: center;
+        }
+
+        /* --- ATTRACTIVE FORM (DATALIST MIX) --- */
+        .booking-container {
+            width: 95%; max-width: 1100px; background: white; padding: 30px; border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 38, 77, 0.25); margin: -80px auto 40px;
+            display: flex; gap: 20px; align-items: flex-end; position: relative; z-index: 10;
+        }
+        .input-group-custom { flex: 1; }
+        .input-group-custom label { font-weight: 800; color: var(--brand-navy); font-size: 11px; margin-bottom: 8px; display: block; letter-spacing: 1px; }
+        .input-field {
+            background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 14px;
+            padding: 12px 18px; display: flex; align-items: center; transition: 0.3s;
+        }
+        .input-field:focus-within { border-color: var(--brand-navy); background: white; box-shadow: 0 0 0 4px rgba(0,38,77,0.1); }
+        .input-field input { border: none; background: transparent; width: 100%; outline: none; font-weight: 700; color: var(--brand-navy); font-size: 15px; }
+        .input-field i { color: #94a3b8; margin-right: 12px; }
+
+        .btn-search {
+            background: var(--brand-navy); color: white; font-weight: 800; height: 54px;
+            padding: 0 40px; border-radius: 14px; border: none; cursor: pointer; transition: 0.3s;
+        }
+        .btn-search:hover { transform: translateY(-3px); background: #001a35; }
+
+	 /* --- ROUTES --- */
+        .region-card { background: white; border-top: 5px solid var(--brand-navy); padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%; }
+        .region-name { font-weight: 800; color: var(--brand-navy); display: block; border-bottom: 2px solid var(--brand-gold); margin-bottom: 15px; }
+        .city-item { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0; text-align: center; margin-top: auto; }
+
+        @media (max-width: 991px) { .booking-container { flex-direction: column; align-items: stretch; margin-top: -40px; } .btn-search { width: 100%; } }
+
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-blue: #003DA5;
+            --danger-red: #e11d48;
+            --bg-body: #f1f5f9;
+            --muted: #64748b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-body); 
+            margin: 0;
+            -webkit-print-color-adjust: exact !important; 
+            print-color-adjust: exact !important; 
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main { 
+            background: #fff; 
+            padding: 12px 0; 
+            border-bottom: 4px solid var(--brand-blue); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+        .brand-logo { height: 42px; border-radius: 6px; margin-right: 12px; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-link { color: var(--brand-navy) !important; font-weight: 700; font-size: 14px; text-transform: uppercase; padding: 10px 15px !important; transition: 0.3s; }
+        .nav-link:hover { color: var(--brand-blue) !important; }
+        .btn-book-nav { background: var(--brand-gold); color: var(--brand-navy) !important; border-radius: 10px; font-weight: 800; }
+
+        /* --- TICKET CARD --- */
+        .ticket-card {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            max-width: 850px;
+            margin: 30px auto;
+            border: 1px solid #e2e8f0;
+        }
+        .ticket-header { background: var(--brand-navy); color: #fff; padding: 25px 35px; display: flex; justify-content: space-between; align-items: center; }
+        .badge-level { background: var(--brand-gold); color: var(--brand-navy); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+        
+        .ticket-content { display: flex; flex-wrap: wrap; padding: 35px; }
+        .main-info { flex: 2; border-right: 1px solid #f1f5f9; padding-right: 30px; }
+        .qr-area { flex: 1; text-align: center; padding-left: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+        .data-label { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
+        .data-value { font-size: 16px; font-weight: 700; color: var(--brand-navy); margin-bottom: 12px; }
+        .full-name-display { font-size: 22px; font-weight: 800; color: var(--brand-navy); border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; display: block; }
+        
+        .highlight-box { background: #f8fafc; border-radius: 16px; padding: 15px; display: flex; justify-content: space-around; margin-top: 15px; border: 1px solid #edf2f7; }
+
+        /* --- DASHBOARD ACTION AREA --- */
+        .dashboard-area { max-width: 850px; margin: 0 auto 50px; }
+        .action-card { background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+        .icon-circle { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 15px; }
+
+        /* --- ERROR ALERT --- */
+        .error-alert { 
+            background: #fff0f0; 
+            color: red; 
+            border: 1px solid red; 
+            padding: 12px; 
+            border-radius: 8px; 
+            text-align: center; 
+            margin-bottom: 15px; 
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .main-info { border-right: none; padding-right: 0; padding-bottom: 25px; border-bottom: 1px solid #f1f5f9; }
+            .qr-area { padding-left: 0; padding-top: 25px; }
+        }
+
+        @media print {
+            .no-print, .navbar-main, .dashboard-area, footer { display: none !important; }
+            body { background: white; }
+            .ticket-card { box-shadow: none; border: 1px solid #ccc; margin: 0; width: 100%; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+<div class="container">
+<a href="{% url 'home' %}" class="brand-area" style="display: flex !important; align-items: center !important; gap: 15px !important; text-decoration: none !important;">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important; margin: 0 !important;">
+            <div style="display: flex !important; flex-direction: column !important; justify-content: center !important;">
+                <h2 style="margin: 0 !important; padding: 0 !important; line-height: 1.2 !important;">
+                    <span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span>
+                </h2>
+                <h6 style="color:#007A78; font-weight: bold; margin: 0 !important; padding: 0 !important; line-height: 1.2 !important;">Digital Technology</h6>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+	<div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item ml-lg-2"><a class="nav-link btn-book-nav px-4" href="{% url 'book' %}">BOOK NOW</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-user-lock"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    {% if error %}
+<div class="intl-error-toast" id="djangoError">
+    <div class="toast-content">
+        <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+        <div class="toast-message">
+            <span class="toast-title">System Message</span>
+            <span class="toast-desc">{{ error }}</span>
+        </div>
+        <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+{% endif %}
+<script>
+    // International Error Auto-Dismiss
+    function closeError() {
+        const errorBox = document.getElementById('djangoError');
+        if (errorBox) {
+            errorBox.style.transition = "0.5s ease";
+            errorBox.style.opacity = "0";
+            setTimeout(() => errorBox.remove(), 500);
+        }
+    }
+    if (document.getElementById('djangoError')) {
+        setTimeout(closeError, 5000);
+    }
+</script>
+
+<div class="container py-4"> 
+    <div class="d-flex justify-content-center mb-4 no-print" style="gap: 15px;">
+        <button onclick="downloadPDF()" class="btn btn-danger font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-file-pdf mr-2"></i> DOWNLOAD PDF
+        </button>
+        <button onclick="window.print()" class="btn btn-dark font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-print mr-2"></i> PRINT PASS
+        </button>
+    </div>
+
+    {% if error %}
+    <div class="intl-error-toast no-print" id="djangoError">
+        <div class="toast-content">
+            <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+            <div class="toast-message">
+                <span class="toast-title">System Message</span>
+                <span class="toast-desc">{{ error }}</span>
+            </div>
+            <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+    {% endif %}
+
+    <div id="ticket-container">
+        {% if ticket %}
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <div class="logo-brand-wrapper" style="display: flex; align-items: center; gap: 12px; text-align: left;">
+                    {% if company_logo %}
+                        <img src="{{ company_logo }}" alt="{{ name }} Logo" class="company-ticket-logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 8px;">
+                    {% else %}
+                        <div style="width: 55px; height: 55px; background-color: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center;" class="no-print-fallback">
+                            <i class="fas fa-bus" style="font-size: 24px; color: #1e3a8a;"></i>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h1 class="m-0 brand-title-print" style="font-size: 20px; font-weight: 800; color: #1e3a8a;">Busfermata Digital Tech</h1>
+                        <span class="badge-level" style="background-color: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">LEVEL: {{ level|default:"Standard" }}</span>
+                    </div>
+                </div>
+                <div class="operator-meta-print" style="text-align: left;">
+                    <p class="data-label m-0" style="color: #6b7280;">OPERATOR NAME</p>
+                    <h1 class="m-0 operator-title-print" style="font-size: 18px; font-weight: 800; color: #111827;">{{ name }}</h1>
+                </div>
+
+                <div class="text-right pnr-container-print">
+                    <p class="data-label m-0" style="color: #b45309;">BOOKING REF / PNR</p>
+                    <h2 class="m-0 pnr-text-print" style="font-size: 24px; font-weight: 900; color: #b45309;" translate="no">{{ ticket.pnr }}</h2>
+                </div>
+            </div>
+            <div class="booking-time-bar" style="display: flex; justify-content: space-between; padding: 8px 16px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px;">
+                <div><span style="font-weight: 600; color: #475569;">Ticket Detail</span> <span style="color: #16a34a; font-weight: 700;"></span></div>
+                <div class="booked-time-display" style="color: #475569;"><span style="font-weight: 600;">Booked At:</span> {{ ticket.booked_time|date:"d M Y, h:i A" }}</div>
+            </div>
+            <div class="ticket-content">
+                <div class="main-info">
+                    <div class="d-flex justify-content-between align-items-start passenger-row-print" style="margin-bottom: 15px;">
+                        <div style="flex: 1;">
+                            <p class="data-label">Passenger Name</p>
+                            <span class="full-name-display" style="font-size: 18px; font-weight: 700; color: #0f172a;">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+                        </div>
+                        <div class="text-right ml-3 gender-print">
+                            <p class="data-label">Gender</p>
+                            <p class="data-value" style="font-size: 16px; font-weight: 700; color: #2563eb; margin: 0;">{{ ticket.gender|upper }}</p>
+                        </div>
+                    </div>
+                    <div class="row info-row-print" style="margin-bottom: 12px;">
+                        <div class="col-6 col-print-6">
+                            <p class="data-label">From (መነሻ)</p>
+                            <p class="data-value destination-bold-print" style="font-size: 18px; font-weight: 800; color: #0f172a;">{{ ticket.depcity }}</p>
+                        </div>
+                        <div class="col-6 col-print-6">
+                            <p class="data-label">To (መድረሻ)</p>
+                            <p class="data-value destination-bold-print" style="font-size: 18px; font-weight: 800; color: #0f172a;">{{ ticket.descity }}</p>
+                        </div>
+                    </div>
+                    <div class="row info-row-print" style="margin-bottom: 12px;">
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Plate No</p>
+                            <p class="data-value" style="font-weight: 600; color: #1e293b;">{{ ticket.plate_no }}</p>
+                        </div>
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Side No</p>
+                            <p class="data-value side-bold-print notranslate" translate="no" style="font-size: 18px; font-weight: 800; color: #0f172a;">{{ ticket.side_no }}</p>
+                        </div>
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Travel Date</p>
+                            <p class="data-value text-danger date-print" style="font-weight: 700; color: #dc2626;">{{ ticket.date }}</p>
+                        </div>
+                    </div>
+                    <div class="row info-row-print" style="margin-bottom: 15px;">
+                        <div class="col-3 col-print-12">
+                            <p class="data-label">Departure Time</p>
+                            <p class="data-value" style="color: #2563eb; font-weight: 700;">11:30</p>
+                        </div>
+                    </div>
+                    <div class="mt-2 pt-3 agent-section-print" style="border-top: 1px solid #e2e8f0;">
+                        <div class="row">
+                            <div class="col-7 col-print-12">
+                                <p class="data-label">Email Address</p>
+                                <p class="data-value" style="font-size: 13px; word-break: break-all; color: #475569;">{{ ticket.email|default:"Not Provided" }}</p>
+                            </div>
+                            <div class="col-5 col-print-12">
+                                <p class="data-label">Issuing Agent</p>
+                                <p class="data-value" style="font-size: 13px; color: #475569;">
+                                    {% if fname and fname != self %}
+                                        {{ fname }} {{ lname }}
+                                    {% else %}
+                                        System / Online
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="highlight-box fare-box-print" style="display: flex; align-items: center; justify-content: space-between; background-color: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #e2e8f0;">
+                        <div class="text-left seat-print">
+                            <p class="data-label" style="margin-bottom: 2px;">Seat No</p>
+                            <p class="m-0" style="font-size: 28px; font-weight: 900; color: #2563eb; line-height: 1;">{{ ticket.no_seat }}</p>
+                        </div>
+                        <div class="text-right total-fare-wrapper-print">
+                            {% load currency_filters %}
+                            <p class="data-label" style="font-size: 11px; color: #6b7280; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">Total Fare</p>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                <p class="m-0 price-text-print" style="font-size: 28px; font-weight: 800; color: #16a34a; line-height: 1;">
+                                    {{ ticket.price }}
+                                </p>
+                                <p class="m-0 price-words-print" style="font-size: 10px; font-weight: 700; color: #475569; font-style: italic; margin-top: 2px;">
+                                    ({{ ticket.price|price_to_words_intl }})
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qr-area qr-print" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-left: 20px;">
+                    <img src="{{ ticket.qr_code }}" alt="QR" style="width: 160px; height: 160px; border: 4px solid #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <div class="mt-3 id-print">
+                        <p class="data-label" style="margin-bottom: 2px;">Ticket ID</p>
+                        <code style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; font-weight: 600; font-size: 12px;">{{ ticket.ticket_id }}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.ticket-card { border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.ticket-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+.ticket-content { display: flex; padding: 20px; }
+.main-info { flex: 1; }
+.qr-area { width: 200px; border-left: 1px dashed #e2e8f0; }
+.data-label { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+
+@media print {
+    /* Hard-override browser configurations to preserve dynamic branding colors on paper */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    
+    @page {
+        size: A4 portrait;
+        margin: 12mm;
+    }
+
+    body {
+        background: #ffffff !important;
+    }
+
+    .no-print, #djangoError {
+        display: none !important;
+    }
+
+    #ticket-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .ticket-card {
+        border: 1px solid #94a3b8 !important; /* Slightly darker border for thermal transfer precision */
+        box-shadow: none !important;
+        background: #ffffff !important;
+        border-radius: 12px !important;
+    }
+
+    .ticket-header {
+        background-color: #f8fafc !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 20px !important;
+    }
+
+    .booking-time-bar {
+        background-color: #f1f5f9 !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+
+    /* Target Fields High-Contrast Structural Rules */
+    .destination-bold-print {
+        font-size: 19px !important;
+        font-weight: 900 !important;
+        color: #000000 !important;
+    }
+
+    .side-bold-print {
+        font-size: 19px !important;
+        font-weight: 900 !important;
+        color: #000000 !important;
+    }
+
+    .brand-title-print { color: #1e3a8a !important; }
+    .pnr-text-print { color: #b45309 !important; }
+    .gender-print p { color: #2563eb !important; }
+    .date-print { color: #dc2626 !important; }
+
+    .fare-box-print {
+        background-color: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        display: flex !important;
+        padding: 12px !important;
+    }
+
+    .price-text-print { color: #16a34a !important; }
+    .seat-print p { color: #2563eb !important; }
+
+    .qr-print img {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+    }
+}
+</style>
+
+<script>
+function closeError() {
+    const errorBox = document.getElementById('djangoError');
+    if (errorBox) {
+        errorBox.style.transition = "0.5s ease";
+        errorBox.style.opacity = "0";
+        setTimeout(() => errorBox.remove(), 500);
+    }
+}
+if (document.getElementById('djangoError')) {
+    setTimeout(closeError, 5000);
+}
+</script>
+
+
+
+
+<!--
+<div class="container py-4">
+    <div class="d-flex justify-content-center mb-4 no-print" style="gap: 15px;">
+        <button onclick="downloadPDF()" class="btn btn-danger font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-file-pdf mr-2"></i> DOWNLOAD PDF
+        </button>
+        <button onclick="window.print()" class="btn btn-dark font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-print mr-2"></i> PRINT PASS
+        </button>
+    </div>
+
+    {% if error %}
+    <div class="intl-error-toast no-print" id="djangoError">
+        <div class="toast-content">
+            <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+            <div class="toast-message">
+                <span class="toast-title">System Message</span>
+                <span class="toast-desc">{{ error }}</span>
+            </div>
+            <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+    {% endif %}
+
+    <div id="ticket-container">
+        {% if ticket %}
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <div class="logo-brand-wrapper" style="display: flex; align-items: center; gap: 12px; text-align: left;">
+                    {% if company_logo %}
+                        <img src="{{ company_logo }}" alt="{{ name }} Logo" class="company-ticket-logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 8px;">
+                    {% else %}
+                        <div style="width: 55px; height: 55px; background-color: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center;" class="no-print-fallback">
+                            <i class="fas fa-bus" style="font-size: 24px; color: #1e3a8a;"></i>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h1 class="m-0 brand-title-print" style="font-size: 20px; font-weight: 800; color: #1e3a8a;">Busfermata Digital Tech</h1>
+                        <span class="badge-level" style="background-color: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">LEVEL: {{ level|default:"Standard" }}</span>
+                    </div>
+                </div>
+
+                <div class="operator-meta-print" style="text-align: left;">
+                    <p class="data-label m-0" style="color: #6b7280;">OPERATOR NAME</p>
+                    <h1 class="m-0 operator-title-print" style="font-size: 18px; font-weight: 800; color: #111827;">{{ name }}</h1>
+                </div>
+
+                <div class="text-right pnr-container-print">
+                    <p class="data-label m-0" style="color: #b45309;">BOOKING REF / PNR</p>
+                    <h2 class="m-0 pnr-text-print" style="font-size: 24px; font-weight: 900; color: #b45309;" translate="no">{{ ticket.pnr }}</h2>
+                </div>
+            </div>
+
+            <div class="booking-time-bar" style="display: flex; justify-content: space-between; padding: 8px 16px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px;">
+                <div><span style="font-weight: 600; color: #475569;">Status:</span> <span style="color: #16a34a; font-weight: 700;">CONFIRMED</span></div>
+                <div class="booked-time-display" style="color: #475569;"><span style="font-weight: 600;">Booked At:</span> {{ ticket.booked_time|date:"d M Y, h:i A" }}</div>
+            </div>
+
+            <div class="ticket-content">
+                <div class="main-info">
+                    <div class="d-flex justify-content-between align-items-start passenger-row-print" style="margin-bottom: 15px;">
+                        <div style="flex: 1;">
+                            <p class="data-label">Passenger Name</p>
+                            <span class="full-name-display" style="font-size: 18px; font-weight: 700; color: #0f172a;">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+                        </div>
+                        <div class="text-right ml-3 gender-print">
+                            <p class="data-label">Gender</p>
+                            <p class="data-value" style="font-size: 16px; font-weight: 700; color: #2563eb; margin: 0;">{{ ticket.gender|upper }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row info-row-print" style="margin-bottom: 12px;">
+                        <div class="col-6 col-print-6">
+                            <p class="data-label">From (መነሻ)</p>
+                            <p class="data-value" style="font-weight: 600; color: #1e293b;">{{ ticket.depcity }}</p>
+                        </div>
+                        <div class="col-6 col-print-6">
+                            <p class="data-label">To (መድረሻ)</p>
+                            <p class="data-value" style="font-weight: 600; color: #1e293b;">{{ ticket.descity }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row info-row-print" style="margin-bottom: 12px;">
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Plate No</p>
+                            <p class="data-value" style="font-weight: 600; color: #1e293b;">{{ ticket.plate_no }}</p>
+                        </div>
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Side No</p>
+                            <p class="data-value notranslate" translate="no" style="font-weight: 600; color: #1e293b;">{{ ticket.side_no }}</p>
+                        </div>
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Travel Date</p>
+                            <p class="data-value text-danger date-print" style="font-weight: 700; color: #dc2626;">{{ ticket.date }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row info-row-print" style="margin-bottom: 15px;">
+                        <div class="col-3 col-print-12">
+                            <p class="data-label">Departure Time</p>
+                            <p class="data-value" style="color: #2563eb; font-weight: 700;">11:30</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 pt-3 agent-section-print" style="border-top: 1px solid #e2e8f0;">
+                        <div class="row">
+                            <div class="col-7 col-print-12">
+                                <p class="data-label">Email Address</p>
+                                <p class="data-value" style="font-size: 13px; word-break: break-all; color: #475569;">{{ ticket.email|default:"Not Provided" }}</p>
+                            </div>
+                            <div class="col-5 col-print-12">
+                                <p class="data-label">Issuing Agent</p>
+                                <p class="data-value" style="font-size: 13px; color: #475569;">
+                                    {% if fname and fname != self %}
+                                        {{ fname }} {{ lname }}
+                                    {% else %}
+                                        System / Online
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box fare-box-print" style="display: flex; align-items: center; justify-content: space-between; background-color: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #e2e8f0;">
+                        <div class="text-left seat-print">
+                            <p class="data-label" style="margin-bottom: 2px;">Seat No</p>
+                            <p class="m-0" style="font-size: 28px; font-weight: 900; color: #2563eb; line-height: 1;">{{ ticket.no_seat }}</p>
+                        </div>
+
+                        <div class="text-right total-fare-wrapper-print">
+                            {% load currency_filters %}
+                            <p class="data-label" style="font-size: 11px; color: #6b7280; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">Total Fare</p>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                <p class="m-0 price-text-print" style="font-size: 28px; font-weight: 800; color: #16a34a; line-height: 1;">
+                                    {{ ticket.price }}
+                                </p>
+                                <p class="m-0 price-words-print" style="font-size: 10px; font-weight: 700; color: #475569; font-style: italic; margin-top: 2px;">
+                                    ({{ ticket.price|price_to_words_intl }})
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qr-area qr-print" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-left: 20px;">
+                    <img src="{{ ticket.qr_code }}" alt="QR" style="width: 160px; height: 160px; border: 4px solid #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <div class="mt-3 id-print">
+                        <p class="data-label" style="margin-bottom: 2px;">Ticket ID</p>
+                        <code style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; font-weight: 600; font-size: 12px;">{{ ticket.ticket_id }}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+/* Base properties for fields layout styling */
+.ticket-card { border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.ticket-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+.ticket-content { display: flex; padding: 20px; }
+.main-info { flex: 1; }
+.qr-area { width: 200px; border-left: 1px dashed #e2e8f0; }
+.data-label { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+
+@media print {
+    /* Hard-override browser color restrictions */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 15mm;
+    }
+
+    body {
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+    }
+
+    .no-print, #djangoError {
+        display: none !important;
+    }
+
+    #ticket-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .ticket-card {
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        border-radius: 12px !important;
+    }
+
+    /* Force Color Elements on Headers */
+    .ticket-header {
+        background-color: #f8fafc !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 20px !important;
+    }
+
+    .booking-time-bar {
+        background-color: #f1f5f9 !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+
+    .brand-title-print { color: #1e3a8a !important; }
+    .pnr-text-print { color: #b45309 !important; }
+    .gender-print p { color: #2563eb !important; }
+    .date-print { color: #dc2626 !important; }
+
+    /* Highlight box containing price background rules */
+    .fare-box-print {
+        background-color: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        display: flex !important;
+        padding: 12px !important;
+    }
+
+    .price-text-print { color: #16a34a !important; }
+    .seat-print p { color: #2563eb !important; }
+
+    .qr-print img {
+        box-shadow: none !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+}
+</style>
+
+<script>
+function closeError() {
+    const errorBox = document.getElementById('djangoError');
+    if (errorBox) {
+        errorBox.style.transition = "0.5s ease";
+        errorBox.style.opacity = "0";
+        setTimeout(() => errorBox.remove(), 500);
+    }
+}
+if (document.getElementById('djangoError')) {
+    setTimeout(closeError, 5000);
+}
+</script>
+-->
+
+
+
+
+
+<!--
+<div class="container py-4">
+    <div class="d-flex justify-content-center mb-4 no-print" style="gap: 15px;">
+        <button onclick="downloadPDF()" class="btn btn-danger font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-file-pdf mr-2"></i> DOWNLOAD PDF
+        </button>
+        <button onclick="window.print()" class="btn btn-dark font-weight-bold px-4 py-2" style="border-radius: 10px;">
+            <i class="fas fa-print mr-2"></i> PRINT PASS
+        </button>
+    </div>
+
+    {% if error %}
+    <div class="intl-error-toast no-print" id="djangoError">
+        <div class="toast-content">
+            <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+            <div class="toast-message">
+                <span class="toast-title">System Message</span>
+                <span class="toast-desc">{{ error }}</span>
+            </div>
+            <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+    {% endif %}
+
+    <div id="ticket-container">
+        {% if ticket %}
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <div>
+                    <h1 class="m-0 brand-title-print" style="font-size: 20px; font-weight: 800;">Busfermata Digital Tech</h1>
+                    <span class="badge-level">LEVEL: {{ level|default:"Standard" }}</span>
+                </div>
+                <div>
+                    <h1 class="m-0 operator-title-print" style="font-size: 20px; font-weight: 800;">Operator Name</h1>
+                    <span class="badge-level">{{ name }}</span>
+                </div>
+                <div class="text-right pnr-container-print">
+                    <p class="data-label m-0" style="color: var(--brand-gold);">BOOKING REF / PNR</p>
+                    <h2 class="m-0 pnr-text-print" style="font-size: 24px; font-weight: 900; color: var(--brand-gold);" translate="no">{{ ticket.pnr }}</h2>
+                </div>
+            </div>
+
+            <div class="ticket-content">
+                <div class="main-info">
+                    <div class="d-flex justify-content-between align-items-start passenger-row-print">
+                        <div style="flex: 1;">
+                            <p class="data-label">Passenger Name</p>
+                            <span class="full-name-display">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+                        </div>
+                        <div class="text-right ml-3 gender-print">
+                            <p class="data-label">Gender</p>
+                            <p class="data-value" style="font-size: 20px; color: var(--brand-blue);">{{ ticket.gender|upper }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row info-row-print">
+                        <div class="col-6 col-print-6">
+                            <p class="data-label">From (መነሻ)</p>
+                            <p class="data-value">{{ ticket.depcity }}</p>
+                        </div>
+                        <div class="col-6 col-print-6">
+                            <p class="data-label">To (መድረሻ)</p>
+                            <p class="data-value">{{ ticket.descity }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row info-row-print">
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Plate No</p>
+                            <p class="data-value">{{ ticket.plate_no }}</p>
+                        </div>
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Side No</p>
+                            <p class="data-value notranslate" translate="no">{{ ticket.side_no }}</p>
+                        </div>
+                        <div class="col-4 col-print-4">
+                            <p class="data-label">Travel Date</p>
+                            <p class="data-value text-danger date-print">{{ ticket.date }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row info-row-print">
+                        <div class="col-3 col-print-12">
+                            <p class="data-label">Departure Time</p>
+                            <p class="data-value" style="color: var(--brand-blue);">11:30</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 pt-3 agent-section-print" style="border-top: 1px solid #f1f5f9;">
+                        <div class="row">
+                            <div class="col-7 col-print-12">
+                                <p class="data-label">Email Address</p>
+                                <p class="data-value" style="font-size: 13px; word-break: break-all;">{{ ticket.email|default:"Not Provided" }}</p>
+                            </div>
+                            <div class="col-5 col-print-12">
+                                <p class="data-label">Issuing Agent</p>
+                                <p class="data-value" style="font-size: 13px;">
+                                    {% if fname and fname != self %}
+                                        {{ fname }} {{ lname }}
+                                    {% else %}
+                                        System / Online
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box fare-box-print">
+                        <div class="text-center seat-print">
+                            <p class="data-label">Seat No</p>
+                            <p class="m-0" style="font-size: 26px; font-weight: 900; color: var(--brand-blue);">{{ ticket.no_seat }}</p>
+                        </div>
+
+                        <div class="text-center total-fare-wrapper-print" style="padding: 10px; background-color: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;">
+                            {% load currency_filters %}
+                            <p class="data-label" style="font-size: 11px; color: #6b7280; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">Total Fare</p>
+                            <div style="display: flex; align-items: baseline; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                                <p class="m-0 price-text-print" style="font-size: 32px; font-weight: 800; color: #15803d; line-height: 1;">
+                                    {{ ticket.price }}
+                                </p>
+                                <p class="m-0 price-words-print" style="font-size: 10px; font-weight: 700; color: #374151; font-style: italic;">
+                                    ({{ ticket.price|price_to_words_intl }})
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qr-area qr-print">
+                    <img src="{{ ticket.qr_code }}" alt="QR" style="width: 170px; height: 170px; border: 8px solid #f8fafc; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <div class="mt-4 id-print">
+                        <p class="data-label">Ticket ID</p>
+                        <code style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: var(--brand-navy);">{{ ticket.ticket_id }}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+-->
+
+
+
+<!-- ========================================== -->
+<!-- COMPREHENSIVE MULTI-DEVICE THERMAL PRINTER CSS -->
+<!-- ========================================== -->
+<style>
+/* Normal view scripts close engine */
+.intl-error-toast { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+
+@media print {
+    /* 1. Reset Page Boundaries for Continuous Paper Rolls */
+    @page {
+        size: auto;
+        margin: 0mm;
+    }
+
+    html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Courier New', Courier, monospace !important; /* Maximizes hardware printer alignment */
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    /* 2. Hide Web Navigation, Buttons, Background Headers and Toasts */
+    .no-print, #djangoError, header, footer, .navbar, .btn {
+        display: none !important;
+    }
+
+    /* 3. Force Container to Match Tight Roll Dimensions */
+    .container, #ticket-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 4mm !important;
+        margin: 0 !important;
+    }
+
+    /* 4. Flatten Desktop Shadows and Background Gradients */
+    .ticket-card {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 5. Transform Flex Header to Vertical Stack */
+    .ticket-header {
+        display: block !important;
+        text-align: center !important;
+        background: none !important;
+        border-bottom: 2px dashed #000000 !important;
+        padding-bottom: 5px !important;
+        color: #000000 !important;
+    }
+
+    .ticket-header div {
+        text-align: center !important;
+        margin-bottom: 5px !important;
+    }
+
+    .pnr-container-print {
+        text-align: center !important;
+        margin-top: 8px !important;
+    }
+
+    .pnr-text-print {
+        font-size: 26px !important;
+        color: #000000 !important;
+        border: 1px solid #000000 !important;
+        display: inline-block !important;
+        padding: 2px 10px !important;
+    }
+
+    /* 6. Enforce Thermal Paper Grid Columns */
+    .ticket-content {
+        display: block !important; /* Stack details above the QR code */
+        width: 100% !important;
+    }
+
+    .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        margin: 0 !important;
+    }
+
+    .col-6 { width: 50% !important; flex: 0 0 50% !important; max-width: 50% !important; }
+    .col-4 { width: 33.33% !important; flex: 0 0 33.33% !important; max-width: 33.33% !important; }
+
+    /* 7. Typography Optimization for 203 DPI / 300 DPI Hardware Heads */
+    .data-label {
+        font-size: 11px !important;
+        color: #000000 !important;
+        text-transform: uppercase !important;
+        margin-bottom: 1px !important;
+        font-weight: bold !important;
+    }
+
+    .data-value, .full-name-display {
+        font-size: 15px !important;
+        color: #000000 !important;
+        font-weight: 900 !important;
+        margin-bottom: 8px !important;
+    }
+
+    .date-print {
+        color: #000000 !important;
+    }
+
+    /* 8. Re-format Highlight/Fare Boxes */
+    .highlight-box {
+        display: block !important;
+        background: none !important;
+        border-top: 1px dashed #000000 !important;
+        border-bottom: 1px dashed #000000 !important;
+        padding: 10px 0 !important;
+        margin-top: 10px !important;
+    }
+
+    .total-fare-wrapper-print {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-top: 5px !important;
+    }
+
+    .price-text-print {
+        font-size: 28px !important;
+        color: #000000 !important;
+    }
+
+    /* 9. Perfect Center Alignment for Validation QR Code */
+    .qr-print {
+        text-align: center !important;
+        margin-top: 15px !important;
+        page-break-inside: avoid !important;
+    }
+
+    .qr-print img {
+        width: 140px !important;
+        height: 140px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+</style>
+
+<script>
+function closeError() {
+    const errorBox = document.getElementById('djangoError');
+    if (errorBox) {
+        errorBox.style.transition = "0.5s ease";
+        errorBox.style.opacity = "0";
+        setTimeout(() => errorBox.remove(), 500);
+    }
+}
+if (document.getElementById('djangoError')) {
+    setTimeout(closeError, 5000);
+}
+</script>
+
+<div class="dashboard-area no-print">
+    <div id="agent-error-msg" class="custom-alert alert-danger mb-3 d-none" role="alert">
+        <div class="d-flex align-items-center">
+            <div class="alert-icon-circle"><i class="fas fa-exclamation-circle"></i></div>
+            <div class="ml-3">
+                <span class="alert-title">Action Restricted</span>
+                <p class="alert-desc">This ticket was booked by an agent. It cannot be transferred or rescheduled online.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-card mb-3 border-left-success">
+        <form action="{% url 'update_ticket' %}" method="post" class="d-flex flex-wrap align-items-center" onsubmit="return validateTicketForm(this)">
+            {% csrf_token %}
+            <div class="icon-circle bg-light-success text-success"><i class="fas fa-calendar-alt"></i></div>
+            <div class="flex-grow-1 ml-3 card-header-text">
+                <label class="font-weight-bold m-0 text-success">Reschedule Trip</label>
+                <p class="small text-muted m-0">Change your travel date dynamically</p>
+            </div>
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="price" value="{{ ticket.price }}">
+            <input type="hidden" name="email" value="{{ ticket.email }}">
+            <input type="hidden" name="phone" value="{{ ticket.phone }}">
+            <input type="hidden" name="da" value="{{ ticket.date }}">
+            <input type="hidden" name="gender" value="{{ ticket.gender }}">
+            <input type="hidden" name="username" value="{{ ticket.username }}">
+            <input type="hidden" name="passenger_type" value="{{ ticket.passenger_type }}">
+
+            <div class="d-flex align-items-center ml-md-auto mobile-full-width mt-2 mt-md-0">
+                <input type="date" name="new_date" required class="form-control form-control-custom mr-2" style="width: auto; max-height: 42px;">
+                <button type="submit" class="btn btn-success btn-custom font-weight-bold">Update Date</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="action-card mb-3 border-left-primary">
+        <form action="{% url 'passenger' %}" method="post" class="d-flex flex-wrap align-items-center">
+            {% csrf_token %}
+            <div class="icon-circle bg-light-primary text-primary"><i class="fas fa-user-edit"></i></div>
+            <div class="flex-grow-1 ml-3 card-header-text">
+                <label class="font-weight-bold m-0 text-primary">Transfer Ticket</label>
+                <p class="small text-muted m-0">Assign this ticket to another passenger</p>
+            </div>
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="price" value="{{ ticket.price }}">
+            <input type="hidden" name="date" value="{{ ticket.date }}">
+            <button type="submit" class="btn btn-primary btn-custom font-weight-bold ml-md-auto mobile-full-width mt-2 mt-md-0">Transfer Ticket</button>
+        </form>
+    </div>
+
+    <div class="action-card border-left-danger mb-3">
+        <div class="d-flex align-items-center mb-3">
+            <div class="icon-circle bg-light-danger text-danger"><i class="fas fa-undo-alt"></i></div>
+            <div class="ml-3 card-header-text">
+                <h6 class="font-weight-bold text-danger m-0">Refund & Cancel Trip</h6>
+                <p class="small text-muted m-0">Cancel ticket and request instant refund</p>
+            </div>
+        </div>
+
+        <div id="initialCancelContainer" class="text-center my-2">
+            <button type="button" class="btn btn-warning-custom btn-block font-weight-bold py-3" onclick="showBankSelection()">
+                <i class="fas fa-ticket-alt mr-2"></i> CANCEL TICKET
+            </button>
+        </div>
+
+        <div id="cancel-agent-error-msg" class="custom-alert alert-danger mb-3 d-none" role="alert">
+            <div class="d-flex align-items-center">
+                <div class="alert-icon-circle"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="ml-3">
+                    <span class="alert-title">Cancellation Denied</span>
+                    <p class="alert-desc">This ticket was booked by an agent. Online cancellation or refund is not permitted.</p>
+                </div>
+            </div>
+        </div>
+
+        <form action="{% url 'cancel_ticket' %}" method="post" id="cancelForm" class="d-none mt-3">
+            {% csrf_token %}
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="date" value="{{ ticket.date }}">
+            <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+            <input type="hidden" name="side_no" value="{{ ticket.side_no }}">
+            <input type="hidden" name="price" value="{{ ticket.price }}">
+            <input type="hidden" name="username" value="{{ ticket.username }}">
+
+            <div class="refund-badge mb-4">
+                <span class="badge-label">Estimated Refund Amount:</span>
+                <span class="badge-amount">{{ ticket.price }} ETB</span>
+            </div>
+
+            <label class="small font-weight-bold text-dark d-block mb-2">Select Your Refund Bank Account Providers</label>
+            <div class="bank-grid mb-4">
+                <label class="bank-option" onclick="selectBank(this, 'telebirr')">
+                    <input type="radio" name="refund_method" value="telebirr" required style="display:none;">
+                    <img src="{% static 'images/Tele.png' %}" alt="Telebirr">
+                    <span>Telebirr</span>
+                </label>
+                <label class="bank-option" onclick="selectBank(this, 'cbe')">
+                    <input type="radio" name="refund_method" value="cbe" style="display:none;">
+                    <img src="{% static 'images/cbe.png' %}" alt="CBE">
+                    <span>CBE Birr</span>
+                </label>
+                <label class="bank-option" onclick="selectBank(this, 'boa')">
+                    <input type="radio" name="refund_method" value="boa" style="display:none;">
+                    <img src="{% static 'images/BOA.png' %}" alt="Abyssinia">
+                    <span>Abyssinia</span>
+                </label>
+            </div>
+
+            <div class="form-group mb-4">
+                <label class="small font-weight-bold text-dark">Target Account / Phone Number</label>
+                <input type="text" id="refund_account" name="refund_account"
+                       class="form-control form-control-custom"
+                       placeholder="Select a preferred bank option above" required autocomplete="off"
+                       inputmode="numeric"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <small id="helper_text" class="text-muted d-block mt-1 pl-1" style="font-size: 11px;"></small>
+            </div>
+
+            <button type="submit" class="btn btn-danger btn-block font-weight-bold py-3 btn-submit-cancel" onclick="return validateRefundForm()">
+                CONFIRM & SECURE CANCELLATION
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Base Structure Elements */
+.action-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.action-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+}
+.border-left-success { border-left: 5px solid #2ecc71 !important; }
+.border-left-primary { border-left: 5px solid #3498db !important; }
+.border-left-danger { border-left: 5px solid #e74c3c !important; }
+
+/* Custom Dynamic Alerts CSS */
+.custom-alert {
+    background-color: #fef2f2;
+    border-left: 5px solid #ef4444;
+    border-radius: 12px;
+    padding: 14px 20px;
+    color: #991b1b;
+}
+.alert-icon-circle {
+    background: #fee2e2;
+    color: #ef4444;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+.alert-title {
+    font-weight: 800;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 2px;
+}
+.alert-desc {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: #7f1d1d;
+}
+
+/* Icons Design Rules */
+.icon-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+.bg-light-success { background-color: #e8f8f0; }
+.bg-light-primary { background-color: #e8f4fd; }
+.bg-light-danger { background-color: #fdedec; }
+
+/* Button & Form Controls Elements */
+.btn-custom {
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.form-control-custom {
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    transition: all 0.3s ease;
+}
+.form-control-custom:focus {
+    border-color: #475569;
+    box-shadow: 0 0 0 3px rgba(71, 85, 105, 0.1);
+}
+
+/* Bank Grid Systems Layouts */
+.bank-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+.bank-option {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: #fafafa;
+}
+.bank-option:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+.bank-option.active {
+    border-color: #2ecc71 !important;
+    background-color: #f0fdf4 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(46, 204, 113, 0.18);
+}
+.bank-option img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 6px;
+}
+.bank-option span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Custom Refund Badge Block */
+.refund-badge {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    padding: 14px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.badge-label { font-size: 13px; font-weight: 700; color: #475569; }
+.badge-amount { font-size: 16px; font-weight: 800; color: #e74c3c; }
+
+.btn-warning-custom {
+    background: #ff9f43;
+    color: #fff;
+    border-radius: 12px;
+    border: none;
+    transition: background 0.2s;
+}
+.btn-warning-custom:hover { background: #ee8a24; color: #fff; }
+.btn-submit-cancel { border-radius: 12px; font-size: 14px; letter-spacing: 0.5px; }
+
+/* Responsive View Adjustment */
+@media (max-width: 768px) {
+    .mobile-full-width { width: 100%; }
+    .mobile-full-width input { width: 100% !important; margin-right: 0 !important; margin-bottom: 8px; }
+    .mobile-full-width button { width: 100%; }
+    .card-header-text { text-align: left; }
+    .bank-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+let activeMinLength = 0;
+let activeMaxLength = 0;
+let expectedPrefix = "";
+
+function validateTicketForm(form) {
+    var usernameField = form.querySelector('input[name="username"]');
+    var usernameValue = usernameField ? usernameField.value.trim() : "";
+    var errorDiv = document.getElementById('agent-error-msg');
+
+    if (usernameValue !== "" && usernameValue !== "None" && usernameValue !== null) {
+        if (errorDiv) {
+            errorDiv.classList.remove('d-none');
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return false;
+    }
+    if (errorDiv) { errorDiv.classList.add('d-none'); }
+    return true;
+}
+
+function showBankSelection() {
+    const usernameField = document.querySelector('#cancelForm input[name="username"]');
+    const usernameValue = usernameField ? usernameField.value.trim() : "";
+    const errorDiv = document.getElementById('cancel-agent-error-msg');
+
+    if (usernameValue !== "" && usernameValue !== "None" && usernameValue !== null) {
+        if (errorDiv) {
+            errorDiv.classList.remove('d-none');
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+    document.getElementById('initialCancelContainer').classList.add('d-none');
+    document.getElementById('cancelForm').classList.remove('d-none');
+}
+
+function selectBank(element, method) {
+    document.querySelectorAll('.bank-option').forEach(opt => opt.classList.remove('active'));
+    element.classList.add('active');
+    element.querySelector('input[type="radio"]').checked = true;
+
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+
+    input.value = "";
+    helper.className = "text-muted d-block mt-1";
+
+    if (method === 'telebirr') {
+        activeMinLength = 10; activeMaxLength = 10; expectedPrefix = "09";
+        input.placeholder = "e.g., 0912345678";
+        helper.innerText = "Enter exactly 10 digits starting with 09";
+    } else if (method === 'cbe') {
+        activeMinLength = 13; activeMaxLength = 13; expectedPrefix = "1000";
+        input.placeholder = "e.g., 1000123456789";
+        helper.innerText = "Enter exactly 13 digits starting with 1000";
+    } else if (method === 'boa') {
+        activeMinLength = 8; activeMaxLength = 8; expectedPrefix = "48";
+        input.placeholder = "e.g., 48123456";
+        helper.innerText = "Enter exactly 8 digits starting with 48";
+    }
+    input.maxLength = activeMaxLength;
+    input.focus();
+}
+
+function validateRefundForm() {
+    const usernameField = document.querySelector('#cancelForm input[name="username"]');
+    const usernameValue = usernameField ? usernameField.value.trim() : "";
+    const errorDiv = document.getElementById('cancel-agent-error-msg');
+
+    if (usernameValue !== "" && usernameValue !== "None" && usernameValue !== null) {
+        if (errorDiv) {
+            errorDiv.classList.remove('d-none');
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return false;
+    }
+
+    const radioSelected = document.querySelector('input[name="refund_method"]:checked');
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+
+    if (!radioSelected) {
+        alert("Please select a bank option first.");
+        return false;
+    }
+    const val = input.value;
+    if (val.length !== activeMaxLength || !val.startsWith(expectedPrefix)) {
+        helper.className = "text-danger d-block mt-1 font-weight-bold";
+        helper.innerText = `Invalid formatting. Must be exactly ${activeMaxLength} digits starting with "${expectedPrefix}".`;
+        input.focus();
+        return false;
+    }
+    return true;
+}
+</script>
+
+
+
+
+
+<!--
+    <div id="ticket-container">
+        {% if ticket %}
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <div>
+                    <h1 class="m-0" style="font-size: 20px; font-weight: 800;">Busfermata Digital Tech</h1>
+                    <span class="badge-level">LEVEL: {{ level|default:"Standard" }}</span>
+                </div>
+		 <div>
+                    <h1 class="m-0" style="font-size: 20px; font-weight: 800;">Operator Name</h1>
+                    <span class="badge-level">{{ name }}</span>
+                </div>
+                <div class="text-right">
+                    <p class="data-label m-0" style="color: var(--brand-gold);">BOOKING REF / PNR</p>
+		    <h2 class="m-0" style="font-size: 24px; font-weight: 900; color: var(--brand-gold);" translate="no">{{ ticket.pnr }}</h2>
+                </div>
+            </div>
+            <div class="ticket-content">
+                <div class="main-info">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div style="flex: 1;">
+                            <p class="data-label">Passenger Name</p>
+                            <span class="full-name-display">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+                        </div>
+                        <div class="text-right ml-3">
+                            <p class="data-label">Gender</p>
+                            <p class="data-value" style="font-size: 20px; color: var(--brand-blue);">{{ ticket.gender|upper }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="data-label">From (መነሻ)</p>
+                            <p class="data-value">{{ ticket.depcity }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="data-label">To (መድረሻ)</p>
+                            <p class="data-value">{{ ticket.descity }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="data-label">Plate No</p>
+                            <p class="data-value">{{ ticket.plate_no }}</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="data-label">Side No</p>
+                            <p class="data-value">{{ ticket.side_no }}</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="data-label">Date</p>
+			    <p class="data-value text-danger">{{ ticket.date }}</p>
+</div>
+		<div class="col-3">
+        <p class="data-label">Departure Time</p>
+        <p class="data-value" style="color: var(--brand-blue);">11:30</p>
+    </div>
+                    </div>
+                    <div class="mt-2 pt-3" style="border-top: 1px solid #f1f5f9;">
+                        <div class="row">
+                            <div class="col-7">
+                                <p class="data-label">Email Address</p>
+                                <p class="data-value" style="font-size: 13px; word-break: break-all;">{{ ticket.email|default:"Not Provided" }}</p>
+                            </div>
+                            <div class="col-5">
+                                <p class="data-label">Issuing Agent</p>
+                                <p class="data-value" style="font-size: 13px;">
+                                    {% if fname and fname != self %} 
+                                        {{ fname }} {{ lname }} 
+                                    {% else %} 
+                                        System / Online 
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <div class="text-center">
+                            <p class="data-label">Seat No</p>
+                            <p class="m-0" style="font-size: 26px; font-weight: 900; color: var(--brand-blue);">{{ ticket.no_seat }}</p>
+                        </div>
+<div class="text-center" style="padding: 10px; background-color: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;">
+    {% load currency_filters %}
+    <p class="data-label" style="font-size: 11px; color: #6b7280; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">Total Fare</p>
+    <div style="display: flex; align-items: baseline; justify-content: center; gap: 10px; flex-wrap: wrap;">
+        <p class="m-0" style="font-size: 32px; font-weight: 800; color: #15803d; line-height: 1;">
+            {{ ticket.price }}
+        </p>
+        <p class="m-0" style="font-size: 10px; font-weight: 700; color: #374151; font-style: italic;">
+            ({{ ticket.price|price_to_words_intl }})
+        </p>
+    </div>
+</div>
+                    </div>
+                </div>
+                <div class="qr-area">
+                    <img src="{{ ticket.qr_code }}" alt="QR" style="width: 170px; height: 170px; border: 8px solid #f8fafc; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <div class="mt-4">
+                        <p class="data-label">Ticket ID</p>
+                        <code style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: var(--brand-navy);">{{ ticket.ticket_id }}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+	-->
+
+
+
+
+
+<!--
+<div class="dashboard-area no-print">    
+    <div class="action-card shadow-sm border-left-success mb-3">
+        <form action="{% url 'update_ticket' %}" method="post" class="d-flex flex-wrap align-items-center">
+            {% csrf_token %}
+            <div class="icon-circle bg-light text-success"><i class="fas fa-calendar-alt"></i></div>
+            <div class="flex-grow-1 ml-3">
+                <label class="font-weight-bold m-0 text-success">Reschedule Trip</label>
+                <p class="small text-muted m-0">Change your travel date</p>
+            </div>  
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+	    <input type="hidden" name="price" value="{{ ticket.price }}">
+	    <input type="hidden" name="email" value="{{ ticket.email }}">
+	    <input type="hidden" name="phone" value="{{ ticket.phone }}">
+            <input type="hidden" name="da" value="{{ ticket.date }}">
+	    <input type="hidden" name="gender" value="{{ ticket.gender }}">
+	    <input type="text" name="username" value="{{ ticket.username }}">
+	     <input type="hidden" name="passenger_type" value="{{ ticket.passenger_type }}">
+            <input type="date" name="new_date" required class="form-control form-control-sm mx-md-3 my-2" style="width: auto;">
+            <button type="submit" class="btn btn-success btn-sm font-weight-bold ml-md-auto">Update Date</button>
+        </form>
+    </div>
+-->
+
+
+
+
+
+<!--
+<div class="dashboard-area no-print">
+    <div id="agent-error-msg" class="alert alert-danger font-weight-bold mb-3 d-none" role="alert">
+        <i class="fas fa-exclamation-triangle mr-2"></i> This ticket was booked by an agent. It cannot be transferred or rescheduled!
+    </div>
+
+    <div class="action-card shadow-sm border-left-success mb-3">
+        <form action="{% url 'update_ticket' %}" method="post" class="d-flex flex-wrap align-items-center" onsubmit="return validateTicketForm(this)">
+            {% csrf_token %}
+            <div class="icon-circle bg-light text-success"><i class="fas fa-calendar-alt"></i></div>
+            <div class="flex-grow-1 ml-3">
+                <label class="font-weight-bold m-0 text-success">Reschedule Trip</label>
+                <p class="small text-muted m-0">Change your travel date</p>
+            </div>
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="price" value="{{ ticket.price }}">
+            <input type="hidden" name="email" value="{{ ticket.email }}">
+            <input type="hidden" name="phone" value="{{ ticket.phone }}">
+            <input type="hidden" name="da" value="{{ ticket.date }}">
+            <input type="hidden" name="gender" value="{{ ticket.gender }}">
+	    <input type="hidden" name="username" id="ticket-username" value="{{ ticket.username }}">
+            <input type="hidden" name="passenger_type" value="{{ ticket.passenger_type }}">
+            <input type="date" name="new_date" required class="form-control form-control-sm mx-md-3 my-2" style="width: auto;">
+            <button type="submit" class="btn btn-success btn-sm font-weight-bold ml-md-auto">Update Date</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function validateTicketForm(form) {
+    // በፎርሙ ውስጥ ያለውን የusername ዋጋ ማግኘት
+    var usernameField = form.querySelector('input[name="username"]');
+    var usernameValue = usernameField ? usernameField.value.trim() : "";
+    
+    // የኢረር መልእክት ማሳያ ዲቭ (Div)
+    var errorDiv = document.getElementById('agent-error-msg');
+
+    // 🔴 'None' ወይም ባዶ ካልሆነ (በኤጀንት እንደተቆረጠ ያሳያል)
+    if (usernameValue !== "" && usernameValue !== "None" && usernameValue !== null) {
+        // 1. ቀዩን የስህተት መልእክት ማሳየት (Bootstrap d-noneን በማስወገድ)
+        if (errorDiv) {
+            errorDiv.classList.remove('d-none');
+            // ወደ ስህተቱ መልእክት ገጹ ስክሮል እንዲያደርግ
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // 2. ፎርሙ ወደ ሰርቨር እንዳይላክ ማገድ (Block Submit)
+        return false;
+    }
+
+    // 🟢 ባዶ ከሆነ ወይም 'None' ከሆነ በትክክል እንዲያልፍ መፍቀድ
+    if (errorDiv) {
+        errorDiv.classList.add('d-none');
+    }
+    return true;
+}
+</script>
+
+
+    <div class="action-card shadow-sm border-left-primary mb-3">
+        <form action="{% url 'passenger' %}" method="post" class="d-flex flex-wrap align-items-center">
+            {% csrf_token %}
+            <div class="icon-circle bg-light text-primary"><i class="fas fa-user-edit"></i></div>
+            <div class="flex-grow-1 ml-3">
+                <label class="font-weight-bold m-0 text-primary">Transfer ticket to another person</label>
+                <p class="small text-muted m-0">Transfer this ticket to another person</p>
+            </div>
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+	    <input type="hidden" name="price" value="{{ ticket.price }}">
+            <input type="hidden" name="date" value="{{ ticket.date }}">
+            <button type="submit" class="btn btn-primary btn-sm font-weight-bold ml-md-auto">Transfer Ticket</button>
+        </form>
+    </div>
+
+<style>
+/* Bank Grid Styling */
+.bank-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.bank-option {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+/* Visual Feedback when selected */
+.bank-option.active {
+    border-color: #2ecc71 !important;
+    background-color: #f0fdf4 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.15);
+}
+
+.bank-option img {
+    height: 30px;
+    width: auto;
+    display: block;
+    margin: 0 auto 5px;
+}
+
+.bank-option span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00264d;
+    display: block;
+}
+
+.form-control-custom {
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: 12px;
+    transition: 0.3s;
+}
+
+.form-control-custom:focus {
+    border-color: #00264d;
+    box-shadow: 0 0 0 3px rgba(0, 38, 77, 0.1);
+}
+</style>
+<div class="action-card border-left-danger shadow-sm p-4 bg-white rounded-lg">
+    <div class="d-flex align-items-center mb-3">
+        <div class="icon-circle bg-light text-danger" style="width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+            <i class="fas fa-undo-alt"></i>
+        </div>
+        <h6 class="font-weight-bold text-danger m-0 ml-3">Refund & Cancel Trip</h6>
+    </div>
+
+<div id="initialCancelContainer" class="text-center my-3">
+    <button type="button" class="btn btn-warning btn-block font-weight-bold py-3 shadow-sm" onclick="showBankSelection()">
+        CANCEL TICKET
+    </button>
+</div>
+
+<div id="cancel-agent-error-msg" class="alert alert-danger font-weight-bold mb-3 d-none no-print" role="alert">
+    <i class="fas fa-exclamation-triangle mr-2"></i> This ticket was booked by an agent. It cannot be cancelled or refunded online!
+</div>
+
+<form action="{% url 'cancel_ticket' %}" method="post" id="cancelForm" class="d-none">
+    {% csrf_token %}
+    <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+    <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+    <input type="hidden" name="date" value="{{ ticket.date }}">
+    <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+    <input type="hidden" name="side_no" value="{{ ticket.side_no }}">
+    <input type="hidden" name="price" value="{{ ticket.price }}">
+    
+    <input type="hidden" name="username" value="{{ ticket.username }}">
+
+    <p class="small text-muted mb-3">Total Refund: <strong class="text-danger">{{ ticket.price }} ETB</strong></p>
+
+    <div class="bank-grid mb-4">
+        <label class="bank-option" onclick="selectBank(this, 'telebirr')">
+            <input type="radio" name="refund_method" value="telebirr" required style="display:none;">
+            <img src="{% static 'images/Tele.png' %}" alt="Telebirr">
+            <span>Telebirr</span>
+        </label>
+        <label class="bank-option" onclick="selectBank(this, 'cbe')">
+            <input type="radio" name="refund_method" value="cbe" style="display:none;">
+            <img src="{% static 'images/cbe.png' %}" alt="CBE">
+            <span>CBE Birr</span>
+        </label>
+        <label class="bank-option" onclick="selectBank(this, 'boa')">
+            <input type="radio" name="refund_method" value="boa" style="display:none;">
+            <img src="{% static 'images/BOA.png' %}" alt="Abyssinia">
+            <span>Abyssinia</span>
+        </label>
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="small font-weight-bold text-navy">Account / Phone Number</label>
+        <input type="text" id="refund_account" name="refund_account" 
+               class="form-control form-control-custom" 
+               placeholder="Select a bank above" required autocomplete="off"
+               inputmode="numeric"
+               oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+        <small id="helper_text" class="text-muted d-block mt-1" style="font-size: 11px;"></small>
+    </div>
+
+    <button type="submit" class="btn btn-danger btn-block font-weight-bold py-3" 
+            onclick="return validateRefundForm()">
+        CONFIRM CANCELLATION
+    </button>
+</form>
+
+<script>
+// Global tracking configuration variables for clean submission validation
+let activeMinLength = 0;
+let activeMaxLength = 0;
+let expectedPrefix = "";
+
+// Step 1 UI Trigger: Reveal form wrapper
+function showBankSelection() {
+    // 🔍 ፎርሙ ከመከፈቱ በፊት ዩዘርኔሙን ቼክ ማድረግ (ካልፈቀደው እንዳይከፈት ጭምር መከላከል)
+    const usernameField = document.querySelector('#cancelForm input[name="username"]');
+    const usernameValue = usernameField ? usernameField.value.trim() : "";
+    const errorDiv = document.getElementById('cancel-agent-error-msg');
+
+    if (usernameValue !== "" && usernameValue !== "None" && usernameValue !== null) {
+        if (errorDiv) {
+            errorDiv.classList.remove('d-none');
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return; // የባንክ መምረጫውን ፎርም ሳያሳይ እዚህ ላይ ያግደዋል
+    }
+
+    document.getElementById('initialCancelContainer').classList.add('d-none');
+    document.getElementById('cancelForm').classList.remove('d-none');
+}
+
+// Step 2 UI Trigger: Manage parameters when selecting banks
+function selectBank(element, method) {
+    document.querySelectorAll('.bank-option').forEach(opt => opt.classList.remove('active'));
+    element.classList.add('active');
+    element.querySelector('input[type="radio"]').checked = true;
+
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+    
+    input.value = ""; 
+    helper.className = "text-muted d-block mt-1";
+
+    if (method === 'telebirr') {
+        activeMinLength = 10;
+        activeMaxLength = 10;
+        expectedPrefix = "09";
+        input.placeholder = "e.g., 0912345678";
+        helper.innerText = "Enter 10 digits starting with 09";
+    } else if (method === 'cbe') {
+        activeMinLength = 13;
+        activeMaxLength = 13;
+        expectedPrefix = "1000";
+        input.placeholder = "e.g., 1000123456789";
+        helper.innerText = "Enter 13 digits starting with 1000";
+    } else if (method === 'boa') {
+        activeMinLength = 8;
+        activeMaxLength = 8;
+        expectedPrefix = "48";
+        input.placeholder = "e.g., 48123456";
+        helper.innerText = "Enter 8 digits starting with 48";
+    }
+    
+    input.maxLength = activeMaxLength;
+    input.focus();
+}
+
+// Step 3 Guard: Intercept submission events if inputs fail strict requirements
+function validateRefundForm() {
+    // 🔴 1. የኤጀንት ፍተሻ (የመጨረሻ ሴኪውሪቲ በር)
+    const usernameField = document.querySelector('#cancelForm input[name="username"]');
+    const usernameValue = usernameField ? usernameField.value.trim() : "";
+    const errorDiv = document.getElementById('cancel-agent-error-msg');
+
+    if (usernameValue !== "" && usernameValue !== "None" && usernameValue !== null) {
+        if (errorDiv) {
+            errorDiv.classList.remove('d-none');
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return false; // ሰብሚት እንዳይሆን ማገድ
+    }
+
+    // 2. የባንክ ምርጫ እና የቁጥር ርዝመት ፍተሻ
+    const radioSelected = document.querySelector('input[name="refund_method"]:checked');
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+
+    if (!radioSelected) {
+        alert("Please select a bank option first.");
+        return false;
+    }
+    const val = input.value;
+    if (val.length !== activeMaxLength || !val.startsWith(expectedPrefix)) {
+        helper.className = "text-danger d-block mt-1 font-weight-bold";
+        helper.innerText = `Invalid formatting. Must be exactly ${activeMaxLength} digits starting with "${expectedPrefix}".`;
+        input.focus();
+        return false;
+    }
+    return true; 
+}
+</script>
+-->
+
+
+
+
+<!--
+<form action="{% url 'cancel_ticket' %}" method="post" id="cancelForm" class="d-none">
+    {% csrf_token %}
+    <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+    <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+    <input type="hidden" name="date" value="{{ ticket.date }}">
+    <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+    <input type="hidden" name="side_no" value="{{ ticket.side_no }}">
+    <input type="hidden" name="price" value="{{ ticket.price }}">
+
+    <p class="small text-muted mb-3">Total Refund: <strong class="text-danger">{{ ticket.price }} ETB</strong></p>
+
+    <div class="bank-grid mb-4">
+        <label class="bank-option" onclick="selectBank(this, 'telebirr')">
+            <input type="radio" name="refund_method" value="telebirr" required style="display:none;">
+            <img src="{% static 'images/Tele.png' %}" alt="Telebirr">
+            <span>Telebirr</span>
+        </label>
+        <label class="bank-option" onclick="selectBank(this, 'cbe')">
+            <input type="radio" name="refund_method" value="cbe" style="display:none;">
+            <img src="{% static 'images/cbe.png' %}" alt="CBE">
+            <span>CBE Birr</span>
+        </label>
+        <label class="bank-option" onclick="selectBank(this, 'boa')">
+            <input type="radio" name="refund_method" value="boa" style="display:none;">
+            <img src="{% static 'images/BOA.png' %}" alt="Abyssinia">
+            <span>Abyssinia</span>
+        </label>
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="small font-weight-bold text-navy">Account / Phone Number</label>
+        <input type="text" id="refund_account" name="refund_account" 
+               class="form-control form-control-custom" 
+               placeholder="Select a bank above" required autocomplete="off"
+               inputmode="numeric"
+               oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+        <small id="helper_text" class="text-muted d-block mt-1" style="font-size: 11px;"></small>
+    </div>
+
+    <button type="submit" class="btn btn-danger btn-block font-weight-bold py-3" 
+            onclick="return validateRefundForm()">
+        CONFIRM CANCELLATION
+    </button>
+</form>
+
+<script>
+// Global tracking configuration variables for clean submission validation
+let activeMinLength = 0;
+let activeMaxLength = 0;
+let expectedPrefix = "";
+
+// Step 1 UI Trigger: Reveal form wrapper
+function showBankSelection() {
+    document.getElementById('initialCancelContainer').classList.add('d-none');
+    document.getElementById('cancelForm').classList.remove('d-none');
+}
+
+// Step 2 UI Trigger: Manage parameters when selecting banks
+function selectBank(element, method) {
+    // 1. Highlight selected option border/styling
+    document.querySelectorAll('.bank-option').forEach(opt => opt.classList.remove('active'));
+    element.classList.add('active');
+    element.querySelector('input[type="radio"]').checked = true;
+
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+    
+    // Clear old text values on switch and reset text style status
+    input.value = ""; 
+    helper.className = "text-muted d-block mt-1";
+
+    // 2. Set provider routing constraints dynamically
+    if (method === 'telebirr') {
+        activeMinLength = 10;
+        activeMaxLength = 10;
+        expectedPrefix = "09";
+        input.placeholder = "e.g., 0912345678";
+        helper.innerText = "Enter 10 digits starting with 09";
+    } else if (method === 'cbe') {
+        activeMinLength = 13;
+        activeMaxLength = 13;
+        expectedPrefix = "1000";
+        input.placeholder = "e.g., 1000123456789";
+        helper.innerText = "Enter 13 digits starting with 1000";
+    } else if (method === 'boa') {
+        activeMinLength = 8;
+        activeMaxLength = 8;
+        expectedPrefix = "48";
+        input.placeholder = "e.g., 48123456";
+        helper.innerText = "Enter 8 digits starting with 48";
+    }
+    
+    // Assign maximum attribute structure dynamically and shift focus
+    input.maxLength = activeMaxLength;
+    input.focus();
+}
+
+// Step 3 Guard: Intercept submission events if inputs fail strict requirements
+function validateRefundForm() {
+    const radioSelected = document.querySelector('input[name="refund_method"]:checked');
+    const input = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+    // Make sure a banking option is explicitly flagged active
+    if (!radioSelected) {
+        alert("Please select a bank option first.");
+        return false;
+    }
+    const val = input.value;
+    // Structural length and routing prefix verification matchers
+    if (val.length !== activeMaxLength || !val.startsWith(expectedPrefix)) {
+        helper.className = "text-danger d-block mt-1 font-weight-bold";
+        helper.innerText = `Invalid formatting. Must be exactly ${activeMaxLength} digits starting with "${expectedPrefix}".`;
+        input.focus();
+        return false;
+    }
+    return true; // Continues clean post transmission execution to Django views
+}
+</script>
+-->
+
+
+
+
+    <!--
+    <form action="{% url 'cancel_ticket' %}" method="post" id="cancelForm">
+        {% csrf_token %}
+        
+        <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+        <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+        <input type="hidden" name="date" value="{{ ticket.date }}">
+        <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+        <input type="hidden" name="side_no" value="{{ ticket.side_no }}">
+	<input type="hidden" name="price" value="{{ ticket.price }}">
+        <p class="small text-muted mb-3">Select account to receive <strong>{{ ticket.price }} ETB</strong> refund:</p>
+
+        <div class="bank-grid">
+            <label class="bank-option" onclick="selectBank(this)">
+                <input type="radio" name="refund_method" value="telebirr" required style="display:none;">
+                <img src="{% static 'images/Tele.png' %}" alt="Telebirr">
+                <span>Telebirr</span>
+            </label>
+            <label class="bank-option" onclick="selectBank(this)">
+                <input type="radio" name="refund_method" value="cbe" style="display:none;">
+                <img src="{% static 'images/cbe.png' %}" alt="CBE">
+                <span>CBE Birr</span>
+            </label>
+            <label class="bank-option" onclick="selectBank(this)">
+                <input type="radio" name="refund_method" value="boa" style="display:none;">
+                <img src="{% static 'images/BOA.png' %}" alt="Abyssinia">
+                <span>Abyssinia</span>
+            </label>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="small font-weight-bold text-navy">Account / Phone Number</label>
+            <input type="text" id="refund_account" name="refund_account" 
+                   class="form-control form-control-custom" 
+                   placeholder="Select a bank above" required autocomplete="off"
+       inputmode="numeric"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            <small id="helper_text" class="text-muted" style="f
+-->
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+<script>
+function selectBank(element) {
+    // 1. Handle visual 'active' state
+    document.querySelectorAll('.bank-option').forEach(opt => opt.classList.remove('active'));
+    element.classList.add('active');
+
+    // 2. Trigger the hidden radio button
+    const radio = element.querySelector('input[type="radio"]');
+    radio.checked = true;
+
+    // 3. Setup input rules based on the selection
+    const accountInput = document.getElementById('refund_account');
+    const helper = document.getElementById('helper_text');
+    const bank = radio.value;
+
+    accountInput.value = ""; // Clear on change
+
+    if (bank === 'telebirr') {
+        accountInput.placeholder = "09XXXXXXXX";
+        accountInput.setAttribute('maxlength', '10');
+        helper.innerHTML = "Required: 10 digits starting with 09";
+    } else if (bank === 'cbe') {
+        accountInput.placeholder = "1000XXXXXXXXX";
+        accountInput.setAttribute('maxlength', '13');
+        helper.innerHTML = "Required: 13 digits starting with 1000";
+    } else if (bank === 'boa') {
+        accountInput.placeholder = "XXXXXXXX";
+        accountInput.setAttribute('maxlength', '8');
+        helper.innerHTML = "Required: Exactly 8 digits";
+    }
+}
+
+function validateRefundForm() {
+    const radio = document.querySelector('input[name="refund_method"]:checked');
+    const accountInput = document.getElementById('refund_account').value;
+
+    if (!radio) {
+        alert("Please select a refund bank first!");
+        return false;
+    }
+
+    const bank = radio.value;
+
+    // Rule 1: Telebirr
+    if (bank === 'telebirr') {
+        if (accountInput.length !== 10 || !accountInput.startsWith('09')) {
+            alert("Error: Telebirr number must be 10 digits and start with 09.");
+            return false;
+        }
+    } 
+    // Rule 2: CBE
+    else if (bank === 'cbe') {
+        if (accountInput.length !== 13 || !accountInput.startsWith('1000')) {
+            alert("Error: CBE Account must be 13 digits and start with 1000.");
+            return false;
+        }
+    } 
+    // Rule 3: BOA (Abyssinia)
+    else if (bank === 'boa') {
+        if (accountInput.length !== 8) {
+            alert("Error: Abyssinia (BOA) account must be exactly 8 digits.");
+            return false;
+        }
+    }
+
+    return confirm("Are you sure? Once confirmed, your ticket will be cancelled and money sent to this account.");
+}
+</script>
+
+
+	<!--
+        <div class="dashboard-area no-print">
+            <div class="action-card shadow-sm">
+                <form action="{% url 'update_ticket' %}" method="post" class="d-flex flex-wrap align-items-center">
+                    {% csrf_token %}
+                    <div class="icon-circle bg-light text-success"><i class="fas fa-calendar-alt"></i></div>
+                    <label class="font-weight-bold m-0 mr-3 text-success">Reschedule Trip:</label>        
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="da" value="{{ ticket.date }}">
+            <input type="hidden" name="price" value="{{ ticket.price }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="phone" value="{{ ticket.phone }}">
+            <input type="hidden" name="gender" value="{{ ticket.gender }}">
+            <input type="hidden" name="side_no" value="{{ ticket.side_no }}">
+            <input type="hidden" name="plate_no" value="{{ ticket.plate_no }}">
+            <input type="hidden" name="email" value="{{ ticket.email }}">
+            <input type="date" name="new_date" required class="input-style">
+            <button type="submit" class="btn btn-success font-weight-bold ml-md-auto">Update Date</button>
+                </form>
+            </div>
+            <div class="action-card shadow-sm">
+                <form action="{% url 'passenger' %}" method="post" class="d-flex flex-wrap align-items-center">
+                    {% csrf_token %}
+                    <div class="icon-circle bg-light text-primary"><i class="fas fa-user-edit"></i></div>
+                    <label class="font-weight-bold m-0 mr-3">Passenger Info:</label>        
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="date" value="{{ ticket.date }}">
+	    <button type="submit" class="btn btn-primary font-weight-bold ml-md-auto" style="background-color: var(--brand-blue);">Transfer to Another Person</button>
+                </form>
+            </div>
+        </div>
+	-->
+
+        {% endif %}
+    </div>
+</div>
+
+<footer style="background:var(--brand-navy); color:white; padding:30px 0; text-align:center;">
+    <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technology. Ethiopia's Digital Standard.</p>
+</footer>
+
+<script>
+function downloadPDF() {
+    const element = document.getElementById('ticket-container'); // or 'print-area'
+    const opt = {
+        margin: [0.2, 0.2], // Smaller margins for mobile
+        filename: 'Busfermata_Ticket.pdf',
+        image: { type: 'jpeg', quality: 0.95 }, // JPEG is lighter than PNG for mobile
+        html2canvas: {
+            scale: 2, // Reduced from 3 to 2 to prevent mobile crashes
+            useCORS: true,
+            letterRendering: true,
+            scrollX: 0,
+            scrollY: 0
+        },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    // Suggestion: Add a small delay to ensure images are loaded
+    html2pdf().set(opt).from(element).save();
+}
+</script>
+
+
+<!--
+<script>
+    function downloadPDF() {
+        const element = document.getElementById('ticket-container');
+        const opt = {
+            margin: 0.5,
+            filename: 'Ticket_{{ ticket.pnr }}.pdf',
+            image: { type: 'jpeg', quality: 1.0 },
+            html2canvas: { scale: 3, useCORS: true },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
+-->
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

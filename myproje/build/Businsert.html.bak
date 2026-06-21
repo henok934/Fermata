@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>home</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../static/styles/bootstrap4/bootstrap.min.css">
+<link href="../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="../static/styles/responsive.css">
+</head>
+
+<body>
+<div class="super_container">
+	<header class="header">
+		<div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+251-11-551 82 92</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="user_box ml-auto">
+							<div class="user_box_login user_box_link"><a href="{% url 'login' %}">login</a></div>
+							<div class="user_box_register user_box_link"><a href="{% url 'registor' %}">register</a></div>			
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<nav class="main_nav">
+			<div class="container">
+				<div class="row">
+					<div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+						<div class="logo_container">
+							<div class="logo"><a href="#"><img src="../static/images/logo.png" alt="">ticket</a></div>
+						</div>
+						<div class="main_nav_container ml-auto">
+							<ul class="main_nav_list">
+							
+
+							<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</nav>
+</header>	
+</br></br></br</br></br></br></br>
+</br></br></br></br>
+
+{% if success %}
+    <div class="success">
+    <h3 style="color: green; margin-left: 150px;"><b>{{ success }}</b><span style="margin-left:30px;" class="symbol">✔</span></h3>
+    </div>
+    {% endif %}
+
+
+
+
+
+
+<div class="search12">
+	</br></br></br></br</br>
+	{% if error  %}
+    <div class="error">
+<h3 style="color: red; margin-left: 150px;"><b>{{ error }}</b><span style="margin-left:30px;" class="symbol"><h2>x</h2></span></h3>
+
+
+    </div>
+    {% endif %}
+									<div class="container fill_height">
+									<div class="row fill_height">
+										<div class="col fill_height">
+    <div class="error">
+
+<div class="search_panel active">
+
+<div class="container">
+    <div class="search-panel">
+        <h2 class="text-center text-primary" style="font-size: 1.5rem;">Register Bus</h2>
+        <p class="text-center" style="margin-bottom: 15px; font-size: 0.9rem;">
+            Please fill out the details below to register.
+        </p>
+        <form action="#" method="post" id="search_form_1">
+            {% csrf_token %}
+            <div class="form-group">
+		<!--
+                <label for="plate_no" class="col-form-label"  style="margin-left:120px;" >Plate No:</label>
+                <input type="text" id="plate_no" name="plate_no" maxlength="5" required style="width: 50%; margin-left:120px;" class="form-control" oninput="validatePlateNo(this)">
+                <span id="plate-error" class="error-message"></span>
+            	-->
+		<div style="display: flex; align-items: center; margin-left: 90px;">
+    <label for="plate_no" class="col-form-label" style="margin-right: 10px;">Plate No:</label>
+    <input type="text" id="plate_no" name="plate_no" maxlength="5" required style="width: 50%; margin-left: 5px;" class="form-control" oninput="validatePlateNo(this)">
+    <span id="plate-error" class="error-message" style="margin-left: 10px;"></span>
+</div>
+	  <!-- 
+            
+                <label for="sideno"  style="margin-left:120px;"  class="col-form-label">Side No:</label>
+                <input type="text" id="sideno" name="sideno" maxlength="4" style="width: 50%; margin-left:120px;" required class="form-control" oninput="validateside(this)">
+                <span id="side-error" class="error-message"></span>
+	  -->
+<div style="display: flex; align-items: center; margin-left: 90px;">
+    <label for="sideno" class="col-form-label" style="margin-right: 10px;">Side No:</label>
+    <input type="text" id="sideno" name="sideno" maxlength="4" required style="width: 50%; margin-left: 10px;" class="form-control" oninput="validateside(this)">
+    <span id="side-error" class="error-message" style="margin-left: 10px;"></span>
+</div>
+            	<!--
+                <label for="no_seats" style="width: 50%; margin-left:120px;"  class="col-form-label">No. Seats:</label>
+                <input type="text" id="no_seats" name="no_seats" maxlength="2"  style="width: 50%; margin-left:120px;" required class="form-control" oninput="validatesideno(this)">
+                <span id="seats-error" class="error-message"></span>
+		-->
+		<div style="display: flex; align-items: center; margin-left: 90px;">
+    <label for="no_seats" class="col-form-label" style="margin-right: 10px;">No. Seats:</label>
+    <input type="text" id="no_seats" name="no_seats" maxlength="2" required style="width: 50%;" class="form-control" oninput="validatesideno(this)">
+    <span id="seats-error" class="error-message" style="margin-left: 10px;"></span>
+</div>
+
+
+            </div>
+            <button type="submit" class="btn btn-primary submit-btn" style="width: 30%; margin-left:160px; margin-top:-30px;">Submit</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .search-panel {
+        background: white;
+        border-radius: 5px; /* Slightly rounded corners */
+        padding: 20px;      /* Reduced padding for a more compact feel */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        margin-top: 30px;   /* Increased top margin for spacing */
+        max-width: 500px;   /* Increased max-width for horizontal expansion */
+        margin-left: auto;  /* Center it horizontally */
+        margin-right: auto; /* Center it horizontally */
+    }
+    .error-message {
+        color: red;
+        display: none;
+        font-size: 0.8rem; /* Smaller size for error messages */
+    }
+    .form-control {
+        font-size: 0.9rem; /* Reduced input font size */
+        padding: 8px;      /* Comfortable padding inside inputs */
+        margin-bottom: 15px; /* Space between inputs */
+    }
+    .submit-btn {
+        margin-top: 15px; /* Adequate margin for the submit button */
+    }
+</style>
+
+<script>
+function validatePlateNo(input) {
+    var value = input.value.trim();
+    var errorMessage = document.getElementById("plate-error");
+    if (isNaN(value) || value.length !== 5) {
+        errorMessage.textContent = "Please enter a valid 5-digit number.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Invalid input.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+
+function validateside(input) {
+    var value = input.value.trim();
+    var errorMessage = document.getElementById("side-error");
+    if (isNaN(value) || value.length !== 4) {
+        errorMessage.textContent = "Please enter a valid 4-digit number.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Invalid input.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+
+function validatesideno(input) {
+    var value = input.value.trim();
+    var errorMessage = document.getElementById("seats-error");
+    if (isNaN(value) || value.length !== 2) {
+        errorMessage.textContent = "Please enter a valid 2-digit number.";
+        errorMessage.style.display = "block";
+        input.setCustomValidity("Invalid input.");
+    } else {
+        errorMessage.style.display = "none";
+        input.setCustomValidity("");
+    }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+											</div>
+										</div>
+									</div>
+								</div>		
+							</div>
+	<div class="row intro_items">
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_1.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>BahirDar</h1>					
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_2.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>Mekelle</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 intro_col">
+			<div class="intro_item">
+				<div class="intro_item_overlay"></div>
+				<div class="intro_item_background" style="background-image:url(../static/images/intro_3.jpg)"></div>
+				<div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+					<div class="intro_center text-center">
+						<h1>Jimma</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="cta_slider_nav cta_slider_prev">
+					<svg version="1.1" id="Layer_4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+						<defs>
+							<linearGradient id='cta_grad_prev'>
+								<stop offset='0%' stop-color='#fa9e1b'/>
+								<stop offset='100%' stop-color='#8d4fff'/>
+							</linearGradient>
+						</defs>
+						<path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+						M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+						C22.545,2,26,5.541,26,9.909V23.091z"/>
+						<polygon class="nav_arrow" fill="#F3F6F9" points="15.044,22.222 16.377,20.888 12.374,16.885 16.377,12.882 15.044,11.55 9.708,16.885 11.04,18.219 
+						11.042,18.219 "/>
+					</svg>
+				</div>		
+				<div class="cta_slider_nav cta_slider_next">
+					<svg version="1.1" id="Layer_5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
+						<defs>
+							<linearGradient id='cta_grad_next'>
+								<stop offset='0%' stop-color='#fa9e1b'/>
+								<stop offset='100%' stop-color='#8d4fff'/>
+							</linearGradient>
+						</defs>
+					<path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
+					M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
+					C22.545,2,26,5.541,26,9.909V23.091z"/>
+					<polygon class="nav_arrow" fill="#F3F6F9" points="13.044,11.551 11.71,12.885 15.714,16.888 11.71,20.891 13.044,22.224 18.379,16.888 17.048,15.554 
+					17.046,15.554 "/>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="contact">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="contact_image">	
+			</div>
+		</div>
+</div>
+</div>
+
+
+
+<div class="copyright">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3 order-lg-1 order-2  ">
+			<div class="copyright_content d-flex flex-row align-items-center">
+				<div>
+&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="https://colorlib.com" target="_blank">Alx student </a></div>
+			</div>
+		</div>
+		<div class="col-lg-9 order-lg-2 order-1">
+			<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+				<div class="footer_nav">
+			   <ul class="footer_nav_list">
+			   <li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+                           <select onchange="location.href = this.value;">
+                           <option value="#">Select for Register</option>
+                           <option value="{% url 'businsert' %}">Register Bus</option>
+                           <option value="{% url 'route' %}">Register Route</option>
+                           <option value="{% url 'registor' %}">Register Admin</option>
+                           <option value="{% url 'city' %}">Register City</option>
+                           <option value="{% url 'worker' %}">Register Driver</option>
+                           </select>
+                          <select onchange="location.href = this.value;">
+                          <option value="#">Select for Update</option>
+                           <option value="{% url 'updatebus' %}">Update Side_no</option>
+                           <option value="{% url 'changebus' %}">Change Bus</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Show</option>
+                           <option value="{% url 'routes' %}">show routes</option>
+                           <option value="{% url 'users' %}">show Users</option>
+                           <option value="{% url 'buses' %}">show Buses</option>
+                           <option value="{% url 'comments' %}">Show Comments</option>
+                           <option value="{% url 'driver' %}">Driver</option>
+                           <option value="{% url 'ticketinfo' %}">Booked Ticket</option>
+                           </select>
+                           <select onchange="location.href = this.value;">
+                           <option value="{% url 'admindelete' %}">Select for Delete</option>
+                           <option value="{% url 'admindelete' %}">Delete Admin</option>
+                           <option value="{% url 'commentdelete' %}">Delete Comment</option>
+                           <option value="{% url 'busdelete' %}">Delete Bus</option>
+                           <option value="{% url 'citydelete' %}">Delete City</option>
+                           <option value="{% url 'routedelete' %}">Delete Route</option>
+                           <option value="{% url 'workerdelete' %}">Delete driver</option>
+    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                           </select>
+                           <li class="footer_nav_item"><a href="{% url 'logout' %}" style="color:white;margin-left:50px;">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script src="../static/styles/bootstrap4/popper.js"></script>
+<script src="../static/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="../static/plugins/easing/easing.js"></script>
+<script src="../static/js/custom.js"></script>
+</body>
+</html>
