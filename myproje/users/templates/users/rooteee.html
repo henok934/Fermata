@@ -231,7 +231,32 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="collapse navbar-collapse" id="globalNav">
             <ul class="navbar-nav mx-auto text-center">
                 <li><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
-                <li><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>
+		<!-- <li><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>-->
+<!--
+		<li>
+    {% if worker and worker.is_active %}
+        <a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a>
+    {% else %}
+        <a class="nav-link nav-link-custom" href="#"
+           style="color: #999; pointer-events: none; cursor: not-allowed;"
+           title="Account Inactive">
+            Book (Disabled)
+        </a>
+    {% endif %}
+</li>-->
+<li>
+    {% if worker and worker.is_active %}
+        <a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a>
+    {% else %}
+        <a class="nav-link nav-link-custom" href="#"
+           id="inactiveBookLink"
+           onclick="this.style.color = 'red'; this.innerText = 'Book (ያልነቃ)'; alert('Your account is inactive! Please contact administration.'); return false;">
+            Book
+        </a>
+    {% endif %}
+</li>
+
+
                 <li><a class="nav-link nav-link-custom" href="{% url 'get_ticket' %}">Manage Ticket</a></li>
             </ul>
             <div class="d-flex align-items-center justify-content-center pt-3 pt-lg-0">

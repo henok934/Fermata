@@ -21,7 +21,7 @@
         }
 
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; \
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--surface-gray); 
             color: var(--text-main);
             margin: 0;
@@ -215,65 +215,107 @@
 
         <div class="collapse navbar-collapse" id="adminNavbar">
             <div class="navbar-nav ml-auto">
-                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
-                    <option value="#" selected disabled>Registry</option>
-                    <option value="{% url 'route' %}">Define New Route</option>
-		    <!--
-                    {% if not user.city %}
-                    <option value="{% url 'sc' %}">Register Share Company</option>
-                    <option value="{% url 'registor' %}">Add System Admin</option>
-                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
-                    <option value="{% url 'city' %}">Add Terminal Hub</option>
-                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
-                    {% endif %}
-		    -->
-		    {% if not user.city %}
-<option value="{% url 'sc' %}">Register Share Company</option>
-<option value="{% url 'registor' %}">Add System Admin</option>
-<option value="{% url 'worker' %}">Register Ticket Agent</option>
-<option value="{% url 'city' %}">Add Terminal Hub</option>
-<option value="{% url 'service_fee' %}">Set Service Tariff</option>
-{% endif %}
-                </select>
 
-                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
-                    <option value="#" selected disabled>System Configuration</option>
-                    <option value="{% url 'active' %}">Active Deployments</option>
-		    <option value="{% url 'changebus' %}">Change Bus</option>
-		                        {% if not user.city %}
-                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
-                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
-		     {% endif %}
-                </select>
+<select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+    <option value="#" selected disabled>Registry</option>
 
-                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
-                    <option value="#" selected disabled>System Analytics</option>
-                    <option value="{% url 'routes' %}">Route Mapping</option>
-		    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
-		    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
-		    <option value="{% url 'sce' %}">View Share Companies</option>
-                    
-		    {% if not user.city %}
-		    <option value="{% url 'users' %}">User Registry</option>
-                    <option value="{% url 'buses' %}">View Buses</option>
-                    <option value="{% url 'comments' %}">Passenger Feedback</option>
-		     {% endif %}
+    <option value="{% url 'route' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Define New Route {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
 
-                    <option value="{% url 'driver' %}">Booker Registry</option>
-                </select>
+    {% if user.city == "Addis Ababa" %}
+        <option value="{% url 'sc' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Register Share Company {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'registor' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Add System Admin {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'worker' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Register Ticket Agent {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'city' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Add Terminal Hub {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'service_fee' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Set Service Tariff {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+    {% endif %}
+</select>
 
-                <select onchange="location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
-                    <option value="#" selected disabled>Data Control</option>
-		    {% if not user.city %}
-                    <option value="{% url 'admindelete' %}">Remove Admin</option>
-                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
-                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
-                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
-                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
-		     {% endif %}
-                    <option value="{% url 'routedelete' %}">Delete Route</option>
-                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
-                </select>
+ <select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+    <option value="#" selected disabled>System Configuration</option>
+    <option value="{% url 'active' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Active Deployments {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+    <option value="{% url 'act' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Change Bus {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+
+    {% if user.city == "Addis Ababa" %}
+        <option value="{% url 'scupdate' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Edit Share Company {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+    {% endif %}
+</select>
+<select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+    <option value="#" selected disabled>System Analytics</option>
+    <option value="{% url 'routes' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Route Mapping {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+    <option value="{% url 'ticketinfo' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Booked Tickets {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+    <option value="{% url 'totalballance' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Revenue Analytics {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+    <option value="{% url 'sce' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        View Share Companies {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+
+    {% if user.city == "Addis Ababa" %}
+        <option value="{% url 'users' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            User Registry {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'buses' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            View Buses {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'comments' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Passenger Feedback {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+    {% endif %}
+    
+    <option value="{% url 'driver' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Booker Registry {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+</select>
+<select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
+    <option value="#" selected disabled>Data Control</option>
+    
+    {% if user.city == "Addis Ababa" %}
+        <option value="{% url 'admindelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Remove Admin {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'scdelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Remove Share Co. {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'citydelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Remove Terminal {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'commentdelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Delete Feedback {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+        <option value="{% url 'workerdelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+            Delete Booker Agent {% if not user.is_approved %}(Disabled){% endif %}
+        </option>
+    {% endif %}
+    
+    <option value="{% url 'routedelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Delete Route {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+    <option value="{% url 'delete_ticket' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+        Delete Ticket {% if not user.is_approved %}(Disabled){% endif %}
+    </option>
+</select>
             </div>
         </div>
     </div>
@@ -309,105 +351,80 @@
                 <form method="POST">
                     {% csrf_token %}
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Departure <span class="text-danger">*</span></label>
-			    <!--
-			    <select name="depcity" id="depcity" class="form-control form-control-modern" required onchange="handleCityChange()">
-        <option value="" data-eng-name="">Select City</option>
-        {% for item in des %}
-            {# Removed 'Asko' from the exclusion list so its terminals can show up #}
-            {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena" %}
-
-                {% if user.city == 'Autobustera' %}
-                    {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Departure <span class="text-danger">*</span></label> 
+        <select name="depcity" id="depcity" class="form-control form-control-modern" required onchange="handleCityChange()">
+            <option value="" data-eng-name="">Select City</option>
+            {% for item in des %}
+                {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                    {% if user.city == 'Autobustera' %}
+                        {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Asko' %}
+                        {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Ayertena' %}
+                        {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Kality' %}
+                        {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Lamberet' %}
+                        {% if item.depcity in "Kemise,Kombolcha,Dessie,DessieAkesta,DessieMasha,Denso,WoraIlu,WoraBabo,WeinAmba,Kelela,Wegdi,Mekaneselam,Woldiya,Alamata,Mekele,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% else %}
                         <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
                     {% endif %}
-
-                {% elif user.city == 'Asko' %}
-                    {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
-                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                    {% endif %}
-
-                {% elif user.city == 'Ayertena' %}
-                    {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Welayatatercha,Welita,Welkite,Sawla,Sodo,Addisababa" %}
-                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                    {% endif %}
-
-                {% elif user.city == 'Kality' %}
-                    {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
-                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                    {% endif %}
-
-                {% else %}
-                    <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
                 {% endif %}
-
-            {% endif %}
-        {% endfor %}
-    </select>
-    -->		    
-                            <select name="depcity" id="depcity" class="form-control form-control-modern" required onchange="handleCityChange()">
-                                <option value="" data-eng-name="">Select City</option>
-                                {% for item in des %}
-                                    {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
-                                        {% if user.city == 'Autobustera' %}
-                                            {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% elif user.city == 'Asko' %}
-                                            {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% elif user.city == 'Ayertena' %}
-                                            {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% elif user.city == 'Kality' %}
-                                            {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% else %}
-                                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Destination <span class="text-danger">*</span></label>
-                            <select name="descity" id="descity" class="form-control form-control-modern" required onchange="handleCityChange()">
-                                <option value="" data-eng-name="">Select City</option>
-                                {% for item in des %}
-                                    {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
-                                        {% if user.city == 'Autobustera' %}
-                                            {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% elif user.city == 'Asko' %}
-                                            {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% elif user.city == 'Ayertena' %}
-                                            {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% elif user.city == 'Kality' %}
-                                            {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
-                                                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                            {% endif %}
-                                        {% else %}
-                                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="col-md-6">
+        <label class="form-label">Destination <span class="text-danger">*</span></label>
+        <select name="descity" id="descity" class="form-control form-control-modern" required onchange="handleCityChange()">
+            <option value="" data-eng-name="">Select City</option>
+            {% for item in des %}
+                {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                    {% if user.city == 'Autobustera' %}
+                        {% if item.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Asko' %}
+                        {% if item.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,MendiBenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Ayertena' %}
+                        {% if item.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Kality' %}
+                        {% if item.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% elif user.city == 'Lamberet' %}
+                        {% if item.depcity in "Kemise,Kombolcha,Dessie,DessieAkesta,DessieMasha,Denso,WoraIlu,WoraBabo,WeinAmba,Kelela,Wegdi,Mekaneselam,Woldiya,Alamata,Mekele,Addisababa" %}
+                            <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                        {% endif %}
+                    {% else %}
+                        <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
 
                     <div class="form-group mb-4">
                         <label class="form-label">Distance <span class="text-danger">*</span></label>
-                        <input type="text" name="kilometer" id="km_input" class="form-control form-control-modern" placeholder="Distance will clear/calculate automatically" required>                    </div>
+                        <input type="text" name="kilometer" id="km_input" class="form-control form-control-modern" placeholder="Distance will clear/calculate automatically" required>
+                    </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -502,7 +519,7 @@ function handleCityChange() {
         }
     });
 
-    // 3. Call your original calculation matrix logic if both are selected
+    // 3. Call original calculation matrix logic if both are selected
     if (typeof calculateKilo === "function") {
         calculateKilo();
     }
@@ -593,30 +610,168 @@ function calculateKilo() {
         return;
     }
 
-    var matrix = {
+    const matrix = {
         "addisababa": {
-            "hawassa": 273, "shashemene": 250, "gonder": 738, "bahirdar": 565,
-            "diredawa": 445, "harar": 515, "jigjiga": 620, "chiro": 327,
-            "jimma": 352, "sodo": 330, "arbaminch": 435, "wolkite": 155,
-            "hosaena": 230, "nekemte": 328, "gimbi": 441, "assosa": 675, "ambo": 114
+            "adama": 99, "adigrat": 883, "adolaweyu": 495, "agaro": 390, "alamata": 600,
+            "alemdegolowereilu": 295, "amanuail": 320, "ameya": 145, "amuru": 380, "anosire": 170,
+            "arbaminch": 435, "arjogudetu": 395, "asella": 175, "asossa": 660, "axum": 1012,
+            "ayira": 520, "bahirdar": 565, "bako": 250, "batu": 160, "bedelle": 480,
+            "begi": 620, "bichena": 255, "birbir": 540, "bonga": 450, "bulehora": 465,
+            "bure": 411, "butajira": 130, "chagini": 505, "chanka": 645, "chawaka": 490,
+            "chenicha": 470, "chiro": 325, "dangila": 485, "debark": 843, "debiretabor": 635,
+            "debremarkos": 300, "dedu": 480, "dejen": 230, "dembecha": 345, "dembidollo": 645,
+            "dessie": 401, "digotsion": 365, "dilla": 360, "dimeka": 675, "diredawa": 515,
+            "durame": 311, "ebinat": 670, "esite": 610, "finchawabereha": 410, "finchawaketema": 420,
+            "finoteselam": 377, "feresbet": 410, "gayint": 650, "gera": 430, "geregera": 485,
+            "gidaayana": 432, "gilgelbelesasossa": 545, "gimbi": 438, "gimijabetazenayehu": 490,
+            "giyon": 114, "goba": 445, "gondar": 740, "gundewoin": 415, "halaba": 245,
+            "harar": 525, "hawassa": 275, "hosaena": 230, "humera": 980, "jamadegolo": 290,
+            "jaragedo": 280, "jigjiga": 630, "jimma": 346, "jinka": 575, "kako": 610,
+            "kake": 550, "karat": 520, "kelala": 460, "kemissie": 325, "keyafer": 545,
+            "kobodeder": 385, "kombolcha": 376, "kon": 210, "kosober": 445, "lalibela": 645,
+            "lera": 235, "limu": 415, "lumame": 270, "mekanesselam": 440, "mekelle": 783,
+            "merabete": 185, "mendi": 585, "mertolemariam": 361, "metema": 920, "metu": 510,
+            "mizan": 587, "mota": 375, "moyale": 705, "mudula": 350, "negeleborena": 595,
+            "nejo": 510, "nekemte": 328, "omorate": 740, "robe": 435, "sawla": 515,
+            "sayinitajibbar": 495, "sekota": 720, "semera": 590, "shakisso": 500, "shambu": 315,
+            "shashemene": 250, "shishinda": 560, "simada": 685, "sodo": 310, "tepi": 615,
+            "turmi": 715, "wayu": 340, "wegidi": 385, "welayita": 330, "welayatiatercha": 395,
+            "welayitagofa": 315, "weldiya": 521, "wendobenisa": 305, "wereilu": 285,
+            "wereta": 510, "weyito": 560, "woyinamba": 425, "worabe": 172, "wuchale": 461,
+            "yabelo": 570, "yejube": 335, "yirgalem": 315, "yirgachefe": 400
         },
-        "hawassa": { "addisababa": 273 },
-        "shashemene": { "addisababa": 250 },
-        "gonder": { "addisababa": 738 },
-        "bahirdar": { "addisababa": 565 },
-        "diredawa": { "addisababa": 445 },
-        "harar": { "addisababa": 515 },
-        "jigjiga": { "addisababa": 620 },
-        "chiro": { "addisababa": 327 },
-        "jimma": { "addisababa": 352 },
-        "sodo": { "addisababa": 330 },
-        "arbaminch": { "addisababa": 435 },
-        "wolkite": { "addisababa": 155 },
+        "adama": { "addisababa": 99, "diredawa": 416, "harar": 471, "asella": 75, "batu": 91 },
+        "adigrat": { "addisababa": 883, "mekelle": 116, "axum": 120 },
+        "adolaweyu": { "addisababa": 495 },
+        "agaro": { "addisababa": 390, "jimma": 45 },
+        "alamata": { "addisababa": 600, "mekelle": 180 },
+        "alemdegolowereilu": { "addisababa": 295 },
+        "amanuail": { "addisababa": 320 },
+        "ameya": { "addisababa": 145 },
+        "amuru": { "addisababa": 380 },
+        "anosire": { "addisababa": 170 },
+        "arbaminch": { "addisababa": 435, "jinka": 140, "kon": 85, "sawla": 155, "karat": 85, "butajira": 305 },
+        "arjogudetu": { "addisababa": 395 },
+        "asella": { "addisababa": 175, "adama": 75 },
+        "asossa": { "addisababa": 660 },
+        "axum": { "addisababa": 1012, "mekelle": 235, "adigrat": 120 },
+        "ayira": { "addisababa": 520 },
+        "bahirdar": { "addisababa": 565, "gondar": 175, "wereta": 55, "debremarkos": 265 },
+        "bako": { "addisababa": 250 },
+        "batu": { "addisababa": 160, "adama": 91, "shashemene": 90 },
+        "bedelle": { "addisababa": 480 },
+        "begi": { "addisababa": 620 },
+        "bichena": { "addisababa": 255 },
+        "birbir": { "addisababa": 540 },
+        "bonga": { "addisababa": 450 },
+        "bulehora": { "addisababa": 465, "hawassa": 190 },
+        "bure": { "addisababa": 411 },
+        "butajira": { "addisababa": 130, "worabe": 42, "sodo": 180, "arbaminch": 305 },
+        "chagini": { "addisababa": 505 },
+        "chanka": { "addisababa": 645, "dembidollo": 65 },
+        "chawaka": { "addisababa": 490 },
+        "chenicha": { "addisababa": 470 },
+        "chiro": { "addisababa": 325 },
+        "dangila": { "addisababa": 485 },
+        "debark": { "addisababa": 843, "gondar": 103 },
+        "debiretabor": { "addisababa": 635 },
+        "debremarkos": { "addisababa": 300, "bahirdar": 265, "dejen": 70, "finoteselam": 77 },
+        "dedu": { "addisababa": 480 },
+        "dejen": { "addisababa": 230, "debremarkos": 70 },
+        "dembecha": { "addisababa": 345 },
+        "dembidollo": { "addisababa": 645, "chanka": 65 },
+        "dessie": { "addisababa": 401, "weldiya": 120, "kombolcha": 23, "wuchale": 60, "mekelle": 380 },
+        "digotsion": { "addisababa": 365 },
+        "dilla": { "addisababa": 360 },
+        "dimeka": { "addisababa": 675, "jinka": 100, "turmi": 40 },
+        "diredawa": { "addisababa": 515, "harar": 55, "adama": 416 },
+        "durame": { "addisababa": 311 },
+        "ebinat": { "addisababa": 670 },
+        "esite": { "addisababa": 610 },
+        "finchawabereha": { "addisababa": 410 },
+        "finchawaketema": { "addisababa": 420 },
+        "finoteselam": { "addisababa": 377, "debremarkos": 77 },
+        "feresbet": { "addisababa": 410 },
+        "gayint": { "addisababa": 650 },
+        "gera": { "addisababa": 430 },
+        "geregera": { "addisababa": 485 },
+        "gidaayana": { "addisababa": 432 },
+        "gilgelbelesasossa": { "addisababa": 545 },
+        "gimbi": { "addisababa": 438, "nekemte": 110 },
+        "gimijabetazenayehu": { "addisababa": 490 },
+        "giyon": { "addisababa": 114 },
+        "goba": { "addisababa": 445, "robe": 12 },
+        "gondar": { "addisababa": 740, "bahirdar": 175, "metema": 180, "debark": 103, "humera": 250 },
+        "gundewoin": { "addisababa": 415 },
+        "halaba": { "addisababa": 245, "sodo": 65 },
+        "harar": { "addisababa": 525, "diredawa": 55, "jigjiga": 105, "adama": 471 },
+        "hawassa": { "addisababa": 275, "yirgachefe": 125, "bulehora": 190 },
         "hosaena": { "addisababa": 230 },
-        "nekemte": { "addisababa": 328 },
-        "gimbi": { "addisababa": 441 },
-        "assosa": { "addisababa": 675 },
-        "ambo": { "addisababa": 114 }
+        "humera": { "addisababa": 980, "gondar": 250 },
+        "jamadegolo": { "addisababa": 290 },
+        "jaragedo": { "addisababa": 280 },
+        "jigjiga": { "addisababa": 630, "harar": 105 },
+        "jimma": { "addisababa": 346, "agaro": 45, "limu": 80 },
+        "jinka": { "addisababa": 575, "arbaminch": 140, "keyafer": 30, "como": 35, "dimeka": 100 },
+        "kako": { "addisababa": 610, "jinka": 35 },
+        "kake": { "addisababa": 550 },
+        "karat": { "addisababa": 520, "arbaminch": 85, "weyito": 40 },
+        "kelala": { "addisababa": 460 },
+        "kemissie": { "addisababa": 325 },
+        "keyafer": { "addisababa": 545, "jinka": 30 },
+        "kobodeder": { "addisababa": 385 },
+        "kombolcha": { "addisababa": 376, "dessie": 23 },
+        "kon": { "addisababa": 210 },
+        "kosober": { "addisababa": 445 },
+        "lalibela": { "addisababa": 645, "weldiya": 170 },
+        "lera": { "addisababa": 235 },
+        "limu": { "addisababa": 415, "jimma": 80 },
+        "lumame": { "addisababa": 270 },
+        "mekanesselam": { "addisababa": 440 },
+        "mekelle": { "addisababa": 783, "weldiya": 260, "alamata": 180, "dessie": 380, "adigrat": 116, "axum": 235, "semera": 373 },
+        "merabete": { "185": 185 },
+        "mendi": { "addisababa": 585 },
+        "mertolemariam": { "addisababa": 361 },
+        "metema": { "addisababa": 920, "gondar": 180 },
+        "metu": { "addisababa": 510 },
+        "mizan": { "addisababa": 587 },
+        "mota": { "addisababa": 375 },
+        "moyale": { "addisababa": 705 },
+        "mudula": { "addisababa": 350 },
+        "negeleborena": { "addisababa": 595 },
+        "nejo": { "addisababa": 510 },
+        "nekemte": { "addisababa": 328, "gimbi": 110 },
+        "omorate": { "addisababa": 740, "turmi": 65 },
+        "robe": { "addisababa": 435, "goba": 12 },
+        "sawla": { "addisababa": 515, "arbaminch": 155 },
+        "sayinitajibbar": { "addisababa": 495 },
+        "sekota": { "addisababa": 720 },
+        "semera": { "addisababa": 590, "mekelle": 373 },
+        "shakisso": { "addisababa": 500 },
+        "shambu": { "addisababa": 315 },
+        "shashemene": { "addisababa": 250, "batu": 90, "worabe": 78, "sodo": 130 },
+        "shishinda": { "addisababa": 560 },
+        "simada": { "addisababa": 685 },
+        "sodo": { "addisababa": 310, "butajira": 180, "worabe": 138, "halaba": 65, "shashemene": 130 },
+        "tepi": { "addisababa": 615 },
+        "turmi": { "addisababa": 715, "dimeka": 40, "omorate": 65, "weyito": 75 },
+        "wayu": { "addisababa": 340 },
+        "wegidi": { "addisababa": 385 },
+        "welayita": { "addisababa": 330 },
+        "welayatiatercha": { "addisababa": 395 },
+        "welayitagofa": { "addisababa": 315 },
+        "weldiya": { "addisababa": 521, "mekelle": 260, "dessie": 120, "lalibela": 170 },
+        "wendobenisa": { "addisababa": 305 },
+        "wereilu": { "addisababa": 285 },
+        "wereta": { "addisababa": 510, "bahirdar": 55 },
+        "weyito": { "addisababa": 560, "karat": 40, "turmi": 75 },
+        "woyinamba": { "addisababa": 425 },
+        "worabe": { "addisababa": 172, "butajira": 42, "sodo": 138, "shashemene": 78 },
+        "wuchale": { "addisababa": 461, "dessie": 60 },
+        "yabelo": { "addisababa": 570 },
+        "yejube": { "addisababa": 335 },
+        "yirgalem": { "addisababa": 315 },
+        "yirgachefe": { "addisababa": 400, "hawassa": 125 }
     };
 
     var k1 = dep.toLowerCase().trim();
@@ -654,14 +809,13 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener("load",function(){
         const l=localStorage.getItem("userLanguage");
         if(l&&l!=="en"){
-            setTimeout(()=>{\
-                googleTranslateElementInit();\
-                changeLanguage(l);\
+            setTimeout(function(){
+                googleTranslateElementInit();
+                changeLanguage(l);
             },1000);
         }
     });
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>

@@ -162,8 +162,8 @@
             <div class="navbar-nav ml-auto">
                 <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>Registry</option>
-                    <option value="{% url 'route' %}">Define New Route</option>
                     <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
                     <option value="{% url 'registor' %}">Add System Admin</option>
                     <option value="{% url 'worker' %}">Register Ticket Agent</option>
                     <option value="{% url 'city' %}">Add Terminal Hub</option>
@@ -172,9 +172,9 @@
 
                 <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>System Configuration</option>
-                    <option value="{% url 'active' %}">Active Deployments</option>
-                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
                     <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
                     <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
                 </select>
 
@@ -196,8 +196,8 @@
                     <option value="{% url 'scdelete' %}">Remove Share Co.</option>
                     <option value="{% url 'citydelete' %}">Remove Terminal</option>
                     <option value="{% url 'commentdelete' %}">Delete Feedback</option>
-                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
                     <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
                     <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
                 </select>
             </div>
@@ -224,6 +224,177 @@
                     {% endif %}
                 </div>
 
+		<form id="agent_form" method="post" onsubmit="return validateLoginForm(event)">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" name="fname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="form-label">Father Name</label>
+            <input type="text" name="lname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 form-group mb-3">
+            <label class="form-label font-weight-bold text-muted small">Username</label>
+            <input type="text" name="username" class="form-control form-control-modern" maxlength="30" required>
+        </div>
+
+        <div class="col-md-6 form-group mb-3">
+            <label class="form-label font-weight-bold text-muted small">Password</label>
+            <input type="password" name="password" id="loginPassword"
+                   class="form-control form-control-modern"
+                   maxlength="30"
+                   oninput="checkStrictStrength(this.value)"
+                   required>
+
+            <div class="mt-2">
+                <div class="progress" style="height: 6px; background-color: #e9ecef; border-radius: 3px;">
+                    <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%; transition: width 0.3s ease;"></div>
+                </div>
+                <small id="strengthText" class="form-text font-weight-bold mt-1 text-muted">Strength: Enter a password</small>
+
+                <div id="submitError" class="alert alert-danger p-2 mt-2 small font-weight-bold d-none" style="border-radius: 4px;">
+                    <i class="fas fa-exclamation-circle mr-1"></i> Requirement not met.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+	<!--
+        <div class="col-md-6 form-group">
+            <label class="form-label">Assign Terminal (City)</label>
+            <select name="city" class="form-control form-control-modern" required>
+                <option value="" disabled selected>Select Hub</option>
+                {% for item in des %}
+                    {% if item.depcity not in "Addisababa" %}
+                        <option value="{{ item.depcity }}">{{ item.depcity }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+	-->
+    <div class="col-md-6 form-group">
+    <label class="form-label">Assign Terminal (City)</label>
+    <input list="cities-hub" name="city" class="form-control form-control-modern" placeholder="Select Hub" autocomplete="off" required
+           oninput="let v=this.value; if(v.length > 0) { this.value = v.charAt(0).toUpperCase() + v.slice(1); }">
+    <datalist id="cities-hub" translate="no">
+        {% for item in des %}
+            {% if item.depcity not in "Addisababa" %}
+                <option value="{{ item.depcity }}">
+            {% endif %}
+        {% endfor %}
+    </datalist>
+</div>
+        <div class="col-md-6 form-group">
+            <label class="form-label">Phone (09xxxxxxxx)</label>
+            <input type="text" name="phone" class="form-control form-control-modern" maxlength="10" oninput="validatePhone(this)" required>
+            <div id="phoneError" style="color: red; font-size: 11px; margin-top: 5px;"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" name="email" class="form-control form-control-modern" oninput="validateEmail(this)" required>
+            <div id="emailError" style="color: red; font-size: 11px; margin-top: 5px;"></div>
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="form-label">Gender</label>
+            <select name="gender" class="form-control form-control-modern" required>
+                <option value="" disabled selected>Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="btn-submit">
+        <i class="fas fa-plus-circle mr-2"></i> Register Agent
+    </button>
+</form>
+
+<script>
+// Live password feedback mechanism
+function checkStrictStrength(password) {
+    let strengthBar = document.getElementById('strengthBar');
+    let strengthText = document.getElementById('strengthText');
+    let errorBox = document.getElementById('submitError');
+
+    errorBox.classList.add('d-none'); // Clear warnings when user alters input string
+
+    if (password.length === 0) {
+        strengthBar.style.width = '0%';
+        strengthText.innerHTML = 'Strength: Enter a password';
+        strengthText.style.color = '#6c757d';
+        return;
+    }
+
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    if (passedCount === 4) {
+        strengthBar.style.width = '100%';
+        strengthBar.style.backgroundColor = '#28a745';
+        strengthText.innerHTML = 'Strength: Strong (Valid)';
+        strengthText.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        strengthBar.style.width = '75%';
+        strengthBar.style.backgroundColor = '#ffc107';
+        strengthText.innerHTML = 'Strength: Medium';
+        strengthText.style.color = '#ffc107';
+    } else {
+        strengthBar.style.width = '33%';
+        strengthBar.style.backgroundColor = '#dc3545';
+        strengthText.innerHTML = 'Strength: Weak';
+        strengthText.style.color = '#dc3545';
+    }
+}
+
+// Strict Client-Side Form Interception Engine
+function validateLoginForm(event) {
+    let passwordInput = document.getElementById('loginPassword').value;
+    let errorBox = document.getElementById('submitError');
+
+    let hasLength = passwordInput.length >= 8;
+    let hasCapital = /[A-Z]/.test(passwordInput);
+    let hasNumber = /[0-9]/.test(passwordInput);
+    let hasSpecial = /[^A-Za-z0-9]/.test(passwordInput);
+
+    if (!hasLength || !hasCapital || !hasNumber || !hasSpecial) {
+        errorBox.innerHTML = "<i class='fas fa-exclamation-circle mr-1'></i> Password validation failed: Must contain at least 8 characters, 1 capital letter, 1 number, and 1 special symbol.";
+        errorBox.classList.remove('d-none');
+
+        // Scroll back to the password element cleanly for better UI visibility
+        document.getElementById('loginPassword').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+    }
+    return true;
+}
+
+// Stubs for your custom inputs to avoid reference execution errors
+function validateName(input) {
+    // Keep or replace with your custom alphabet filter regex rules
+}
+function validatePhone(input) {
+    // Keep or replace with your phone validation script logic
+}
+function validateEmail(input) {
+    // Keep or replace with your structural email string analysis code
+}
+</script>
+<!--
                 <form id="agent_form" method="post">
                     {% csrf_token %}
                     
@@ -237,7 +408,6 @@
                             <input type="text" name="lname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label class="form-label">Username</label>
@@ -248,25 +418,115 @@
                             <input type="password" name="password" class="form-control form-control-modern" maxlength="30" required>
                         </div>
                     </div>
+		    
+		    <div class="row">
+    <div class="col-md-6 form-group mb-3">
+        <label class="form-label font-weight-bold text-muted small">Username</label>
+        <input type="text" name="username" class="form-control form-control-modern" maxlength="30" required>
+    </div>
 
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label class="form-label">Assign Terminal (City)</label>
-                            <select name="city" class="form-control form-control-modern" required>
-                                <option value="" disabled selected>Select Hub</option>
-                                {% for item in des %}
-				{% if item.depcity not in "Addisababa" %}
-                                <option value="{{ item.depcity }}">{{ item.depcity }}</option>
-				 {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="form-label">Phone (09xxxxxxxx)</label>
-                            <input type="text" name="phone" class="form-control form-control-modern" maxlength="10" oninput="validatePhone(this)" required>
-                            <div id="phoneError" style="color: red; font-size: 11px; margin-top: 5px;"></div>
-                        </div>
-                    </div>
+    <div class="col-md-6 form-group mb-3">
+        <label class="form-label font-weight-bold text-muted small">Password</label>
+        <input type="password" name="password" id="loginPassword"
+               class="form-control form-control-modern"
+               maxlength="30"
+               oninput="checkStrictStrength(this.value)"
+               required>
+
+        <div class="mt-2">
+            <div class="progress" style="height: 6px; background-color: #e9ecef; border-radius: 3px;">
+                <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%; transition: width 0.3s ease;"></div>
+            </div>
+            <small id="strengthText" class="form-text font-weight-bold mt-1 text-muted">Strength: Enter a password</small>
+
+            <div id="submitError" class="alert alert-danger p-2 mt-2 small font-weight-bold d-none" style="border-radius: 4px;">
+                <i class="fas fa-exclamation-circle mr-1"></i> Requirement not met.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function checkStrictStrength(password) {
+    let strengthBar = document.getElementById('strengthBar');
+    let strengthText = document.getElementById('strengthText');
+    let errorBox = document.getElementById('submitError');
+
+    errorBox.classList.add('d-none'); // Hide errors while user types
+
+    if (password.length === 0) {
+        strengthBar.style.width = '0%';
+        strengthText.innerHTML = 'Strength: Enter a password';
+        strengthText.style.color = '#6c757d';
+        return;
+    }
+
+    // Rules Evaluation
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    // Update Progress UI
+    if (passedCount === 4) {
+        strengthBar.style.width = '100%';
+        strengthBar.style.backgroundColor = '#28a745'; // Green
+        strengthText.innerHTML = 'Strength: Strong (Valid)';
+        strengthText.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        strengthBar.style.width = '75%';
+        strengthBar.style.backgroundColor = '#ffc107'; // Yellow
+        strengthText.innerHTML = 'Strength: Medium (Almost there)';
+        strengthText.style.color = '#ffc107';
+    } else if (passedCount === 2) {
+        strengthBar.style.width = '50%';
+        strengthBar.style.backgroundColor = '#ffc107'; // Yellow
+        strengthText.innerHTML = 'Strength: Weak';
+        strengthText.style.color = '#ffc107';
+    } else {
+        strengthBar.style.width = '25%';
+        strengthBar.style.backgroundColor = '#dc3545'; // Red
+        strengthText.innerHTML = 'Strength: Too Weak';
+        strengthText.style.color = '#dc3545';
+    }
+}
+
+// Attach this rule validator to your parent <form onsubmit="return validateLoginForm(event)">
+function validateLoginForm(event) {
+    let passwordInput = document.getElementById('loginPassword').value;
+    let errorBox = document.getElementById('submitError');
+
+    if (passwordInput.length < 8 || !/[A-Z]/.test(passwordInput) || !/[0-9]/.test(passwordInput) || !/[^A-Za-z0-9]/.test(passwordInput)) {
+        errorBox.innerHTML = "<i class='fas fa-exclamation-circle mr-1'></i> Password must have at least 8 characters, 1 uppercase letter, 1 number, and 1 special symbol.";
+        errorBox.classList.remove('d-none');
+        return false; // Stop form submission
+    }
+    return true; // Proceed securely
+}
+</script>
+<div class="row">
+<div class="col-md-6 form-group">
+    <label class="form-label">Assign Terminal (City)</label>
+    <input list="cities-hub" name="city" class="form-control form-control-modern" placeholder="Select Hub" autocomplete="off" required
+           oninput="let v=this.value; if(v.length > 0) { this.value = v.charAt(0).toUpperCase() + v.slice(1); }">
+    <datalist id="cities-hub" translate="no">
+        {% for item in des %}
+            {% if item.depcity not in "Addisababa" %}
+                <option value="{{ item.depcity }}">
+            {% endif %}
+        {% endfor %}
+    </datalist>
+</div>
+<div class="col-md-6 form-group">
+<label class="form-label">Phone (09xxxxxxxx)</label>
+<input type="text" name="phone" class="form-control form-control-modern" maxlength="10" oninput="validatePhone(this)" required>
+<div id="phoneError" style="color: red; font-size: 11px; margin-top: 5px;"></div>
+</div>
+</div>
 
                     <div class="row">
                         <div class="col-md-6 form-group">
@@ -288,6 +548,8 @@
                         <i class="fas fa-plus-circle mr-2"></i> Register Agent
                     </button>
                 </form>
+		-->
+
             </div>
         </div>
     </div>

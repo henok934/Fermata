@@ -182,8 +182,8 @@
             <div class="navbar-nav ml-auto">
                 <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>Registry</option>
-                    <option value="{% url 'route' %}">Define New Route</option>
                     <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
                     <option value="{% url 'registor' %}">Add System Admin</option>
                     <option value="{% url 'worker' %}">Register Ticket Agent</option>
                     <option value="{% url 'city' %}">Add Terminal Hub</option>
@@ -192,9 +192,9 @@
 
                 <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>System Configuration</option>
-                    <option value="{% url 'active' %}">Active Deployments</option>
-                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
                     <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
                     <option value="{% url 'serviceupdate' %}" selected>Tariff Adjustment</option>
                 </select>
 
@@ -216,8 +216,8 @@
                     <option value="{% url 'scdelete' %}">Remove Share Co.</option>
                     <option value="{% url 'citydelete' %}">Remove Terminal</option>
                     <option value="{% url 'commentdelete' %}">Delete Feedback</option>
-                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
                     <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
                     <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
                 </select>
             </div>
@@ -317,13 +317,58 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-light font-weight-bold">ETB</span>
                                     </div>
+				    <!--
                                     <input type="number"
                                            step="0.01"
                                            name="service_fee"
                                            class="input-edit form-control"
                                            value="{{ current_fee.service_fee|default:'' }}"
                                            placeholder="0.00"
-                                           required>
+					   required>-->
+
+<!--
+       <input type="text"
+       step="0.01"
+       min="0"
+       onkeydown="return event.key !== '-'" maxlength="4"
+       oninput="if(this.value < 0) this.value = 0;"
+       name="service_fee"
+       value="{{ current_fee.service_fee|default:'' }}"
+       class="input-edit form-control"
+       placeholder="0.00"
+       required>
+-->
+
+<!--
+<input type="number"
+       step="0.01"
+       min="0"
+       maxlength="4"
+       onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46"
+       oninput="if(this.value < 0) this.value = 0; if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+       name="service_fee"
+       value="{{ current_fee.service_fee|default:'' }}"
+       class="input-edit form-control"
+       placeholder="0.00"
+       required>
+-->
+
+<input type="number"
+       step="0.01"
+       min="1"
+       maxlength="2"
+       onkeypress="return (event.charCode >= 48 && event.charCode <= 57 && !(this.value.length === 0 && event.charCode === 48)) || event.charCode === 46"
+       oninput="
+         if (this.value.startsWith('0')) this.value = this.value.replace(/^0+/, '');
+         if (this.value < 0) this.value = '';
+         if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);
+       "
+       name="service_fee"
+       value="{{ current_fee.service_fee|default:'' }}"
+       class="input-edit form-control"
+       placeholder="0.00"
+       required>
+
                                 </div>
                                 {% if current_fee %}
                                     <small class="text-muted mt-1 d-block">Current value in system: <b>{{ current_fee.service_fee }} ETB</b></small>

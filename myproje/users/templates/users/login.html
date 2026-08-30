@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Staff Login | Busfermata Digital Tech</title>
+    <title>Staff Login | Busfermata Transport</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -159,43 +159,111 @@
         <div class="text-center mb-4">
             <div class="mb-3"><i class="fas fa-user-shield fa-4xl" style="color: var(--brand-navy); font-size: 50px;"></i></div>
             <h3 class="font-weight-bold" style="color: var(--brand-navy);">Staff Portal</h3>
-            <p class="text-muted small">Access management, driver, or agent tools</p>
+            <p class="text-muted small">Access management, Share Com., or agent tools</p>
         </div>
+       <form method="POST" id="loginForm" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="form-group mb-3">
+        <label class="small font-weight-bold text-muted">SELECT ACCESS ROLE</label>
+        <select name="role" id="loginRole" class="form-control" required>
+            <option value="" disabled selected>-- Select your role --</option>
+            <option value="user">System Administrator</option>
+            <option value="sc">Share Company Manager</option>
+            <option value="worker">Ticketing Agent</option>
+        </select>
+    </div>
+    <div class="form-group mb-3">
+        <label class="small font-weight-bold text-muted">STAFF USERNAME</label>
+        <input type="text" name="username" id="loginUsername" class="form-control" placeholder="Enter ID/Username" required>
+    </div>
+    <div class="form-group mb-1">
+        <label class="small font-weight-bold text-muted">SECURE PASSWORD</label>
+        <input type="password" name="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+    </div>
+<div class="text-right mb-4">
+        <a href="{% url 'forgot_password' %}" class="forgot-link small">Forgot Password?</a>
+    </div>
+    <div class="form-group mb-4 d-flex justify-content-center">
+        <div class="cf-turnstile" id="turnstileBox" data-sitekey="1x00000000000000000000AA"></div>
+    </div>
+    <div class="alert alert-danger py-2 small text-center" id="errorMessage" style="{% if not error %}display: none;{% endif %}">
+        <i class="fas fa-exclamation-triangle mr-1"></i> <span id="errorText">{{ error }}</span>
+    </div>
+    <button type="submit" id="submitBtn" class="btn btn-login w-100">Authorize Access</button>
+</form>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const errorDiv = document.getElementById("errorMessage");
+        const errorTextSpan = document.getElementById("errorText");
+        const submitBtn = document.getElementById("submitBtn");
+        const loginForm = document.getElementById("loginForm");
+        let countdownInterval = null;
+        // Function to lock down the form controls completely
+        function triggerLockoutCountdown(secondsLeft) {
+            let timeLeft = secondsLeft;
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = "0.6";
+            submitBtn.style.cursor = "not-allowed";
+            // Freeze form fields from user interaction
+            document.getElementById("loginRole").disabled = true;
+            document.getElementById("loginUsername").disabled = true;
+            document.getElementById("loginPassword").disabled = true;
+            // Make verification widget unclickable
+            const turnstileContainer = document.getElementById("turnstileBox");
+            if (turnstileContainer) {
+                turnstileContainer.style.pointerEvents = "none";
+                turnstileContainer.style.opacity = "0.5";
+            }
+ // Start visual timer tick
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(function() {
+                timeLeft--;
+                submitBtn.innerText = "Access Locked (" + timeLeft + "s Remaining)";
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    // Restore interactions smoothly
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Authorize Access";
+                    submitBtn.style.opacity = "1";
+                    submitBtn.style.cursor = "pointer";
+                    document.getElementById("loginRole").disabled = false;
+                    document.getElementById("loginUsername").disabled = false;
+                    document.getElementById("loginPassword").disabled = false;
+                    if (turnstileContainer) {
+                        turnstileContainer.style.pointerEvents = "auto";
+                        turnstileContainer.style.opacity = "1";
+                    }
+                    // Reset Cloudflare token box state
+                    if (typeof turnstile !== 'undefined') {
+                        turnstile.reset();
+                    }
+    errorDiv.style.display = "none";
+                }
+            }, 1000);
+        }
+        // Catch dynamic API/AJAX submissions or structural native updates
+        loginForm.addEventListener("submit", function(e) {
+            const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]').value;
+            if (!turnstileResponse) {
+                e.preventDefault();
+                alert("Security Verification Required: Please complete verification.");
+                return;
+            }
+        });
+ // Trigger on initial template load if error variable is sent from view
+        if (errorTextSpan && errorTextSpan.innerText.includes("Please wait 30 seconds")) {
+            triggerLockoutCountdown(30);
+        }
+        // Expose function globally so API fetch scripts can execute it instantly on 401/403 updates
+        window.triggerFormLockout = function() {
+            errorTextSpan.innerText = "Account locked due to multiple failed attempts. Please wait 30 seconds.";
+            errorDiv.style.display = "block";
+            triggerLockoutCountdown(30);
+        };
+    });
+</script>
 
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            
-            <div class="form-group mb-3">
-                <label class="small font-weight-bold text-muted">SELECT ACCESS ROLE</label>
-                <select name="role" class="form-control" required>
-                    <option value="" disabled selected>-- Select your role --</option>
-                    <option value="user">System Administrator</option>
-                    <option value="sc">Share Company Manager</option>
-                    <option value="worker">Ticketing Agent</option>
-                    <option value="#">Bus Driver</option>
-                </select>
-            </div>
-
-            <div class="form-group mb-3">
-                <label class="small font-weight-bold text-muted">STAFF USERNAME</label>
-                <input type="text" name="username" class="form-control" placeholder="Enter ID/Username" required>
-            </div>
-
-            <div class="form-group mb-1">
-                <label class="small font-weight-bold text-muted">SECURE PASSWORD</label>
-                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
-            </div>
-
-            <div class="text-right mb-4">
-                <a href="{% url 'forgot_password' %}" class="forgot-link small">Forgot Password?</a>
-            </div>
-
-            {% if error %}
-            <div class="alert alert-danger py-2 small text-center"><i class="fas fa-exclamation-triangle mr-1"></i> Access Denied</div>
-            {% endif %}
-
-            <button type="submit" class="btn btn-login">Authorize Access</button>
-        </form>
     </div>
 </div>
 

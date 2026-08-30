@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    
     <style>
         :root {
             --brand-navy: #00264d;
@@ -17,6 +18,7 @@
             --white: #ffffff;
             --border-color: #e2e8f0;
         }
+        
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background: var(--bg-soft); 
@@ -42,7 +44,7 @@
         }
         .logout-link:hover { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
 
-        /* --- USER SPECIFIC NAVBAR STYLING --- */
+        /* --- NAVIGATION BAR STYLING --- */
         .bg-navy-custom {
             background: var(--brand-navy) !important;
             padding: 10px 0;
@@ -86,7 +88,7 @@
             box-shadow: 0 10px 30px rgba(0,38,77,0.06);
             border: 1px solid var(--border-color);
             overflow: hidden;
-            max-width: 560px; /* Minimized Width */
+            max-width: 580px; 
             margin: 30px auto;
         }
 
@@ -108,7 +110,7 @@
         }
 
         .form-control-intl {
-            height: 36px; /* Minimized Height */
+            height: 38px;
             border-radius: 5px;
             border: 1.5px solid #e2e8f0;
             font-weight: 600;
@@ -122,14 +124,30 @@
             background: #fff;
         }
 
-        .input-group-text-intl {
-            background: #f8fafc;
-            border: 1.5px solid #e2e8f0;
-            border-right: none;
-            color: #475569;
+        /* PERMANENT ET PLATE INPUT WRAPPER */
+        .plate-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .plate-input-wrapper::before {
+            content: "ET";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
             font-weight: 800;
-            font-size: 12px;
-            padding: 0 8px;
+            color: #000;
+            z-index: 5;
+            pointer-events: none;
+            font-size: 13px;
+        }
+
+        .plate-input-wrapper input {
+            padding-left: 38px !important;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         .btn-register-intl {
@@ -157,26 +175,13 @@
             .intl-select { width: 100%; margin: 5px 0; }
             .home-btn-active { display: block; margin-bottom: 10px; text-align: center; }
         }
-        /* --- HIDE GOOGLE UI --- */ 
+
+        /* Hide Google Translate UI */ 
         .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
         body { top: 0px !important; position: static !important; } 
         html { margin-top: 0px !important; } 
         .goog-text-highlight { background: none !important; box-shadow: none !important; }
     </style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
 </head>
 <body>
 
@@ -187,32 +192,27 @@
     </div>
 </div>
 
-
 <nav class="navbar navbar-expand-xl navbar-dark bg-navy-custom">
     <div class="container-fluid">
-	<a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="display: flex !important; align-items: center !important; text-decoration: none !important; gap: 14px;">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none" style="gap: 14px;">
+            <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
+                {% if company.logo %}
+                    <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
+                {% else %}
+                    <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
+                {% endif %}
+            </div>
 
-    <div class="nav-logo-container" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; background-color: #ffffff; border-radius: 50%; border: 3px solid #ffcc00; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; flex-shrink: 0;">
-        {% if company.logo %}
-	<!-- <img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">-->
-	<img src="{{ company.logo.url }}" class="nav-logo-full" alt="Company Logo" style="width: 100px !important; height: 100px !important; object-fit: contain !important;">
-        {% else %}
-            <div class="nav-logo-fallback" style="font-size: 28px; color: #00264d;"><i class="fas fa-bus"></i></div>
-        {% endif %}
-    </div>
-
-    <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
-        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
-        <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
-            {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
-
-            {% if level %}
-                <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
-            {% endif %}
-        </span>
-    </div>
-
-</a>
+            <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center;">
+                <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+                <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
+                    {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
+                    {% if level %}
+                        <span class="badge badge-warning text-dark font-weight-bold" style="display: inline-block; font-size: 9px; padding: 3px 8px; font-weight: 800; color: #212529; background-color: #ffcc00; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);">LEVEL: {{ level }}</span>
+                    {% endif %}
+                </span>
+            </div>
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navSystem">
             <span class="navbar-toggler-icon"></span>
@@ -226,7 +226,7 @@
                     <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
                         <option value="#" disabled selected>Bus Registration</option>
                         <option value="{% url 'businsert' %}">Add New Bus</option>
-        		<option value="{% url 'special_route' %}">Add New Route</option>
+                        <option value="{% url 'special_route' %}">Add New Route</option>
                     </select>
                     <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
                         <option value="#" disabled selected>Operational Reports</option>
@@ -236,23 +236,12 @@
                     <select onchange="if(this.value!='#') location.href = this.value;" class="intl-select">
                         <option value="#" disabled selected>Management</option>
                         <option value="{% url 'updatebus' %}">Update Buss</option>
-			        {% if level == 'Special Bus' %}
-				 <option value="{% url 'special_active' %}">Active Route</option>
-    {% endif %}
                         {% if level == 'Special Bus' %}
-                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
+                            <option value="{% url 'special_active' %}">Active Route</option>
+                            <option value="{% url 'special_route_delete' %}">Route Delete</option>
+                            <option value="{% url 'special_bus_change' %}">Bus Change</option>
+                            <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
                         {% endif %}
-	
-                     {% if level == 'Special Bus' %}
-                                 <option value="{% url 'special_bus_change' %}">Bus Change</option>
-    {% endif %}
-                     {% if level == 'Special Bus' %}
-                                 <option value="{% url 'special_route_delete' %}">Route Delete</option>
-    {% endif %}
-        {% if level == 'Special Bus' %}
-                                 <option value="{% url 'specialdeleteticket' %}">Delete Ticket</option>
-    {% endif %}
-
                         <option value="{% url 'busdelete' %}">Delete Bus</option>
                     </select>
                 </div>
@@ -279,21 +268,22 @@
             <form action="{% url 'businsert' %}" method="post" id="bus_reg_form">
                 {% csrf_token %}
                 <input type="hidden" class="form-control form-control-intl bg-light" value="{{ name }}" readonly>
+                
                 <div class="row">
                     <div class="col-6 form-group mb-3">
-                        <label class="form-label-custom">First Name <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                        <label class="form-label-custom">First Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-intl" name="firstname" placeholder="eg. Abebe" required 
                                oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '').charAt(0).toUpperCase() + this.value.slice(1).toLowerCase();">
                     </div>
                     <div class="col-6 form-group mb-3">
-                        <label class="form-label-custom">Father Name <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                        <label class="form-label-custom">Father Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-intl" name="lastname" placeholder="eg. Bikela" required
                                oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '').charAt(0).toUpperCase() + this.value.slice(1).toLowerCase();">
                     </div>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label class="form-label-custom">Contact Number <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                    <label class="form-label-custom">Contact Number <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <input type="text" class="form-control form-control-intl" name="phone" placeholder="eg. 0912345678" maxlength="10" required 
                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
@@ -301,140 +291,44 @@
                 </div>
 
                 <div class="row">
+                    <!-- Flexible Ethiopian Plate Input Field -->
                     <div class="col-5 form-group mb-3">
-                        <label class="form-label-custom">Plate No <span class="text-danger">*</span> <span class="text-danger">*</span></label>
-		<!--
-		<input type="text" class="form-control form-control-intl" name="plate_no" placeholder="A12345" required 
-                               oninput="handlePlateInput(this);" style="text-transform: uppercase;">
-		-->
-<!--
-		<input type="text"
-       class="form-control form-control-intl"
-       name="plate_no"
-       placeholder="A12345"
-       required
-       oninput="handlePlateInput(this);"
-       style="text-transform: uppercase;
-              padding-left: 45px;
-              background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2220%22><text x=%2210%22 y=%2215%22 font-family=%22Arial, sans-serif%22 font-weight=%22bold%22 fill=%22%23333%22>ET</text></svg>');
-              background-repeat: no-repeat;
-              background-position: left center;">
-	      -->
+                        <label class="form-label-custom">Plate No <span class="text-danger">*</span></label>
+                        <div class="plate-input-wrapper">
+                            <input type="text"
+                                   class="form-control form-control-intl"
+                                   name="plate_no"
+                                   placeholder="AAA7865"
+                                   required
+                                   minlength="5"
+                                   maxlength="7"
+                                   pattern="^[A-Za-z0-9]{5,7}$"
+                                   title="Plate number must be between 5 and 7 characters (e.g., AAA7865, 98765, A67855)"
+                                   oninput="handlePlateInput(this);"
+                                   style="text-transform: uppercase;">
+                        </div>
+                    </div>
 
-<div class="plate-input-wrapper">
-    <input type="text" 
-           class="form-control form-control-intl" 
-           name="plate_no" 
-           placeholder="A12345" 
-           required 
-           oninput="handlePlateInput(this);" 
-           style="text-transform: uppercase;">
-</div>
-<style>
-    /* This container holds the input and the permanent ET */
-    .plate-input-wrapper {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-    }
-
-    /* This creates the permanent ET inside the input */
-    .plate-input-wrapper::before {
-        content: "ET";
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-weight: bold;
-        color: #000;
-        z-index: 5;
-        pointer-events: none; /* User cannot click or delete this */
-    }
-
-    /* This pushes the user's typing to the right so it doesn't cover the ET */
-    .plate-input-wrapper input {
-        padding-left: 38px !important;
-    }
-        /* --- HIDE GOOGLE UI --- */ 
-        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
-        body { top: 0px !important; position: static !important; } 
-        html { margin-top: 0px !important; } 
-        .goog-text-highlight { background: none !important; box-shadow: none !important; }
-</style>
-
-
-
-<!--
-<input type="text" 
-       class="form-control form-control-intl" 
-       name="plate_no" 
-       value="ET " 
-       required 
-       onkeydown="preventDeletePrefix(event, this);"
-       oninput="handlePlateInputWithPrefix(this);" 
-       onclick="moveCursorToEnd(this);"
-       style="text-transform: uppercase; font-weight: bold; padding-left: 10px;">
-
-<script>
-// 1. Blocks the Backspace and Delete keys from removing "ET "
-function preventDeletePrefix(e, input) {
-    // 3 is the length of "ET "
-    if (input.selectionStart <= 3 && (e.key === 'Backspace' || e.key === 'Delete')) {
-        e.preventDefault();
-    }
-}
-
-// 2. Forces the cursor to stay after "ET " if the user clicks the box
-function moveCursorToEnd(input) {
-    if (input.selectionStart < 3) {
-        input.setSelectionRange(3, 3);
-    }
-}
-
-// 3. Ensures "ET " is always there and cleans the user input
-function handlePlateInputWithPrefix(input) {
-    const prefix = "ET ";
-    
-    // If they somehow managed to delete it (e.g., cut/paste), put it back
-    if (!input.value.startsWith(prefix)) {
-        input.value = prefix + input.value.replace("ET", "").trim();
-    }
-
-    // This is where you can add your custom logic for the plate (like A12345)
-    // For example, limiting the length:
-    if (input.value.length > 10) {
-        input.value = input.value.slice(0, 10);
-    }
-}
-</script> -->
-
-		    </div>
-		    <div class="col-4 form-group mb-3">
-                        <label class="form-label-custom">Side No <span class="text-danger">*</span> <span class="text-danger">*</span></label>
+                    <div class="col-4 form-group mb-3">
+                        <label class="form-label-custom">Side No <span class="text-danger">*</span></label>
                         <input type="text" id="sideno" name="sideno" class="form-control form-control-intl" placeholder="####" required
                                oninput="this.value = this.value.replace(/[^0-9]/g, ''); validateSideInput();">
                     </div>
-		    <!--
+
                     <div class="col-3 form-group mb-3">
-                        <label class="form-label-custom">Seats <span class="text-danger">*</span> <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control form-control-intl" name="no_seats" placeholder="00" maxlength="2" required 
+                        <label class="form-label-custom">Seats <span class="text-danger">*</span></label>
+                        <input type="text"
+                               class="form-control form-control-intl"
+                               name="no_seats"
+                               placeholder="00"
+                               maxlength="2"
+                               required
                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                     </div>
-		    -->
-		    <div class="col-3 form-group mb-3">
-    <label class="form-label-custom">
-        Seats <span class="text-danger" aria-hidden="true">*</span>
-    </label>
-    <input type="text"
-           class="form-control form-control-intl"
-           name="no_seats"
-           placeholder="00"
-           maxlength="2"
-           required
-           oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-</div>
                 </div>
+
                 <div id="side-error" class="text-danger font-weight-bold mb-3" style="display:none; font-size: 10px; margin-top:-10px;"></div>
+                
                 <button type="submit" class="btn-register-intl shadow-sm mt-2">
                     SAVE TO REGISTRY <i class="fas fa-save ml-2"></i>
                 </button>
@@ -442,40 +336,80 @@ function handlePlateInputWithPrefix(input) {
         </div>
     </div>
 </div>
+
 <footer class="py-4 text-center text-muted border-top bg-white">
     <div class="container">
         <p class="mb-0" style="font-size: 11px; font-weight: 600;">© 2026 Busfermata TRANSPORT TECHNOLOGY | ENTERPRISE SYSTEM v4.2</p>
     </div>
 </footer>
 
+<!-- JavaScript Input Validation and Range Enforcers -->
 <script>
+    // 1. Flexible Ethiopian Plate Input Handler (5-7 Characters)
     function handlePlateInput(input) {
         let val = input.value.toUpperCase();
-        const firstChar = val.charAt(0);
-        if (firstChar && /[A-Z]/.test(firstChar)) {
-            input.maxLength = 6;
-            input.value = firstChar + val.slice(1).replace(/[^0-9]/g, '');
-        } else {
-            input.maxLength = 5;
-            input.value = val.replace(/[^0-9]/g, '');
+        
+        // Strip spaces or special characters
+        val = val.replace(/[^A-Z0-9]/g, '');
+
+        // Truncate to maximum 7 characters
+        if (val.length > 7) {
+            val = val.slice(0, 7);
         }
+
+        input.value = val;
     }
 
+    // 2. Dynamic Range Parsing Rule Implementation for Side Numbers
     const sideRule = "{{ side }}".trim();
     const sidenoInput = document.getElementById('sideno');
     const sideError = document.getElementById('side-error');
 
+    function getValidStarts() {
+        if (!sideRule) return [];
+        
+        if (sideRule.includes('/')) {
+            const parts = sideRule.split('/').map(part => part.trim());
+            if (parts.length === 2) {
+                const startNum = parseInt(parts[0], 10);
+                const endNum = parseInt(parts[1], 10);
+                
+                if (!isNaN(startNum) && !isNaN(endNum) && startNum <= endNum) {
+                    const expandedStarts = [];
+                    const expectedLength = parts[0].length;
+                    
+                    for (let i = startNum; i <= endNum; i++) {
+                        expandedStarts.push(String(i).padStart(expectedLength, '0'));
+                    }
+                    return expandedStarts;
+                }
+            }
+            return parts;
+        }
+        return [sideRule];
+    }
+
     function validateSideInput() {
         const value = sidenoInput.value;
-        const validStarts = sideRule.split('/').map(part => part.trim());
+        const validStarts = getValidStarts();
+        
         let targetLength = (sideRule === "3") ? 3 : (sideRule.includes('/') ? 4 : sideRule.length);
         sidenoInput.maxLength = targetLength;
 
-        if (value.length === 0) { sideError.style.display = 'none'; return true; }
+        if (value.length === 0) { 
+            sideError.style.display = 'none'; 
+            return true; 
+        }
 
         const isValidStart = validStarts.some(s => value.startsWith(s));
+        
         if (!isValidStart && sideRule !== "3") {
-            sideError.textContent = `* Required: starts with ${validStarts.join(' or ')}`;
+            if (sideRule.includes('/')) {
+                const parts = sideRule.split('/');
+                sideError.textContent = `* Required: starts with entries from ${parts[0]} up to ${parts[1]}`;
+            } else {
+                sideError.textContent = `* Required: starts with ${validStarts.join(' or ')}`;
+            }
             sideError.style.display = 'block';
             return false;
         } else if (value.length !== targetLength) {
@@ -491,12 +425,39 @@ function handlePlateInputWithPrefix(input) {
     document.getElementById('bus_reg_form').onsubmit = function(e) {
         if (!validateSideInput()) {
             e.preventDefault();
-            alert("Please fix the Side Number requirement.");
+            alert("Please fix the Side Number requirement matching assignment settings.");
         }
     };
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({
+            pageLanguage: "en",
+            includedLanguages: "en,am,om,ti",
+            autoDisplay: false
+        }, "google_translate_element");
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage", l);
+        var s = document.querySelector("select.goog-te-combo");
+        if(s){
+            s.value = l;
+            s.dispatchEvent(new Event("change"));
+        }
+    }
+    window.addEventListener("load", function(){
+        const l = localStorage.getItem("userLanguage");
+        if(l && l !== "en"){
+            setTimeout(() => { changeLanguage(l); }, 1000);
+        }
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
 </html>

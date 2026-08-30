@@ -111,6 +111,7 @@ class BusSerializer(serializers.ModelSerializer):
 """
 
 
+"""
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -120,6 +121,34 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
+
+
+"""
+
+# serializers.py
+from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
+from .models import CustomUser
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        # Included 'first_name', 'last_name', and 'gender'
+        fields = [
+            'username', 
+            'email', 
+            'first_name', 
+            'last_name', 
+            'gender', 
+            'phone', 
+            'city', 
+            'password'
+        ]
+        extra_kwargs = {'password': {'write_only': True}}
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data['password'])
+        return super().create(validated_data)
+
+
 
 
 """
@@ -1318,20 +1347,51 @@ class WorkSerializer(serializers.ModelSerializer):
         validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
 
+from rest_framework import serializers
+class TelebirrAuthSerializer(serializers.Serializer):
+    phone = serializers.CharField(max_length=10, help_text="Format: 09xxxxxxxx")
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    price = serializers.FloatField(help_text="Amount to pay")
 
 
+import uuid
+from rest_framework import serializers
+from .models import CustomUser
+class CustomUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        # ተጠቃሚው ራሱ እንዲቀይራቸው የተፈቀዱለት መስኮች ብቻ
+        fields = ['phone', 'city', 'cbe_account', 'telebirr_account', 'boa_account']
+    def validate_phone(self, value):
+        if value and not value.isdigit() and not value.startswith('+'):
+            raise serializers.ValidationError("ትክክለኛ የስልክ ቁጥር ያስገቡ።")
+        return value
+    def validate_telebirr_account(self, value):
+        if value and not value.isdigit():
+            raise serializers.ValidationError("የቴሌብር አካውንት ቁጥር ብቻ መሆን አለበት።")
+        return value
 
+
+from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
+from .models import Worker
 class WorkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Worker
-        fields = ['username', 'phone', 'password', 'fname', 'lname', 'city', 'gender']
-        extra_kwargs = {'password': {'write_only': True}}
-
+        # 'is_active' በፊልዶቹ ዝርዝር ውስጥ መካተት አለበት
+        fields = ['username', 'phone', 'password', 'fname', 'lname', 'city', 'gender', 'is_active']
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'is_active': {'read_only': True} # ተጠቃሚው በፎርም ራሱ እንዳይቀይረው የተደረገ
+        }
     def create(self, validated_data):
-        from django.contrib.auth.hashers import make_password
+        # የይለፍ ቃሉን ሃሽ (Encrpyt) ማድረግ
         validated_data['password'] = make_password(validated_data['password'])
-        return super().create(validated_data)
 
+        # ማንኛውም አዲስ የሚመዘገብ ቡከር/ሰራተኛ ያለ ምንም ቅድመ ሁኔታ በነባሪ False ይሆናል
+        validated_data['is_active'] = False
+
+        return super().create(validated_data)
 
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password

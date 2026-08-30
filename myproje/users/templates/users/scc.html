@@ -188,8 +188,8 @@
             <div class="navbar-nav ml-auto">
                 <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>Registry</option>
-                    <option value="{% url 'route' %}">Define New Route</option>
                     <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
                     <option value="{% url 'registor' %}">Add System Admin</option>
                     <option value="{% url 'worker' %}">Register Ticket Agent</option>
                     <option value="{% url 'city' %}">Add Terminal Hub</option>
@@ -198,9 +198,9 @@
 
                 <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>System Configuration</option>
-                    <option value="{% url 'active' %}">Active Deployments</option>
-                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
                     <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
                     <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
                 </select>
 
@@ -221,8 +221,8 @@
                     <option value="{% url 'scdelete' %}">Remove Share Co.</option>
                     <option value="{% url 'citydelete' %}">Remove Terminal</option>
                     <option value="{% url 'commentdelete' %}">Delete Feedback</option>
-                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
                     <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
                     <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
                 </select>
             </div>
@@ -286,10 +286,163 @@
                             <label class="form-label">Division Side ID <span class="text-danger">*</span></label>
                             <input type="text" name="side" maxlength="5" required class="form-control form-control-modern" placeholder="4-Digit Code">
                         </div>
-                        <div class="col-md-6 form-group">
-                            <label class="form-label">Security Password <span class="text-danger">*</span></label>
-                            <input type="password" name="password" maxlength="20" required class="form-control form-control-modern" placeholder="••••••••">
-                        </div>
+
+
+
+
+<!--
+<script>
+// Monitors password typing in real-time
+function checkInlineStrength(password) {
+    let bar = document.getElementById('inlineBar');
+    let text = document.getElementById('inlineText');
+    let errorBox = document.getElementById('inlineError');
+    
+    errorBox.classList.add('d-none'); // Hide the error box instantly while re-typing
+
+    if (password.length === 0) {
+        bar.style.width = '0%';
+        text.innerHTML = 'Strength: Enter a password';
+        text.style.color = '#6c757d';
+        return;
+    }
+
+    // Evaluation Rules Matrix
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    // Changes bar coloring dynamically
+    if (passedCount === 4) {
+        bar.style.width = '100%';
+        bar.style.backgroundColor = '#28a745'; // Green
+        text.innerHTML = 'Strength: Strong (Valid)';
+        text.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        bar.style.width = '75%';
+        bar.style.backgroundColor = '#ffc107'; // Yellow
+        text.innerHTML = 'Strength: Medium';
+        text.style.color = '#ffc107';
+    } else {
+        bar.style.width = '33%';
+        bar.style.backgroundColor = '#dc3545'; // Red
+        text.innerHTML = 'Strength: Weak';
+        text.style.color = '#dc3545';
+    }
+}
+
+// Blocks initialization if password breaks the rules on submit
+function validateCompanyForm(event) {
+    let passwordInput = document.getElementById('companyPassword').value;
+    let errorBox = document.getElementById('inlineError');
+
+    let hasLength = passwordInput.length >= 8;
+    let hasCapital = /[A-Z]/.test(passwordInput);
+    let hasNumber = /[0-9]/.test(passwordInput);
+    let hasSpecial = /[^A-Za-z0-9]/.test(passwordInput);
+
+    if (!hasLength || !hasCapital || !hasNumber || !hasSpecial) {
+        errorBox.innerHTML = "<i class='fas fa-exclamation-circle mr-1'></i> Password must be Strong to initialize. Rules: Min 8 characters, 1 capital letter, 1 number, and 1 special symbol.";
+        errorBox.classList.remove('d-none');
+        return false; // Total block
+    }
+    return true; // Let form submit
+}
+</script>
+-->
+
+<script>
+function checkStrictStrength(password) {
+    let strengthBar = document.getElementById('strengthBar');
+    let strengthText = document.getElementById('strengthText');
+    let errorBox = document.getElementById('submitError');
+
+    errorBox.classList.add('d-none'); // Hide error banner while user types
+
+    if (password.length === 0) {
+        strengthBar.style.width = '0%';
+        strengthText.innerHTML = 'Strength: Enter a password';
+        strengthText.style.color = '#6c757d';
+        return;
+    }
+
+    // Rules Evaluation Matrix
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    // Updates visual styles cleanly
+    if (passedCount === 4) {
+        strengthBar.style.width = '100%';
+        strengthBar.style.backgroundColor = '#28a745'; // Green
+        strengthText.innerHTML = 'Strength: Strong (Valid)';
+        strengthText.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        strengthBar.style.width = '75%';
+        strengthBar.style.backgroundColor = '#ffc107'; // Yellow
+        strengthText.innerHTML = 'Strength: Medium (Cannot Register yet)';
+        strengthText.style.color = '#ffc107';
+    } else {
+        strengthBar.style.width = '33%';
+        strengthBar.style.backgroundColor = '#dc3545'; // Red
+        strengthText.innerHTML = 'Strength: Weak';
+        strengthText.style.color = '#dc3545';
+    }
+}
+
+// Blocks Registration if Password is Weak or Medium
+function validateLoginForm(event) {
+    let passwordInput = document.getElementById('loginPassword').value;
+    let errorBox = document.getElementById('submitError');
+
+    let hasLength = passwordInput.length >= 8;
+    let hasCapital = /[A-Z]/.test(passwordInput);
+    let hasNumber = /[0-9]/.test(passwordInput);
+    let hasSpecial = /[^A-Za-z0-9]/.test(passwordInput);
+
+    // If ANY metric fails, it means the password is Weak or Medium
+    if (!hasLength || !hasCapital || !hasNumber || !hasSpecial) {
+        
+        // Build an explicit message listing what needs to be fixed
+        errorBox.innerHTML = "<i class='fas fa-exclamation-circle mr-1'></i> Registration Blocked: Your password is too weak. It must have at least 8 characters, 1 capital letter, 1 number, and 1 special character.";
+        errorBox.classList.remove('d-none'); // Reveals the red error alert box
+        
+        // Scroll smoothly to the password input field so the user sees the error instantly
+        document.getElementById('loginPassword').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        return false; // Crucial: Prevents the form from submitting/refreshing
+    }
+    
+    return true; // Password is strong, proceeds to Register Agent safely!
+}
+</script>
+        <div class="col-md-6 form-group">
+            <label class="form-label">Security Password <span class="text-danger">*</span></label>
+            <input type="password" name="password" id="companyPassword" maxlength="20" required
+                   class="form-control form-control-modern" placeholder="••••••••"
+                   oninput="checkInlineStrength(this.value)">
+
+            <div class="mt-2">
+                <div class="progress" style="height: 6px; background-color: #e9ecef; border-radius: 3px;">
+                    <div id="inlineBar" class="progress-bar" role="progressbar" style="width: 0%; transition: width 0.3s ease;"></div>
+                </div>
+                <small id="inlineText" class="form-text font-weight-bold mt-1 text-muted">Strength: Enter a password</small>
+
+                <div id="inlineError" class="alert alert-danger p-2 mt-2 small font-weight-bold d-none" style="border-radius: 4px;">
+                    </div>
+	  
+        </div>
+    </div>
                     </div>
 
                     <div class="row">
@@ -302,8 +455,8 @@
                             <input type="email" name="email" maxlength="50" required class="form-control form-control-modern" placeholder="corporate@domain.com">
                         </div>
                     </div>
-
-                    <div class="row">
+	
+ 	               <div class="row">
                         <div class="col-md-6 form-group">
                             <label class="form-label">Station Level <span class="text-danger">*</span></label>
                             <select name="level" class="form-control form-control-modern" required>
@@ -333,9 +486,77 @@
                     </div>
 
                     <div class="mt-4">
-                        <button type="submit" class="btn-submit">Initialize Share Company</button>
+			    <!--  <button type="submit" class="btn-submit">Initialize Share Company</button>-->
+			    <button type="submit" class="btn-submit">Initialize Share Company</button>
                     </div>
                 </form>
+
+
+
+<script>
+// Monitors password typing in real-time
+function checkInlineStrength(password) {
+    let bar = document.getElementById('inlineBar');
+    let text = document.getElementById('inlineText');
+    let errorBox = document.getElementById('inlineError');
+
+    errorBox.classList.add('d-none'); // Hide the error box instantly while re-typing
+
+    if (password.length === 0) {
+        bar.style.width = '0%';
+        text.innerHTML = 'Strength: Enter a password';
+        text.style.color = '#6c757d';
+        return;
+    }
+
+    // Evaluation Rules Matrix
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    // Changes bar coloring dynamically
+    if (passedCount === 4) {
+        bar.style.width = '100%';
+        bar.style.backgroundColor = '#28a745'; // Green
+        text.innerHTML = 'Strength: Strong (Valid)';
+        text.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        bar.style.width = '75%';
+        bar.style.backgroundColor = '#ffc107'; // Yellow
+        text.innerHTML = 'Strength: Medium';
+        text.style.color = '#ffc107';
+    } else {
+        bar.style.width = '33%';
+        bar.style.backgroundColor = '#dc3545'; // Red
+        text.innerHTML = 'Strength: Weak';
+        text.style.color = '#dc3545';
+    }
+}
+
+// Blocks initialization if password breaks the rules on submit
+function validateCompanyForm(event) {
+    let passwordInput = document.getElementById('companyPassword').value;
+    let errorBox = document.getElementById('inlineError');
+
+    let hasLength = passwordInput.length >= 8;
+    let hasCapital = /[A-Z]/.test(passwordInput);
+    let hasNumber = /[0-9]/.test(passwordInput);
+    let hasSpecial = /[^A-Za-z0-9]/.test(passwordInput);
+
+    if (!hasLength || !hasCapital || !hasNumber || !hasSpecial) {
+        errorBox.innerHTML = "<i class='fas fa-exclamation-circle mr-1'></i> Password must be Strong to initialize. Rules: Min 8 characters, 1 capital letter, 1 number, and 1 special symbol.";
+        errorBox.classList.remove('d-none');
+        return false; // Total block
+    }
+    return true; // Let form submit
+}
+</script>
+
             </div>
         </div>
     </div>

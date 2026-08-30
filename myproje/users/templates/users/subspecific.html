@@ -207,7 +207,7 @@
                 <select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>Registry</option>
                     <option value="{% url 'route' %}">Define New Route</option>
-                    {% if not user.city %}
+                    {% if user.city == "Addis Ababa" %}
                     <option value="{% url 'sc' %}">Register Share Company</option>
                     <option value="{% url 'registor' %}">Add System Admin</option>
                     <option value="{% url 'worker' %}">Register Ticket Agent</option>
@@ -219,8 +219,8 @@
                 <select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>System Configuration</option>
                     <option value="{% url 'active' %}">Active Deployments</option>
-                    <option value="{% url 'changebus' %}">Change Bus</option>
-                    {% if not user.city %}
+                    <option value="{% url 'act' %}">Change Bus</option>
+                    {% if user.city == "Addis Ababa" %}
                     <option value="{% url 'scupdate' %}">Edit Share Company</option>
                     <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
                     {% endif %}
@@ -232,7 +232,7 @@
                     <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
                     <option value="{% url 'totalballance' %}">Revenue Analytics</option>
                     <option value="{% url 'sce' %}">View Share Companies</option>
-                    {% if not user.city %}
+                    {% if user.city == "Addis Ababa" %}
                     <option value="{% url 'users' %}">User Registry</option>
                     <option value="{% url 'buses' %}">View Buses</option>
                     <option value="{% url 'comments' %}">Passenger Feedback</option>
@@ -242,7 +242,7 @@
 
                 <select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
                     <option value="#" selected disabled>Data Control</option>
-                    {% if not user.city %}
+                    {% if user.city == "Addis Ababa" %}
                     <option value="{% url 'admindelete' %}">Remove Admin</option>
                     <option value="{% url 'scdelete' %}">Remove Share Co.</option>
                     <option value="{% url 'citydelete' %}">Remove Terminal</option>

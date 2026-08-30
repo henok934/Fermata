@@ -41,30 +41,13 @@
             top: 0; 
             z-index: 1000;
         }
-        .brand-logo-container {
-            background: white; 
-            padding: 5px; 
-            border-radius: 10px; 
-            border: 2.5px solid var(--brand-navy);
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-        }
-        .brand-logo { height: 50px !important; width: auto; border-radius: 5px; }
+        .brand-logo { height: 50px !important; width: auto; border-radius: 5px; border: none !important; box-shadow: none !important; }
         .brand-text { 
             font-weight: 800; 
             color: var(--brand-navy); 
             font-size: 24px; 
             text-transform: uppercase; 
             line-height: 0.8; 
-            margin-left: 12px; 
-        }
-        .brand-tagline { 
-            color: var(--brand-gold); 
-            font-weight: 800; 
-            font-size: 9px; 
-            letter-spacing: 1.2px; 
-            display: block; 
             margin-left: 12px; 
         }
 
@@ -185,25 +168,16 @@
             text-align: center; 
             margin-top: 80px; 
         }
-        /* --- HIDE GOOGLE UI --- */ 
         .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
         body { top: 0px !important; position: static !important; } 
         html { margin-top: 0px !important; } 
-        .goog-text-highlight { background: none !important; box-shadow: none !important; }
     </style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
 </head>
 <body>
 
 <div class="top-bar-intl">
     <div class="container d-flex justify-content-between align-items-center">
-        <span><i class="fas fa-shield-check mr-2"></i> Verified Secure PCI-DSS Transaction</span>
+        <span><i class="fas fa-lock mr-2"></i> Verified Secure PCI-DSS Transaction</span>
         <div class="d-none d-md-block">
             <i class="fas fa-headset mr-2"></i> 24/7 Support: +251 1158 227 938
         </div>
@@ -212,22 +186,11 @@
 
 <nav class="navbar-main navbar navbar-expand-lg">
     <div class="container">
-	<!--
-        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
-            <div class="brand-logo-container">
-                <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
-            </div>
-            <div>
-            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
-        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
-            </div>
-        </a>
-	-->
-	 <a href="{% url 'home' %}" class="brand-area">
+        <a href="{% url 'home' %}" class="brand-area d-flex align-items-center" style="text-decoration: none;">
             <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
             <div>
-        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
-        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+                <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
             </div>
         </a>
 
@@ -239,13 +202,9 @@
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
-		<!--
-		<li class="nav-item ml-lg-3"><a class="nav-link nav-link-intl btn-outline-dark px-4 rounded-pill border" href="{% url 'book' %}">Book Now</a></li>-->
-		<li class="nav-item ml-lg-3">
-    <a class="nav-link nav-link-intl px-4 rounded-pill border"
-       style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;"
-       href="{% url 'book' %}">Book Now</a>
-</li>
+                <li class="nav-item ml-lg-3">
+                    <a class="nav-link nav-link-intl px-4 rounded-pill border" style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;" href="{% url 'book' %}">Book Now</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -262,7 +221,7 @@
                 </div>
                 <div class="summary-item text-right">
                     <small>Grand Total</small>
-                    <span class="text-warning">{{ total_price }} ETB</span>
+                    <span class="text-warning" id="bannerTotalPrice">0 ETB</span>
                 </div>
             </div>
 
@@ -270,59 +229,66 @@
                 <h4 class="font-weight-bold mb-4" style="color:var(--brand-navy)">Checkout Securely</h4>
                 <div class="price-badge">
                     <span class="text-muted font-weight-bold small d-block">AMOUNT TO PAY</span>
-                    <h2 class="font-weight-bold mb-0 text-primary">{{ total_price }} <small>ETB</small></h2>
+                    <h2 class="font-weight-bold mb-0 text-primary" id="badgeTotalPrice">0 <small>ETB</small></h2>
                 </div>
 
                 <p class="mt-4 text-muted">Select your preferred local payment method to continue</p>
 
-                <form action="{% url 'payment' %}" method="post">
+                <!-- 📋 የትኬቶች ማጠቃለያ ቦክስ -->
+                <div class="card p-3 mb-4 shadow-sm border-0 bg-light text-left">
+                    <h6 class="font-weight-bold mb-2 text-primary"><i class="fas fa-ticket-alt mr-2"></i> Booking Manifest Details</h6>
+                    <hr class="my-2">
+                    {% if tickets %}
+                        {% for ticket in tickets %}
+                        <div class="d-flex justify-content-between text-muted small py-1 border-bottom ticket-item">
+                            <span><strong>Passenger {{ forloop.counter }}:</strong> {{ ticket.firstname }} {{ ticket.lastname }}</span>
+                            <span><strong>PNR:</strong> <code class="text-danger font-weight-bold">{{ ticket.pnr }}</code></span>
+                            <span class="individual-price font-weight-bold" data-price="{{ ticket.price|default:'0' }}">{{ ticket.price }} ETB</span>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- 🏦 አንድ ፎርም እና አንድ የክፍያ አማራጭ ብቻ (ከሉፕ ውጭ የተደረገ) -->
+                <form action="{% url 'payment' %}" method="post" id="paymentForm">
                     {% csrf_token %}
+                    
                     <div class="bank-grid">
                         <label class="bank-option" onclick="selectBank(this)">
                             <i class="fas fa-check-circle check-mark"></i>
                             <input type="radio" name="payment_method" value="telebirr" required>
-                            <img src="../static/images/Tele.png" alt="Telebirr">
+                            <img src="/static/images/Tele.png" alt="Telebirr">
                             <span>Telebirr</span>
                         </label>
 
                         <label class="bank-option" onclick="selectBank(this)">
                             <i class="fas fa-check-circle check-mark"></i>
                             <input type="radio" name="payment_method" value="cbe">
-                            <img src="../static/images/cbe.png" alt="CBE Birr">
+                            <img src="/static/images/cbe.png" alt="CBE Birr">
                             <span>CBE Birr</span>
                         </label>
 
                         <label class="bank-option" onclick="selectBank(this)">
                             <i class="fas fa-check-circle check-mark"></i>
                             <input type="radio" name="payment_method" value="boa">
-                            <img src="../static/images/BOA.png" alt="Abyssinia">
+                            <img src="/static/images/BOA.png" alt="Abyssinia">
                             <span>Abyssinia</span>
                         </label>
 
-                        <label class="bank-option" onclick="selectBank(this)">
-                            <i class="fas fa-check-circle check-mark"></i>
-                            <input type="radio" name="payment_method" value="safaricom">
-                            <img src="../static/images/safari.jpg" alt="M-Pesa">
-                            <span>M-Pesa</span>
-                        </label>
+                 
+                    <input type="hidden" name="pnr" value="{% for t in tickets %}{{ t.pnr }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                    <input type="hidden" name="firstname" value="{% for t in tickets %}{{ t.firstname }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                    <input type="hidden" name="lastname" value="{% for t in tickets %}{{ t.lastname }}{% if not forloop.last %},{% endif %}{% endfor %}">
+             
+                    <input type="hidden" name="price" id="hiddenTotalPrice" value="0">
 
-                        <label class="bank-option" onclick="selectBank(this)">
-                            <i class="fas fa-check-circle check-mark"></i>
-                            <input type="radio" name="payment_method" value="awash">
-                            <img src="../static/images/Awash.png" alt="Awash">
-                            <span>Awash Bank</span>
-                        </label>
-                    </div>
-
-                    <input type="hidden" name="price" value="{{ total_price }}">
-                    
                     <div class="mt-5">
-                        <button type="submit" class="btn-pay-intl">
-                            COMPLETE TRANSACTION <i class="fas fa-arrow-right ml-2"></i>
+                        <button type="submit" class="btn-pay-intl w-100" id="submitPayBtn">
+                            COMPLETE TRANSACTION (0 ETB) <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </div>
                 </form>
-                
+
                 <div class="mt-4 d-flex justify-content-center align-items-center opacity-50">
                     <i class="fas fa-lock mr-2"></i>
                     <span class="small font-weight-bold">256-bit AES Encryption</span>
@@ -352,7 +318,31 @@
         element.classList.add('active');
         element.querySelector('input[type="radio"]').checked = true;
     }
+
+    // ገጹ ሲከፈት የትኬት ዋጋዎችን በሙሉ ደምሮ ፎርም ላይ የሚጭን ስክሪፕት
+    document.addEventListener("DOMContentLoaded", function() {
+        let total = 0;
+        const priceElements = document.querySelectorAll(".individual-price");
+        
+        priceElements.forEach(function(element) {
+            let priceValue = parseFloat(element.getAttribute("data-price")) || 0;
+            total += priceValue;
+        });
+
+        // በየቦታው ዋጋውን ማሳየት
+        document.getElementById("bannerTotalPrice").innerText = total.toFixed(2) + " ETB";
+        document.getElementById("badgeTotalPrice").innerHTML = total.toFixed(2) + " <small>ETB</small>";
+        document.getElementById("submitPayBtn").innerHTML = `COMPLETE TRANSACTION (${total.toFixed(2)} ETB) <i class="fas fa-arrow-right ml-2"></i>`;
+        
+        // ወደ ፎርሙ Hidden Input ዋጋውን መክተት
+        document.getElementById("hiddenTotalPrice").value = total.toFixed(2);
+    });
 </script>
 
-<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
 </html>

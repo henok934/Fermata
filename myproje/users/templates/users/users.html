@@ -96,6 +96,7 @@
 
         <div class="collapse navbar-collapse" id="adminNavbar">
             <div class="navbar-nav ml-auto">
+		<!--
                 <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
                     <option value="#" selected disabled>Registry</option>
                     <option value="{% url 'route' %}">Define New Route</option>
@@ -110,7 +111,7 @@
                     <option value="#" selected disabled>System Configuration</option>
                     <option value="{% url 'active' %}">Active Deployments</option>
                     <option value="{% url 'scupdate' %}">Edit Share Company</option>
-                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'act' %}">Update Bus (Bus)</option>
                     <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
                 </select>
 
@@ -135,12 +136,386 @@
                     <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
                     <option value="{% url 'routedelete' %}">Delete Route</option>
                     <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
-                </select>
+		</select>-->
+		<select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+
+    <option value="#" selected disabled>Registry</option>
+
+
+
+    <option value="{% url 'route' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Define New Route {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+
+
+    {% if user.city == "Addis Ababa" %}
+
+        <option value="{% url 'sc' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Register Share Company {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'registor' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Add System Admin {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'worker' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Register Ticket Agent {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'city' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Add Terminal Hub {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'service_fee' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Set Service Tariff {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+    {% endif %}
+
+</select>
+
+<select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+
+    <option value="#" selected disabled>System Configuration</option>
+
+
+
+    <option value="{% url 'active' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Active Deployments {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+    <option value="{% url 'act' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Change Bus {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+
+
+    {% if user.city == "Addis Ababa" %}
+
+        <option value="{% url 'scupdate' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Edit Share Company {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        
+
+    {% endif %}
+
+</select>
+
+<select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+
+    <option value="#" selected disabled>System Analytics</option>
+
+
+
+    <option value="{% url 'routes' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Route Mapping {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+    <option value="{% url 'ticketinfo' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Booked Tickets {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+    <option value="{% url 'totalballance' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Revenue Analytics {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+    <option value="{% url 'sce' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        View Share Companies {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+
+
+    {% if user.city == "Addis Ababa" %}
+
+        <option value="{% url 'users' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            User Registry {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'buses' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            View Buses {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'comments' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Passenger Feedback {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+    {% endif %}
+
+
+
+    <option value="{% url 'driver' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Booker Registry {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+</select>
+
+<select onchange="if(this.value != '#') location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
+    <option value="#" selected disabled>Data Control</option>
+    {% if user.city == "Addis Ababa" %}
+        <option value="{% url 'admindelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Remove Admin {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'scdelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Remove Share Co. {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'citydelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Remove Terminal {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'commentdelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Delete Feedback {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+        <option value="{% url 'workerdelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+            Delete Booker Agent {% if not user.is_approved %}(Disabled){% endif %}
+
+        </option>
+
+    {% endif %}
+
+
+
+    <option value="{% url 'routedelete' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Delete Route {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+    <option value="{% url 'delete_ticket' %}" {% if not user.is_approved %}disabled style="color: #999;"{% endif %}>
+
+        Delete Ticket {% if not user.is_approved %}(Disabled){% endif %}
+
+    </option>
+
+</select>
             </div>
         </div>
     </div>
 </nav>
 
+<div class="table-container-fixed">
+    <div class="content-card">
+        <div class="text-center mb-4">
+            <h4 class="font-weight-bold" style="color: var(--brand-navy);">የተመዘገቡ ተጠቃሚዎች ማውጫ</h4>
+            <p class="text-muted small">የስርዓት መግቢያ እና የሰራተኞች መረጃ ማስተዳደሪያ</p>
+            
+            <div class="mt-2">
+                <span class="badge badge-success" style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; margin-right: 5px;">ነቁ: {{ active_count }}</span>
+                <span class="badge badge-danger" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px;">እንቅስቃሴ-አልባ: {{ inactive_count }}</span>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>First Name</th>
+                        <th>Father Name</th>
+                        <th>User Name</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+			<th>City</th>
+                        <th>Status</th>
+		    </tr>
+                </thead>
+                <tbody> 
+                    {% for user in users %}
+                        {% if user.username != 'henok' %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ user.first_name|default:"-" }}</td>
+                            <td>{{ user.last_name|default:"-" }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.gender|default:"-" }}</td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.email }}</td>
+			    <td>{{ user.city }}</td>
+                            <td>
+                                <form action="" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="user_id_toggle" value="{{ user.id }}">
+                                    
+                                    {% if user.is_approved %}
+                                        <button type="submit" name="action" value="deactivate" class="btn btn-sm" style="color: white; background-color: #28a745; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">
+                                            ✓ ነቁ (አቦዝን)
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" name="action" value="activate" class="btn btn-sm" style="color: white; background-color: #dc3545; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">
+                                            ✗ ንቁ ያልሆነ (አንቀሳቅስ)
+                                        </button>
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!--
+<div class="table-container-fixed">
+    <div class="content-card">
+        <div class="text-center mb-4">
+            <h4 class="font-weight-bold" style="color: var(--brand-navy);">Registered Users Directory</h4>
+            <p class="text-muted small">Manage system access and personnel information</p>
+            
+            <div class="mt-2">
+                <span class="badge badge-success" style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; margin-right: 5px;">Active: {{ active_count }}</span>
+                <span class="badge badge-danger" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px;">Inactive: {{ inactive_count }}</span>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>First Name</th>
+                        <th>Father Name</th>
+                        <th>User Name</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {% for user in users %}
+                        {% if user.username != 'henok' %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.gender }}</td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% if user.is_approved %}
+                                    <span style="color: #28a745; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Active</span>
+                                {% else %}
+                                    <span style="color: #dc3545; font-weight: bold; background: #ffebee; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Inactive</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+-->
+
+
+
+<!--
+<div class="table-container-fixed">
+    <div class="content-card">
+        <div class="text-center mb-4">
+            <h4 class="font-weight-bold" style="color: var(--brand-navy);">Registered Users Directory</h4>
+            <p class="text-muted small">Manage system access and personnel information</p>
+
+            <div class="mt-2">
+                <span class="badge badge-success" style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; margin-right: 5px;">Active: {{ active_count }}</span>
+                <span class="badge badge-danger" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px;">Inactive: {{ inactive_count }}</span>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>First Name</th>
+                        <th>Father Name</th>
+                        <th>User Name</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Status</th> </tr>
+                </thead>
+                <tbody> {% for user in users %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.gender }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.is_approved %}
+                                <span style="color: #28a745; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Active</span>
+                            {% else %}
+                                <span style="color: #dc3545; font-weight: bold; background: #ffebee; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Inactive</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+-->
+
+
+
+<!--
 <div class="table-container-fixed">
     <div class="content-card">
         <div class="text-center mb-4">
@@ -178,6 +553,8 @@
         </div>
     </div>
 </div>
+-->
+
 
 <footer class="footer-main">
     <p class="small mb-0">© 2026 Busfermata Digital Technology</p>

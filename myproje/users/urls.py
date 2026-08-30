@@ -1,6 +1,6 @@
 from django.urls import path
 from .import views
-from .views import Workerdelet,Special_activates,Subspecific,SubshowTicketsViewss,SpecialDeleteTickets, SpecialDeleteTicketsView, SpecialDeleteTicket, SpecialBuschange, Special_route_DeleteViews, Special_route, Special_active, BusDeleteViews, Recover_balanceView, CancelTicketView, ProfileView, LogoutView, DeleteTicketViews, TicketBookingViews, DeleteTicketsView, SeeView, Changepassenger, Activates, Activate, TicketBookingViews, Books, Totalballance,  Specific, Serviceupdate, MyBus, ServicInsertView, UpdateTicketViews, ScDeleteViews, Scchange,  Sce, SelView, MyRoute, BusInsertView, ShowTicketsViewss,ScInsertViews, BusInsertViews, Safaricompassword, ForgotPasswordView, Boapassword, Cbepassword, Awashpassword, Telebirrpassword, ShowTicketsViews,TelebirrPaymentView, SafariPaymentView, AwashPaymentView, CbePaymentView, BoaPaymentView, ProcessPaymentView, SelectView,ChangesBusView, ChangePasswordView, ChangeBusesViews, DeleteTickets, BusUpdateViewss, CommentDeleteViews, WorkerDeleteViews, RouteDeleteViews, CityDeleteViews, About, AdminDeleteViews, LoginView, HomeViews, BookView, GetTicketViews, CommentsView,  CityInsertView, RoutesInsertView, UrRegisterView, Workers, TicketInfoView, SelectBusView, Buse, Com, Rout, Use, Drivers, RouteView, SelectBusView, SelectView, ChangePasswordView, CommentsView, SelectBusView,  RouteView
+from .views import Workerdelet,Special_activates, Actiions, UserProfileUpdateView, Subspecific,SubshowTicketsViewss,SpecialDeleteTickets,ToggleDriverStatusView, SpecialDeleteTicketsView, SpecialDeleteTicket, SpecialBuschange, Special_route_DeleteViews, Special_route, Special_active, BusDeleteViews, Recover_balanceView, CancelTicketView, ProfileView, LogoutView, DeleteTicketViews, TicketBookingViews, DeleteTicketsView, SeeView, Changepassenger, Activates, Activate, TicketBookingViews, Books, Totalballance,  Specific, Serviceupdate, MyBus, ServicInsertView, UpdateTicketViews, ScDeleteViews, Scchange,  Sce, SelView, MyRoute, BusInsertView, ShowTicketsViewss,ScInsertViews, BusInsertViews, Safaricompassword, ForgotPasswordView, Boapassword, Cbepassword, Awashpassword, Telebirrpassword, ShowTicketsViews,TelebirrPaymentView, SafariPaymentView, AwashPaymentView, CbePaymentView, BoaPaymentView, ProcessPaymentView, SelectView,ChangesBusView, ChangePasswordView, ChangeBusesViews, DeleteTickets, BusUpdateViewss, CommentDeleteViews, WorkerDeleteViews, RouteDeleteViews, CityDeleteViews, About, AdminDeleteViews, LoginView, HomeViews, BookView, GetTicketViews, CommentsView,  CityInsertView, RoutesInsertView, UrRegisterView, Workers, TicketInfoView, SelectBusView, Buse, Com, Rout, Use, Drivers, RouteView, SelectBusView, SelectView, ChangePasswordView, CommentsView, SelectBusView,  RouteView
 from django.views.generic import RedirectView
 from django.urls import path
 from rest_framework import permissions
@@ -46,7 +46,7 @@ urlpatterns = [
     path('specialdeleteticket/', SpecialDeleteTicket.as_view(), name='specialdeleteticket'),  # Route for the JSON API
     path('special_route_delete/', Special_route_DeleteViews.as_view(), name='special_route_delete'),  # Serve form.html
     path('specialdeletetickets/', SpecialDeleteTickets.as_view(), name='specialdeletetickets'),  # Serve form.html
-    #path('delete-tickets/', DeleteTicketsView.as_view(), name='delete_tickets'),
+    path('userprofile/', UserProfileUpdateView.as_view(), name='userprofile'),
     path('delete_tickets/', DeleteTickets.as_view(), name='delete_tickets_web_search'),
     # 2. The Execution/Action View
     path('delete-tickets/', DeleteTicketsView.as_view(), name='delete_tickets_api_execution'),
@@ -55,7 +55,7 @@ urlpatterns = [
     path('api/citydelete/', CityDeleteViews.as_view(), name='api_city_delete'),
     #path('api/city/delete/', CityDeleteViews.as_view(), name='city-delete'),
     path('busdelete/', BusDeleteViews.as_view(), name='busdelete'),
-    #path('api/busdelete/', BusDeleteViews.as_view(), name='api_busdelete'),
+    path('act', Actiions.as_view(), name='act'),
     path('update_ticket/', UpdateTicketViews.as_view(), name='update_ticket'),
     path('specific/', Specific.as_view(), name='specific'),
     path('subspecific/', Subspecific.as_view(), name='subspecific'),
@@ -133,8 +133,15 @@ urlpatterns = [
     #path('api/tickets/', get_tickets, name='get_tickets'),  # New endpoint for retrieving tickets
     path('api/comments/', Com.as_view(),  name='comments_api'),
     path('comments/', Com.as_view(), name='comments'),
-    path('api/driver/', Drivers.as_view(),  name='driver_api'),
-    path('driver/', Drivers.as_view(), name='driver'),
+    
+    
+    #path('api/driver/', Drivers.as_view(),  name='driver_api'),
+    #path('driver/', Drivers.as_view(), name='driver'),
+    #path('drivers/toggle/<int:pk>/', ToggleDriverStatusView.as_view(), name='toggle-driver-status'),
+    
+    path('drivers/', Drivers.as_view(), name='driver'),
+    path('toggle-driver-status/<int:pk>/', ToggleDriverStatusView.as_view(), name='toggle-driver-status'),
+
     path('login/change_password/', ChangePasswordView.as_view(), name='login_change_password'),  # Define this route  
     path('api/routes/', Rout.as_view(), name='routes_api'),  # API endpoint
     path('routes/', Rout.as_view(), name='routes'),  # HTML page endpoint
@@ -145,7 +152,6 @@ urlpatterns = [
     #path('comment-delete/', CommentDeleteView.as_view(), name='comment_delete'),
     #path('workerdelete/', WorkerDeleteView.as_view(), name='workerdelete'),
     #path('route-delete/', RouteDeleteView.as_view(), name='route_delete'),
-
     path('select-bus/', SelectBusView.as_view(), name='select_bus'),
     path('api/Select/', SelectView.as_view(), name='select_bus'),
     path('payment/', ProcessPaymentView.as_view(), name='payment'),

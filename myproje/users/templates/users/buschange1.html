@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Update Bus</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name=\"viewport\" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --surface-gray: #f8fafc;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface-gray); margin: 0; }
+        
+        .interactive-select {
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            height: 38px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--brand-navy);
+            background-color: #ffffff;
+            width: 100%;
+            padding: 0 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            appearance: none; 
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300264d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+        }
+
+        .interactive-select:focus {
+            outline: none;
+            border-color: var(--brand-navy);
+            box-shadow: 0 0 0 3px rgba(0, 38, 77, 0.1);
+        }
+
+        .btn-action-change {
+            background: var(--brand-navy);
+            color: white;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 7px 12px;
+            border-radius: 6px;
+            border: none;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-action-change:hover {
+            background: #003366;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+
+<main class="table-container-fixed">
+    <div class="content-card">
+        <div class="text-center mb-4">
+            <h3 class="font-weight-bold mb-2" style="color: var(--brand-navy);">Operational Bus Replacement</h3>
+            <p class="text-muted small">Select an active route profile to dynamically isolate and swap mechanical inventory units matching standards.</p>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger font-weight-bold text-center border-0 rounded-lg p-3 shadow-sm mb-4">{{ error }}</div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success font-weight-bold text-center border-0 rounded-lg p-3 shadow-sm mb-4">
+                {{ success }} {% if total_seats %}(Capacity Reconfigured: {{ total_seats }} Seats){% endif %}
+            </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Departure</th>
+                        <th>Destination</th>
+                        <th>Date</th>
+                        <th>Current Bus (Side No)</th>
+                        <th>Target Level</th>
+                        <th>New Bus Name</th>
+                        <th>New Side No</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for route in routes %}
+                    <tr class="route-row">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                            <input type="hidden" name="descity" value="{{ route.descity }}">
+                            <input type="hidden" name="date" value="{{ route.date }}">
+                            <input type="hidden" name="side_no" value="{{ route.side_no }}">
+
+                            <td>{{ forloop.counter }}</td>
+
+                            <td class="font-weight-bold notranslate" translate="no">{{ route.depcity }}</td>
+                            <td class="font-weight-bold notranslate" translate="no">{{ route.descity }}</td>
+                            <td class="font-weight-bold notranslate" translate="no">{{ route.date }}</td>
+                            <td>
+                                <span class="badge badge-dark px-3 py-2 font-weight-bold notranslate" translate="no" style="font-size: 13px;">
+                                    {{ route.side_no }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if buses %}
+                                    {% for bus in buses %}
+                                            <input type="text" class="form-control form-control-disabled text-center route-level-display notranslate" translate="no" readonly value="{{ bus.level|default:'Level 1' }}">
+                                      
+                                    {% endfor %}
+                                {% else %}
+                                    <input type="text" class="form-control form-control-disabled text-center route-level-display notranslate" translate="no" readonly value="Standard">
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <select class="interactive-select new-bus-name-select notranslate" translate="no" required>
+                                    <option value="" selected disabled>Bus Name</option>
+                                    {% for bus in buses %}
+                                        <option value="{{ bus.name }}">{{ bus.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="new_side_no" class="interactive-select new-sideno-select notranslate" translate="no" required>
+                                    <option value="" selected disabled>Side No</option>
+                                    {% for bus in buses %}
+                                            <option value="{{ final_side }}">
+                                                {{ final_side }} {% if bus.plate_no %}({{ bus.plate_no }}){% endif %}
+                                            </option>
+                                        
+                                    {% endfor %}
+                                </select>
+                            </td>
+
+                            <td>
+                                <button type="submit" class="btn-action-change btn-sm">
+                                    <i class="fas fa-sync-alt mr-1"></i> Swap
+                                </button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

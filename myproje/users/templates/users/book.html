@@ -125,7 +125,33 @@
         <div class="collapse navbar-collapse" id="globalNav">
             <ul class="navbar-nav mx-auto text-center">
                 <li><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
-                <li><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>
+		<!-- <li><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>-->
+
+<!--
+<li>
+    {% if worker and worker.is_active %}
+        <a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a>
+    {% else %}
+        <a class="nav-link nav-link-custom" href="#" 
+           style="color: #999; pointer-events: none; cursor: not-allowed;" 
+           title="Account Inactive">
+            Book (Disabled)
+        </a>
+    {% endif %}
+</li>
+-->
+<li>
+    {% if worker and worker.is_active %}
+        <a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a>
+    {% else %}
+        <a class="nav-link nav-link-custom" href="#" 
+           id="inactiveBookLink"
+           onclick="this.style.color = 'red'; this.innerText = 'Book (ያልነቃ)'; alert('Your account is inactive! Please contact administration.'); return false;">
+            Book
+        </a>
+    {% endif %}
+</li>
+
                 <li><a class="nav-link nav-link-custom" href="{% url 'about' %}">about us</a></li>
             </ul>
             <div class="d-flex align-items-center justify-content-center pt-3 pt-lg-0">
@@ -152,26 +178,57 @@
             <div class="search-card">
                 <form action="{% url 'booker' %}" method="post">
                     {% csrf_token %}
-                    <div class="row">
-			<!--
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Departure Station</label>
-                            <input type="text" name="depcity" value="{{ city }}" readonly class="form-control form-control-premium bg-light">
-                        </div>
-			-->
-
 
 
 <!--
 <div class="col-md-4 mb-3">
-<label class="form-label">Departure Station</label>
-<input type="text" name="depcity" value="{% if city == 'Autobustera' or city == 'Ayertena' or city == 'Lamberet' or city == 'Asko' %}Addisababa{% else %}{{ city }}{% endif %}"
-           readonly
-           class="form-control form-control-premium bg-light">
+    <label class="form-label">Destination</label>
+    <select name="descity" class="form-control form-control-premium" required>
+        <option value="">Choose Destination...</option>
+        {% if city != 'Autobustera' and city != 'Lamberet' and city != 'Ayertena' and city != 'Asko' and city != 'Kality' %}
+            {# If the origin city is NOT one of the main Addis terminals, auto-set destination to Addisababa #}
+            <option value="Addisababa" selected>Addisababa</option>
+        {% else %}
+            {% for depcity in des %}
+                {% if depcity.depcity != city and depcity.depcity != 'Asko' and depcity.depcity != 'Lamberet' and depcity.depcity != 'Kality' and depcity.depcity != 'Ayertena' and depcity.depcity != 'Autobustera' %}
+                    {% if city == 'Autobustera' %}
+                        {# Autobustera Cities Route #}
+                        {% if depcity.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Lamberet' %}
+                        {# Lamberet Cities Route #}
+                        {% if depcity.depcity in "Kemise,Kombolcha,Dessie,Desseakesta,Dessemasha,Densa,Werailu,Werababo,Weinamba,Kelala,Wegidi,Mekaneselam,Weldiya,Alamata,Mekele" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Asko' %}
+                        {# Asko Cities Route #}
+                        {% if depcity.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Ayertena' %}
+                        {# Ayertena Cities Route #}
+                        {% if depcity.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Kality' %}
+                        {# Kality Cities Route #}
+                        {% if depcity.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% else %}
+                        {# Default Fallback Loop #}
+                        <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </select>
 </div>
 -->
 
-
+<!--
+<div class="row">
 <div class="col-md-4 mb-3">
     <label class="form-label">Departure Station</label>
     <input type="text"
@@ -180,16 +237,12 @@
            readonly
            class="form-control form-control-premium bg-light">
 </div>
-
-
 <div class="col-md-4 mb-3">
     <label class="form-label">Destination</label>
     <select name="descity" class="form-control form-control-premium" required>
         <option value="">Choose Destination...</option>
-
         {% for depcity in des %}
             {% if depcity.depcity != city and depcity.depcity != 'Asko' and depcity.depcity != 'Lamberet' and depcity.depcity != 'Kality' and depcity.depcity != 'Ayertena' and depcity.depcity != 'Autobustera' %}
-
                 {% if city == 'Autobustera' %}
                     {# Autobustera Cities Route #}
                     {% if depcity.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe" %}
@@ -220,6 +273,60 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
+    </select>
+</div>
+-->
+
+<div class="row">
+<div class="col-md-4 mb-3">
+    <label class="form-label">Departure Station</label>
+    <input type="text"
+           name="depcity"
+           value="{% if city == 'Autobustera' or city == 'Asko' or city == 'Kality' or city == 'Lamberet' or city == 'Ayertena' %}Addisababa{% else %}{{ city }}{% endif %}"
+           readonly
+           class="form-control form-control-premium bg-light">
+</div>
+<div class="col-md-4 mb-3">
+    <label class="form-label">Destination</label>
+    <select name="descity" class="form-control form-control-premium" required>
+        <option value="">Choose Destination...</option>
+        {% if city != 'Autobustera' and city != 'Asko' and city != 'Ayertena' and city != 'Lamberet' and city != 'Kality' %}
+            {# Automatically insert Addisababa if city is NOT one of the 5 stations #}
+            <option value="Addisababa" selected>Addisababa</option>
+        {% else %}
+            {% for depcity in des %}
+                {% if depcity.depcity != city and depcity.depcity != 'Asko' and depcity.depcity != 'Lamberet' and depcity.depcity != 'Kality' and depcity.depcity != 'Ayertena' and depcity.depcity != 'Autobustera' %}
+                    {% if city == 'Autobustera' %}
+                        {# Autobustera Cities Route #}
+                        {% if depcity.depcity in "Adet,Adolaweyu,Alemdegolowereilu,Amanuel,Bahirdar,Harar,Jigjiga,Chiro,Diredawa,Bichena,Bulehora,Bure,Chagni,Dangila,Dansha,Debremarkos,Debark,Debreeliasguy,Dejen,Debretabor,Debrewerk,Dejenkuy,Dembecha,Dgotsion,Dilla,Ebnat,Este,Robe,Digotsion,Feresbet,Funeteselam,Mertolemariam,Gaynt,Gimijabetazenayehu,Gonder,Gundewoin,Goba,Humera,Glgelbelesasosa,Jamadegolo,Jaragedo,Kobodeder,Kosober,Lumame,Negeleborena,Mekaneselam,Metema,Motabahirdar,Moyale,Hawassa,Shakiso,Shashemene,Motta,Humera,Wendobensa,Shebelberentayeadwuha,Woreta,Yejube,Yabelo,Yirgalem,Yirgachefe" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Lamberet' %}
+                        {# Lamberet Cities Route #}
+                        {% if depcity.depcity in "Kemise,Kombolcha,Dessie,Desseakesta,Dessemasha,Densa,Werailu,Werababo,Weinamba,Kelala,Wegidi,Mekaneselam,Weldiya,Alamata,Mekele" %}                        <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Asko' %}
+                        {# Asko Cities Route #}
+                        {% if depcity.depcity in "Assosa,Ambo,Ameya,Amuru,Arjogudetu,Bako,Ayira,Bambasi,Bullene,Buregambela,Bureoromia,Dangur,Dansha,Debrezeitbenishangul,Dedu,Dibate,Endabaguna,Finchawabereha,Finchawaketema,Gambela,Gambella,Gilgelbeles,Gimbi,Ginchi,Gog,Guba,Holeta,Mankus,Mendi,Mendibenishangul,Merero,Nekemte,Shambu,Sherkole,Sherkolegambela,Shishinda" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Ayertena' %}
+                        {# Ayertena Cities Route #}
+                        {% if depcity.depcity in "Agaro,Bonga,Chena,Dedu,Gera,Inango,Jinka,Arbaminch,Chencha,Butajira,Metu,Durame,Hosana,Tolay,Mizanaman,Mizanteferi,Gofa,Jimma,Kake,Limu,Metu,Lera,Mizan,Mizanaman,Mizanteferi,Shishinda,Tepi,Jimma,Welayatatercha,Welita,Welkite,Sawla,Sodo,Lera" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% elif city == 'Kality' %}
+                        {# Kality Cities Route #}
+                        {% if depcity.depcity in "Adaba,Adama,Alabakulito,Aletawondo,Amaresa,Amibara,Arere,Awash,Awasharba,Awbare,Babile,Babillesomali,Birbir,Shashemene,Chena,Chereti,Berhale,Bureafar,Chifra,Danod,Degehabur,Dinsho,Ditre,Dolloado,Dubti,Elkere,Erer,Fafan,Filtu,Galessa,Gashamo,Gawane,Geladin,Gera,Gewane,Gidole,Gode,Goderesomali,Hararroadmojo,Hargelle,Semera,Imey,Iteya,Karati,Kebridahar,Kelafo,Kersa,Kika,Logiya,Manda,Meskela,Mustahil,Nazreth,Odabuldigilu,Shilabo,Togwajale,Turmi,Waka,Wardher,Wayu" %}
+                            <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                        {% endif %}
+                    {% else %}
+                        {# Default Fallback Loop #}
+                        <option value="{{ depcity.depcity }}">{{ depcity.depcity }}</option>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </select>
 </div>
 			    <div class="col-md-4 mb-3">

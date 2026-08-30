@@ -160,7 +160,7 @@
     </div>
 
     <div class="brand-text-wrapper" style="display: flex; flex-direction: column; justify-content: center; margin-left: 1rem !important;">
-        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Digital Tech</span>
+        <span class="brand-name-main" style="color: #ffffff; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.75px; line-height: 1.2;">Busfermata Transport</span>
         <span class="brand-subtext" style="color: #ffcc00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; margin-top: 3px; gap: 8px;">
             {% if name %}{{ name }}{% else %}Consolidated{% endif %} Share Co.
 
@@ -183,7 +183,6 @@
                     <select onchange="location.href = this.value;" class="intl-dropdown">
                         <option value="#" disabled selected>📁 REGISTRATION</option>
                         <option value="{% url 'businsert' %}">Register New Bus</option>
-        		<option value="{% url 'special_route' %}">Add New Route</option>
                     </select>
 
                     <select onchange="location.href = this.value;" class="intl-dropdown">
@@ -195,14 +194,9 @@
                     <select onchange="location.href = this.value;" class="intl-dropdown" style="border-color: var(--danger-red);">
                         <option value="#" disabled selected>🛠️ MANAGEMENT</option>
                         <option value="{% url 'updatebus' %}">Edit Details</option>
-			 {% if level == 'Special Bus' %}
-                         <option value="{% url 'special_active' %}">Active Route</option>
-                        {% endif %}
-                        {% if level == 'Special Bus' %}
-                            <option value="{% url 'special_route_delete' %}" selected>Route Delete</option>
-                        {% endif %}
                         <option value="{% url 'busdelete' %}">Remove Bus</option>
                     </select>
+                    
                     <a href="{% url 'logout' %}" class="btn btn-sm btn-danger ml-xl-3 font-weight-bold py-1" style="font-size: 11px;">LOGOUT</a>
                 </div>
             </div>
@@ -298,6 +292,8 @@
     </div>   
 </main>
 
+
+<!--
 <script>
     // 1. Configuration from Django
     const sideConfig = "{{ side }}".trim() || "3";
@@ -377,7 +373,7 @@
         });
     });
 </script>
-
+-->
 
 <!--
 <script>
@@ -441,7 +437,109 @@
     });
 </script>
 -->
+<script>
+    // 1. Configuration from Django
+    const sideConfig = "{{ side }}".trim() || "3";
+    
+    // Function to sequentially expand numeric ranges like '04/08' to [04, 05, 06, 07, 08]
+    function getExpandedPrefixes(sideRule) {
+        if (!sideRule) return [];
+        if (sideRule.includes('/')) {
+            const parts = sideRule.split('/').map(part => part.trim());
+            if (parts.length === 2) {
+                const startNum = parseInt(parts[0], 10);
+                const endNum = parseInt(parts[1], 10);
 
+                if (!isNaN(startNum) && !isNaN(endNum) && startNum <= endNum) {
+                    const expanded = [];
+                    const padLength = parts[0].length; // Maintains leading zeros (e.g., 2 for '04')
+
+                    for (let i = startNum; i <= endNum; i++) {
+                        expanded.push(String(i).padStart(padLength, '0'));
+                    }
+                    return expanded;
+                }
+            }
+            return parts;
+        }
+        return [sideRule];
+    }
+
+    const validStarts = getExpandedPrefixes(sideConfig);
+    const isModeThree = validStarts.includes('3') || sideConfig === "3";
+    const targetLength = isModeThree ? 3 : 4;
+
+    // 2. Target all inputs across table rows
+    document.querySelectorAll('.new-sideno-input').forEach((input) => {
+        const errorMsg = input.parentNode.querySelector('p[id^="error-message_"]');
+        if (!input || !errorMsg) return;
+        
+        input.maxLength = targetLength;
+
+        // Clean input instantly and validate on the fly
+        input.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, ''); // Strip text/characters
+            const val = this.value;
+
+            if (val.length > 0) {
+                if (isModeThree) {
+                    if (val.length !== 3) {
+                        errorMsg.textContent = "Requires 3 digits.";
+                        errorMsg.style.display = 'block';
+                    } else {
+                        errorMsg.style.display = 'none';
+                    }
+                } else {
+                    const startsCorrectly = validStarts.some(start => val.startsWith(start));
+                    if (!startsCorrectly) {
+                        errorMsg.textContent = `Must start with ${validStarts.join(' or ')}.`;
+                        errorMsg.style.display = 'block';
+                    } else if (val.length !== 4) {
+                        errorMsg.textContent = "4 digit required.";
+                        errorMsg.style.display = 'block';
+                    } else {
+                        errorMsg.style.display = 'none';
+                    }
+                }
+            } else {
+                errorMsg.style.display = 'none';
+            }
+        });
+
+        // 3. Form Submit Validation per row
+        const form = input.closest('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const val = input.value;
+                let isValid = true;
+                let msg = "";
+
+                if (isModeThree) {
+                    if (val.length !== 3) {
+                        isValid = false;
+                        msg = "Requires 3 digits.";
+                    }
+                } else {
+                    const startsCorrectly = validStarts.some(start => val.startsWith(start));
+                    if (!startsCorrectly) {
+                        isValid = false;
+                        msg = `Must start with ${validStarts.join(' or ')}.`;
+                    } else if (val.length !== 4) {
+                        isValid = false;
+                        msg = "4 digit required.";
+                    }
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    errorMsg.textContent = msg;
+                    errorMsg.style.display = 'block';
+                    input.focus();
+                }
+            });
+        }
+    });
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
