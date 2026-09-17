@@ -1,0 +1,462 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <title>Login | Busfermata Transport</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-cyan: #00b4d8;
+            --brand-cyan-light: #00e5ff;
+            --brand-gold: #ffcc00;
+            --brand-dark: #07162c;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-light); 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar { 
+            background: var(--brand-dark); 
+            color: #ffffff; 
+            padding: 6px 0; 
+            font-size: 12px; 
+            font-weight: 600;
+        }
+        .top-bar a.staff-portal-tag { 
+            color: var(--brand-gold); 
+            font-weight: 800; 
+            text-decoration: none !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar-main { 
+            background: #ffffff; 
+            padding: 12px 0; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+        }
+        
+        .brand-area { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none !important; 
+            border-left: 3px solid var(--brand-cyan);
+            padding-left: 12px;
+        }
+        .brand-logo { 
+            height: 48px !important; 
+            width: auto !important; 
+            margin-right: 12px; 
+            object-fit: contain;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .brand-text { 
+            font-weight: 800; 
+            color: var(--brand-navy) !important; 
+            font-size: 20px; 
+            text-transform: uppercase; 
+            letter-spacing: -0.5px;
+            line-height: 1;
+            margin: 0;
+        }
+        .brand-tagline { 
+            color: #008891; 
+            font-weight: 700; 
+            font-size: 10px; 
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-link { 
+            color: var(--brand-navy) !important; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 12px; 
+            letter-spacing: 0.3px;
+        }
+        
+        .nav-link:hover {
+            color: var(--brand-cyan) !important;
+        }
+
+        /* BOOK NOW BUTTON STYLE */
+        .btn-book-now {
+            background-color: var(--brand-cyan) !important; 
+            color: #ffffff !important; 
+            font-weight: 800 !important; 
+            border-radius: 8px !important;
+            border: none !important;
+            padding: 8px 20px !important;
+            font-size: 12px !important;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+        .btn-book-now:hover {
+            background-color: #0096c7 !important;
+            box-shadow: 0 4px 12px rgba(0, 180, 216, 0.35);
+        }
+
+        /* NAVBAR REGISTER BUTTON */
+        .btn-nav-register {
+            background: linear-gradient(135deg, var(--brand-navy) 0%, #004080 100%) !important;
+            color: #ffffff !important;
+            font-weight: 800 !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(0, 229, 255, 0.4) !important;
+            padding: 8px 20px !important;
+            font-size: 12px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease-in-out !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none !important;
+            box-shadow: 0 4px 12px rgba(0, 38, 77, 0.15);
+        }
+
+        .btn-nav-register:hover {
+            background: linear-gradient(135deg, #001a33 0%, var(--brand-navy) 100%) !important;
+            border-color: var(--brand-cyan) !important;
+            color: var(--brand-cyan-light) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 180, 216, 0.3);
+        }
+
+        /* --- LOGIN CARD CONTAINER --- */
+        .login-wrapper { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 40px 20px; 
+        }
+
+        .login-container-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 920px;
+            border-radius: 20px;
+            box-shadow: 0 12px 45px rgba(0, 180, 216, 0.15);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* LEFT SIDE BANNER */
+        .login-banner-side {
+            background: linear-gradient(135deg, #00e5ff 0%, #00b4d8 100%);
+            color: var(--brand-navy);
+            padding: 40px;
+            flex: 0.95;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .banner-content { position: relative; z-index: 1; }
+
+        .login-form-side {
+            padding: 40px;
+            flex: 1.15;
+            min-width: 320px;
+            background: #ffffff;
+        }
+
+        /* INPUT STYLING */
+        .form-control {
+            height: 50px;
+            border-radius: 12px;
+            border: 2px solid #cbd5e1;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-main);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #f8fafc;
+            padding-left: 16px;
+        }
+
+        .form-control:focus {
+            background-color: #ffffff !important;
+            border-color: var(--brand-cyan) !important;
+            box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.35), inset 0 0 6px rgba(0, 180, 216, 0.15) !important;
+            outline: none !important;
+            transform: translateY(-1px);
+        }
+
+        /* SUBMIT BUTTON */
+        .btn-login {
+            background: var(--brand-navy);
+            color: white !important;
+            font-weight: 800;
+            height: 52px;
+            border-radius: 12px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            transition: all 0.25s ease;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        
+        .btn-login:focus, .btn-login:active {
+            border-color: var(--brand-cyan) !important;
+            box-shadow: 0 0 0 5px rgba(0, 229, 255, 0.45) !important;
+            outline: none !important;
+        }
+
+        .btn-login:hover { 
+            background: var(--brand-dark); 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(0, 38, 77, 0.25);
+        }
+
+        /* FORM BOTTOM REGISTER BUTTON (OUTLINE STYLE) */
+        .btn-outline-register {
+            background: transparent !important;
+            color: var(--brand-navy) !important;
+            border: 2px solid var(--brand-navy) !important;
+            font-weight: 800 !important;
+            height: 48px;
+            border-radius: 12px !important;
+            font-size: 13px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease-in-out !important;
+            text-decoration: none !important;
+            width: 100%;
+        }
+
+        .btn-outline-register:hover {
+            background-color: var(--brand-navy) !important;
+            color: var(--brand-cyan-light) !important;
+            border-color: var(--brand-navy) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 38, 77, 0.2);
+        }
+
+        .forgot-link { 
+            color: var(--brand-navy); 
+            font-size: 13px; 
+            font-weight: 700; 
+            text-decoration: none !important; 
+            transition: color 0.2s ease;
+        }
+        
+        .forgot-link:hover {
+            color: var(--brand-cyan);
+        }
+
+        /* --- FOOTER --- */
+        .footer-main { 
+            background: var(--brand-dark); 
+            color: rgba(255, 255, 255, 0.7); 
+            padding: 18px 0; 
+            text-align: center; 
+        }
+
+        /* HIDE GOOGLE TRANSLATE UI */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        @media (max-width: 991px) {
+            .login-banner-side { display: none; }
+            .login-form-side { padding: 30px 20px; }
+            .brand-area { border-left: none; padding-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Digital Transport Network</span>
+        <a href="{% url 'home' %}" class="staff-portal-tag"><i class="fas fa-lock mr-1"></i> USER PORTAL</a>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo">
+            <div>
+                <h1 class="brand-text">BUSFERMATA</h1>
+                <div class="brand-tagline">Digital Technology</div>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto mr-3 align-items-center">
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'home' %}">HOME</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'about' %}">ABOUT US</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'get_ticket' %}">MY TICKET</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown">
+                        <i class="fas fa-globe mr-1" style="color:var(--brand-cyan);"></i> <span id="currentLang">English</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg p-2">
+                        <button class="dropdown-item rounded py-2" onclick="changeLanguage('en', 'English')">English <small class="text-muted float-right">EN</small></button>
+                        <button class="dropdown-item rounded py-2" onclick="changeLanguage('am', 'አማርኛ')">አማርኛ <small class="text-success float-right">AM</small></button>
+                        <button class="dropdown-item rounded py-2" onclick="changeLanguage('om', 'Afaan Oromoo')">Afaan Oromoo <small class="text-muted float-right">OR</small></button>
+                        <button class="dropdown-item rounded py-2" onclick="changeLanguage('ti', 'ትግርኛ')">ትግርኛ <small class="text-muted float-right">TI</small></button>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- NAVBAR BUTTONS -->
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <a href="{% url 'passenger_register' %}" class="btn btn-nav-register mr-2">
+                    <i class="fas fa-user-plus mr-1"></i> REGISTER
+                </a>
+                <a href="{% url 'book' %}" class="btn btn-book-now">BOOK NOW</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="login-wrapper">
+    <div class="login-container-card">
+        <!-- Banner Side -->
+        <div class="login-banner-side">
+            <div class="banner-content">
+                <div class="badge px-3 py-2 mb-4" style="font-weight: 800; border-radius: 6px; background: rgba(0, 38, 77, 0.15); color: var(--brand-navy);">PORTAL LOGIN</div>
+                <h2 class="font-weight-bold mb-3" style="font-size: 1.8rem; line-height: 1.25; color: var(--brand-navy);">Digital Transit Access</h2>
+                <p style="color: var(--brand-navy); font-size: 0.95rem; line-height: 1.6; font-weight: 600; opacity: 0.9;">Sign in using your registered phone number to access tickets and management features.</p>
+            </div>
+            <div class="banner-content pt-3" style="border-top: 1px solid rgba(0, 38, 77, 0.15);">
+                <small style="color: var(--brand-navy); display: block; font-weight: 800;"><i class="fas fa-shield-alt mr-1"></i> Encrypted & Secure Portal Access</small>
+            </div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="login-form-side">
+            <div class="text-center text-md-left mb-4">
+                <h3 class="font-weight-bold" style="color: var(--brand-navy); font-size: 1.5rem;">User Portal</h3>
+                <p class="text-muted small">Log in with your registered phone number and password</p>
+            </div>
+
+            <form method="POST" id="loginForm" action="{% url 'login' %}">
+                {% csrf_token %}
+                
+                <div class="form-group mb-3">
+                    <label class="small font-weight-bold text-muted">PHONE NUMBER</label>
+                    <input type="tel" name="phone" id="loginPhone" class="form-control" placeholder="0911223344" required>
+                </div>
+                
+                <div class="form-group mb-2">
+                    <label class="small font-weight-bold text-muted">SECURE PASSWORD</label>
+                    <input type="password" name="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <div class="text-right mb-3">
+                    <a href="{% url 'forgot_password' %}" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <div class="form-group mb-3 d-flex justify-content-center">
+                    <div class="cf-turnstile" id="turnstileBox" data-sitekey="1x00000000000000000000AA"></div>
+                </div>
+
+                <div class="alert alert-danger py-2 small text-center" id="errorMessage" style="{% if not error %}display: none;{% endif %} border-radius: 10px;">
+                    <i class="fas fa-exclamation-triangle mr-1"></i> <span id="errorText">{{ error }}</span>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn btn-login">Authorize Access</button>
+
+                <!-- REGISTER CTA SECTION BELOW LOGIN FORM -->
+                <div class="mt-4 pt-3 text-center" style="border-top: 1px solid #e2e8f0;">
+                    <p class="small text-muted mb-2" style="font-weight: 600;">Don't have an account yet?</p>
+                    <a href="{% url 'passenger_register' %}" class="btn btn-outline-register">
+                        <i class="fas fa-user-plus mr-2"></i> CREATE NEW ACCOUNT
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <p class="mb-0 small">© 2026 Busfermata Digital Technology • Addis Ababa, Ethiopia</p>
+    </div>
+</footer>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit(){
+    new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+}
+
+function changeLanguage(langCode, langName) {
+    if(langName){
+        document.getElementById('currentLang').innerText = langName;
+        localStorage.setItem('userSelectedLangName', langName);
+    }
+    localStorage.setItem("userLanguage", langCode);
+    var s = document.querySelector("select.goog-te-combo");
+    if(s){
+        s.value = langCode;
+        s.dispatchEvent(new Event("change"));
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currentName = localStorage.getItem('userSelectedLangName') || 'English';
+    document.getElementById('currentLang').innerText = currentName;
+});
+
+window.addEventListener("load", function(){
+    const l = localStorage.getItem("userLanguage");
+    if(l && l !== "en"){
+        setTimeout(() => { changeLanguage(l); }, 1000);
+    }
+});
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

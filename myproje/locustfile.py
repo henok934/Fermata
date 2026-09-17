@@ -1,20 +1,27 @@
+# locustfile.py
+
 from locust import HttpUser, task, between
 
-class WedehagerUserSimulation(HttpUser):
-    # Simulate realistic delay: passengers wait 1 to 3 seconds between clicks
+class BusfermataUser(HttpUser):
     wait_time = between(1, 3)
 
     @task(3)
-    def view_homepage(self):
+    def view_home(self):
         self.client.get("/")
 
+    @task(2)
+    def view_get_ticket(self):
+        # በ hyphen (-) የነበረውን ወደ underscore (_) አስተካክለው
+        self.client.get("/get_ticket/")
+
     @task(1)
-    def mock_ticket_query(self):
-        # Simulates users calling your balance/ticket database check endpoints
-        self.client.post("/users/recover-balance/", data={
-            "firstname": "Abebe",
-            "lastname": "Kebede",
-            "depcity": "Addisababa",
-            "descity": "Bahirdar",
-            "date": "2026-06-01"
+    def submit_ticket_flow(self):
+        self.client.post("/ticket/", data={
+            "firstname[]": "Abebe",
+            "lastname[]": "Bikila",
+            "phone[]": "0911000000",
+            "gender[]": "male",
+            "passenger_type[]": "adult",
+            "email[]": "test@example.com",
+            "no_seat[]": "12"
         })

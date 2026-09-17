@@ -1,16 +1,34 @@
 from django.urls import path
 from .import views
-from .views import Workerdelet,Special_activates, Actiions, UserProfileUpdateView, Subspecific,SubshowTicketsViewss,SpecialDeleteTickets,ToggleDriverStatusView, SpecialDeleteTicketsView, SpecialDeleteTicket, SpecialBuschange, Special_route_DeleteViews, Special_route, Special_active, BusDeleteViews, Recover_balanceView, CancelTicketView, ProfileView, LogoutView, DeleteTicketViews, TicketBookingViews, DeleteTicketsView, SeeView, Changepassenger, Activates, Activate, TicketBookingViews, Books, Totalballance,  Specific, Serviceupdate, MyBus, ServicInsertView, UpdateTicketViews, ScDeleteViews, Scchange,  Sce, SelView, MyRoute, BusInsertView, ShowTicketsViewss,ScInsertViews, BusInsertViews, Safaricompassword, ForgotPasswordView, Boapassword, Cbepassword, Awashpassword, Telebirrpassword, ShowTicketsViews,TelebirrPaymentView, SafariPaymentView, AwashPaymentView, CbePaymentView, BoaPaymentView, ProcessPaymentView, SelectView,ChangesBusView, ChangePasswordView, ChangeBusesViews, DeleteTickets, BusUpdateViewss, CommentDeleteViews, WorkerDeleteViews, RouteDeleteViews, CityDeleteViews, About, AdminDeleteViews, LoginView, HomeViews, BookView, GetTicketViews, CommentsView,  CityInsertView, RoutesInsertView, UrRegisterView, Workers, TicketInfoView, SelectBusView, Buse, Com, Rout, Use, Drivers, RouteView, SelectBusView, SelectView, ChangePasswordView, CommentsView, SelectBusView,  RouteView
+from .views import Workerdelet,Special_activates, VerifyOTPAndResetPasswordView, reset_success_view, my_tickets_view, initiate_payment, passenger_register, telebirr_redirect, telebirr_callback, TVerifyPaymentView, Actiions, UserProfileUpdateView, Subspecific,SubshowTicketsViewss,SpecialDeleteTickets,ToggleDriverStatusView, SpecialDeleteTicketsView, SpecialDeleteTicket, SpecialBuschange, Special_route_DeleteViews, Special_route, Special_active, BusDeleteViews, Recover_balanceView, CancelTicketView, ProfileView, LogoutView, DeleteTicketViews, TicketBookingViews, DeleteTicketsView, SeeView, Changepassenger, Activates, Activate, TicketBookingViews, Books, Totalballance,  Specific, Serviceupdate, MyBus, ServicInsertView, UpdateTicketViews, ScDeleteViews, Scchange,  Sce, SelView, MyRoute, BusInsertView, ShowTicketsViewss,ScInsertViews, BusInsertViews, Safaricompassword, ForgotPasswordView, Boapassword, Cbepassword, Awashpassword, Telebirrpassword, ShowTicketsViews,TelebirrPaymentView, SafariPaymentView, AwashPaymentView, CbePaymentView, BoaPaymentView, ProcessPaymentView, SelectView,ChangesBusView, ChangePasswordView, ChangeBusesViews, DeleteTickets, BusUpdateViewss, CommentDeleteViews, WorkerDeleteViews, RouteDeleteViews, CityDeleteViews, About, AdminDeleteViews, LoginView, HomeViews, BookView, GetTicketViews,  CityInsertView, RoutesInsertView, UrRegisterView, Workers, TicketInfoView, SelectBusView, Buse, Com, Rout, Use, Drivers, RouteView, SelectBusView, SelectView, ChangePasswordView, CommentsView, SelectBusView,  RouteView
 from django.views.generic import RedirectView
 from django.urls import path
 from rest_framework import permissions
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from django.contrib import admin  # ADD THIS LINE
-from django.urls import path
+from django.urls import path, re_path
 urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('about/', About.as_view(), name='about'),
+    path('pay/', views.initiate_payment, name='telebirr_pay'),
+    path('reset-success/', reset_success_view, name='reset_success'),
+    path("telebirr/pay/", initiate_payment, name="telebirr_pay"),
+    path('reset-password/verify/', VerifyOTPAndResetPasswordView.as_view(), name='verify_otp_reset'),
+    path('my-tickets/', views.my_tickets_view, name='my_tickets'),
+    path('passenger_register/', views.passenger_register, name='passenger_register'),
+    path('api/passenger/register/', views.passenger_register, name='api_passenger_register'),
+    path('process-payment/', ProcessPaymentView.as_view(), name='process_payment'),
+    path('api/telebirr/process/', ProcessPaymentView.as_view(), name='telebirr_process'),
+    # 2. Telebirr Server Callback (በአስተማማኝ ሁኔታ ክፍያ መቀበያ)
+    path('ticket/print/<uuid:ticket_id>/', views.print_ticket_view, name='print_ticket'),
+    path('api/telebirr/callback/', telebirr_callback, name='telebirr_callback'),
+    re_path(r'^api/telebirr/callback.*$', telebirr_callback, name='telebirr_callback_re'),
+    # 3. User Redirect Page (ክፍያ ከተፈጸመ በኋላ)
+    path('api/redirect/', telebirr_redirect, name='telebirr_redirect'),
+    # 4. Payment Verification Endpoint
+    path('api/telebirr/verify/<str:order_id>/', TVerifyPaymentView.as_view(), name='telebirr_verify'),
+
     path('cancel-ticket/', CancelTicketView.as_view(), name='cancel_ticket'),
     path('recover/', Recover_balanceView.as_view(), name='recover'),
     path('api/about/', About.as_view(), name='api_about'),  # Updated to 'api/about/'
@@ -28,8 +46,6 @@ urlpatterns = [
     path('forgot_password/', ForgotPasswordView.as_view(), name='forgot_password'),
     #path('login/forgot_password/', ForgotPasswordView.as_view(), name='forgot_password'),  # Existing line
     path('api/forgot_password/', ForgotPasswordView.as_view(), name='api_forgot_password'),
-    path('comment/', CommentsView.as_view(), name='comment'),
-    path('api/comment/', CommentsView.as_view(), name='api_comment'),
     path('subshowTicketsViewss/', SubshowTicketsViewss.as_view(), name='subshowTicketsViewss'),
     path('book/', BookView.as_view(), name='book'),
     path('api/book/', BookView.as_view(), name='api_book'),
@@ -48,12 +64,9 @@ urlpatterns = [
     path('specialdeletetickets/', SpecialDeleteTickets.as_view(), name='specialdeletetickets'),  # Serve form.html
     path('userprofile/', UserProfileUpdateView.as_view(), name='userprofile'),
     path('delete_tickets/', DeleteTickets.as_view(), name='delete_tickets_web_search'),
-    # 2. The Execution/Action View
     path('delete-tickets/', DeleteTicketsView.as_view(), name='delete_tickets_api_execution'),
     path('citydelete/', CityDeleteViews.as_view(), name='citydelete'), 
-    #path('api/citydelete/', CityDeleteViews.as_view(), name='city_delete'),
     path('api/citydelete/', CityDeleteViews.as_view(), name='api_city_delete'),
-    #path('api/city/delete/', CityDeleteViews.as_view(), name='city-delete'),
     path('busdelete/', BusDeleteViews.as_view(), name='busdelete'),
     path('act', Actiions.as_view(), name='act'),
     path('update_ticket/', UpdateTicketViews.as_view(), name='update_ticket'),
@@ -66,7 +79,6 @@ urlpatterns = [
     path('activity/', Activates.as_view(), name='activity'),  # URL for the bus insert view
     path('booker/', Books.as_view(), name='booker'),  # API endpoint
     path('Showtickets', ShowTicketsViews.as_view(), name='Showtickets'),
-    #path('Showticketss', ShowTicketsViewss.as_view(), name='Showticketss'),
     path('Showticketss/', ShowTicketsViewss.as_view(), name='Showticketss'),
     path('safaripassword/', Safaricompassword.as_view(), name='safaripassword'),  # API endpoint
     path('city/', CityInsertView.as_view(), name='city'),  # For rendering the form page
@@ -154,8 +166,8 @@ urlpatterns = [
     #path('route-delete/', RouteDeleteView.as_view(), name='route_delete'),
     path('select-bus/', SelectBusView.as_view(), name='select_bus'),
     path('api/Select/', SelectView.as_view(), name='select_bus'),
-    path('payment/', ProcessPaymentView.as_view(), name='payment'),
-    path('api/payment/', ProcessPaymentView.as_view(), name='process_payment'),
+    #path('payment/', ProcessPaymentView.as_view(), name='payment'),
+    #path('api/payment/', ProcessPaymentView.as_view(), name='process_payment'),
     path('telebirr-password/', Telebirrpassword.as_view(), name='telebirr-password'),
     #path('Selectbus/', SelectBusView.as_view(), name='Selectbus'),  # URL for the SelectBus view
     # General URL (Used by your templates)

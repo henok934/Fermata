@@ -1,188 +1,790 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <head>
-    <title>Busfermata | Ethiopia's Digital Transport Hub</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% trans "About Us | Busfermata Digital Technology" %}</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
 
     <style>
         :root {
-            --primary-navy: #003366;
-            --accent-gold: #ffcc00;
-            --glass-white: rgba(255, 255, 255, 0.98);
+            --brand-navy: #00264d;
+            --brand-navy-dark: #001f3f;
+            --brand-gold: #ffcc00;
+            --brand-gold-hover: #e6b800;
+            --brand-dark: #0f172a;
+            --text-main: #1e293b;
+            --text-muted: #334155;
+            --accent-teal: #007A78;
         }
 
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f4f7fa; margin: 0; }
-
-        /* --- NAVIGATION --- */
-        .main-navigation {
-            background: var(--glass-white);
-            padding: 12px 0;
-            border-bottom: 4px solid var(--accent-gold);
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
         }
 
-        .brand-img-nav { height: 70px !important; border-radius: 10px; border: 2px solid var(--primary-navy); }
+        /* HIDE GOOGLE TRANSLATE UI OVERLAYS */
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { 
+            display: none !important; 
+            visibility: hidden !important; 
+        }
+        body { top: 0px !important; position: static !important; }
+        html { margin-top: 0px !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
 
-        .nav-menu { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; align-items: center; }
-        .nav-link-item { color: var(--primary-navy); font-weight: 700; font-size: 13px; text-transform: uppercase; text-decoration: none; }
+        /* NAVIGATION BAR STYLES */
+        .top-bar { 
+            background: var(--brand-dark); 
+            color: #ffffff; 
+            padding: 8px 0; 
+            font-size: 0.8125rem; 
+        }
+        .top-bar a { 
+            color: var(--brand-gold); 
+            font-weight: 700; 
+            text-decoration: none; 
+            transition: color 0.2s ease;
+        }
+        .top-bar a:hover { color: #ffffff; text-decoration: underline; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 4px solid var(--brand-gold);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+        }
+
+        .brand-area { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none !important; 
+        }
+        .brand-logo { 
+            height: 60px; 
+            width: auto; 
+            margin-right: 12px; 
+            object-fit: contain;
+        }
         
-        /* Notification & Date Logic */
-        .notif-wrapper { position: relative; display: flex; align-items: center; }
-        #notificationButton { background: none; border: none; cursor: pointer; font-size: 22px; position: relative; }
-        .notif-badge { background: red; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; }
-        #dateInput { display: none; margin-left: 10px; width: 130px; border: 1px solid var(--accent-gold); border-radius: 4px; padding: 5px; font-size: 12px; }
+        .brand-text { 
+            font-weight: 800; 
+            color: var(--brand-navy); 
+            font-size: 1.75rem; 
+            text-transform: uppercase; 
+            line-height: 1; 
+            letter-spacing: -0.5px;
+        }
+        .brand-tagline { 
+            color: var(--accent-teal); 
+            font-weight: 700; 
+            font-size: 0.75rem; 
+            display: block; 
+            margin-top: 2px; 
+            letter-spacing: 0.5px;
+        }
 
-        /* --- ABOUT CONTENT (AMHARIC & CONTACT) --- */
-        .about-section { margin-top: 60px; padding-bottom: 80px; }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .nav-link { 
+            color: var(--brand-navy) !important; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 0.875rem; 
+            padding: 8px 16px !important;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+        }
         
-        .amharic-content {
-            border-left: 6px solid var(--accent-gold);
-            padding-left: 30px;
+        .nav-link:hover { 
+            color: var(--brand-navy) !important; 
+            background-color: rgba(0, 38, 77, 0.06); 
         }
 
-        .amharic-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--primary-navy);
-            margin-bottom: 25px;
+        .nav-link:focus-visible, .nav-link:active, .nav-link.active {
+            color: var(--brand-navy) !important;
+            background-color: rgba(255, 204, 0, 0.25) !important;
+            outline: 2px solid var(--brand-navy);
         }
 
-        .amharic-text {
-            font-size: 1.25rem;
-            line-height: 1.8;
-            color: #2d3748;
-            text-align: justify;
+        .btn-book-nav {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--brand-gold) !important;
+            color: var(--brand-navy) !important;
+            border: 2px solid var(--brand-gold) !important;
+            border-radius: 8px !important;
+            font-weight: 800 !important;
+            font-size: 0.875rem !important;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.2s ease-in-out !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .contact-card-right {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        .btn-book-nav:hover {
+            background-color: var(--brand-gold-hover) !important;
+            border-color: var(--brand-gold-hover) !important;
+            color: var(--brand-navy) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3);
+        }
+
+        .dropdown-menu {
+            border-radius: 12px !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .dropdown-item {
+            font-weight: 600;
+            color: var(--brand-navy);
+            padding: 10px 16px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 204, 0, 0.15);
+            color: var(--brand-navy);
+        }
+
+        /* HERO BANNER */
+        .about-hero {
+            background: linear-gradient(135deg, rgba(0, 38, 77, 0.92) 0%, rgba(15, 23, 42, 0.95) 100%), url('{% static "images/home_slider.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 90px 0 110px;
             text-align: center;
+        }
+        .about-hero h1 { 
+            font-size: 2.75rem; 
+            font-weight: 800; 
+            letter-spacing: -0.5px; 
+            margin-bottom: 12px;
+        }
+        .about-hero p { 
+            font-size: 1.15rem; 
+            color: #e2e8f0; 
+            max-width: 680px; 
+            margin: 0 auto; 
+            line-height: 1.6;
+        }
+
+        /* CONCEPT & FEATURE CARDS */
+        .concept-card { 
+            background: #ffffff; 
+            padding: 48px; 
+            border-radius: 20px; 
+            margin-top: -50px; 
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
             border: 1px solid #e2e8f0;
         }
-
-        .contact-logo {
-            width: 180px;
-            height: auto;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            border: 4px solid var(--primary-navy);
+        .concept-card h2 { 
+            font-weight: 800; 
+            color: var(--brand-navy); 
+            font-size: 2rem; 
+            margin-bottom: 20px; 
+        }
+        .concept-lead { 
+            font-size: 1.2rem; 
+            line-height: 1.7; 
+            color: var(--brand-navy); 
+            font-weight: 600; 
+        }
+        .concept-body { 
+            font-size: 1.05rem; 
+            line-height: 1.8; 
+            color: var(--text-muted); 
+            margin-top: 16px; 
         }
 
-        .phone-display {
-            font-size: 1.5rem;
+        .feature-card-direct {
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+            height: 100%;
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-card-direct:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header-vibrant {
+            padding: 32px 24px 24px;
+            text-align: center;
+            color: #ffffff;
+            background: var(--brand-navy);
+            border-bottom: 4px solid var(--brand-gold);
+        }
+        
+        .card-icon-badge {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.75rem;
+            color: var(--brand-gold);
+        }
+
+        .card-body-vibrant {
+            padding: 28px 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+
+        /* FEEDBACK CARD STYLES */
+        .feedback-card-container {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin: 50px 0;
+        }
+
+        .card-header-feedback {
+            background: var(--brand-navy);
+            color: #ffffff;
+            padding: 32px 28px;
+            text-align: center;
+            border-bottom: 4px solid var(--brand-gold);
+        }
+
+        .card-header-feedback h3 {
             font-weight: 800;
-            color: var(--primary-navy);
-            background: #fff9e6;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-top: 15px;
-            border: 2px dashed var(--accent-gold);
+            font-size: 1.65rem;
+            margin-bottom: 6px;
         }
-        /* --- HIDE GOOGLE UI --- */ 
-        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
-        body { top: 0px !important; position: static !important; } 
-        html { margin-top: 0px !important; } 
-        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        .card-header-feedback p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .card-body-custom {
+            padding: 40px 32px;
+        }
+
+        .form-label-custom {
+            font-weight: 700;
+            color: var(--brand-navy);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control-custom {
+            height: 50px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            transition: all 0.2s ease-in-out;
+            background-color: #f8fafc;
+        }
+
+        textarea.form-control-custom {
+            height: auto;
+            padding: 14px 16px;
+        }
+
+        .is-invalid-spam {
+            border-color: #dc3545 !important;
+            background-color: #fff8f8 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+        }
+
+        .form-control-custom:focus {
+            background-color: #ffffff;
+            border-color: var(--brand-navy);
+            box-shadow: 0 0 0 0.2rem rgba(0, 38, 77, 0.15);
+            outline: none;
+        }
+
+        .spam-alert-box {
+            background-color: #fce8e6;
+            color: #c5221f;
+            border: 1px solid #f5c2c7;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-submit-comment {
+            width: 100%;
+            height: 52px;
+            background-color: var(--brand-navy);
+            color: #ffffff;
+            border: 2px solid var(--brand-navy);
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease-in-out;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-submit-comment:hover {
+            background-color: var(--brand-gold);
+            border-color: var(--brand-gold);
+            color: var(--brand-navy);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 204, 0, 0.3);
+        }
+
+        /* CONTACT PANEL STYLES */
+        .contact-panel {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 36px 28px;
+            margin: 40px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .contact-title {
+            color: var(--brand-navy);
+            font-weight: 800;
+            font-size: 1.75rem;
+            margin-bottom: 6px;
+        }
+
+        .contact-actions-inline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            padding: 0 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none !important;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-phone-inline {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            color: var(--brand-navy) !important;
+        }
+
+        .btn-telegram-inline {
+            background-color: #0088cc;
+            color: #ffffff !important;
+            border: 2px solid #0088cc;
+        }
+
+        .btn-whatsapp-inline {
+            background-color: #25d366;
+            color: #ffffff !important;
+            border: 2px solid #25d366;
+        }
+
+        .footer-main { 
+            background: var(--brand-navy); 
+            color: #ffffff; 
+            padding: 50px 0 30px; 
+            text-align: center; 
+        }
+
+        @media (max-width: 768px) {
+            .concept-card { padding: 28px 20px; margin-top: -30px; }
+            .about-hero h1 { font-size: 2rem; }
+            .contact-actions-inline { flex-direction: column; width: 100%; }
+            .contact-btn { width: 100%; }
+            .card-body-custom { padding: 28px 20px; }
+        }
     </style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
 </head>
 <body>
 
-<nav class="main-navigation">
-    <div class="container d-flex align-items-center justify-content-between">
-        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
-            <img src="../static/images/l.jpeg" class="brand-img-nav" alt="Busfermata">
-            <div class="ml-3">
-                <span style="font-weight: 800; font-size: 24px; color: var(--primary-navy); display: block; line-height: 1;">Busfermata</span>
-                <span style="font-size: 9px; color: var(--accent-gold); letter-spacing: 2px; font-weight: 800;">TRANSPORT TECHNOLOGY</span>
+<header class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2" aria-hidden="true"></i> {% trans "Ethiopian National Transport Standards" %}</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1" aria-hidden="true"></i> {% trans "STAFF LOGIN PORTAL" %}</a>
+    </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main" aria-label="{% trans 'Main Navigation' %}">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area" aria-label="{% trans 'Busfermata Home' %}">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="{% trans 'Busfermata Digital Technology Logo' %}">
+            <div>
+                <span class="brand-text">BUSFERMATA</span>
+                <span class="brand-tagline">Digital Technology</span>
             </div>
         </a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal" aria-controls="navPortal" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <ul class="nav-menu">
-            <li><a href="{% url 'home' %}" class="nav-link-item">Home</a></li>
-            <li><a href="{% url 'book' %}" class="nav-link-item">Book</a></li>
-            <li><a href="{% url 'about' %}" class="nav-link-item">About Us</a></li>
-            <li><a href="{% url 'get_ticket' %}" class="nav-link-item">My Ticket</a></li>
-            <li><a href="{% url 'comment' %}" class="nav-link-item">Feedback</a></li>
-            <li class="notif-wrapper">
-                <form action="{% url 'changebuses' %}" method="post" id="busChangeForm">
-                    {% csrf_token %}
-                    <button type="button" id="notificationButton">🔔<span class="notif-badge">{{ buschanges_count }}</span></button>
-                    <input type="date" name="date" required id="dateInput">
-                </form>
-            </li>
-            <li><a href="{% url 'login' %}" class="btn btn-sm btn-primary px-3">LOGIN</a></li>
-        </ul>
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">{% trans "My Ticket" %}</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-globe mr-1" style="color:var(--accent-teal);" aria-hidden="true"></i> 
+                        <span id="currentLang">English</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg p-2" aria-labelledby="langDrop">
+                        <button class="dropdown-item rounded py-2" type="button" onclick="changeLanguage('en', 'English')">English <small class="text-muted float-right">EN</small></button>
+                        <button class="dropdown-item rounded py-2" type="button" onclick="changeLanguage('am', 'አማርኛ')">አማርኛ <small class="text-success float-right">AM</small></button>
+                        <button class="dropdown-item rounded py-2" type="button" onclick="changeLanguage('om', 'Afaan Oromoo')">Afaan Oromoo <small class="text-muted float-right">OR</small></button>
+                        <button class="dropdown-item rounded py-2" type="button" onclick="changeLanguage('ti', 'ትግርኛ')">ትግርኛ <small class="text-muted float-right">TI</small></button>
+                    </div>
+                </li>
+		<li class="nav-item d-inline-flex align-items-center mx-1">
+		<a class="btn px-4 py-2 font-weight-bold" style="background: #06b6d4; color: white; border-radius: 8px; border: none; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);" href="{% url 'book' %}">
+    BOOK NOW
+</a>
+ </li>
+
+            </ul>
+        </div>
     </div>
 </nav>
 
-<section class="container about-section">
-    <div class="row align-items-center">
-        <div class="col-lg-7 mb-5 mb-lg-0">
-            <div class="amharic-content">
-                <h2 class="amharic-title">ስለ እኛ (About Us)</h2>
-                <div class="amharic-text">
-                    <p>
-                        <strong>ወደሀገር የትራንስፖርት ቴክኖሎጂ</strong> የጉዞ ልምድን ለማዘመን የተቋቋመ ግንባር ቀደም እና ገለልተኛ የሎጅስቲክስ ተቋም ነው።
-                    </p>
-                    <p>
-                        በባለሙያ ቤተሰቦች—የሶፍትዌር መሃንዲስ፣ የአውቶቡስ አሽከርካሪ እና የአውቶቡስ ባለቤት—የተመሰረተው ተቋማችን፤ የዘርፉን የቆየ ልምድ ከዘመናዊ ዲጂታል ፈጠራ ጋር በማቀናጀት በኢትዮጵያ የጉዞ ዘርፍ ያለውን ክፍተት ለመሙላት በትጋት ይሰራል::
-                    </p>
+<section class="about-hero">
+    <div class="container">
+        <h1>{% trans "Transforming Ethiopian Transit" %}</h1>
+        <p>{% trans "Connecting passengers, bus operators, and logistics with seamless modern software solutions." %}</p>
+    </div>
+</section>
+
+<main class="container">
+    <article class="concept-card">
+        <h2>{% trans "Our Vision & Mission" %}</h2>
+        <p class="concept-lead">
+            <strong>Busfermata Digital Technology</strong> {% trans "is a visionary, unique, and independent logistics platform established to modernize the travel experience." %}
+        </p>
+        <p class="concept-body">
+            {% trans "Founded by a dedicated family of software creators and transport industry experts who have spent decades working at the heart of the sector. By merging high-level technical expertise with deep real-world experience, we are bridging the digital gap in Ethiopia’s travel industry. Our platform is built to resolve the daily challenges of travel—making every journey across the nation faster, safer, and more reliable." %}
+        </p>
+    </article>
+
+    <!-- FEATURE CARDS -->
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="feature-card-direct">
+                <div class="card-header-vibrant">
+                    <div class="card-icon-badge">
+                        <i class="fas fa-microchip" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="m-0 font-weight-bold" style="font-size: 1.35rem;">{% trans "Software Built" %}</h3>
+                </div>
+                <div class="card-body-vibrant">
+                    {% trans "Developed by engineers who understand secure, high-speed digital infrastructure. Enterprise-grade ticket reservation system optimized for scale." %}
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-5 text-center">
-            <div class="contact-card-right">
-                <img src="../static/images/l.jpeg" class="contact-logo" alt="Busfermata">
-                <h4 style="font-weight: 800; color: #1a202c;">Connect with Us</h4>
-                <p class="text-muted">Available 24/7 for your travel needs</p>
-                <div class="phone-display">
-                    <i class="fas fa-phone-alt mr-2"></i> +251 975 143 134
+        <div class="col-md-4 mb-4">
+            <div class="feature-card-direct">
+                <div class="card-header-vibrant">
+                    <div class="card-icon-badge">
+                        <i class="fas fa-id-card" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="m-0 font-weight-bold" style="font-size: 1.35rem;">{% trans "Driver Insight" %}</h3>
                 </div>
-                <div class="mt-4">
-                    <a href="#" class="btn btn-primary mr-2"><i class="fab fa-telegram-plane"></i></a>
-                    <a href="#" class="btn btn-success"><i class="fab fa-whatsapp"></i></a>
+                <div class="card-body-vibrant">
+                    {% trans "Designed with direct feedback from Ethiopian drivers to ensure practical solutions, simplified schedules, and effortless passenger management." %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="feature-card-direct">
+                <div class="card-header-vibrant">
+                    <div class="card-icon-badge">
+                        <i class="fas fa-bus" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="m-0 font-weight-bold" style="font-size: 1.35rem;">{% trans "Owner Driven" %}</h3>
+                </div>
+                <div class="card-body-vibrant">
+                    {% trans "Tailored for bus transport owners to maximize efficiency, operational profit, fleet performance, and service quality across national transit lines." %}
                 </div>
             </div>
         </div>
     </div>
-</section>
 
-<script>
-    document.getElementById('notificationButton').addEventListener('click', function() {
-        var dateInput = document.getElementById('dateInput');
-        dateInput.style.display = (dateInput.style.display === 'none' || dateInput.style.display === '') ? 'inline-block' : 'none';
-        if(dateInput.style.display === 'inline-block') dateInput.focus();
+    <!-- FEEDBACK FORM WITH SPAM VALIDATION -->
+    <section class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="feedback-card-container">
+                
+                <div class="card-header-feedback">
+                    <h3><i class="fas fa-paper-plane mr-2" aria-hidden="true"></i>{% trans "Send Us Feedback" %}</h3>
+                    <p>{% trans "We value your thoughts! Help us improve your travel experience." %}</p>
+                </div>
+
+                <div class="card-body-custom">
+
+                    {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show font-weight-bold" role="alert">
+                        <i class="fas fa-exclamation-circle mr-2" aria-hidden="true"></i>{{ error }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Close' %}">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+
+                    {% if success %}
+                    <div class="alert alert-success alert-dismissible fade show font-weight-bold" role="alert">
+                        <i class="fas fa-check-circle mr-2" aria-hidden="true"></i>{{ success }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Close' %}">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+
+                    <form id="feedbackForm" action="{% url 'about' %}" method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-4">
+                            <label for="fullNameInput" class="form-label-custom">{% trans "Full Name" %} <span class="text-danger">*</span></label>
+                            <input type="text" id="fullNameInput" name="name" class="form-control form-control-custom" placeholder="{% trans 'Enter your full name' %}" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-4">
+                                <label for="phoneInput" class="form-label-custom">{% trans "Phone Number" %} <span class="text-danger">*</span></label>
+                                <input type="tel" id="phoneInput" name="phone" class="form-control form-control-custom" maxlength="10" placeholder="09xxxxxxxx" pattern="[0][9,7][0-9]{8}" required>
+                            </div>
+
+                            <div class="col-md-6 form-group mb-4">
+                                <label for="emailInput" class="form-label-custom">{% trans "Email Address" %} <span class="text-danger">*</span></label>
+                                <input type="email" id="emailInput" name="email" class="form-control form-control-custom" placeholder="name@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="experienceMessage" class="form-label-custom">{% trans "Message" %} <span class="text-danger">*</span></label>
+                            <textarea
+                                id="experienceMessage"
+                                name="message"
+                                class="form-control form-control-custom"
+                                rows="4"
+                                placeholder="{% trans 'Tell us about your experience...' %}"
+                                required></textarea>
+
+                            <!-- SPAM WARNING MESSAGE BOX -->
+                            <div id="errorMessage" class="spam-alert-box" style="display: none;">
+                                <i class="fas fa-exclamation-triangle mr-2" aria-hidden="true"></i>
+                                <span>{% trans "Please enter a meaningful message instead of random keyboard spam characters." %}</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn-submit-comment shadow-sm">
+                            <i class="fas fa-paper-plane mr-2" aria-hidden="true"></i>{% trans "Send Feedback" %}
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIRECT SUPPORT LINE SECTION -->
+    <section class="contact-panel text-center">
+        <h2 class="contact-title">{% trans "Direct Support Line" %}</h2>
+        <p class="text-muted mb-4">{% trans "Have questions or need assistance with ticketing? Reach out directly." %}</p>
+        
+        <div class="contact-actions-inline">
+            <a href="tel:+251975143134" class="contact-btn btn-phone-inline">
+                <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>+251 975 143 134
+            </a>
+
+            <a href="https://t.me/+251907252775" target="_blank" rel="noopener noreferrer" class="contact-btn btn-telegram-inline">
+                <i class="fab fa-telegram-plane mr-2" aria-hidden="true"></i>Telegram
+            </a>
+
+            <a href="https://wa.me/251907252775" target="_blank" rel="noopener noreferrer" class="contact-btn btn-whatsapp-inline">
+                <i class="fab fa-whatsapp mr-2" aria-hidden="true"></i>WhatsApp
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-3" style="font-weight: 800; font-size: 1.5rem;">Busfermata Digital Technology</h3>
+        <p style="color: #cbd5e1; margin-bottom: 20px;">© 2026 Busfermata • {% trans "National Travel Solutions" %}</p>
+    </div>
+</footer>
+
+<div id="google_translate_element" style="display:none;"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        const messageInput = document.getElementById("experienceMessage");
+        const errorMessage = document.getElementById("errorMessage");
+        const feedbackForm = document.getElementById("feedbackForm");
+
+        function isSpam(text) {
+            const trimmed = text.trim();
+            if (trimmed.length < 5) return true;
+
+            // 1. Detect 5+ identical characters repeated consecutively
+            if (/(.)\1{4,}/i.test(trimmed)) {
+                return true;
+            }
+
+            // 2. Detect 2 to 4 character patterns repeated 3+ times
+            if (/(.{2,4})\1{2,}/i.test(trimmed)) {
+                return true;
+            }
+
+            // 3. Detect continuous blocks of random key-mashing or missing spaces
+            const words = trimmed.split(/\s+/);
+            for (let word of words) {
+                if (word.length > 15) {
+                    return true;
+                }
+                if (word.length > 8 && !/[aeiouyአኡኢኣኤእኦ]/i.test(word)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function validateInput() {
+            const text = messageInput.value;
+            if (text.length > 0 && isSpam(text)) {
+                messageInput.classList.add("is-invalid-spam");
+                errorMessage.style.display = "flex";
+                return false;
+            } else {
+                messageInput.classList.remove("is-invalid-spam");
+                errorMessage.style.display = "none";
+                return true;
+            }
+        }
+
+        messageInput.addEventListener("input", validateInput);
+        messageInput.addEventListener("keyup", validateInput);
+
+        feedbackForm.addEventListener("submit", function(e) {
+            if (!validateInput()) {
+                e.preventDefault();
+                messageInput.focus();
+            }
+        });
     });
 
-    document.getElementById('dateInput').addEventListener('change', function() {
-        document.getElementById('busChangeForm').submit();
-    });
+    /* LANGUAGE SELECTOR FUNCTIONALITY */
+    function changeLanguage(langCode, langName) {
+        document.getElementById('currentLang').innerText = langName;
+        localStorage.setItem('userLanguage', langCode);
+        localStorage.setItem('userSelectedLangName', langName);
+        
+        document.documentElement.setAttribute('lang', langCode);
+        var selectField = document.querySelector("select.goog-te-combo");
+        if (selectField) {
+            selectField.value = langCode;
+            selectField.dispatchEvent(new Event("change"));
+        }
+    }
+
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: "en", 
+            includedLanguages: "en,am,om,ti", 
+            autoDisplay: false
+        }, "google_translate_element");
+    }
+
+    (function syncImmediately() {
+        const savedLang = localStorage.getItem("userLanguage");
+        const savedName = localStorage.getItem("userSelectedLangName");
+        
+        if (savedName) {
+            document.getElementById('currentLang').innerText = savedName;
+        }
+
+        if (savedLang && savedLang !== "en") {
+            document.documentElement.setAttribute('lang', savedLang);
+            var fastCheck = setInterval(function() {
+                var selectField = document.querySelector("select.goog-te-combo");
+                if (selectField) {
+                    selectField.value = savedLang;
+                    selectField.dispatchEvent(new Event("change"));
+                    clearInterval(fastCheck); 
+                }
+            }, 50);
+            setTimeout(() => clearInterval(fastCheck), 5000);
+        }
+    })();
 </script>
-
-<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+<script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
 </html>

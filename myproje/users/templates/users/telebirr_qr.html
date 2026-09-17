@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+<meta charset="UTF-8">
+<title>Scan to Pay - Telebirr</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Arial, sans-serif; background: #f4f6f8; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+  .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); padding: 32px; text-align: center; max-width: 360px; width: 90%; }
+  h1 { font-size: 20px; margin: 0 0 4px; color: #1a1a1a; }
+  p.subject { color: #555; margin: 0 0 20px; }
+  img.qr { width: 220px; height: 220px; image-rendering: pixelated; border: 1px solid #eee; border-radius: 8px; }
+  .amount { font-size: 28px; font-weight: 700; color: #ea4d0b; margin: 16px 0 4px; }
+  .order-no { color: #999; font-size: 12px; margin-bottom: 20px; }
+  .hint { font-size: 13px; color: #666; margin-top: 16px; }
+  a.fallback { display: inline-block; margin-top: 16px; color: #ea4d0b; text-decoration: none; font-size: 14px; }
+  .warning { background: #fff4e5; color: #b26a00; border-radius: 8px; padding: 10px 12px; font-size: 12px; margin-bottom: 16px; text-align: left; }
+</style>
+</head>
+<body>
+  <div class="card">
+    {% if constructed_link %}
+    <div class="warning">This checkout URL is built and signed per Ethio Telecom's "Generate Checkout Url" spec (verified live: Telebirr's server accepts it and returns its real Web Pay page).</div>
+    {% endif %}
+    <h1>Scan with telebirr</h1>
+    <p class="subject">{{ order.subject }}</p>
+    <img class="qr" src="{{ qr_data_uri }}" alt="Telebirr payment QR code">
+    <div class="amount">{{ order.amount }} ETB</div>
+    <div class="order-no">Order #{{ order.out_trade_no }}</div>
+    <p class="hint">Open the telebirr app and scan this code. It will take you to the telebirr checkout page to complete payment.</p>
+    <a class="fallback" href="{{ to_pay_url }}">Or open checkout page directly</a>
+  </div>
+</body>
+</html>

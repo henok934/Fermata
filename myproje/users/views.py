@@ -1,3 +1,21 @@
+from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_exempt
+
+from functools import wraps
+
+def redis_cache_view(timeout=3600):
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            cache_key = f"view_{view_func.__name__}_{request.get_full_path()}"
+            response = cache.get(cache_key)
+            if response is None:
+                response = view_func(request, *args, **kwargs)
+                cache.set(cache_key, response, timeout=timeout)
+            return response
+        return _wrapped_view
+    return decorator
+
 from drf_spectacular.utils import extend_schema
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
@@ -20,6 +38,9 @@ from .serializers import (
     UserProfileSerializer,
     TicketSerializer
 )
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
 def custom_csrf_failure_view(request, reason=""):
     return render(request, 'users/csrf_failure.html', {'reason': reason})
 
@@ -63,7 +84,7 @@ class ProfileView(APIView):
 
 
 
-
+"""
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -125,10 +146,719 @@ class ProcessPaymentView(APIView):
                 'message': f'Please proceed with {payment_method.upper()} payment.'
             }, status=status.HTTP_200_OK)
         return Response({'error': 'Invalid payment method selected'}, status=status.HTTP_400_BAD_REQUEST)
+"""
+
+
+
+import json
+import logging
+from django.http import HttpResponseBadRequest, JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET, require_POST
+from .models import TelebirrOrder
+from .services.telebirr_service import (
+    TelebirrService,
+    create_nonce_str,
+    generate_qr_data_uri,
+)
+
+logger = logging.getLogger(__name__)
+
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
+def _parse_biz_content(raw) -> dict:
+    if isinstance(raw, dict):
+        return raw
+    if isinstance(raw, str):
+        try:
+            parsed = json.loads(raw)
+            return parsed if isinstance(parsed, dict) else {}
+        except ValueError:
+            return {}
+    return {}
+
+@require_GET
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
+def initiate_payment(request):
+    try:
+        amount = float(request.GET.get("amount", "50"))
+    except ValueError:
+        return HttpResponseBadRequest("Invalid amount")
+    subject = request.GET.get("subject", "Bus Ticket")
+
+    out_trade_no = f"BUS{create_nonce_str(16).upper()}"
+    order = TelebirrOrder.objects.create(
+        out_trade_no=out_trade_no,
+        subject=subject,
+        amount=amount,
+    )
+
+    service = TelebirrService(
+        out_trade_no=out_trade_no, total_amount=amount, subject=subject
+    )
+    result = service.create_preorder()
+
+    if not result.get("success"):
+        order.status = TelebirrOrder.Status.FAILED
+        order.save(update_fields=["status", "updated_at"])
+        return render(
+            request,
+            "users/telebirr_error.html",
+            {"message": result.get("message", "Payment could not be started.")},
+            status=502,
+        )
+
+    order.prepay_id = result.get("prepay_id") or ""
+    order.to_pay_url = result.get("to_pay_url") or ""
+    order.save(update_fields=["prepay_id", "to_pay_url", "updated_at"])
+
+    scan_target = result.get("to_pay_url") or result.get("receive_code")
+    qr_data_uri = generate_qr_data_uri(scan_target)
+
+    return render(
+        request,
+        "users/telebirr_qr.html",
+        {
+            "order": order,
+            "qr_data_uri": qr_data_uri,
+            "to_pay_url": scan_target,
+            "constructed_link": result.get("to_pay_url_source") == "constructed",
+        },
+    )
+
+@require_GET
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
+def telebirr_redirect(request):
+    out_trade_no = (
+        request.GET.get("out_trade_no")
+        or request.GET.get("merch_order_id")
+        or request.GET.get("outTradeNo")
+        or ""
+    )
+    order = TelebirrOrder.objects.filter(out_trade_no=out_trade_no).first()
+    if not order:
+        return render(
+            request, "users/telebirr_error.html", {"message": "Order not found."}, status=404
+        )
+
+    service = TelebirrService()
+    result = service.query_order(order.out_trade_no)
+    biz = _parse_biz_content(result.get("biz_content"))
+    order_status = str(biz.get("order_status") or "").upper()
+
+    if biz.get("trans_id"):
+        order.trans_id = biz["trans_id"]
+    if order_status == "PAY_SUCCESS":
+        order.status = TelebirrOrder.Status.PAID
+    elif order_status in {"PAY_FAILED", "ORDER_CLOSED"}:
+        order.status = TelebirrOrder.Status.FAILED
+    order.save(update_fields=["status", "trans_id", "updated_at"])
+
+    return render(request, "users/telebirr_checkout_result.html", {"order": order})
+
+class TVerifyPaymentView(APIView):
+    def get(self, request, order_id):
+        service = TelebirrService()
+        result = service.query_order(merch_order_id=order_id)
+
+        if result.get("code") == "0":
+            biz_content = _parse_biz_content(result.get("biz_content"))
+            trade_status = str(biz_content.get("trade_status") or biz_content.get("order_status") or "").upper()
+
+            if trade_status in {"TRADE_SUCCESS", "PAY_SUCCESS", "COMPLETED"}:
+                return Response(
+                    {
+                        "success": True,
+                        "message": "ክፍያው በስኬት ተጠናቋል!",
+                        "order_id": order_id,
+                        "data": biz_content,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            else:
+                return Response(
+                    {
+                        "success": False,
+                        "message": f"ክፍያው ገና አልተጠናቀቀም (Status: {trade_status})",
+                        "order_id": order_id,
+                        "data": biz_content,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
+        return Response(
+            {
+                "success": False,
+                "message": "ከ Telebirr መረጃውን ማግኘት አልተቻለም",
+                "raw_response": result,
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+@csrf_exempt
+@require_POST
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
+def telebirr_callback(request):
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+    except (ValueError, UnicodeDecodeError):
+        return JsonResponse({"code": "1", "message": "invalid body"}, status=400)
+
+    signature = payload.get("sign", "")
+    service = TelebirrService()
+    if not signature or not service.verify_callback_sign(payload, signature):
+        logger.warning("Telebirr callback signature verification failed: %s", payload)
+        return JsonResponse({"code": "1", "message": "invalid signature"}, status=400)
+
+    # Telebirr sends the notify callback as a flat JSON body (not biz_content-wrapped).
+    out_trade_no = payload.get("merch_order_id")
+    order = TelebirrOrder.objects.filter(out_trade_no=out_trade_no).first()
+    if not order:
+        return JsonResponse({"code": "1", "message": "order not found"}, status=404)
+
+    trade_status = str(payload.get("trade_status", ""))
+    order.notify_payload = payload
+    if payload.get("trans_id"):
+        order.trans_id = payload["trans_id"]
+    if trade_status == "Completed":
+        order.status = TelebirrOrder.Status.PAID
+    elif trade_status in {"Failure", "Expired"}:
+        order.status = TelebirrOrder.Status.FAILED
+    order.save(update_fields=["status", "trans_id", "notify_payload", "updated_at"])
+
+    return JsonResponse({"code": "0", "message": "success"})
 
 
 
 
+"""
+from django.http import HttpResponseBadRequest
+from django.shortcuts import render
+from drf_spectacular.utils import extend_schema
+from rest_framework.response import Response
+from rest_framework.views import APIView
+# Import your helpers and models
+from .models import TelebirrOrder
+from .serializers import PaymentRequestSerializer
+from .services.telebirr_service import TelebirrService, create_nonce_str, generate_qr_data_uri
+@extend_schema(tags=["Payment Auth"])
+class ProcessPaymentView(APIView):
+    serializer_class = PaymentRequestSerializer
+
+    def handle_request(self, request):
+        # 1. Extract data from POST body or GET query params
+        if request.method == "POST":
+            data = request.data or request.POST
+        else:
+            data = request.GET
+
+        # 2. Extract and format price/amount safely
+        price_raw = data.get("price") or data.get("amount") or data.get("total_amount")
+        try:
+            price = float(price_raw) if price_raw else 70.00
+        except (ValueError, TypeError):
+            price = 70.00
+
+        formatted_price = f"{price:.2f}"
+
+        # 3. Extract subject and generate out_trade_no / PNR
+        pnr_str = data.get("pnr") or data.get("order_id") or ""
+        pnrs = [p.strip() for p in pnr_str.split(",") if p.strip()]
+
+        if pnrs:
+            out_trade_no = pnrs[0]
+        else:
+            out_trade_no = f"BUS{create_nonce_str(16).upper()}"
+
+        subject = (
+            data.get("subject")
+            or f"Bus Ticket PNR {out_trade_no}"
+        )
+
+        # 4. Create database record prior to Telebirr call
+        order = TelebirrOrder.objects.create(
+            out_trade_no=out_trade_no,
+            subject=subject,
+            amount=price,
+        )
+
+        prepay_id = None
+        to_pay_url = None
+        qr_data_uri = None
+        payment_error = None
+        # 5. Call Telebirr Service
+        try:
+            # Instantiate TelebirrService with parameter values
+            service = TelebirrService(
+                out_trade_no=out_trade_no,
+                total_amount=price,
+                subject=subject,
+            )
+            res = service.create_preorder(
+                out_trade_no=out_trade_no,
+                total_amount=formatted_price,
+                subject=subject,
+            )
+            if isinstance(res, dict) and res.get("success"):
+                prepay_id = res.get("prepay_id") or ""
+                to_pay_url = res.get("to_pay_url") or res.get("receive_code") or ""
+                # Update database order state
+                order.prepay_id = prepay_id
+                order.to_pay_url = to_pay_url
+                order.save(update_fields=["prepay_id", "to_pay_url", "updated_at"])
+                # Generate QR code URI
+                if to_pay_url:
+                    qr_data_uri = generate_qr_data_uri(to_pay_url)
+            else:
+                raw_err = (
+                    res.get("message")
+                    if isinstance(res, dict)
+                    else "Payment execution failed."
+                )
+                payment_error = f"Telebirr Error: {raw_err}"
+
+                # Update order status to FAILED in database
+                order.status = TelebirrOrder.Status.FAILED
+                order.save(update_fields=["status", "updated_at"])
+
+        except Exception as e:
+            payment_error = f"Telebirr Exception: {str(e)}"
+            order.status = TelebirrOrder.Status.FAILED
+            order.save(update_fields=["status", "updated_at"])
+
+        # 6. Check request type (HTML Form / Browser vs API JSON)
+        is_html_request = (
+            "text/html" in request.META.get("HTTP_ACCEPT", "")
+            or request.content_type != "application/json"
+        )
+        if is_html_request:
+            if payment_error and not to_pay_url:
+                return render(
+                    request,
+                    "users/telebirr_error.html",
+                    {"message": payment_error},
+                    status=502,
+                )
+
+            context = {
+                "order": order,
+                "price": formatted_price,
+                "pnr": out_trade_no,
+                "out_trade_no": out_trade_no,
+                "prepay_id": prepay_id,
+                "to_pay_url": to_pay_url,
+                "receive_code": to_pay_url,
+                "qr_data_uri": qr_data_uri,
+                "constructed_link": res.get("to_pay_url_source") == "constructed"
+                if isinstance(res, dict)
+                else False,
+                "error": payment_error,
+            }
+            return render(request, "users/telebirr_qr.html", context)
+        # 7. Default API Response (JSON)
+        return Response(
+            {
+                "out_trade_no": out_trade_no,
+                "prepay_id": prepay_id,
+                "to_pay_url": to_pay_url,
+                "receive_code": to_pay_url,
+                "checkout_url": to_pay_url,
+                "qr_data_uri": qr_data_uri,
+                "error": payment_error,
+            }
+        )
+    def get(self, request, *args, **kwargs):
+        return self.handle_request(request)
+    def post(self, request, *args, **kwargs):
+        return self.handle_request(request)
+"""
+
+
+
+"""
+from django.core.cache import cache
+from django.http import HttpResponseBadRequest
+from django.shortcuts import render
+from drf_spectacular.utils import extend_schema
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+# Import your helpers and models
+from .models import TelebirrOrder
+from .serializers import PaymentRequestSerializer
+from .services.telebirr_service import (
+    TelebirrService,
+    create_nonce_str,
+    generate_qr_data_uri,
+)
+
+
+@extend_schema(tags=["Payment Auth"])
+class ProcessPaymentView(APIView):
+    serializer_class = PaymentRequestSerializer
+
+    def handle_request(self, request):
+        # 1. Extract data from POST body or GET query params
+        if request.method == "POST":
+            data = request.data or request.POST
+        else:
+            data = request.GET
+
+        # 2. Extract and format price/amount safely
+        price_raw = (
+            data.get("price") or data.get("amount") or data.get("total_amount")
+        )
+        try:
+            price = float(price_raw) if price_raw else 70.00
+        except (ValueError, TypeError):
+            price = 70.00
+
+        formatted_price = f"{price:.2f}"
+
+        # 3. Extract subject and generate out_trade_no / PNR
+        pnr_str = data.get("pnr") or data.get("order_id") or ""
+        pnrs = [p.strip() for p in pnr_str.split(",") if p.strip()]
+
+        if pnrs:
+            out_trade_no = pnrs[0]
+        else:
+            out_trade_no = f"BUS{create_nonce_str(16).upper()}"
+
+        subject = data.get("subject") or f"Bus Ticket PNR {out_trade_no}"
+
+        # -------------------------------------------------------------
+        # REDIS CACHE CHECK: PNR Cache ውስጥ ካለ ቀጥታ እሱን ይመልሳል
+        # -------------------------------------------------------------
+        cache_key = f"telebirr_order:{out_trade_no}"
+        cached_response = cache.get(cache_key)
+
+        if cached_response:
+            # HTML request ከሆነ በ Cache በተቀመጠው Context render ያደርጋል
+            if self._is_html_request(request):
+                return render(
+                    request, "users/telebirr_qr.html", cached_response["context"]
+                )
+            return Response(cached_response["api_data"])
+
+        # 4. Create or Get database record prior to Telebirr call
+        order, created = TelebirrOrder.objects.get_or_create(
+            out_trade_no=out_trade_no,
+            defaults={
+                "subject": subject,
+                "amount": price,
+            },
+        )
+
+        prepay_id = order.prepay_id or None
+        to_pay_url = order.to_pay_url or None
+        qr_data_uri = None
+        payment_error = None
+        is_constructed = False
+
+        # Order በቀደምትነት Telebirr ላይ ከተፈጠረ እና URL ካለው ከ DB/QR ያመጣል
+        if to_pay_url:
+            qr_data_uri = generate_qr_data_uri(to_pay_url)
+        else:
+            # 5. Call Telebirr Service (ይህ የሚጠራው Cache ካልተገኘ ብቻ ነው)
+            try:
+                service = TelebirrService(
+                    out_trade_no=out_trade_no,
+                    total_amount=price,
+                    subject=subject,
+                )
+                res = service.create_preorder(
+                    out_trade_no=out_trade_no,
+                    total_amount=formatted_price,
+                    subject=subject,
+                )
+
+                if isinstance(res, dict) and res.get("success"):
+                    prepay_id = res.get("prepay_id") or ""
+                    to_pay_url = (
+                        res.get("to_pay_url") or res.get("receive_code") or ""
+                    )
+                    is_constructed = (
+                        res.get("to_pay_url_source") == "constructed"
+                    )
+
+                    # Update database order state
+                    order.prepay_id = prepay_id
+                    order.to_pay_url = to_pay_url
+                    order.save(
+                        update_fields=["prepay_id", "to_pay_url", "updated_at"]
+                    )
+
+                    # Generate QR code URI
+                    if to_pay_url:
+                        qr_data_uri = generate_qr_data_uri(to_pay_url)
+                else:
+                    raw_err = (
+                        res.get("message")
+                        if isinstance(res, dict)
+                        else "Payment execution failed."
+                    )
+                    payment_error = f"Telebirr Error: {raw_err}"
+
+                    order.status = TelebirrOrder.Status.FAILED
+                    order.save(update_fields=["status", "updated_at"])
+
+            except Exception as e:
+                payment_error = f"Telebirr Exception: {str(e)}"
+                order.status = TelebirrOrder.Status.FAILED
+                order.save(update_fields=["status", "updated_at"])
+
+        # 6. Prepare Payload Data
+        context = {
+            "order": order,
+            "price": formatted_price,
+            "pnr": out_trade_no,
+            "out_trade_no": out_trade_no,
+            "prepay_id": prepay_id,
+            "to_pay_url": to_pay_url,
+            "receive_code": to_pay_url,
+            "qr_data_uri": qr_data_uri,
+            "constructed_link": is_constructed,
+            "error": payment_error,
+        }
+
+        api_data = {
+            "out_trade_no": out_trade_no,
+            "prepay_id": prepay_id,
+            "to_pay_url": to_pay_url,
+            "receive_code": to_pay_url,
+            "checkout_url": to_pay_url,
+            "qr_data_uri": qr_data_uri,
+            "error": payment_error,
+        }
+
+        # 7. Set Cache only if payment preorder succeeded
+        if to_pay_url and not payment_error:
+            # ለ 30 ደቂቃ (1800 ሰከንድ) Cache ላይ ያስቀምጣል
+            cache.set(
+                cache_key,
+                {"context": context, "api_data": api_data},
+                timeout=1800,
+            )
+
+        # 8. Check request type & Return
+        is_html = self._is_html_request(request)
+
+        if is_html:
+            if payment_error and not to_pay_url:
+                return render(
+                    request,
+                    "users/telebirr_error.html",
+                    {"message": payment_error},
+                    status=502,
+                )
+            return render(request, "users/telebirr_qr.html", context)
+
+        return Response(api_data)
+
+    def _is_html_request(self, request):
+        return (
+            "text/html" in request.META.get("HTTP_ACCEPT", "")
+            or request.content_type != "application/json"
+        )
+
+    def get(self, request, *args, **kwargs):
+        return self.handle_request(request)
+
+    def post(self, request, *args, **kwargs):
+        return self.handle_request(request)
+"""
+
+
+
+from django.core.cache import cache
+from django.http import HttpResponseBadRequest
+from django.shortcuts import render
+from drf_spectacular.utils import extend_schema
+from rest_framework.response import Response
+from rest_framework.views import APIView
+# Import your helpers and models
+from .models import TelebirrOrder
+from .serializers import PaymentRequestSerializer
+from .services.telebirr_service import (
+    TelebirrService,
+    create_nonce_str,
+    generate_qr_data_uri,
+)
+@extend_schema(tags=["Payment Auth"])
+class ProcessPaymentView(APIView):
+    serializer_class = PaymentRequestSerializer
+
+    def handle_request(self, request):
+        # 1. Extract data from POST body or GET query params
+        if request.method == "POST":
+            data = request.data or request.POST
+        else:
+            data = request.GET
+
+        # 2. Extract and format price/amount safely
+        price_raw = (
+            data.get("price") or data.get("amount") or data.get("total_amount")
+        )
+        try:
+            price = float(price_raw) if price_raw else 70.00
+        except (ValueError, TypeError):
+            price = 70.00
+
+        formatted_price = f"{price:.2f}"
+
+        # 3. Extract subject and generate out_trade_no / PNR
+        pnr_str = data.get("pnr") or data.get("order_id") or ""
+        pnrs = [p.strip() for p in pnr_str.split(",") if p.strip()]
+
+        if pnrs:
+            out_trade_no = pnrs[0]
+        else:
+            out_trade_no = f"BUS{create_nonce_str(16).upper()}"
+
+        subject = data.get("subject") or f"Bus Ticket PNR {out_trade_no}"
+
+        # --- REDIS CACHE CHECK ---
+        cache_key = f"telebirr_order_{out_trade_no}"
+        cached_data = cache.get(cache_key)
+
+        is_html_request = (
+            "text/html" in request.META.get("HTTP_ACCEPT", "")
+            or request.content_type != "application/json"
+        )
+
+        if cached_data:
+            if is_html_request:
+                return render(
+                    request, "users/telebirr_qr.html", cached_data["context"]
+                )
+            return Response(cached_data["api_response"])
+        # -------------------------
+
+        # 4. Create database record prior to Telebirr call
+        order = TelebirrOrder.objects.create(
+            out_trade_no=out_trade_no,
+            subject=subject,
+            amount=price,
+        )
+
+        prepay_id = None
+        to_pay_url = None
+        qr_data_uri = None
+        payment_error = None
+        res = None
+
+        # 5. Call Telebirr Service
+        try:
+            # Instantiate TelebirrService with parameter values
+            service = TelebirrService(
+                out_trade_no=out_trade_no,
+                total_amount=price,
+                subject=subject,
+            )
+            res = service.create_preorder(
+                out_trade_no=out_trade_no,
+                total_amount=formatted_price,
+                subject=subject,
+            )
+            if isinstance(res, dict) and res.get("success"):
+                prepay_id = res.get("prepay_id") or ""
+                to_pay_url = (
+                    res.get("to_pay_url") or res.get("receive_code") or ""
+                )
+                # Update database order state
+                order.prepay_id = prepay_id
+                order.to_pay_url = to_pay_url
+                order.save(
+                    update_fields=["prepay_id", "to_pay_url", "updated_at"]
+                )
+                # Generate QR code URI
+                if to_pay_url:
+                    qr_data_uri = generate_qr_data_uri(to_pay_url)
+            else:
+                raw_err = (
+                    res.get("message")
+                    if isinstance(res, dict)
+                    else "Payment execution failed."
+                )
+                payment_error = f"Telebirr Error: {raw_err}"
+
+                # Update order status to FAILED in database
+                order.status = TelebirrOrder.Status.FAILED
+                order.save(update_fields=["status", "updated_at"])
+
+        except Exception as e:
+            payment_error = f"Telebirr Exception: {str(e)}"
+            order.status = TelebirrOrder.Status.FAILED
+            order.save(update_fields=["status", "updated_at"])
+
+        # 6. Check request type (HTML Form / Browser vs API JSON)
+        context = {
+            "order": order,
+            "price": formatted_price,
+            "pnr": out_trade_no,
+            "out_trade_no": out_trade_no,
+            "prepay_id": prepay_id,
+            "to_pay_url": to_pay_url,
+            "receive_code": to_pay_url,
+            "qr_data_uri": qr_data_uri,
+            "constructed_link": res.get("to_pay_url_source") == "constructed"
+            if isinstance(res, dict)
+            else False,
+            "error": payment_error,
+        }
+
+        api_response = {
+            "out_trade_no": out_trade_no,
+            "prepay_id": prepay_id,
+            "to_pay_url": to_pay_url,
+            "receive_code": to_pay_url,
+            "checkout_url": to_pay_url,
+            "qr_data_uri": qr_data_uri,
+            "error": payment_error,
+        }
+
+        # --- SET REDIS CACHE (If successful) ---
+        if to_pay_url and not payment_error:
+            cache.set(
+                cache_key,
+                {"context": context, "api_response": api_response},
+                timeout=1800,
+            )  # 30 minutes
+        # --------------------------------------
+
+        if is_html_request:
+            if payment_error and not to_pay_url:
+                return render(
+                    request,
+                    "users/telebirr_error.html",
+                    {"message": payment_error},
+                    status=502,
+                )
+
+            return render(request, "users/telebirr_qr.html", context)
+
+        # 7. Default API Response (JSON)
+        return Response(api_response)
+
+    def get(self, request, *args, **kwargs):
+        return self.handle_request(request)
+
+    def post(self, request, *args, **kwargs):
+        return self.handle_request(request)
+
+
+
+
+"""
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -154,33 +884,264 @@ class About(APIView):
             return render(request, 'users/about.html', context)
         serializer = AboutSerializer(context)
         return Response(serializer.data, status=status.HTTP_200_OK)
+"""
 
 
 
-from .serializers import (UserSerializer,ChangePasswordSerializer, TotalBalanceResponseSerializer)
+import hashlib
+import logging
+import re
+from django.core.cache import cache
+from django.shortcuts import render
+from drf_spectacular.utils import OpenApiResponse, extend_schema
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from rest_framework.views import APIView
+from .models import Buschange, Feedback
+from .serializers import AboutSerializer, FeedbackSerializer
+logger = logging.getLogger(__name__)
+#@redis_cache_view(timeout=3600)
+#@cache_page(60 * 15)
+#@cache_page(60 * 15)
+
+# 🛑 Decorators-ቹን አጥፋቸው (@redis_cache_view እና @cache_page አያስፈልጉም)
+def is_spam(text):
+    if not text:
+        return True
+
+    trimmed = text.strip()
+    if len(trimmed) < 5:
+        return True
+
+    # 1. 5+ identical consecutive characters
+    if re.search(r'(.)\1{4,}', trimmed, re.IGNORECASE):
+        return True
+
+    # 2. Repeated 2-4 character patterns 3+ times
+    if re.search(r'(.{2,4})\1{2,}', trimmed, re.IGNORECASE):
+        return True
+
+    # 3. Long continuous words without vowels/spaces
+    words = trimmed.split()
+    for word in words:
+        if len(word) > 15:
+            return True
+        if len(word) > 8 and not re.search(r'[aeiouyአኡኢኣኤእኦ]', word, re.IGNORECASE):
+            return True
+    return False
+
+
+# 🛑 Decorators-ቹን አጥፋቸው
+def get_cached_buschanges_count():
+    try:
+        count = cache.get('buschanges_count')
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set('buschanges_count', count, timeout=3600)
+        return count
+    except Exception as e:
+        logger.error(f"Redis Cache Error: {e}")
+        return Buschange.objects.count()
+
+
+# 🛑 Decorators-ቹን አጥፋቸው
+def generate_feedback_hash(name, message, phone, email):
+    """ለ Duplicate check አስተማማኝ SHA256 Hash ያፈልቃል"""
+    raw_str = f"{name}:{message}:{phone}:{email}".lower().strip()
+    return hashlib.sha256(raw_str.encode('utf-8')).hexdigest()
+
+class About(APIView):
+    # Spam እና DoS ጥቃቶችን ለመከላከል
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
+
+    @extend_schema(
+        tags=['Routes & Cities'],
+        summary="Get about page information",
+        description="Returns the count of all bus changes for both API and HTML views.",
+        responses={200: AboutSerializer}
+    )
+    def get(self, request):
+        try:
+            buschanges_count = get_cached_buschanges_count()
+
+            context = {
+                'buschanges_count': buschanges_count
+            }
+
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/about.html', context)
+
+            serializer = AboutSerializer(context)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.critical(f"Unhandled Error in About GET: {e}", exc_info=True)
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/about.html', {'buschanges_count': 0, 'error': 'Server Error'}, status=500)
+            return Response({'error': 'An internal server error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @extend_schema(
+        tags=['Routes & Cities'],
+        summary="Submit feedback on about page",
+        description="Submits feedback/comments directly from the about page with spam validation.",
+        request=FeedbackSerializer,
+        responses={
+            201: FeedbackSerializer,
+            400: OpenApiResponse(description="Validation error, duplicate comment, or spam content")
+        }
+    )
+    def post(self, request):
+        try:
+            buschanges_count = get_cached_buschanges_count()
+
+            is_html = (
+                'text/html' in request.META.get('HTTP_ACCEPT', '') or
+                request.content_type == 'application/x-www-form-urlencoded' or
+                'multipart/form-data' in str(request.content_type)
+            )
+
+            serializer = FeedbackSerializer(data=request.data)
+
+            if serializer.is_valid():
+                name = serializer.validated_data['name']
+                message = serializer.validated_data['message']
+                phone = serializer.validated_data.get('phone', '')
+                email = serializer.validated_data.get('email', '')
+
+                # 1. Backend Spam Validation
+                if is_spam(message):
+                    error_msg = "Please enter a meaningful message instead of random keyboard spam characters."
+                    if is_html:
+                        return render(request, 'users/about.html', {
+                            'buschanges_count': buschanges_count,
+                            'error': error_msg
+                        }, status=400)
+                    return Response(
+                        {'error': error_msg, 'buschanges_count': buschanges_count},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                # 2. Duplicate Check
+                feedback_hash = generate_feedback_hash(name, message, phone, email)
+                dup_cache_key = f"feedback_hash:{feedback_hash}"
+                is_duplicate = False
+
+                try:
+                    if cache.get(dup_cache_key):
+                        is_duplicate = True
+                except Exception as e:
+                    logger.error(f"Redis lookup error: {e}")
+
+                if not is_duplicate:
+                    is_duplicate = Feedback.objects.filter(
+                        name=name, message=message, phone=phone, email=email
+                    ).exists()
+
+                if is_duplicate:
+                    error_msg = 'This Comment already exists.'
+                    try:
+                        cache.set(dup_cache_key, True, timeout=600)
+                    except Exception:
+                        pass
+
+                    if is_html:
+                        return render(request, 'users/about.html', {
+                            'buschanges_count': buschanges_count,
+                            'error': error_msg
+                        }, status=400)
+                    return Response(
+                        {'error': error_msg, 'buschanges_count': buschanges_count},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                # Save Data & Cache Hash
+                serializer.save()
+                try:
+                    cache.set(dup_cache_key, True, timeout=600)
+                except Exception as e:
+                    logger.error(f"Failed to set duplicate cache: {e}")
+
+                success_msg = 'Comment submitted successfully.'
+                if is_html:
+                    return render(request, 'users/about.html', {
+                        'buschanges_count': buschanges_count,
+                        'success': success_msg
+                    }, status=201)
+
+                return Response(
+                    {'success': success_msg, 'data': serializer.data, 'buschanges_count': buschanges_count},
+                    status=status.HTTP_201_CREATED
+                )
+
+            # Invalid Serializer Handling
+            if is_html:
+                return render(request, 'users/about.html', {
+                    'buschanges_count': buschanges_count,
+                    'error': serializer.errors
+                }, status=400)
+
+            return Response(
+                {'error': serializer.errors, 'buschanges_count': buschanges_count},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        except Exception as e:
+            logger.critical(f"Unhandled Error in About POST: {e}", exc_info=True)
+            if is_html:
+                return render(request, 'users/about.html', {
+                    'buschanges_count': 0,
+                    'error': 'Something went wrong. Please try again.'
+                }, status=500)
+            return Response({'error': 'An internal server error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+from django.core.cache import cache
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import render
-from .models import City, Buschange  
+from drf_spectacular.utils import extend_schema
 
-class HomeViews(APIView):
-    @extend_schema(responses=UserSerializer)
-    def get(self, request):
-        buschanges = Buschange.objects.all()
-        buschanges_count = buschanges.count()
-        des = City.objects.all()
+from .models import City, Buschange
+from .serializers import (
+    UserSerializer,
+    ChangePasswordSerializer,
+    TotalBalanceResponseSerializer
+)
 
-        context = {
+# 1. Helper function with Redis Caching (accepts optional request or positional arg)
+def get_cached_home_data(request=None):
+    cached_data = cache.get('home_page_data')
+    if not cached_data:
+        des = list(City.objects.all())
+        buschanges_count = Buschange.objects.count()
+        cached_data = {
             'des': des,
             'buschanges_count': buschanges_count if buschanges_count > 0 else None
         }
+        # Data ውን ለ 15 ደቂቃ (900 ሰከንድ) Redis ላይ Cache ያደርጋል
+        cache.set('home_page_data', cached_data, timeout=900)
+    return cached_data
+
+
+# 2. Refactored HomeViews class
+class HomeViews(APIView):
+    @extend_schema(responses=UserSerializer)
+    def get(self, request):
+        data = get_cached_home_data(request)
+
+        context = {
+            'des': data['des'],
+            'buschanges_count': data['buschanges_count']
+        }
+
         if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
             return render(request, 'users/index.html', context)
 
         response_data = {
-            'cities': [city.depcity for city in des],
-            'buschanges_count': buschanges_count
+            'cities': [city.depcity for city in data['des']],
+            'buschanges_count': data['buschanges_count']
         }
         return Response(response_data, status=status.HTTP_200_OK)
 
@@ -221,6 +1182,7 @@ class CommentsView(generics.GenericAPIView):
             {'error': serializer.errors, 'buschanges_count': buschanges_count},
             status=status.HTTP_400_BAD_REQUEST
         )
+
 
 
 from rest_framework.views import APIView
@@ -268,13 +1230,6 @@ class BusInsertViews(APIView):
 
 
 
-
-
-
-
-
-
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import generics, status
@@ -282,42 +1237,31 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from datetime import timedelta, datetime
 from drf_spectacular.utils import extend_schema
-
 from .models import Route, City, Bus, Service_fee, Buschange  
 from .serializers import RouteSerializer
-
 @extend_schema(tags=['Routes & Cities'])
 class RoutesInsertView(LoginRequiredMixin, generics.GenericAPIView):
     login_url = '/'
     redirect_field_name = 'next'
     permission_classes = [IsAuthenticated]
-
     queryset = Route.objects.all()
     serializer_class = RouteSerializer
-
     def get_route_context(self, extra_context=None):
-        
         context = {
             'dep': City.objects.all(),
             'des': City.objects.all(),
             'bus': Bus.objects.all(),
             'buschanges_count': Buschange.objects.count(),
             'username': self.request.session.get('username'),
-            
             'user': self.request.user  
         }
         if extra_context:
             context.update(extra_context)
         return context
-
     def get(self, request, *args, **kwargs):
         return render(request, 'users/route.html', self.get_route_context())
-
     def post(self, request, *args, **kwargs):
         context = self.get_route_context()
-
-        
-        
         fee_record = Service_fee.objects.first()
         if not fee_record or not fee_record.service_fee:
             context['error'] = "Tariff Protocol Error: Global Service Fee is not configured in the Registry."
@@ -669,78 +1613,6 @@ class Buse(APIView):
 
 
 
-
-
-
-
-
-"""
-from django.http import JsonResponse
-from django.views import View
-from django.shortcuts import get_object_or_404
-from .models import Worker
-class ToggleDriverStatusView(View):
-    def post(self, request, pk):
-        if not request.session.get('user_id'):
-            return JsonResponse({'error': 'Unauthorized'}, status=401)
-        driver = get_object_or_404(Worker, pk=pk)
-        driver.is_active = not driver.is_active
-        driver.save()
-        return JsonResponse({
-            'success': True,
-            'is_active': driver.is_active
-        })
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import render
-from drf_spectacular.utils import extend_schema
-from .models import Worker, Buschange, CustomUser 
-from .serializers import WorkSerializer
-@extend_schema(tags=['Bus & Driver Management'])
-class Drivers(APIView):
-    serializer_class = WorkSerializer
-
-    @extend_schema(
-        summary="List all Drivers (Workers)",
-        responses={200: WorkSerializer(many=True)}
-    )
-    def get(self, request):
-        
-        user_id = request.session.get('user_id')
-        buschanges_count = Buschange.objects.count()
-        
-        if not user_id:
-            request.session.flush()
-            return render(request, 'users/login.html', {
-                'error': 'Unauthorized! Please login to manage drivers.',
-                'buschanges_count': buschanges_count
-            })
-        
-        drivers = Worker.objects.all()
-        try:
-            
-            current_user = CustomUser.objects.get(id=user_id)
-        except CustomUser.DoesNotExist:
-            request.session.flush()
-            return render(request, 'users/login.html', {'error': 'User session invalid.'})
-        
-        if current_user.username != "henok" and hasattr(current_user, 'city') and current_user.city:
-            drivers = drivers.filter(city=current_user.city)
-        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-            return render(request, 'users/drivers.html', {
-                'driver': drivers, 
-                'buschanges_count': buschanges_count,
-                'username': current_user.username,
-                'user': current_user  
-            })        
-        serializer = self.serializer_class(drivers, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-"""
-
-
-
-
 from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import get_object_or_404
@@ -803,82 +1675,6 @@ class Drivers(APIView):
             })
         serializer = self.serializer_class(drivers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-
-
-
-
-
-
-
-
-"""
-from django.http import JsonResponse
-from django.views import View
-from django.shortcuts import get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import render
-from drf_spectacular.utils import extend_schema
-from .models import Worker, Buschange, CustomUser
-from .serializers import WorkSerializer
-@method_decorator(csrf_exempt, name='dispatch')
-class ToggleDriverStatusView(View):
-    def post(self, request, pk):
-        # Validate Session User
-        user_id = request.session.get('user_id')
-        if not user_id:
-            return JsonResponse({'error': 'Unauthorized'}, status=401)
-        # Retrieve Worker/Driver
-        driver = get_object_or_404(Worker, pk=pk)
-        # Ensure field default handling exists
-        current_status = getattr(driver, 'is_active', True)
-        driver.is_active = not current_status
-        driver.save(update_fields=['is_active'])
-        return JsonResponse({
-            'success': True,
-            'is_active': driver.is_active
-        })
-@extend_schema(tags=['Bus & Driver Management'])
-class Drivers(APIView):
-    serializer_class = WorkSerializer
-    @extend_schema(
-        summary="List all Drivers (Workers)",
-        responses={200: WorkSerializer(many=True)}
-    )
-    def get(self, request):
-        user_id = request.session.get('user_id')
-        buschanges_count = Buschange.objects.count()
-        if not user_id:
-            request.session.flush()
-            return render(request, 'users/login.html', {
-                'error': 'Unauthorized! Please login to manage drivers.',
-                'buschanges_count': buschanges_count
-            })
-        drivers = Worker.objects.all().order_by('-id')
-        try:
-            current_user = CustomUser.objects.get(id=user_id)
-        except CustomUser.DoesNotExist:
-            request.session.flush()
-            return render(request, 'users/login.html', {'error': 'User session invalid.'})
-
-        if current_user.username != "henok" and getattr(current_user, 'city', None):
-            drivers = drivers.filter(city=current_user.city)
-
-        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-            return render(request, 'users/drivers.html', {
-                'driver': drivers,
-                'buschanges_count': buschanges_count,
-                'username': current_user.username,
-                'user': current_user
-            })
-        serializer = self.serializer_class(drivers, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-"""
 
 
 
@@ -1011,106 +1807,6 @@ class Rout(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-
-
-
-"""
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import render
-from django.db.models import Q
-from .models import Route, Buschange
-from .serializers import RouteSerializer
-from drf_spectacular.utils import extend_schema
-@extend_schema(tags=['Routes Management'])
-class Rout(APIView):
-    serializer_class = RouteSerializer
-
-    def get(self, request):
-        
-        user_id = request.session.get('user_id')
-        buschanges_count = Buschange.objects.count()
-
-        if not user_id:
-            
-            request.session.flush()
-            return render(request, 'users/login.html', {
-                'error': 'Unauthorized! Please login to manage routes.',
-                'buschanges_count': buschanges_count
-            })
-
-        
-        routes = Route.objects.all()
-        current_user = request.user
-
-        
-        if hasattr(current_user, 'city') and current_user.city:
-            city_filters = {
-    "Autobustera": [
-        "Adet", "Adolaweyu", "Alemdegolowereilu", "Amanuel", "Bahirdar", "Harar",
-        "Jigjiga", "Chiro", "Diredawa", "Bichena", "Bulehora", "Bure", "Chagni",
-        "Dangila", "Dansha", "Debremarkos", "Debark", "Debreeliasguy", "Dejen",
-        "Debretabor", "Debrewerk", "Dejenkuy", "Dembecha", "Dgotsion", "Dilla",
-        "Ebnat", "Este", "Robe", "Digotsion", "Feresbet", "Funeteselam",
-        "Mertolemariam", "Gaynt", "Gimijabetazenayehu", "Gonder", "Gundewoin",
-        "Goba", "Humera", "Glgelbelesasosa", "Jamadegolo", "Jaragedo", "Kobodeder",
-        "Kosober", "Lumame", "Negeleborena", "Mekaneselam", "Metema", "Motabahirdar",
-        "Moyale", "Hawassa", "Shakiso", "Shashemene", "Motta", "Wendobensa",
-        "Shebelberentayeadwuha", "Woreta", "Yejube", "Yabelo", "Yirgalem", "Yirgachefe"
-    ],
-    "Asko": [
-        "Assosa", "Ambo", "Ameya", "Amuru", "Arjogudetu", "Bako", "Ayira",
-        "Bambasi", "Bullene", "Buregambela", "Bureoromia", "Dangur", "Dansha",
-        "Debrezeitbenishangul", "Dedu", "Dibate", "Endabaguna", "Finchawabereha",
-        "Finchawaketema", "Gambela", "Gambella", "Gilgelbeles", "Gimbi", "Ginchi",
-        "Gog", "Guba", "Holeta", "Mankus", "Mendi", "Mendibenishangul", "Merero",
-        "Nekemte", "Shambu", "Sherkole", "Sherkolegambela", "Shishinda"
-    ],
-    "Ayertena": [
-        "Agaro", "Bonga", "Chena", "Dedu", "Gera", "Inango", "Jinka", "Arbaminch",
-        "Chencha", "Butajira", "Metu", "Durame", "Hosana", "Tolay", "Mizanaman",
-        "Mizanteferi", "Gofa", "Jimma", "Kake", "Limu", "Metu", "Lera", "Mizan",
-        "Mizanaman", "Mizanteferi", "Shishinda", "Tepi", "Jimma", "Welayatatercha",
-        "Welita", "Welkite", "Sawla", "Sodo", "Lera"
-    ],
-    "Kality": [
-        "Adaba", "Adama", "Alabakulito", "Aletawondo", "Amaresa", "Amibara",
-        "Arere", "Awash", "Awasharba", "Awbare", "Babile", "Babillesomali",
-        "Birbir", "Shashemene", "Chena", "Chereti", "Berhale", "Bureafar",
-        "Chifra", "Danod", "Degehabur", "Dinsho", "Ditre", "Dolloado", "Dubti",
-        "Elkere", "Erer", "Fafan", "Filtu", "Galessa", "Gashamo", "Gawane",
-        "Geladin", "Gera", "Gewane", "Gidole", "Gode", "Goderesomali",
-        "Hararroadmojo", "Hargelle", "Semera", "Imey", "Iteya", "Karati",
-        "Kebridahar", "Kelafo", "Kersa", "Kika", "Logiya", "Manda", "Meskela",
-        "Mustahil", "Nazreth", "Odabuldigilu", "Shilabo", "Togwajale", "Turmi",
-        "Waka", "Wardher", "Wayu"
-    ],
-    "Lamberet": [
-        "Kemise", "Kombolcha", "Dessie", "DessieAkesta", "DessieMasha", "Denso",
-        "WoraIlu", "WoraBabo", "WeinAmba", "Kelela", "Wegdi", "Mekaneselam",
-        "Woldiya", "Alamata", "Mekele"
-    ]
-}
-            allowed_cities = city_filters.get(current_user.city)
-            if allowed_cities:
-                routes = routes.filter(
-                    Q(depcity__in=allowed_cities) | Q(descity__in=allowed_cities)
-                )
-        
-        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-            return render(request, 'users/routes.html', {
-                'routes': routes,
-                'buschanges_count': buschanges_count,
-                'username': request.session.get('username'),
-                'user': current_user
-            })
-        
-        serializer = self.serializer_class(routes, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-"""
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
@@ -1142,7 +1838,6 @@ class SelectBusView(APIView):
         return Response({'error': 'Invalid request method'}, status=400)
 
 
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -1159,7 +1854,6 @@ class Changepassenger(APIView):
         if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
             return render(request, 'users/changepassenger.html', {'des': des})
         return Response({'cities': [city.depcity for city in des]}, status=status.HTTP_200_OK)
-
     @extend_schema(
         summary="Update passenger details on a ticket",
         request=ChangePassengerRequestSerializer,
@@ -1331,44 +2025,16 @@ class CancelTicketView(APIView):
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render
 from drf_spectacular.utils import extend_schema, OpenApiResponse
-
-
 from .models import Ticket, Bus, Worker
 from .serializers import TSerializer, RecoverBalanceRequestSerializer
-
 class Recover_balanceView(APIView):
-    
     permission_classes = [IsAuthenticated]
-
     @extend_schema(
         request=RecoverBalanceRequestSerializer,
         responses={
@@ -1380,21 +2046,16 @@ class Recover_balanceView(APIView):
         description="Inspects active data contexts to recover corrupted transactional ticket allocations."
     )
     def post(self, request):
-        
         serializer = RecoverBalanceRequestSerializer(data=request.data)
         if not serializer.is_valid():
             if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
                 return render(request, 'users/index.html', {'error': 'Invalid validation parameters submitted.'})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        
         firstname = serializer.validated_data.get('firstname')
         lastname = serializer.validated_data.get('lastname')
         depcity = serializer.validated_data.get('depcity')
         descity = serializer.validated_data.get('descity')
         date = serializer.validated_data.get('date')
-
-        
         ticket = Ticket.objects.filter(
             firstname=firstname,
             lastname=lastname,
@@ -1402,17 +2063,13 @@ class Recover_balanceView(APIView):
             descity=descity,
             date=date
         ).first()
-
         if ticket:
             plate_no = ticket.plate_no
             level = Bus.objects.filter(plate_no=plate_no).values_list('level', flat=True).first() if plate_no else None
             name = Bus.objects.filter(plate_no=plate_no).values_list('name', flat=True).first() if plate_no else None
-
             username = ticket.username
             fname = Worker.objects.filter(username=username).values_list('fname', flat=True).first() if username else ""
             lname = Worker.objects.filter(username=username).values_list('lname', flat=True).first() if username else ""
-
-            
             if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
                 return render(request, 'users/tickets.html', {
                     'ticket': ticket,
@@ -1424,39 +2081,9 @@ class Recover_balanceView(APIView):
             else:
                 serialized_ticket = TSerializer(ticket)
                 return Response(serialized_ticket.data, status=status.HTTP_200_OK)
-
-        
         if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
             return render(request, 'users/index.html', {'error': 'Ticket not found or already cancelled.'})
         return Response({'error': 'Ticket reference not found.'}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 from rest_framework.views import APIView
@@ -1479,15 +2106,13 @@ class GetTicketViews(APIView):
         lastname = request.data.get('lastname')
         depcity = request.data.get('depcity')
         descity = request.data.get('descity')
-        date = request.data.get('date')  
-        
+        date = request.data.get('date')          
         if depcity == descity:
             error_message = 'Departure and Destination cannot be the same!'
         elif firstname == lastname:
             error_message = 'Firstname and Lastname cannot be the same!'
         else:
             error_message = None
-
         if error_message:
             des = City.objects.all()
             if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
@@ -1497,8 +2122,6 @@ class GetTicketViews(APIView):
                 })
             else:
                 return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
-
-        
         ticket = Ticket.objects.filter(
             firstname=firstname,
             lastname=lastname,
@@ -1506,21 +2129,15 @@ class GetTicketViews(APIView):
             descity=descity,
             date=date
         ).first()  
-
         if ticket:
             plate_no = ticket.plate_no
             level = Bus.objects.filter(plate_no=plate_no).values_list('level', flat=True).first() if plate_no else None
             name = Bus.objects.filter(plate_no=plate_no).values_list('name', flat=True).first() if plate_no else None
-
-            
-            
             sc_record = Sc.objects.filter(name=name, level=level).first()
             company_logo = sc_record.logo.url if sc_record and sc_record.logo else None
-
             username = ticket.username
             fname = Worker.objects.filter(username=username).values_list('fname', flat=True).first() if username else ""
             lname = Worker.objects.filter(username=username).values_list('lname', flat=True).first() if username else ""
-            
             if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
                 return render(request, 'users/tickets.html', {
                     'ticket': ticket,
@@ -1543,64 +2160,121 @@ class GetTicketViews(APIView):
             else:
                 return Response({'error': 'No booked tickets found for this travel'}, status=status.HTTP_404_NOT_FOUND)
 
+
+
+
+"""
 import requests
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate, login as auth_login
-from django.shortcuts import render
-from django.db.models import Sum
-from django.utils import timezone
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
 from django.contrib.auth.hashers import check_password
-from django.db.models import Q
-from drf_spectacular.utils import extend_schema
 from django.core.cache import cache
-from .models import Buschange, Route, Worker, Sc, Ticket
-from .serializers import LoginRequestSerializer
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
 class LoginView(APIView):
-    serializer_class = LoginRequestSerializer
-    @extend_schema(tags=['Authentication'], summary="Get login page or bus counts")
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
     def get(self, request):
-        buschanges_count = Buschange.objects.count()
-        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-            return render(request, 'users/login.html', {'buschanges_count': buschanges_count})
-        return Response({'buschanges_count': buschanges_count}, status=status.HTTP_200_OK)
-    @extend_schema(tags=['Authentication'], summary="Login for Workers, Users, or SCs", request=LoginRequestSerializer)
+        buschanges_count = self.get_buschanges_count()
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", {"buschanges_count": buschanges_count})
+        return Response({"buschanges_count": buschanges_count}, status=status.HTTP_200_OK)
     def post(self, request):
-        buschanges_count = Buschange.objects.count()
-        username = request.data.get('username', '').strip()
-        password = request.data.get('password')
-        role = request.data.get('role')
-        captcha_response = request.data.get('cf-turnstile-response')
+        buschanges_count = self.get_buschanges_count()
+        phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
         if not captcha_response:
-            return self.handle_login_error(buschanges_count, request, 'Security Verification Required: Missing token validation data.')
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required: Missing token.")
+        # Turnstile Verification
         verify_data = {
-            'secret': '1x0000000000000000000000000000000AA',
-            'response': captcha_response,
-            'remoteip': request.META.get('REMOTE_ADDR')
+            "secret": "1x0000000000000000000000000000000AA",
+            "response": captcha_response,
+            "remoteip": request.META.get("REMOTE_ADDR"),
         }
         try:
-            captcha_verify = requests.post('https://challenges.cloudflare.com/turnstile/v0/siteverify', data=verify_data, timeout=5)
-            if not captcha_verify.json().get('success'):
-                return self.handle_login_error(buschanges_count, request, 'Security Verification Failed: Evaluation structural anomaly.')
-        except requests.exceptions.RequestException:
-            return self.handle_login_error(buschanges_count, request, 'Security Verification Gateway Timeout. Please retry.')
-        if not username:
-            return self.handle_login_error(buschanges_count, request, 'Username is required')
-        account_lockout_key = f"user_lockout_{role}_{username}"
-        if cache.get(account_lockout_key):
-            return self.handle_login_error(
-                buschanges_count,
-                request,
-                'Account locked due to multiple failed attempts. Please wait 30 seconds.'
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=1.5
             )
-        if role == 'worker':
-            return self.handle_worker_login(username, password, buschanges_count, request, account_lockout_key)
-        elif role == 'user':
-            return self.handle_user_login(username, password, buschanges_count, request, account_lockout_key)
-        elif role == 'sc':
-            return self.handle_sc_login(username, password, buschanges_count, request, account_lockout_key)
-        return self.handle_login_error(buschanges_count, request, 'Invalid role specified')
+            if not captcha_verify.json().get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+        if not phone:
+            return self.handle_login_error(buschanges_count, request, "Phone number is required.")
+        account_lockout_key = f"user_lockout_{phone}"
+        if cache.get(account_lockout_key):
+            return self.handle_login_error(buschanges_count, request, "Account locked. Please wait 30 seconds.")
+        # 1. PASSENGER CHECK
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password) or passenger.password == password:
+                self.clear_security_flags(account_lockout_key)
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+        # 2. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password) or worker.password == password:
+                self.clear_security_flags(account_lockout_key)
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
+        except Worker.DoesNotExist:
+            pass
+        # 3. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password) or sc_user.password == password:
+                self.clear_security_flags(account_lockout_key)
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+        # 4. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, account_lockout_key)
+        if user_response:
+            return user_response
+        # የትኛውም አካውንት ካልተገኘ
+        self.track_failed_attempt(account_lockout_key)
+        return self.handle_login_error(buschanges_count, request, "ትክክለኛ ያልሆነ ስልክ ቁጥር ወይም የይለፍ ቃል!")
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        try:
+            user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+            if user_obj:
+                actual_username = user_obj.username
+        except Exception:
+            pass
+        user = authenticate(request, username=actual_username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            self.clear_security_flags(lockout_key)
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
+            request.session.modified = True
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+        return None
     def track_failed_attempt(self, lockout_key):
         attempt_key = f"attempts_{lockout_key}"
         current_attempts = cache.get(attempt_key, 0) + 1
@@ -1611,183 +2285,1369 @@ class LoginView(APIView):
     def clear_security_flags(self, lockout_key):
         cache.delete(lockout_key)
         cache.delete(f"attempts_{lockout_key}")
-    def handle_worker_login(
-    self, username, password, buschanges_count, request, lockout_key
-):
-        try:
-            worker = Worker.objects.get(username=username)
-            if not check_password(password, worker.password):
-                raise Worker.DoesNotExist
-            today = timezone.now().date()
-            tickets_today = Ticket.objects.filter(
-            username=worker.username, booked_time__date=today
-        )
-            from django.db.models import FloatField
-            from django.db.models.functions import Cast
-            total_sum = (
-            tickets_today.annotate(price_as_float=Cast("price", FloatField()))
-            .aggregate(total=Sum("price_as_float"))["total"]
-            or 0
-        )
-            self.clear_security_flags(lockout_key)
-            request.session["worker_id"] = worker.id
-            request.session["username"] = worker.username
-            request.session["total_today"] = total_sum
-            # ✅ FIX: Include 'worker': worker in the context dictionary
-            context = {
-            "worker": worker,
-            "username": worker.username,
-            "lname": worker.lname,
-            "fname": worker.fname,
-            "phone": worker.phone,
-            "total_today": total_sum,
-            "buschanges_count": buschanges_count,
-            }
-            if "text/html" in request.META.get("HTTP_ACCEPT", ""):
-                return render(request, "users/rooteee.html", context)
-            return Response(context, status=status.HTTP_200_OK)
-        except Worker.DoesNotExist:
-            self.track_failed_attempt(lockout_key)
-            return self.handle_login_error(
-            buschanges_count, request, "Worker credentials not found"
-        )
-
-
-    """
-    def handle_worker_login(
-    self, username, password, buschanges_count, request, lockout_key
-):
-    try:
-        worker = Worker.objects.get(username=username)
-        if not check_password(password, worker.password):
-            raise Worker.DoesNotExist
-
-        today = timezone.now().date()
-        tickets_today = Ticket.objects.filter(
-            username=worker.username, booked_time__date=today
-        )
-
-        from django.db.models import FloatField
-        from django.db.models.functions import Cast
-
-        total_sum = (
-            tickets_today.annotate(price_as_float=Cast("price", FloatField()))
-            .aggregate(total=Sum("price_as_float"))["total"]
-            or 0
-        )
-
-        self.clear_security_flags(lockout_key)
-        request.session["worker_id"] = worker.id
-        request.session["username"] = worker.username
-        request.session["total_today"] = total_sum
-
-        # ✅ FIX: Include 'worker': worker in the context dictionary
-        context = {
-            "worker": worker,
-            "username": worker.username,
-            "lname": worker.lname,
-            "fname": worker.fname,
-            "phone": worker.phone,
-            "total_today": total_sum,
-            "buschanges_count": buschanges_count,
-        }
-
+    def handle_login_error(self, buschanges_count, request, error_message):
         if "text/html" in request.META.get("HTTP_ACCEPT", ""):
-            return render(request, "users/rooteee.html", context)
-        return Response(context, status=status.HTTP_200_OK)
+            return render(
+                request,
+                "users/login.html",
+                {"error": error_message, "buschanges_count": buschanges_count},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return Response({"error": error_message}, status=status.HTTP_401_UNAUTHORIZED)
+"""
 
-    except Worker.DoesNotExist:
-        self.track_failed_attempt(lockout_key)
-        return self.handle_login_error(
-            buschanges_count, request, "Worker credentials not found"
-        )
-    """
 
-
-    """
-    def handle_worker_login(self, username, password, buschanges_count, request, lockout_key):
+"""
+import os
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
+from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import render, redirect
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.throttling import AnonRateThrottle
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
+class LoginView(APIView):
+    throttle_classes = [AnonRateThrottle]  # Rate limiting ለ DDoS እና Brute-force መከላከያ
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
+    def get(self, request):
+        buschanges_count = self.get_buschanges_count()
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", {"buschanges_count": buschanges_count})
+        return Response({"buschanges_count": buschanges_count}, status=status.HTTP_200_OK)
+    def post(self, request):
+        buschanges_count = self.get_buschanges_count()
+        phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
+        if not captcha_response:
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required.")
+        # 1. Turnstile Secret ከ settings/.env ማንበብ
+        turnstile_secret = getattr(settings, 'TURNSTILE_SECRET_KEY', os.getenv('TURNSTILE_SECRET_KEY'))
+        verify_data = {
+            "secret": turnstile_secret,
+            "response": captcha_response,
+            "remoteip": request.META.get("REMOTE_ADDR"),
+        }
         try:
-            worker = Worker.objects.get(username=username)
-            if not check_password(password, worker.password):
-                raise Worker.DoesNotExist
-
-            today = timezone.now().date()
-            tickets_today = Ticket.objects.filter(username=worker.username, booked_time__date=today)
-
-            from django.db.models.functions import Cast
-            from django.db.models import FloatField
-            total_sum = tickets_today.annotate(price_as_float=Cast('price', FloatField())).aggregate(total=Sum('price_as_float'))['total'] or 0
-
-            self.clear_security_flags(lockout_key)
-            request.session['worker_id'] = worker.id
-            request.session['username'] = worker.username
-            request.session['total_today'] = total_sum
-
-            context = {'username': worker.username, 'lname': worker.lname, 'fname': worker.fname, 'phone': worker.phone, 'total_today': total_sum}
-            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-                return render(request, 'users/rooteee.html', context)
-            return Response(context, status=status.HTTP_200_OK)
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=3.0
+            )
+            if not captcha_verify.json().get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+        if not phone or not password:
+            return self.handle_login_error(buschanges_count, request, "Phone and Password are required.")
+        account_lockout_key = f"user_lockout_{phone}"
+        if cache.get(account_lockout_key):
+            return self.handle_login_error(buschanges_count, request, "Too many failed attempts. Account locked for 5 minutes.")
+        # 2. PASSENGER CHECK (Hashed Password Only)
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password):
+                self.clear_security_flags(account_lockout_key)
+                request.session.cycle_key()  # Session Fixation መከላከያ
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+        # 3. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password):
+                self.clear_security_flags(account_lockout_key)
+                request.session.cycle_key()
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
         except Worker.DoesNotExist:
-            self.track_failed_attempt(lockout_key)
-            return self.handle_login_error(buschanges_count, request, 'Worker credentials not found')
-    """
-    def handle_user_login(self, username, password, buschanges_count, request, lockout_key):
-        user = authenticate(request, username=username, password=password)
+            pass
+        # 4. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password):
+                self.clear_security_flags(account_lockout_key)
+                request.session.cycle_key()
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+        # 5. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, lockout_key=account_lockout_key)
+        if user_response:
+            return user_response
+        # የትኛውም አካውንት ካልተገኘ
+        self.track_failed_attempt(account_lockout_key)
+        return self.handle_login_error(buschanges_count, request, "Invalid credentials.")
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+        if user_obj:
+            actual_username = user_obj.username
+        user = authenticate(request, username=actual_username, password=password)
         if user is not None:
             auth_login(request, user)
             self.clear_security_flags(lockout_key)
-            request.session['user_id'] = user.id
-            request.session['username'] = user.username
-            request.session['role'] = 'user'
+            request.session.cycle_key()
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
             request.session.modified = True
-            return render(request, 'users/profile.html', {'user': user, 'buschanges_count': buschanges_count})
-
-        self.track_failed_attempt(lockout_key)
-        return self.handle_login_error(buschanges_count, request, 'Invalid user credentials')
-
-    def handle_sc_login(self, username, password, buschanges_count, request, lockout_key):
-        try:
-            sc_user = Sc.objects.get(username=username)
-            if not check_password(password, sc_user.password):
-                self.track_failed_attempt(lockout_key)
-                return self.handle_login_error(buschanges_count, request, 'Invalid password')
-
-            self.clear_security_flags(lockout_key)
-            request.session['sc_id'] = sc_user.id
-            request.session['username'] = sc_user.username
-            request.session['firstname'] = sc_user.firstname
-            request.session['lastname'] = sc_user.lastname
-            
-            side_parts = sc_user.side.split('/')
-            first_part = side_parts[0].strip()
-            second_part = side_parts[1].strip() if len(side_parts) == 2 else None
-
-            if first_part == '3' or second_part == '3':
-                routes = Route.objects.filter(side_no__regex=r'^\d{3}$')
-            else:
-                filters = Q(side_no__startswith=first_part, side_no__regex=r'^\d{4}$')
-                if second_part:
-                    filters |= Q(side_no__startswith=second_part, side_no__regex=r'^\d{4}$')
-                routes = Route.objects.filter(filters)
-
-            serialized_routes = self.serialize_routes(routes)
-            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-                return render(request, 'users/rooteeess.html', {'routes': serialized_routes, 'company': sc_user, 'level': sc_user.level, 'name': sc_user.name, 'firstname': sc_user.firstname, 'lastname': sc_user.lastname, 'side': sc_user.side})
-            return Response({'routes': serialized_routes}, status=status.HTTP_200_OK)
-        except Sc.DoesNotExist:
-            self.track_failed_attempt(lockout_key)
-            return self.handle_login_error(buschanges_count, request, 'Invalid username')
-
-    def serialize_routes(self, routes):
-        return [{'id': r.id, 'depcity': r.depcity, 'plate_no': r.plate_no, 'side_no': r.side_no} for r in routes]
-
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+        return None
+    def track_failed_attempt(self, lockout_key):
+        attempt_key = f"attempts_{lockout_key}"
+        current_attempts = cache.get(attempt_key, 0) + 1
+        cache.set(attempt_key, current_attempts, timeout=300)
+        if current_attempts >= 5:  # 5 ጊዜ ከተሳሳተ ይቆልፋል
+            cache.set(lockout_key, True, timeout=300)  # ለ 5 ደቂቃ (300 ሰከንድ) መቆለፍ
+            cache.delete(attempt_key)
+    def clear_security_flags(self, lockout_key):
+        cache.delete(lockout_key)
+        cache.delete(f"attempts_{lockout_key}")
     def handle_login_error(self, buschanges_count, request, error_message):
-        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-            return render(request, 'users/login.html', {'error': error_message, 'buschanges_count': buschanges_count})
-        return Response({'error': error_message}, status=status.HTTP_401_UNAUTHORIZED)
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(
+                request,
+                "users/login.html",
+                {"error": error_message, "buschanges_count": buschanges_count},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return Response({"error": error_message}, status=status.HTTP_401_UNAUTHORIZED)
+"""
 
 
 
+
+"""
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
+from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
+class LoginView(APIView):
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
+
+    def get(self, request):
+        buschanges_count = self.get_buschanges_count()
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", {"buschanges_count": buschanges_count})
+        return Response({"buschanges_count": buschanges_count}, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        buschanges_count = self.get_buschanges_count()
+        phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
+
+        if not captcha_response:
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required: Missing token.")
+
+        # Turnstile Verification
+        verify_data = {
+            "secret": "1x0000000000000000000000000000000AA",
+            "response": captcha_response,
+            "remoteip": request.META.get("REMOTE_ADDR"),
+        }
+        try:
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=1.5
+            )
+            if not captcha_verify.json().get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+
+        if not phone:
+            return self.handle_login_error(buschanges_count, request, "Phone number is required.")
+
+        # --- LOCKOUT CHECK ---
+        account_lockout_key = f"user_lockout_{phone}"
+        lockout_time_key = f"lockout_time_{phone}"
+
+        if cache.get(account_lockout_key):
+            lockout_time = cache.get(lockout_time_key)
+            remaining_seconds = 30
+            if lockout_time:
+                elapsed = int(timezone.now().timestamp() - lockout_time)
+                remaining_seconds = max(1, 30 - elapsed)
+
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                f"ተደጋጋሚ የይለፍ ቃል ስህተት! እባክዎን {remaining_seconds} ሰከንድ ይጠብቁ።",
+                remaining_seconds=remaining_seconds
+            )
+
+        # 1. PASSENGER CHECK
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password) or passenger.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+
+        # 2. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password) or worker.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
+        except Worker.DoesNotExist:
+            pass
+
+        # 3. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password) or sc_user.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+
+        # 4. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, account_lockout_key)
+        if user_response:
+            return user_response
+
+        # የትኛውም አካውንት ካልተገኘ (Failed Attempt)
+        is_now_locked = self.track_failed_attempt(account_lockout_key, phone)
+        if is_now_locked:
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                "3 ጊዜ ተሳስተዋል። ገጹ ለ30 ሰከንድ ተቆልፏል!",
+                remaining_seconds=30
+            )
+
+        return self.handle_login_error(buschanges_count, request, "ትክክለኛ ያልሆነ ስልክ ቁጥር ወይም የይለፍ ቃል!")
+
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        try:
+            user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+            if user_obj:
+                actual_username = user_obj.username
+        except Exception:
+            pass
+
+        user = authenticate(request, username=actual_username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            self.clear_security_flags(lockout_key, phone)
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
+            request.session.modified = True
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+
+        return None
+
+    def track_failed_attempt(self, lockout_key, phone):
+        attempt_key = f"attempts_{lockout_key}"
+        current_attempts = cache.get(attempt_key, 0) + 1
+        cache.set(attempt_key, current_attempts, timeout=60)
+
+        if current_attempts >= 3:
+            cache.set(lockout_key, True, timeout=30)
+            cache.set(f"lockout_time_{phone}", timezone.now().timestamp(), timeout=30)
+            cache.delete(attempt_key)
+            return True
+        return False
+
+    def clear_security_flags(self, lockout_key, phone):
+        cache.delete(lockout_key)
+        cache.delete(f"attempts_{lockout_key}")
+        cache.delete(f"lockout_time_{phone}")
+
+    def handle_login_error(self, buschanges_count, request, error_message, remaining_seconds=0):
+        context = {
+            "error": error_message,
+            "buschanges_count": buschanges_count,
+            "remaining_seconds": remaining_seconds
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context, status=status.HTTP_400_BAD_REQUEST)
+        return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+"""
+
+
+
+
+
+
+
+
+"""
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
+from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
+class LoginView(APIView):
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
+
+    def get(self, request):
+        buschanges_count = self.get_buschanges_count()
+        context = {
+            "buschanges_count": buschanges_count,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context)
+        return Response(context, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        buschanges_count = self.get_buschanges_count()
+        phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
+
+        if not captcha_response:
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required: Missing token.")
+
+        # Cloudflare Turnstile Verification (ከ settings.py ያነባል)
+        verify_data = {
+            "secret": settings.TURNSTILE_SECRET_KEY,
+            "response": captcha_response,
+            "remoteip": request.META.get("REMOTE_ADDR"),
+        }
+        try:
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=1.5
+            )
+            if not captcha_verify.json().get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+
+        if not phone:
+            return self.handle_login_error(buschanges_count, request, "Phone number is required.")
+
+        # Lockout Check
+        account_lockout_key = f"user_lockout_{phone}"
+        lockout_time_key = f"lockout_time_{phone}"
+
+        if cache.get(account_lockout_key):
+            lockout_time = cache.get(lockout_time_key)
+            remaining_seconds = 30
+            if lockout_time:
+                elapsed = int(timezone.now().timestamp() - lockout_time)
+                remaining_seconds = max(1, 30 - elapsed)
+
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                f"Too many failed login attempts! Please wait {remaining_seconds} seconds.",
+                remaining_seconds=remaining_seconds
+            )
+
+        # 1. PASSENGER CHECK
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password) or passenger.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+
+        # 2. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password) or worker.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
+        except Worker.DoesNotExist:
+            pass
+
+        # 3. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password) or sc_user.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+
+        # 4. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, account_lockout_key)
+        if user_response:
+            return user_response
+
+        # የትኛውም አካውንት ካልተገኘ (Failed Attempt Track)
+        is_now_locked = self.track_failed_attempt(account_lockout_key, phone)
+        if is_now_locked:
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                "3 failed attempts. The page is locked for 30 seconds!",
+                remaining_seconds=30
+            )
+        return self.handle_login_error(buschanges_count, request, "Invalid phone number or password!")
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        try:
+            user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+            if user_obj:
+                actual_username = user_obj.username
+        except Exception:
+            pass
+
+        user = authenticate(request, username=actual_username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            self.clear_security_flags(lockout_key, phone)
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
+            request.session.modified = True
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+
+        return None
+
+    def track_failed_attempt(self, lockout_key, phone):
+        attempt_key = f"attempts_{lockout_key}"
+        current_attempts = cache.get(attempt_key, 0) + 1
+        cache.set(attempt_key, current_attempts, timeout=60)
+
+        if current_attempts >= 3:
+            cache.set(lockout_key, True, timeout=30)
+            cache.set(f"lockout_time_{phone}", timezone.now().timestamp(), timeout=30)
+            cache.delete(attempt_key)
+            return True
+        return False
+
+    def clear_security_flags(self, lockout_key, phone):
+        cache.delete(lockout_key)
+        cache.delete(f"attempts_{lockout_key}")
+        cache.delete(f"lockout_time_{phone}")
+
+    def handle_login_error(self, buschanges_count, request, error_message, remaining_seconds=0):
+        context = {
+            "error": error_message,
+            "buschanges_count": buschanges_count,
+            "remaining_seconds": remaining_seconds,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context, status=status.HTTP_400_BAD_REQUEST)
+        return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+"""
+
+
+
+
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
+from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
+class LoginView(APIView):
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
+
+    def normalize_phone(self, phone_number):
+        if not phone_number:
+            return ""
+        
+        phone = str(phone_number).strip().replace(" ", "").replace("-", "")
+        
+        if phone.startswith("+251"):
+            phone = "0" + phone[4:]
+        elif phone.startswith("251"):
+            phone = "0" + phone[3:]
+        elif phone.startswith("7") and len(phone) == 9:
+            phone = "0" + phone
+        elif phone.startswith("9") and len(phone) == 9:
+            phone = "0" + phone
+            
+        return phone
+
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    def get(self, request):
+        buschanges_count = self.get_buschanges_count()
+        context = {
+            "buschanges_count": buschanges_count,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context)
+        return Response(context, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        buschanges_count = self.get_buschanges_count()
+        
+        # 1. Phone Normalization
+        raw_phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        phone = self.normalize_phone(raw_phone)
+        
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
+
+        if not captcha_response:
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required: Missing token.")
+
+        # 2. Real Client IP Extraction
+        client_ip = self.get_client_ip(request)
+
+        # 3. Cloudflare Turnstile Strict Verification
+        verify_data = {
+            "secret": settings.TURNSTILE_SECRET_KEY,
+            "response": captcha_response,
+            "remoteip": client_ip,
+        }
+        try:
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=2.0
+            )
+            result = captcha_verify.json()
+            
+            # success=False ከሆነ ቀጥታ አቁሞ የደህንነት ስህተቱን ይመልሳል
+            if not result.get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+
+        if not phone:
+            return self.handle_login_error(buschanges_count, request, "Phone number is required.")
+
+        # 4. Account-Based Lockout Check
+        account_lockout_key = f"user_lockout_{phone}"
+        lockout_time_key = f"lockout_time_{phone}"
+
+        if cache.get(account_lockout_key):
+            lockout_time = cache.get(lockout_time_key)
+            remaining_seconds = 30
+            if lockout_time:
+                elapsed = int(timezone.now().timestamp() - lockout_time)
+                remaining_seconds = max(1, 30 - elapsed)
+
+            return self.handle_login_error(
+                buschanges_count, 
+                request, 
+                f"Too many failed login attempts! Please wait {remaining_seconds} seconds.",
+                remaining_seconds=remaining_seconds
+            )
+
+        # 1. PASSENGER CHECK
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password):
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session.cycle_key()
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+
+        # 2. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password):
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session.cycle_key()
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
+        except Worker.DoesNotExist:
+            pass
+
+        # 3. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password):
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session.cycle_key()
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+
+        # 4. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, account_lockout_key)
+        if user_response:
+            return user_response
+
+        # Failed Attempt Track
+        is_now_locked = self.track_failed_attempt(account_lockout_key, phone)
+        if is_now_locked:
+            return self.handle_login_error(
+                buschanges_count, 
+                request, 
+                "3 failed attempts. The page is locked for 30 seconds!",
+                remaining_seconds=30
+            )
+
+        return self.handle_login_error(buschanges_count, request, "Invalid phone number or password!")
+
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        try:
+            user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+            if user_obj:
+                actual_username = user_obj.username
+        except Exception:
+            pass
+
+        user = authenticate(request, username=actual_username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            self.clear_security_flags(lockout_key, phone)
+            request.session.cycle_key()
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
+            request.session.modified = True
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+
+        return None
+
+    def track_failed_attempt(self, lockout_key, phone):
+        attempt_key = f"attempts_{lockout_key}"
+        current_attempts = cache.get(attempt_key, 0) + 1
+        cache.set(attempt_key, current_attempts, timeout=60)
+        
+        if current_attempts >= 3:
+            cache.set(lockout_key, True, timeout=30)
+            cache.set(f"lockout_time_{phone}", timezone.now().timestamp(), timeout=30)
+            cache.delete(attempt_key)
+            return True
+        return False
+
+    def clear_security_flags(self, lockout_key, phone):
+        cache.delete(lockout_key)
+        cache.delete(f"attempts_{lockout_key}")
+        cache.delete(f"lockout_time_{phone}")
+
+    def handle_login_error(self, buschanges_count, request, error_message, remaining_seconds=0):
+        context = {
+            "error": error_message,
+            "buschanges_count": buschanges_count,
+            "remaining_seconds": remaining_seconds,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context, status=status.HTTP_400_BAD_REQUEST)
+        return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+
+
+
+
+
+"""
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
+from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
+class LoginView(APIView):
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
+    def normalize_phone(self, phone_number):
+        if not phone_number:
+            return ""
+        phone = str(phone_number).strip().replace(" ", "").replace("-", "")
+        if phone.startswith("+251"):
+            phone = "0" + phone[4:]
+        elif phone.startswith("251"):
+            phone = "0" + phone[3:]
+        elif phone.startswith("7") and len(phone) == 9:
+            phone = "0" + phone
+        elif phone.startswith("9") and len(phone) == 9:
+            phone = "0" + phone
+        return phone
+
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+    def get(self, request):
+        buschanges_count = self.get_buschanges_count()
+        context = {
+            "buschanges_count": buschanges_count,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context)
+        return Response(context, status=status.HTTP_200_OK)
+    def post(self, request):
+        buschanges_count = self.get_buschanges_count()
+        # 1. Phone Normalization
+        raw_phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        phone = self.normalize_phone(raw_phone)
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
+
+        if not captcha_response:
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required: Missing token.")
+        # 2. Real Client IP Verification
+        client_ip = self.get_client_ip(request)
+        verify_data = {
+            "secret": settings.TURNSTILE_SECRET_KEY,
+            "response": captcha_response,
+            "remoteip": client_ip,
+        }
+        try:
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=1.5
+            )
+            if not captcha_verify.json().get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+        if not phone:
+            return self.handle_login_error(buschanges_count, request, "Phone number is required.")
+        # 3. Account-Based Lockout Check
+        account_lockout_key = f"user_lockout_{phone}"
+        lockout_time_key = f"lockout_time_{phone}"
+
+        if cache.get(account_lockout_key):
+            lockout_time = cache.get(lockout_time_key)
+            remaining_seconds = 30
+            if lockout_time:
+                elapsed = int(timezone.now().timestamp() - lockout_time)
+                remaining_seconds = max(1, 30 - elapsed)
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                f"Too many failed login attempts! Please wait {remaining_seconds} seconds.",
+                remaining_seconds=remaining_seconds
+            )
+        # 1. PASSENGER CHECK (check_password ብቻ ተጠቅሟል + Session Fixation ተከላክሏል)
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password):
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session.cycle_key()  # Session Hijacking መከላከያ
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+        # 2. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password):
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session.cycle_key()  # Session Hijacking መከላከያ
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
+        except Worker.DoesNotExist:
+            pass
+        # 3. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password):
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session.cycle_key()  # Session Hijacking መከላከያ
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+
+        # 4. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, account_lockout_key)
+        if user_response:
+            return user_response
+        # Failed Attempt Track
+        is_now_locked = self.track_failed_attempt(account_lockout_key, phone)
+        if is_now_locked:
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                "3 failed attempts. The page is locked for 30 seconds!",
+                remaining_seconds=30
+            )
+        return self.handle_login_error(buschanges_count, request, "Invalid phone number or password!")
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        try:
+            user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+            if user_obj:
+                actual_username = user_obj.username
+        except Exception:
+            pass
+        user = authenticate(request, username=actual_username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            self.clear_security_flags(lockout_key, phone)
+            request.session.cycle_key()  # Session Hijacking መከላከያ
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
+            request.session.modified = True
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+        return None
+    def track_failed_attempt(self, lockout_key, phone):
+        attempt_key = f"attempts_{lockout_key}"
+        current_attempts = cache.get(attempt_key, 0) + 1
+        cache.set(attempt_key, current_attempts, timeout=60)
+        if current_attempts >= 3:
+            cache.set(lockout_key, True, timeout=30)
+            cache.set(f"lockout_time_{phone}", timezone.now().timestamp(), timeout=30)
+            cache.delete(attempt_key)
+            return True
+        return False
+    def clear_security_flags(self, lockout_key, phone):
+        cache.delete(lockout_key)
+        cache.delete(f"attempts_{lockout_key}")
+        cache.delete(f"lockout_time_{phone}")
+    def handle_login_error(self, buschanges_count, request, error_message, remaining_seconds=0):
+        context = {
+            "error": error_message,
+            "buschanges_count": buschanges_count,
+            "remaining_seconds": remaining_seconds,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context, status=status.HTTP_400_BAD_REQUEST)
+        return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+"""
+
+
+
+
+
+
+
+"""
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
+from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
+class LoginView(APIView):
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
+
+    def normalize_phone(self, phone_number):
+        if not phone_number:
+            return ""
+        phone = str(phone_number).strip().replace(" ", "").replace("-", "")
+        if phone.startswith("+251"):
+            phone = "0" + phone[4:]
+        elif phone.startswith("251"):
+            phone = "0" + phone[3:]
+        elif phone.startswith("7") and len(phone) == 9:
+            phone = "0" + phone
+        elif phone.startswith("9") and len(phone) == 9:
+            phone = "0" + phone
+        return phone
+
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    def get(self, request):
+        buschanges_count = self.get_buschanges_count()
+        context = {
+            "buschanges_count": buschanges_count,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context)
+        return Response(context, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        buschanges_count = self.get_buschanges_count()
+
+        # 1. Phone Normalization (የስልክ ቁጥር ማጸዳት)
+        raw_phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        phone = self.normalize_phone(raw_phone)
+
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
+
+        if not captcha_response:
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required: Missing token.")
+
+        # 2. Real Client IP Extraction
+        client_ip = self.get_client_ip(request)
+
+        # Cloudflare Turnstile Verification
+        verify_data = {
+            "secret": settings.TURNSTILE_SECRET_KEY,
+            "response": captcha_response,
+            "remoteip": client_ip,
+        }
+        try:
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=1.5
+            )
+            if not captcha_verify.json().get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+
+        if not phone:
+            return self.handle_login_error(buschanges_count, request, "Phone number is required.")
+
+        # 3. Account-Based Lockout Check
+        account_lockout_key = f"user_lockout_{phone}"
+        lockout_time_key = f"lockout_time_{phone}"
+
+        if cache.get(account_lockout_key):
+            lockout_time = cache.get(lockout_time_key)
+            remaining_seconds = 30
+            if lockout_time:
+                elapsed = int(timezone.now().timestamp() - lockout_time)
+                remaining_seconds = max(1, 30 - elapsed)
+
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                f"Too many failed login attempts! Please wait {remaining_seconds} seconds.",
+                remaining_seconds=remaining_seconds
+            )
+
+        # 1. PASSENGER CHECK
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password) or passenger.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+
+        # 2. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password) or worker.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
+        except Worker.DoesNotExist:
+            pass
+
+        # 3. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password) or sc_user.password == password:
+                self.clear_security_flags(account_lockout_key, phone)
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+
+        # 4. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, account_lockout_key)
+        if user_response:
+            return user_response
+
+        # Failed Attempt Track
+        is_now_locked = self.track_failed_attempt(account_lockout_key, phone)
+        if is_now_locked:
+            return self.handle_login_error(
+                buschanges_count,
+                request,
+                "3 failed attempts. The page is locked for 30 seconds!",
+                remaining_seconds=30
+            )
+
+        return self.handle_login_error(buschanges_count, request, "Invalid phone number or password!")
+
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        try:
+            user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+            if user_obj:
+                actual_username = user_obj.username
+        except Exception:
+            pass
+
+        user = authenticate(request, username=actual_username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            self.clear_security_flags(lockout_key, phone)
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
+            request.session.modified = True
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+
+        return None
+
+    def track_failed_attempt(self, lockout_key, phone):
+        attempt_key = f"attempts_{lockout_key}"
+        current_attempts = cache.get(attempt_key, 0) + 1
+        cache.set(attempt_key, current_attempts, timeout=60)
+
+        if current_attempts >= 3:
+            cache.set(lockout_key, True, timeout=30)
+            cache.set(f"lockout_time_{phone}", timezone.now().timestamp(), timeout=30)
+            cache.delete(attempt_key)
+            return True
+        return False
+
+    def clear_security_flags(self, lockout_key, phone):
+        cache.delete(lockout_key)
+        cache.delete(f"attempts_{lockout_key}")
+        cache.delete(f"lockout_time_{phone}")
+
+    def handle_login_error(self, buschanges_count, request, error_message, remaining_seconds=0):
+        context = {
+            "error": error_message,
+            "buschanges_count": buschanges_count,
+            "remaining_seconds": remaining_seconds,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY
+        }
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", context, status=status.HTTP_400_BAD_REQUEST)
+        return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+import os
+import requests
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, get_user_model
+from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import render, redirect
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.throttling import AnonRateThrottle
+from .models import Buschange, Route, Sc, Ticket, Worker, Pasenger
+class LoginView(APIView):
+    throttle_classes = [AnonRateThrottle]
+    def get_buschanges_count(self):
+        cache_key = "buschanges_count"
+        count = cache.get(cache_key)
+        if count is None:
+            count = Buschange.objects.count()
+            cache.set(cache_key, count, timeout=300)
+        return count
+    def get(self, request):
+        buschanges_count = self.get_buschanges_count()
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/login.html", {"buschanges_count": buschanges_count})
+        return Response({"buschanges_count": buschanges_count}, status=status.HTTP_200_OK)
+    def post(self, request):
+        buschanges_count = self.get_buschanges_count()
+        phone = request.data.get("phone", "").strip() or request.data.get("username", "").strip()
+        password = str(request.data.get("password", "")).strip()
+        captcha_response = request.data.get("cf-turnstile-response")
+        if not captcha_response:
+            return self.handle_login_error(buschanges_count, request, "Security Verification Required.")
+        # 1. Turnstile Secret Key (ከ settings ካልተገኘ Default Test Key ይጠቀማል)
+        turnstile_secret = getattr(
+            settings, 
+            'TURNSTILE_SECRET_KEY', 
+            '1x0000000000000000000000000000000AA'
+        )
+        verify_data = {
+            "secret": turnstile_secret,
+            "response": captcha_response,
+            "remoteip": request.META.get("REMOTE_ADDR"),
+        }
+        try:
+            captcha_verify = requests.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=verify_data,
+                timeout=3.0
+            )
+            if not captcha_verify.json().get("success"):
+                return self.handle_login_error(buschanges_count, request, "Security Verification Failed.")
+        except requests.exceptions.RequestException:
+            return self.handle_login_error(buschanges_count, request, "Verification Gateway Timeout.")
+        if not phone or not password:
+            return self.handle_login_error(buschanges_count, request, "Phone and Password are required.")
+        account_lockout_key = f"user_lockout_{phone}"
+        if cache.get(account_lockout_key):
+            return self.handle_login_error(buschanges_count, request, "Too many failed attempts. Account locked for 5 minutes.")
+        # 2. PASSENGER CHECK
+        try:
+            passenger = Pasenger.objects.get(phone=phone)
+            if check_password(password, passenger.password):
+                self.clear_security_flags(account_lockout_key)
+                request.session.cycle_key()
+                request.session["passenger_id"] = passenger.id
+                request.session["phone"] = passenger.phone
+                request.session["name"] = f"{passenger.first_name} {passenger.last_name}"
+                request.session.modified = True
+                return redirect("my_tickets")
+        except Pasenger.DoesNotExist:
+            pass
+        # 3. WORKER CHECK
+        try:
+            worker = Worker.objects.get(phone=phone)
+            if check_password(password, worker.password):
+                self.clear_security_flags(account_lockout_key)
+                request.session.cycle_key()
+                request.session["worker_id"] = worker.id
+                request.session["phone"] = worker.phone
+                request.session.modified = True
+                return render(request, "users/rooteee.html", {"worker": worker, "buschanges_count": buschanges_count})
+        except Worker.DoesNotExist:
+            pass
+        # 4. SC CHECK
+        try:
+            sc_user = Sc.objects.get(phone=phone)
+            if check_password(password, sc_user.password):
+                self.clear_security_flags(account_lockout_key)
+                request.session.cycle_key()
+                request.session["sc_id"] = sc_user.id
+                request.session["phone"] = sc_user.phone
+                request.session.modified = True
+                return render(request, "users/rooteeess.html", {"company": sc_user})
+        except Sc.DoesNotExist:
+            pass
+        # 5. CUSTOM USER CHECK
+        user_response = self.handle_user_login(phone, password, buschanges_count, request, lockout_key=account_lockout_key)
+        if user_response:
+            return user_response
+        # የትኛውም አካውንት ካልተገኘ
+        self.track_failed_attempt(account_lockout_key)
+        return self.handle_login_error(buschanges_count, request, "ትክክለኛ ያልሆነ ስልክ ቁጥር ወይም የይለፍ ቃል!")
+    def handle_user_login(self, phone, password, buschanges_count, request, lockout_key):
+        User = get_user_model()
+        actual_username = phone
+        user_obj = User.objects.filter(phone=phone).first() or User.objects.filter(username=phone).first()
+        if user_obj:
+            actual_username = user_obj.username
+        user = authenticate(request, username=actual_username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            self.clear_security_flags(lockout_key)
+            request.session.cycle_key()
+            request.session["user_id"] = user.id
+            request.session["phone"] = getattr(user, "phone", phone)
+            request.session.modified = True
+            return render(request, "users/profile.html", {"user": user, "buschanges_count": buschanges_count})
+        return None
+    def track_failed_attempt(self, lockout_key):
+        attempt_key = f"attempts_{lockout_key}"
+        current_attempts = cache.get(attempt_key, 0) + 1
+        cache.set(attempt_key, current_attempts, timeout=300)
+        if current_attempts >= 5:
+            cache.set(lockout_key, True, timeout=300)
+            cache.delete(attempt_key)
+    def clear_security_flags(self, lockout_key):
+        cache.delete(lockout_key)
+        cache.delete(f"attempts_{lockout_key}")
+    def handle_login_error(self, buschanges_count, request, error_message):
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(
+                request,
+                "users/login.html",
+                {"error": error_message, "buschanges_count": buschanges_count},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return Response({"error": error_message}, status=status.HTTP_401_UNAUTHORIZED)
+"""
+
+
+
+import random
+import string
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Pasenger, Ticket
+def generate_pnr():
+    """ለእያንዳንዱ ትኬት ልዩ የሆነ PNR ጀነሬት ለማድረግ"""
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+def my_tickets_view(request):
+    passenger_phone = request.session.get("phone")
+    
+    if not passenger_phone:
+        return redirect("login") # Login ካላደረገ ወደ Login ይመራዋል
+        
+    try:
+        passenger = Pasenger.objects.get(phone=passenger_phone)
+    except Pasenger.DoesNotExist:
+        return redirect("login")
+
+    # አዲስ ትኬት ፎርም ሲሞላ (POST Request)
+    if request.method == "POST":
+        Ticket.objects.create(
+            pnr=generate_pnr(),
+            firstname=request.POST.get("firstname"),
+            lastname=request.POST.get("lastname"),
+            phone=passenger_phone, # ከ Session ላይ የተገኘው ስልክ ቁጥር
+            depcity=request.POST.get("depcity"),
+            descity=request.POST.get("descity"),
+            date=request.POST.get("date"),
+            email=request.POST.get("email"),
+            gender=request.POST.get("gender"),
+            passenger_type=request.POST.get("passenger_type", "Adult"),
+            no_seat=request.POST.get("no_seat"),
+            price=request.POST.get("price"),
+            side_no=request.POST.get("side_no"),
+            plate_no=request.POST.get("plate_no"),
+            username=passenger.first_name,
+            is_paid=True
+        )
+        messages.success(request, "ትኬቱ በስኬት ተቆርጧል!")
+        return redirect("my_tickets")
+
+    # በዚሁ Phone number Book የተደረጉ ትኬቶችን በሙሉ መፈለግ
+    tickets = Ticket.objects.filter(phone=passenger_phone).order_by('-booked_time')
+    
+    context = {
+        "passenger": passenger,
+        "tickets": tickets
+    }
+    return render(request, "users/pass.html", context)
+
+def print_ticket_view(request, ticket_id):
+    """ትኬት Print ለማድረግ የሚያገለግል View"""
+    ticket = get_object_or_404(Ticket, ticket_id=ticket_id)
+    return render(request, "users/ticket_print.html", {"ticket": ticket})
 
 
 
@@ -1804,9 +3664,7 @@ from .models import Worker, Ticket, City, Buschange, Route, Bus
 class Books(APIView):
     renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
     throttle_classes = []
-    serializer_class = TicketSerializer  
-    
-    
+    serializer_class = TicketSerializer      
     @extend_schema(responses=TicketSerializer(many=True))
     @extend_schema(responses=TicketSerializer(many=True))
     def get_user_from_session(self, request):
@@ -1833,17 +3691,11 @@ class Books(APIView):
             return render(request, 'users/login.html', {
                 'error': 'Authentication required. Please login to access booking.'
             })
-        
-
+    
         buschanges_count = Buschange.objects.count()
         username = worker.username.strip()
         city = worker.city
         total_today = self.get_daily_total(username)
-
-        
-        
-        
-
         return render(request, 'users/book.html', {
             'des': City.objects.all(),
             'username': username,
@@ -1852,27 +3704,19 @@ class Books(APIView):
             'buschanges_count': buschanges_count,
             'total_today': total_today
         })
-
     def post(self, request):
         worker = self.get_user_from_session(request)
-
-        
         if not worker or not worker.username or not worker.city:
             request.session.flush()
             return render(request, 'users/login.html')
-
         username = worker.username.strip()
         city = worker.city
         total_today = self.get_daily_total(username)
-
         if city in ['Kality', 'Ayertena', 'Lamberet', 'Autobustera']:
             city = 'Addisababa'
-
         date = request.data.get('date')
         depcity = request.data.get('depcity')
         descity = request.data.get('descity')
-
-        
         try:
             incoming_date = datetime.strptime(date, '%Y-%m-%d')
             today = timezone.now().date()
@@ -1887,14 +3731,11 @@ class Books(APIView):
                 'buschanges_count': Buschange.objects.count(),
                 'error': "Invalid date or date is in the past.",
                 'total_today': total_today
-            })
-
-        
+            })    
         rout = Route.objects.filter(depcity=depcity, descity=descity, date=date)
         buschanges_count = Buschange.objects.count()
         routes = []
         levels = None
-
         if rout.exists():
             for route in rout:
                 buses = Bus.objects.filter(plate_no=route.plate_no)
@@ -1937,17 +3778,13 @@ class Books(APIView):
 
 
 
-
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render
 from .models import Buschange, Route, Bus, Ticket
 from .serializers import RouteSerializer, BusSerializer
-class SelView(APIView):
-    
-    
+class SelView(APIView):    
     serializer_class = TicketSerializer  
     @extend_schema(responses=TicketSerializer(many=True))
     def get(self, request):
@@ -2306,10 +4143,6 @@ class BusDeleteViews(APIView):
         return Sc.objects.filter(id=user_id).first() if user_id else None
 
     def get_side_prefixes(self, side):
-        """
-        Sequentially expands a side rule range like '04/08' into a clean list of strings:
-        ['04', '05', '06', '07', '08'] to match frontend validation strategy.
-        """
         if not side:
             return []
 
@@ -2554,10 +4387,6 @@ class MyRoute(generics.GenericAPIView):
         return Sc.objects.filter(id=user_id).first() if user_id else None
 
     def get_all_side_prefixes(self, side):
-        """
-        Parses the side string. If it's a range like '04/08', it expands it
-        to ['04', '05', '06', '07', '08']. Otherwise returns a single-item list.
-        """
         if not side:
             return []
         if '/' in side:
@@ -3259,6 +5088,157 @@ class BusUpdateViewss(APIView):
         return Response(data, status=200)
 """
 
+
+"""
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Pasenger  # Modeln'a import adrglgn
+def passenger_register(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        gender = request.POST.get('gender')
+        age = request.POST.get('age')  # Company Name or Age
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # የይለፍ ቃል ማረጋገጫ (Validation)
+        if password != confirm_password:
+            return render(request, 'passenger_register.html', {
+                'error': 'Passwords do not match. Please try again.'
+            })
+
+        # አዲስ Passenger መፍጠር
+        passenger = Pasenger(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            gender=gender,
+            age=age
+        )
+        # የይለፍ ቃሉን Encrypt አድርጎ ማስቀመጥ
+        passenger.set_password(password)
+        passenger.save()
+        # ከተመዘገበ በኋላ ወደ Login ወይም ወደ ተፈለገው ፔጅ ይመራል
+        messages.success(request, 'Registration successful! Please log in.')
+        return redirect('login')  # ወይም ወደ ተፈለገው URL name ቀይሩት
+    return render(request, 'users/passenger_register.html')
+"""
+
+import json
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+from .models import Pasenger, Worker, Sc
+
+User = get_user_model()
+
+def passenger_register(request):
+    if request.method == 'POST':
+        try:
+            # ከ JavaScript በ JSON የመጣውን መረጃ ማንበብ
+            data = json.loads(request.body)
+
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            email = data.get('email')
+            phone = data.get('phone')
+            gender = data.get('gender')
+            age = data.get('age')
+            password = data.get('password')
+            confirm_password = data.get('confirm_password')
+
+            # የይለፍ ቃል ማረጋገጫ (Validation)
+            if password != confirm_password:
+                return JsonResponse({'detail': 'Passwords do not match. Please try again.'}, status=400)
+
+            # የስልክ ቁጥር መደጋገም ማረጋገጫ (Cross-Model Validation)
+            if phone and (
+                Pasenger.objects.filter(phone=phone).exists() or
+                Worker.objects.filter(phone=phone).exists() or
+                Sc.objects.filter(phone=phone).exists() or
+                User.objects.filter(phone=phone).exists()
+            ):
+                return JsonResponse({'detail': 'This phone number is already registered across the system.'}, status=400)
+
+            # አዲስ Passenger መፍጠር
+            passenger = Pasenger(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone=phone,
+                gender=gender,
+                age=age
+            )
+
+            # Password Encrypt አድርጎ ማስቀመጥ
+            passenger.set_password(password)
+            passenger.save()
+
+            # ለ JavaScript ስኬታማ መልስ መስጠት (Status 201)
+            return JsonResponse({'message': 'Registration successful! Please log in.'}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'detail': str(e)}, status=400)
+
+    # GET Request ከሆነ HTML ፔጁን ማሳየት
+    return render(request, 'users/passenger_register.html')
+
+
+"""
+import json
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.contrib.auth.hashers import make_password
+from .models import Pasenger  # Model ስምህ Pasenger ስለሆነ
+def passenger_register(request):
+    if request.method == 'POST':
+        try:
+            # ከ JavaScript በ JSON የመጣውን መረጃ ማንበብ
+            data = json.loads(request.body)
+
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            email = data.get('email')
+            phone = data.get('phone')
+            gender = data.get('gender')
+            age = data.get('age')
+            password = data.get('password')
+            confirm_password = data.get('confirm_password')
+
+            # የይለፍ ቃል ማረጋገጫ (Validation)
+            if password != confirm_password:
+                return JsonResponse({'detail': 'Passwords do not match. Please try again.'}, status=400)
+
+            # አዲስ Passenger መፍጠር
+            passenger = Pasenger(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone=phone,
+                gender=gender,
+                age=age
+            )
+
+            # Password Encrypt አድርጎ ማስቀመጥ
+            passenger.set_password(password)
+            passenger.save()
+
+            # ለ JavaScript ስኬታማ መልስ መስጠት (Status 201)
+            return JsonResponse({'message': 'Registration successful! Please log in.'}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'detail': str(e)}, status=400)
+
+    # GET Request ከሆነ HTML ፔጁን ማሳየት
+    return render(request, 'users/passenger_register.html')
+"""
+
+
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -3267,11 +5247,9 @@ from django.shortcuts import render
 from drf_spectacular.utils import extend_schema
 from .models import Bus, Sc, Route
 from .serializers import BusUpdateActionSerializer, BusTableResponseSerializer
-
 @extend_schema(tags=['Bus & Driver Management'])
 class BusUpdateViewss(APIView):
     serializer_class = BusUpdateActionSerializer
-
     def get_user_from_session(self, request):
         user_id = request.session.get('sc_id')
         return Sc.objects.filter(id=user_id).first() if user_id else None
@@ -3381,13 +5359,145 @@ class BusUpdateViewss(APIView):
 
 
 
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render, redirect
 from drf_spectacular.utils import extend_schema
-from .models import Worker, City, Buschange, CustomUser 
+from django.contrib.auth import get_user_model
+
+# Sc እና Pasenger ሞዴሎችን መጨመርዎን ያረጋግጡ
+from .models import Worker, City, Buschange, Sc, Pasenger
 from .serializers import WorkerSerializer
+
+# active የሆነውን CustomUser model ማግኘት
+User = get_user_model()
+
+
+@extend_schema(tags=['Bus & Driver Management'])
+class Workers(APIView):
+    serializer_class = WorkerSerializer
+
+    def get(self, request, *args, **kwargs):
+        user_id = request.session.get('user_id')
+        buschanges_count = Buschange.objects.count()
+        is_html = 'text/html' in request.META.get('HTTP_ACCEPT', '')
+
+        if not user_id:
+            request.session.flush()
+            if is_html:
+                return render(request, 'users/login.html', {
+                    'error': 'Unauthorized! Please login to access Worker management.',
+                    'buschanges_count': buschanges_count
+                })
+            return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            current_user = User.objects.get(id=user_id)
+            if current_user.username != "henok":
+                if is_html:
+                    return render(request, 'users/profile.html', {
+                        'user': current_user,
+                        'buschanges_count': buschanges_count,
+                        'error': 'Security Protocol: Master Admin clearance required for personnel registration.'
+                    })
+                return Response({'error': 'Forbidden'}, status=status.HTTP_403_FORBIDDEN)
+        except User.DoesNotExist:
+            request.session.flush()
+            return redirect('login')
+
+        if is_html:
+            des = City.objects.all()
+            return render(request, 'users/worker.html', {
+                'des': des,
+                'buschanges_count': buschanges_count,
+                'username': current_user.username
+            })
+
+        workers = Worker.objects.all()
+        serializer = WorkerSerializer(workers, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.session.get('user_id')
+        buschanges_count = Buschange.objects.count()
+        des = City.objects.all()
+        is_html = 'text/html' in request.META.get('HTTP_ACCEPT', '')
+
+        if not user_id:
+            request.session.flush()
+            if is_html:
+                return render(request, 'users/login.html', {
+                    'error': 'Session expired. Please login again.',
+                    'buschanges_count': buschanges_count
+                })
+            return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            current_user = User.objects.get(id=user_id)
+            if current_user.username != "henok":
+                if is_html:
+                    return render(request, 'users/profile.html', {
+                        'user': current_user,
+                        'buschanges_count': buschanges_count
+                    })
+                return Response({'error': 'Forbidden'}, status=status.HTTP_403_FORBIDDEN)
+        except User.DoesNotExist:
+            request.session.flush()
+            return redirect('login')
+
+        serializer = WorkerSerializer(data=request.data)
+        context = {
+            'des': des,
+            'buschanges_count': buschanges_count,
+            'username': current_user.username
+        }
+
+        if serializer.is_valid():
+            username_input = serializer.validated_data.get('username')
+            phone_input = serializer.validated_data.get('phone')
+
+            if Worker.objects.filter(username=username_input).exists():
+                context['error'] = 'Registry Conflict: System username already exists.'
+            elif (
+                Worker.objects.filter(phone=phone_input).exists() or
+                Sc.objects.filter(phone=phone_input).exists() or
+                Pasenger.objects.filter(phone=phone_input).exists() or
+                User.objects.filter(phone=phone_input).exists()
+            ):
+                context['error'] = 'Registry Conflict: Contact phone number already exists.'
+
+            if 'error' in context:
+                if is_html:
+                    return render(request, 'users/worker.html', context)
+                return Response({'error': context['error']}, status=status.HTTP_400_BAD_REQUEST)
+
+            serializer.save()
+            context['success'] = 'Personnel Registry: Worker initialized successfully.'
+            if is_html:
+                return render(request, 'users/worker.html', context)
+            return Response({'success': context['success']}, status=status.HTTP_201_CREATED)
+
+        context['error'] = serializer.errors
+        if is_html:
+            return render(request, 'users/worker.html', context)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+"""
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import render, redirect
+from drf_spectacular.utils import extend_schema
+from .models import Worker, City, Buschange 
+from .serializers import WorkerSerializer
+from django.contrib.auth import get_user_model
+
+# active የሆነውን CustomUser model ማግኘት
+User = get_user_model()
 @extend_schema(tags=['Bus & Driver Management'])
 class Workers(APIView):
     serializer_class = WorkerSerializer
@@ -3470,17 +5580,19 @@ class Workers(APIView):
             'buschanges_count': buschanges_count,
             'username': current_user.username
         }
-
         if serializer.is_valid():
             username_input = serializer.validated_data.get('username')
             phone_input = serializer.validated_data.get('phone')
 
-            
             if Worker.objects.filter(username=username_input).exists():
                 context['error'] = 'Registry Conflict: System username already exists.'
-            elif Worker.objects.filter(phone=phone_input).exists():
-                context['error'] = 'Registry Conflict: Contact phone number already exists.'
-            
+            elif (
+            Worker.objects.filter(phone=phone_input).exists() or
+            Sc.objects.filter(phone=phone_input).exists() or
+            Pasenger.objects.filter(phone=phone_input).exists() or
+            User.objects.filter(phone=phone_input).exists()
+            ):
+
             if 'error' in context:
                 if is_html: return render(request, 'users/worker.html', context)
                 return Response({'error': context['error']}, status=status.HTTP_400_BAD_REQUEST)
@@ -3490,12 +5602,38 @@ class Workers(APIView):
             if is_html:
                 return render(request, 'users/worker.html', context)
             return Response({'success': context['success']}, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            username_input = serializer.validated_data.get('username')
+            phone_input = serializer.validated_data.get('phone')
 
-        
+            if Worker.objects.filter(username=username_input).exists():
+                context['error'] = 'Registry Conflict: System username already exists.'
+            elif (
+                Worker.objects.filter(phone=phone_input).exists() or
+                Sc.objects.filter(phone=phone_input).exists() or
+                Pasenger.objects.filter(phone=phone_input).exists() or
+                User.objects.filter(phone=phone_input).exists()
+            ):
+                context['error'] = 'Registry Conflict: Contact phone number already exists.'
+
+            if 'error' in context:
+                if is_html:
+                    return render(request, 'users/worker.html', context)
+                return Response({'error': context['error']}, status=status.HTTP_400_BAD_REQUEST)
+
+            serializer.save()
+            context['success'] = 'Personnel Registry: Worker initialized successfully.'
+            if is_html:
+                return render(request, 'users/worker.html', context)
+            return Response({'success': context['success']}, status=status.HTTP_201_CREATED)
+
         context['error'] = serializer.errors
         if is_html:
             return render(request, 'users/worker.html', context)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+"""
+
+
 
 
 
@@ -3727,10 +5865,6 @@ class MyBus(generics.GenericAPIView):
         return Sc.objects.filter(id=user_id).first() if user_id else None
 
     def get_all_side_prefixes(self, side):
-        """
-        Parses the side string. If it's a range like '04/08', it expands it
-        to ['04', '05', '06', '07', '08']. Otherwise returns a single-item list.
-        """
         if not side:
             return []
 
@@ -4601,7 +6735,7 @@ class Special_route(generics.GenericAPIView):
         return render(request, 'users/Special_route.html', context)
 
 
-
+"""
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -4664,6 +6798,353 @@ class ForgotPasswordView(APIView):
         if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
             return render(request, 'users/forgot_password.html', context)
         return Response(context, status=status_code)
+"""
+
+
+
+"""
+import random
+from django.core.cache import cache
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from drf_spectacular.utils import extend_schema
+from .models import CustomUser, Sc
+def send_sms_otp(phone_number, otp_code):
+    print(f"[SMS Gateway] Sending OTP {otp_code} to {phone_number}")
+    return True
+
+@extend_schema(tags=['Authentication'])
+class ForgotPasswordView(APIView):
+    @extend_schema(summary="Get forgot password page")
+    def get(self, request):
+        return render(request, 'users/forgot_password.html')
+
+    @extend_schema(summary="Request OTP for password reset via Phone")
+    def post(self, request):
+        phone = request.data.get('phone')
+
+        if not phone:
+            return self._handle_response(request, {"error": "Phone number is required."}, status.HTTP_400_BAD_REQUEST)
+
+        # Search across both models for matching phone number
+        user_obj = CustomUser.objects.filter(phone=phone).first()
+        user_type = 'user' if user_obj else None
+
+        if not user_obj:
+            user_obj = Sc.objects.filter(phone=phone).first()
+            user_type = 'sc' if user_obj else None
+        # Verify account existence
+        if not user_obj:
+            error_message = "No account found registered with this phone number."
+            return self._handle_response(request, {"error": error_message}, status.HTTP_404_NOT_FOUND)
+        # Generate 6-Digit OTP & cache for 5 minutes (300s)
+        otp = str(random.randint(100000, 999999))
+        cache_key = f"reset_otp_{phone}"
+        cache.set(cache_key, {"otp": otp, "user_type": user_type, "user_id": user_obj.pk}, timeout=300)
+        # Send SMS
+        sms_sent = send_sms_otp(phone, otp)
+        if sms_sent:
+            success_msg = "OTP code has been sent to your phone number."
+            context = {"message": success_msg, "phone": phone, "otp_sent": True}
+            return self._handle_response(request, context, status.HTTP_200_OK)
+        else:
+            error_message = "Failed to send SMS OTP. Please try again later."
+            return self._handle_response(request, {"error": error_message}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def _handle_response(self, request, context, status_code):
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/forgot_password.html', context, status=status_code)
+        return Response(context, status=status_code)
+"""
+
+
+"""
+import random
+from django.core.cache import cache
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from drf_spectacular.utils import extend_schema
+from .models import CustomUser, Sc
+def send_sms_otp(phone_number, otp_code):
+    print(f"[SMS Gateway] Sending OTP {otp_code} to {phone_number}")
+    return True
+
+@extend_schema(tags=['Authentication'])
+class ForgotPasswordView(APIView):
+
+    @extend_schema(summary="Get forgot password page")
+    def get(self, request):
+        return render(request, 'users/forgot_password.html')
+
+    @extend_schema(summary="Request OTP for password reset via Phone")
+    def post(self, request):
+        # 1. ከ Form ወይም Request ላይ phone መውሰድ (request.POST ወይም request.data)
+        phone = request.data.get('phone') or request.POST.get('phone', '').strip()
+
+        if not phone:
+            return self._handle_response(request, {"error": "እባክዎን የስልክ ቁጥር ያስገቡ።"}, status.HTTP_400_BAD_REQUEST)
+
+        # 2. በ CustomUser ወይም Sc ሞዴል ውስጥ በስልክ ቁጥር መፈለግ
+        user_obj = CustomUser.objects.filter(phone=phone).first()
+        user_type = 'user' if user_obj else None
+
+        if not user_obj:
+            user_obj = Sc.objects.filter(phone=phone).first()
+            user_type = 'sc' if user_obj else None
+
+        # 3. ተጠቃሚው ካልተገኘ የስህተት መልእክት ማሳየት
+        if not user_obj:
+            error_message = "በዚህ የስልክ ቁጥር የተመዘገበ አካውንት አልተገኘም።"
+            return self._handle_response(request, {"error": error_message, "phone": phone}, status.HTTP_404_NOT_FOUND)
+
+        # 4. የ 6 ዲጂት OTP ማመንጨት እና ለ 5 ደቂቃ Cache ውስጥ ማስቀመጥ
+        otp = str(random.randint(100000, 999999))
+        cache_key = f"reset_otp_{phone}"
+        cache.set(cache_key, {"otp": otp, "user_type": user_type, "user_id": user_obj.pk}, timeout=300)
+
+        # 5. ኤስኤምኤስ መላክ
+        sms_sent = send_sms_otp(phone, otp)
+
+        if sms_sent:
+            success_msg = f"የማረጋገጫ OTP ኮድ ወደ {phone} ተልኳል።"
+            context = {"message": success_msg, "phone": phone, "otp_sent": True}
+            return self._handle_response(request, context, status.HTTP_200_OK)
+        else:
+            error_message = "የ OTP ኮድ መላክ አልተቻለም። እባክዎን ቆይተው ደግመው ይሞክሩ።"
+            return self._handle_response(request, {"error": error_message, "phone": phone}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def _handle_response(self, request, context, status_code):
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/forgot_password.html', context, status=status_code)
+        return Response(context, status=status_code)
+"""
+
+
+
+
+
+"""
+import random
+from django.shortcuts import render
+from django.core.cache import cache
+from django.contrib.auth.hashers import make_password
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from drf_spectacular.utils import extend_schema
+from .models import Pasenger
+
+def send_sms_otp(phone_number, otp_code):
+    print(f"[SMS GATEWAY] OTP: {otp_code} -> Phone: {phone_number}")
+    return True
+
+@extend_schema(tags=['Authentication'])
+class ForgotPasswordView(APIView):
+
+    @extend_schema(summary="Get forgot password page")
+    def get(self, request):
+        return render(request, 'users/forgot_password.html')
+
+    @extend_schema(summary="Request OTP code via phone number")
+    def post(self, request):
+        phone = request.data.get('phone', '').strip()
+
+        if not phone:
+            return self._handle_response(request, {"error": "እባክዎን የስልክ ቁጥር ያስገቡ።"}, status.HTTP_400_BAD_REQUEST)
+
+        # 1. በ Pasenger Model ውስጥ ስልክ ቁጥሩን መፈለግ
+        passenger = Pasenger.objects.filter(phone=phone).first()
+
+        if not passenger:
+            return self._handle_response(request, {"error": "በዚህ የስልክ ቁጥር የተመዘገበ አካውንት አልተገኘም።"}, status.HTTP_404_NOT_FOUND)
+
+        # 2. 6-Digit OTP ማመንጨት እና Cache ላይ ለ5 ደቂቃ (300 ሰከንድ) ማስቀመጥ
+        otp = str(random.randint(100000, 999999))
+        cache_key = f"reset_otp_{phone}"
+        cache.set(cache_key, {"otp": otp, "passenger_id": passenger.id}, timeout=300)
+
+        # 3. SMS መላክ
+        if send_sms_otp(phone, otp):
+            context = {
+                "message": f"የማረጋገጫ ኮድ (OTP) ወደ {phone} ተልኳል።",
+                "phone": phone,
+                "otp_sent": True
+            }
+            return self._handle_response(request, context, status.HTTP_200_OK)
+        
+        return self._handle_response(request, {"error": "SMS መላክ አልተቻለም። እባክዎን ደግመው ይሞክሩ።"}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def _handle_response(self, request, context, status_code):
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/forgot_password.html', context, status=status_code)
+        return Response(context, status=status_code)
+
+
+from django.shortcuts import render, redirect
+from django.core.cache import cache
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from drf_spectacular.utils import extend_schema
+from .models import Pasenger
+class VerifyOTPAndResetPasswordView(APIView):
+    @extend_schema(summary="Get OTP verification page")
+    def get(self, request):
+        phone = request.GET.get('phone', '').strip()
+        return render(request, 'users/verify_otp.html', {'phone': phone})
+
+    @extend_schema(summary="Verify OTP and Set New Password")
+    def post(self, request):
+        phone = request.data.get('phone', '').strip()
+        user_otp = request.data.get('otp', '').strip()
+        new_password = request.data.get('new_password', '').strip()
+
+        # HTML ወይም JSON መሆኑን ለመለየት
+        is_html = 'text/html' in request.META.get('HTTP_ACCEPT', '') or request.content_type == 'application/x-www-form-urlencoded'
+        if not phone or not user_otp or not new_password:
+            err = "ሁሉንም አስፈላጊ መረጃዎች ያስገቡ።"
+            if is_html:
+                return render(request, 'users/verify_otp.html', {'error': err, 'phone': phone}, status=400)
+            return Response({"error": err}, status=status.HTTP_400_BAD_REQUEST)
+        # Cache ላይ የተቀመጠውን OTP መፈተሽ
+        cache_key = f"reset_otp_{phone}"
+        cached_data = cache.get(cache_key)
+
+        if not cached_data or str(cached_data.get("otp")) != user_otp:
+            err = "የስህተት ወይም ጊዜው ያለፈበት (Expired) OTP ኮድ ነው።"
+            if is_html:
+                return render(request, 'users/verify_otp.html', {'error': err, 'phone': phone}, status=400)
+            return Response({"error": err}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Pasenger በመታወቂያው መፈለግ
+        passenger_id = cached_data.get("passenger_id")
+        passenger = Pasenger.objects.filter(id=passenger_id).first()
+
+        if not passenger:
+            err = "ተጓዡ አልተገኘም።"
+            if is_html:
+                return render(request, 'users/verify_otp.html', {'error': err, 'phone': phone}, status=404)
+            return Response({"error": err}, status=status.HTTP_404_NOT_FOUND)
+
+        # ፓስወርዱን ቀይሮ ማስቀመጥ
+        passenger.set_password(new_password)
+        passenger.save()
+
+        # የተጠቀሙበትን Cache ማጥፋት
+        cache.delete(cache_key)
+
+        # Browser ከሆነ ወደ Success Page Redirect ያደርጋል
+        if is_html:
+            return redirect('reset_success')
+
+        return Response({"message": "ፓስወርድዎ በስኬት ተቀይሯል። አሁን መግባት ይችላሉ።"}, status=status.HTTP_200_OK)
+
+def reset_success_view(request):
+    return render(request, 'users/reset_success.html')
+"""
+
+
+
+
+"""
+import random
+import requests
+from django.shortcuts import render, redirect
+from django.core.cache import cache
+from django.contrib.auth.hashers import make_password
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from drf_spectacular.utils import extend_schema
+from .models import Pasenger
+def send_sms_otp(phone_number, otp_code):
+    formatted_phone = phone_number.strip()
+
+    # 09... ወይም 07... ወደ 2519... / 2517... መቀየር
+    if formatted_phone.startswith('0'):
+        formatted_phone = '251' + formatted_phone[1:]
+
+    # AfroMessage Credentials (እነዚህን ከ AfroMessage Dashboard/Account ላይ ባገኘኸው ተካቸው)
+    api_token = "YOUR_AFROMESSAGE_API_TOKEN"
+    identifier_id = "YOUR_IDENTIFIER_ID"  # ካለህ ብቻ ተቀመጥ (ካልሆነ ባዶ መተው ትችላለህ)
+    sender_name = ""                     # Verification ያለፈበት Sender Name (ካለህ ብቻ)
+
+    message_text = f"Your Busfermata verification OTP code is: {otp_code}"
+    url = "https://api.afromessage.com/api/send"
+
+    headers = {
+        "Authorization": f"Bearer {api_token}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "to": formatted_phone,
+        "message": message_text
+    }
+
+    if identifier_id:
+        payload["from"] = identifier_id
+    if sender_name:
+        payload["sender"] = sender_name
+
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=10)
+        res_data = response.json()
+
+        if response.status_code == 200 and res_data.get("acknowledge") == "success":
+            print(f"[AfroMessage] SMS sent successfully to {formatted_phone}")
+            return True
+        else:
+            print(f"[AfroMessage Error] {res_data}")
+            return False
+
+    except Exception as e:
+        print(f"[AfroMessage Exception] {e}")
+        return False
+
+
+@extend_schema(tags=['Authentication'])
+class ForgotPasswordView(APIView):
+
+    @extend_schema(summary="Get forgot password page")
+    def get(self, request):
+        return render(request, 'users/forgot_password.html')
+
+    @extend_schema(summary="Request OTP code via phone number")
+    def post(self, request):
+        phone = request.data.get('phone', '').strip()
+
+        if not phone:
+            return self._handle_response(request, {"error": "እባክዎን የስልክ ቁጥር ያስገቡ።"}, status.HTTP_400_BAD_REQUEST)
+
+        # 1. በ Pasenger Model ውስጥ ስልክ ቁጥሩን መፈለግ
+        passenger = Pasenger.objects.filter(phone=phone).first()
+
+        if not passenger:
+            return self._handle_response(request, {"error": "በዚህ የስልክ ቁጥር የተመዘገበ አካውንት አልተገኘም።"}, status.HTTP_404_NOT_FOUND)
+
+        # 2. 6-Digit OTP ማመንጨት እና Cache ላይ ለ5 ደቂቃ (300 ሰከንድ) ማስቀመጥ
+        otp = str(random.randint(100000, 999999))
+        cache_key = f"reset_otp_{phone}"
+        cache.set(cache_key, {"otp": otp, "passenger_id": passenger.id}, timeout=300)
+
+        # 3. SMS መላክ
+        if send_sms_otp(phone, otp):
+            context = {
+                "message": f"የማረጋገጫ ኮድ (OTP) ወደ {phone} ተልኳል።",
+                "phone": phone,
+                "otp_sent": True
+            }
+            return self._handle_response(request, context, status.HTTP_200_OK)
+
+        return self._handle_response(request, {"error": "SMS መላክ አልተቻለም። እባክዎን ደግመው ይሞክሩ።"}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def _handle_response(self, request, context, status_code):
+        if 'text/html' in request.META.get('HTTP_ACCEPT', '') or request.content_type == 'application/x-www-form-urlencoded':
+"""
 
 
 
@@ -4671,6 +7152,154 @@ class ForgotPasswordView(APIView):
 
 
 
+import random
+import requests
+from django.shortcuts import render, redirect
+from django.core.cache import cache
+from django.contrib.auth.hashers import make_password
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from drf_spectacular.utils import extend_schema
+from .models import Pasenger
+def send_sms_otp(phone_number, otp_code):
+    """
+    AfroMessage API ተጠቅሞ ወደ ኢትዮጵያ ስልኮች እውነተኛ OTP SMS ይልካል
+    """
+    formatted_phone = phone_number.strip()
+
+    # 09... ወይም 07... ወደ 2519... / 2517... መቀየር
+    if formatted_phone.startswith('0'):
+        formatted_phone = '251' + formatted_phone[1:]
+
+    # AfroMessage API Token
+    #api_token = "eyJhbGciOiJIUzI1NiJ9.eyJpZGVudGlmaWVyIjoiN291UWhIbnpXRnhnM284cGZFeDdpSmtnRDJlNnNKY0wiLCJleHAiOjE5NDcyNDg0MDUsImlhdCI6MTc4OTQ    #4MjAwNSwianRpIjoiNDZmZWQzM2ItNGI1OC00NzlkLTlmZWUtMGIzZGI5ODk1ZjBlIn0.DyNHLfjztR6TOWVfUPmbdGb6HMieCCCCn1NQQMhj6fc"
+    api_token = os.environ.get("AFROMESSAGE_API_TOKEN", "")
+    identifier_id = ""
+    sender_name = ""
+
+    message_text = f"Busfermata verification OTP code is: {otp_code}"
+    url = "https://api.afromessage.com/api/send"
+
+    headers = {
+        "Authorization": f"Bearer {api_token}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "to": formatted_phone,
+        "message": message_text
+    }
+
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=10)
+
+        if response.status_code == 200:
+            res_data = response.json()
+            if res_data.get("acknowledge") == "success":
+                print(f"[AfroMessage] SMS sent successfully to {formatted_phone}")
+                return True
+            else:
+                print(f"[AfroMessage Error Response] {res_data}")
+                return False
+        else:
+            print(f"[AfroMessage HTTP Error {response.status_code}] {response.text}")
+            return False
+
+    except Exception as e:
+        print(f"[AfroMessage Exception] {e}")
+        return False
+
+
+@extend_schema(tags=['Authentication'])
+class ForgotPasswordView(APIView):
+    @extend_schema(summary="Get forgot password page")
+    def get(self, request):
+        return render(request, 'users/forgot_password.html')
+    @extend_schema(summary="Request OTP code via phone number")
+    def post(self, request):
+        phone = request.data.get('phone', '').strip()
+        if not phone:
+            return self._handle_response(request, {"error": "እባክዎን የስልክ ቁጥር ያስገቡ።"}, status.HTTP_400_BAD_REQUEST)
+        # 1. በ Pasenger Model ውስጥ ስልክ ቁጥሩን መፈለግ
+        passenger = Pasenger.objects.filter(phone=phone).first()
+        if not passenger:
+            return self._handle_response(request, {"error": "በዚህ የስልክ ቁጥር የተመዘገበ አካውንት አልተገኘም።"}, status.HTTP_404_NOT_FOUND)
+        # 2. 6-Digit OTP ማመንጨት እና Cache ላይ ለ5 ደቂቃ (300 ሰከንድ) ማስቀመጥ
+        otp = str(random.randint(100000, 999999))
+        cache_key = f"reset_otp_{phone}"
+        cache.set(cache_key, {"otp": otp, "passenger_id": passenger.id}, timeout=300)
+
+        # 3. SMS መላክ
+        if send_sms_otp(phone, otp):
+            context = {
+                "message": f"የማረጋገጫ ኮድ (OTP) ወደ {phone} ተልኳል።",
+                "phone": phone,
+                "otp_sent": True
+            }
+            return self._handle_response(request, context, status.HTTP_200_OK)
+
+        return self._handle_response(request, {"error": "SMS መላክ አልተቻለም። እባክዎን ደግመው ይሞክሩ።"}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def _handle_response(self, request, context, status_code):
+        if 'text/html' in request.META.get('HTTP_ACCEPT', '') or request.content_type == 'application/x-www-form-urlencoded':
+            return render(request, 'users/forgot_password.html', context, status=status_code)
+        return Response(context, status=status_code)
+
+
+class VerifyOTPAndResetPasswordView(APIView):
+
+    @extend_schema(summary="Get OTP verification page")
+    def get(self, request):
+        phone = request.GET.get('phone', '').strip()
+        return render(request, 'users/forgot_password.html', {'phone': phone, 'otp_sent': True})
+
+    @extend_schema(summary="Verify OTP and Set New Password")
+    def post(self, request):
+        phone = request.data.get('phone', '').strip()
+        user_otp = request.data.get('otp', '').strip()
+        new_password = request.data.get('new_password', '').strip()
+
+        # HTML ወይም JSON መሆኑን ለመለየት
+        is_html = 'text/html' in request.META.get('HTTP_ACCEPT', '') or request.content_type == 'application/x-www-form-urlencoded'
+
+        if not phone or not user_otp or not new_password:
+            err = "ሁሉንም አስፈላጊ መረጃዎች ያስገቡ።"
+            if is_html:
+                return render(request, 'users/forgot_password.html', {'error': err, 'phone': phone, 'otp_sent': True}, status=400)
+            return Response({"error": err}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Cache ላይ የተቀመጠውን OTP መፈተሽ
+        cache_key = f"reset_otp_{phone}"
+        cached_data = cache.get(cache_key)
+
+        if not cached_data or str(cached_data.get("otp")) != user_otp:
+            err = "የስህተት ወይም ጊዜው ያለፈበት (Expired) OTP ኮድ ነው።"
+            if is_html:
+                return render(request, 'users/forgot_password.html', {'error': err, 'phone': phone, 'otp_sent': True}, status=400)
+            return Response({"error": err}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Pasenger በመታወቂያው መፈለግ
+        passenger_id = cached_data.get("passenger_id")
+        passenger = Pasenger.objects.filter(id=passenger_id).first()
+
+        if not passenger:
+            err = "ተጓዡ አልተገኘም።"
+            if is_html:
+                return render(request, 'users/forgot_password.html', {'error': err, 'phone': phone, 'otp_sent': True}, status=404)
+            return Response({"error": err}, status=status.HTTP_404_NOT_FOUND)
+
+        # ፓስወርዱን ቀይሮ ማስቀመጥ
+        passenger.set_password(new_password)
+        passenger.save()
+        # የተጠቀሙበትን Cache ማጥፋት
+        cache.delete(cache_key)
+        # Browser ከሆነ ወደ Success Page Redirect ያደርጋል
+        if is_html:
+            return redirect('reset_success')
+        return Response({"message": "ፓስወርድዎ በስኬት ተቀይሯል። አሁን መግባት ይችላሉ።"}, status=status.HTTP_200_OK)
+def reset_success_view(request):
+    return render(request, 'users/reset_success.html')
 
 
 from django.shortcuts import render
@@ -4679,10 +7308,6 @@ class MainPageView(View):
     def get(self, request):
         print("MainPageView called")  
         return render(request, 'users/index.html')  
-
-
-
-
 
 
 from rest_framework.views import APIView
@@ -4865,23 +7490,285 @@ class AgentBookingViews(APIView):
 
 
 
+"""
+import requests
+from django.conf import settings
+from django.core.cache import cache
+from django.db import transaction
+from django.db.models import FloatField, Q, Sum
+from django.db.models.functions import Cast
+from django.shortcuts import render
+from django.utils import timezone
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Bus, City, Route, Sc, Ticket, Worker
+from .serializers import RouteSerializer, TicketSerializer
+
+
+@extend_schema(tags=['Booking & Tickets'])
+class TicketBookingViews(APIView):
+    serializer_class = TicketSerializer
+
+    def get_user_from_session(self, request):
+        user_id = request.session.get('worker_id')
+        if user_id:
+            try:
+                return Worker.objects.get(id=user_id)
+            except Worker.DoesNotExist:
+                return None
+        return None
+
+    def get_daily_total(self, username):
+        today = timezone.now().date()
+        cache_key = f"daily_total_{username}_{today}"
+        total = cache.get(cache_key)
+
+        if total is None:
+            total = Ticket.objects.filter(
+                username=username,
+                booked_time__date=today
+            ).annotate(
+                price_as_float=Cast('price', FloatField())
+            ).aggregate(total=Sum('price_as_float'))['total'] or 0
+            
+            cache.set(cache_key, total, timeout=300) # Cache for 5 minutes
+
+        return total
+
+    def get(self, request):
+        des = cache.get('all_cities_list')
+        if not des:
+            des = list(City.objects.all())
+            cache.set('all_cities_list', des, timeout=900)
+
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/ticket.html', {'des': des})
+        return Response({'cities': [city.depcity for city in des]})
+
+    def post(self, request):
+        firstnames = request.data.getlist('firstname[]')
+        emails = request.data.getlist('email[]')
+        genders = request.data.getlist('gender[]')
+        passenger_types = request.data.getlist('passenger_type[]')
+        lastnames = request.data.getlist('lastname[]')
+        phones = request.data.getlist('phone[]')
+        prices = request.data.getlist('price[]')
+        side_nos = request.data.getlist('side_no[]')
+        plate_nos = request.data.getlist('plate_no[]')
+        usernames = request.data.getlist('username[]')
+        dates = request.data.getlist('date[]')
+        no_seats = request.data.getlist('no_seat[]')
+        depcitys = request.data.getlist('depcity[]')
+        descitys = request.data.getlist('descity[]')
+        prs = request.data.getlist('pr[]')
+        das = request.data.getlist('da[]')
+
+        try:
+            total_price_base = sum(float(price) for price in prices if price)
+            total_prs = sum(float(p) for p in prs if p) if prs else 0.0
+
+            if total_prs > total_price_base:
+                total_price = total_prs - total_price_base
+                is_recovery = True
+            else:
+                total_price = total_price_base - total_prs
+                is_recovery = False
+        except (ValueError, TypeError):
+            total_price = 0
+            is_recovery = False
+
+        min_length = min(
+            len(firstnames), len(lastnames), len(emails), len(genders),
+            len(phones), len(prices), len(side_nos), len(plate_nos),
+            len(depcitys), len(descitys), len(dates), len(no_seats), len(passenger_types)
+        )
+
+        used_seats = set()
+        tickets = []
+        fname = ""
+        lname = ""
+        level = "Standard"
+        bus_name = "Operator Name"
+
+        try:
+            with transaction.atomic():
+                for i in range(min_length):
+                    current_seat = no_seats[i]
+                    current_date = dates[i]
+                    alt_date = das[i] if i < len(das) else None
+                    dep = depcitys[i]
+                    des = descitys[i]
+                    plate = plate_nos[i]
+                    current_user = usernames[i] if i < len(usernames) else ""
+
+                    routes = Route.objects.filter(depcity=dep, descity=des, date=current_date, plate_no=plate)
+
+                    # Bus profile Caching
+                    bus_cache_key = f"bus_info_{plate}"
+                    bus_info = cache.get(bus_cache_key)
+
+                    if not bus_info:
+                        bus = Bus.objects.filter(plate_no=plate).first()
+                        if not bus:
+                            return Response({'error': f'Bus {plate} not found'}, status=404)
+                        bus_info = {
+                            'name': bus.name,
+                            'level': bus.level,
+                            'total_seats': int(bus.no_seats)
+                        }
+                        cache.set(bus_cache_key, bus_info, timeout=3600)
+
+                    bus_name = bus_info['name']
+                    total_seats = bus_info['total_seats']
+                    level = bus_info['level']
+
+                    # Get booked seats directly for real-time validation inside atomic transaction
+                    booked_in_db = Ticket.objects.filter(
+                        depcity=dep, descity=des, date=current_date, plate_no=plate
+                    ).values_list('no_seat', flat=True)
+                    
+                    booked_seats_list = list(set(int(s) for s in booked_in_db if s))
+                    unbooked_seats = [s for s in range(1, total_seats + 1) if s not in booked_seats_list]
+
+                    all_cities = cache.get('all_cities_list') or list(City.objects.all())
+
+                    error_context = {
+                        'des': all_cities,
+                        'routes': RouteSerializer(routes, many=True).data,
+                        'levels': level,
+                        'remaining_seats': total_seats - len(booked_seats_list),
+                        'unbooked_seats': unbooked_seats,
+                        'booked_seats': booked_seats_list,
+                        'all_seats': list(range(1, total_seats + 1)),
+                    }
+
+                    seat_is_taken = current_seat in used_seats or int(current_seat) in booked_seats_list
+
+                    if seat_is_taken:
+                        error_msg = f'Seat {current_seat} already selected.'
+                        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                            error_context['error'] = error_msg
+                            if current_user:
+                                error_context['username'] = current_user
+                                error_context['total_today'] = self.get_daily_total(current_user)
+                                return render(request, 'users/booker.html', error_context, status=400)
+                            else:
+                                return render(request, 'users/ticket.html', error_context, status=400)
+                        return Response({'error': error_msg}, status=400)
+
+                    passenger_query = Ticket.objects.filter(
+                        firstname=firstnames[i],
+                        lastname=lastnames[i],
+                        depcity=dep,
+                        descity=des
+                    )
+                    already_booked_both = passenger_query.filter(
+                        Q(date=current_date) & Q(date=alt_date)
+                    ).exists()
+                    already_booked_single = passenger_query.filter(
+                        Q(date=current_date)
+                    ).exists()
+
+                    if already_booked_both or already_booked_single:
+                        alt_date_str = f" and {alt_date}" if alt_date and alt_date != 'None' else ""
+                        error_msg = f"Person already booked: {firstnames[i]} {lastnames[i]} for {current_date}{alt_date_str}."
+                        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                            error_context['error'] = error_msg
+                            if current_user:
+                                error_context['username'] = current_user
+                                error_context['total_today'] = self.get_daily_total(current_user)
+                                return render(request, 'users/booker.html', error_context, status=400)
+                            else:
+                                return render(request, 'users/ticket.html', error_context, status=400)
+                        return Response({'error': error_msg}, status=400)
+
+                    used_seats.add(current_seat)
+
+                    validated_data = {
+                        'firstname': firstnames[i],
+                        'lastname': lastnames[i],
+                        'phone': phones[i],
+                        'price': prices[i],
+                        'side_no': side_nos[i],
+                        'plate_no': plate,
+                        'date': current_date,
+                        'email': emails[i],
+                        'gender': genders[i],
+                        'passenger_type': passenger_types[i],
+                        'depcity': dep,
+                        'descity': des,
+                        'username': current_user,
+                        'no_seat': current_seat,
+                    }
+                    ticket_instance = Ticket.objects.create(**validated_data)
+                    tickets.append(ticket_instance)
+
+                    # ---------------- REDIS CACHE INVALIDATION ----------------
+                    # Clear seat cache and route search cache after creating ticket
+                    seat_cache_key = f"booked_seats_{dep}_{des}_{current_date}_{plate}"
+                    search_cache_key = f"route_search_{dep}_{des}_{current_date}"
+                    cache.delete(seat_cache_key)
+                    cache.delete(search_cache_key)
+
+                    if current_user:
+                        today = timezone.now().date()
+                        cache.delete(f"daily_total_{current_user}_{today}")
+                        worker = Worker.objects.filter(username=current_user).first()
+                        if worker:
+                            fname = worker.fname
+                            lname = worker.lname
+
+                if prs:
+                    for i in range(min_length):
+                        if i < len(das):
+                            Ticket.objects.filter(
+                                firstname=firstnames[i],
+                                lastname=lastnames[i],
+                                date=das[i],
+                                depcity=depcitys[i],
+                                descity=descitys[i]
+                            ).delete()
+                            
+                            # Clear cache for the deleted tickets as well
+                            cache.delete(f"booked_seats_{depcitys[i]}_{descitys[i]}_{das[i]}_{plate_nos[i]}")
+                            cache.delete(f"route_search_{depcitys[i]}_{descitys[i]}_{das[i]}")
+
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                sc_record = Sc.objects.filter(name=bus_name, level=level).first()
+                company_logo = sc_record.logo.url if sc_record and sc_record.logo else None
+                context = {
+                    'success': 'Ticket(s) processed successfully!',
+                    'tickets': tickets,
+                    'total_price': total_price,
+                    'level': level,
+                    'name': bus_name,
+                    'fname': fname,
+                    'company_logo': company_logo,
+                    'lname': lname
+                }
+                if is_recovery:
+                    return render(request, 'users/recover.html', context)
+                if not usernames or not usernames[0]:
+                    return render(request, 'users/payment.html', context)
+                else:
+                    return render(request, 'users/myticket.html', context)
+
+            serializer = TicketSerializer(tickets, many=True)
+            return Response({'message': 'Booking successful.', 'tickets': serializer.data}, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+"""
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+"""
 import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -5104,6 +7991,352 @@ class TicketBookingViews(APIView):
             return Response({'message': 'Booking successful.', 'tickets': serializer.data}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+"""
+
+import requests
+from django.conf import settings
+from django.core.cache import cache
+from django.db import transaction
+from django.db.models import FloatField, Q, Sum
+from django.db.models.functions import Cast
+from django.shortcuts import render
+from django.utils import timezone
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Bus, City, Route, Ticket, Worker
+from .serializers import RouteSerializer, TicketSerializer
+
+
+@extend_schema(tags=["Booking & Tickets"])
+class TicketBookingViews(APIView):
+    serializer_class = TicketSerializer
+
+    def get_user_from_session(self, request):
+        user_id = request.session.get("worker_id")
+        if user_id:
+            try:
+                return Worker.objects.get(id=user_id)
+            except Worker.DoesNotExist:
+                return None
+        return None
+
+    def get_daily_total(self, username):
+        today = timezone.now().date()
+        # --- REDIS CACHE CHECK FOR DAILY TOTAL ---
+        cache_key = f"daily_total_{username}_{today}"
+        cached_total = cache.get(cache_key)
+
+        if cached_total is not None:
+            return cached_total
+
+        total = (
+            Ticket.objects.filter(
+                username=username, booked_time__date=today
+            )
+            .annotate(price_as_float=Cast("price", FloatField()))
+            .aggregate(total=Sum("price_as_float"))["total"]
+            or 0
+        )
+
+        cache.set(cache_key, total, timeout=300)  # Cache for 5 minutes
+        return total
+
+    def get(self, request):
+        # --- REDIS CACHE CHECK FOR CITIES ---
+        cache_key = "all_cities_list"
+        des = cache.get(cache_key)
+
+        if des is None:
+            des = list(City.objects.all())
+            cache.set(cache_key, des, timeout=3600)  # Cache for 1 hour
+        # ------------------------------------
+
+        if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+            return render(request, "users/ticket.html", {"des": des})
+        return Response({"cities": [city.depcity for city in des]})
+
+    def post(self, request):
+        firstnames = request.data.getlist("firstname[]")
+        emails = request.data.getlist("email[]")
+        genders = request.data.getlist("gender[]")
+        passenger_types = request.data.getlist("passenger_type[]")
+        lastnames = request.data.getlist("lastname[]")
+        phones = request.data.getlist("phone[]")
+        prices = request.data.getlist("price[]")
+        side_nos = request.data.getlist("side_no[]")
+        plate_nos = request.data.getlist("plate_no[]")
+        usernames = request.data.getlist("username[]")
+        dates = request.data.getlist("date[]")
+        no_seats = request.data.getlist("no_seat[]")
+        depcitys = request.data.getlist("depcity[]")
+        descitys = request.data.getlist("descity[]")
+        prs = request.data.getlist("pr[]")
+        das = request.data.getlist("da[]")
+        try:
+            total_price_base = sum(float(price) for price in prices if price)
+            total_prs = sum(float(p) for p in prs if p) if prs else 0.0
+
+            if total_prs > total_price_base:
+                total_price = total_prs - total_price_base
+                is_recovery = True
+            else:
+                total_price = total_price_base - total_prs
+                is_recovery = False
+        except (ValueError, TypeError):
+            total_price = 0
+            is_recovery = False
+
+        min_length = min(
+            len(firstnames),
+            len(lastnames),
+            len(emails),
+            len(genders),
+            len(phones),
+            len(prices),
+            len(side_nos),
+            len(plate_nos),
+            len(depcitys),
+            len(descitys),
+            len(dates),
+            len(no_seats),
+            len(passenger_types),
+        )
+
+        used_seats = set()
+        tickets = []
+        fname = ""
+        lname = ""
+        level = "Standard"
+        bus_name = "Operator Name"
+        try:
+            with transaction.atomic():
+                for i in range(min_length):
+                    current_seat = no_seats[i]
+                    current_date = dates[i]
+                    alt_date = das[i] if i < len(das) else None
+                    dep = depcitys[i]
+                    des = descitys[i]
+                    plate = plate_nos[i]
+                    current_user = (
+                        usernames[i] if i < len(usernames) else ""
+                    )
+
+                    routes = Route.objects.filter(
+                        depcity=dep,
+                        descity=des,
+                        date=current_date,
+                        plate_no=plate,
+                    )
+                    bus = Bus.objects.filter(plate_no=plate).first()
+
+                    if not bus:
+                        return Response(
+                            {"error": f"Bus {plate} not found"}, status=404
+                        )
+
+                    bus_name = bus.name if bus else "Operator Name"
+                    total_seats = int(bus.no_seats)
+                    booked_in_db = Ticket.objects.filter(
+                        depcity=dep,
+                        descity=des,
+                        date=current_date,
+                        plate_no=plate,
+                    ).values_list("no_seat", flat=True)
+                    booked_seats_list = list(
+                        set(int(s) for s in booked_in_db if s)
+                    )
+                    unbooked_seats = [
+                        s
+                        for s in range(1, total_seats + 1)
+                        if s not in booked_seats_list
+                    ]
+
+                    error_context = {
+                        "des": City.objects.all(),
+                        "routes": RouteSerializer(
+                            routes, many=True
+                        ).data,
+                        "levels": bus.level,
+                        "remaining_seats": total_seats
+                        - len(booked_seats_list),
+                        "unbooked_seats": unbooked_seats,
+                        "booked_seats": booked_seats_list,
+                        "all_seats": list(range(1, total_seats + 1)),
+                    }
+                    seat_is_taken = (
+                        current_seat in used_seats
+                        or int(current_seat) in booked_seats_list
+                    )
+
+                    if seat_is_taken:
+                        error_msg = f"Seat {current_seat} already selected."
+                        if "text/html" in request.META.get(
+                            "HTTP_ACCEPT", ""
+                        ):
+                            error_context["error"] = error_msg
+                            if current_user:
+                                error_context["username"] = current_user
+                                error_context["total_today"] = (
+                                    self.get_daily_total(current_user)
+                                )
+                                return render(
+                                    request,
+                                    "users/booker.html",
+                                    error_context,
+                                    status=400,
+                                )
+                            else:
+                                return render(
+                                    request,
+                                    "users/ticket.html",
+                                    error_context,
+                                    status=400,
+                                )
+                        return Response(
+                            {"error": error_msg}, status=400
+                        )
+
+                    passenger_query = Ticket.objects.filter(
+                        firstname=firstnames[i],
+                        lastname=lastnames[i],
+                        depcity=dep,
+                        descity=des,
+                    )
+                    already_booked_both = passenger_query.filter(
+                        Q(date=current_date) & Q(date=alt_date)
+                    ).exists()
+                    already_booked_single = passenger_query.filter(
+                        Q(date=current_date)
+                    ).exists()
+                    if already_booked_both or already_booked_single:
+                        alt_date_str = (
+                            f" and {alt_date}"
+                            if alt_date and alt_date != "None"
+                            else ""
+                        )
+                        error_msg = f"Person already booked: {firstnames[i]} {lastnames[i]} for {current_date}{alt_date_str}."
+                        if "text/html" in request.META.get(
+                            "HTTP_ACCEPT", ""
+                        ):
+                            error_context["error"] = error_msg
+                            if current_user:
+                                error_context["username"] = current_user
+                                error_context["total_today"] = (
+                                    self.get_daily_total(current_user)
+                                )
+                                return render(
+                                    request,
+                                    "users/booker.html",
+                                    error_context,
+                                    status=400,
+                                )
+                            else:
+                                return render(
+                                    request,
+                                    "users/ticket.html",
+                                    error_context,
+                                    status=400,
+                                )
+                        return Response(
+                            {"error": error_msg}, status=400
+                        )
+
+                    used_seats.add(current_seat)
+                    level = bus.level if bus else "Standard"
+
+                    validated_data = {
+                        "firstname": firstnames[i],
+                        "lastname": lastnames[i],
+                        "phone": phones[i],
+                        "price": prices[i],
+                        "side_no": side_nos[i],
+                        "plate_no": plate,
+                        "date": current_date,
+                        "email": emails[i],
+                        "gender": genders[i],
+                        "passenger_type": passenger_types[i],
+                        "depcity": dep,
+                        "descity": des,
+                        "username": current_user,
+                        "no_seat": current_seat,
+                    }
+                    ticket_instance = Ticket.objects.create(
+                        **validated_data
+                    )
+                    tickets.append(ticket_instance)
+
+                    # --- INVALIDATE CACHE FOR USER DAILY TOTAL ---
+                    if current_user:
+                        today = timezone.now().date()
+                        cache.delete(f"daily_total_{current_user}_{today}")
+
+                        worker = Worker.objects.filter(
+                            username=current_user
+                        ).first()
+                        if worker:
+                            fname = worker.fname
+                            lname = worker.lname
+
+                if prs:
+                    for i in range(min_length):
+                        if i < len(das):
+                            Ticket.objects.filter(
+                                firstname=firstnames[i],
+                                lastname=lastnames[i],
+                                date=das[i],
+                                depcity=depcitys[i],
+                                descity=descitys[i],
+                            ).delete()
+
+            if "text/html" in request.META.get("HTTP_ACCEPT", ""):
+                sc_record = Sc.objects.filter(
+                    name=bus_name, level=level
+                ).first()
+                company_logo = (
+                    sc_record.logo.url
+                    if sc_record and sc_record.logo
+                    else None
+                )
+                context = {
+                    "success": "Ticket(s) processed successfully!",
+                    "tickets": tickets,
+                    "total_price": total_price,
+                    "level": level,
+                    "name": bus_name,
+                    "fname": fname,
+                    "company_logo": company_logo,
+                    "lname": lname,
+                }
+                if is_recovery:
+                    return render(
+                        request, "users/recover.html", context
+                    )
+                if not usernames or not usernames[0]:
+                    return render(
+                        request, "users/payment.html", context
+                    )
+                else:
+                    return render(
+                        request, "users/myticket.html", context
+                    )
+
+            serializer = TicketSerializer(tickets, many=True)
+            return Response(
+                {
+                    "message": "Booking successful.",
+                    "tickets": serializer.data,
+                },
+                status=status.HTTP_201_CREATED,
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
 
 from django.shortcuts import render
 from django.db.models import Q
@@ -5363,6 +8596,9 @@ class RouteView(APIView):
             )
         return Response({'success': 'Route registered successfully!'}, status=status.HTTP_201_CREATED)
 
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
 def city_view(request):
     if request.method == 'POST':
         depcity = request.POST['depcity']
@@ -7773,13 +11009,123 @@ class UpdateTicketViews(APIView):
 
 
 
+from django.core.cache import cache
+from django.shortcuts import render
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Buschange, Route, Bus, Ticket, City
+from .serializers import RouteSerializer, SelectRequestSerializer, SelectResponseSerializer
+class SelectView(APIView):
+    serializer_class = SelectRequestSerializer
+    @extend_schema(summary="Get bus changes count")
+    def get(self, request):
+        # 1. Buschanges count cache (10 minutes)
+        buschanges_count = cache.get('buschanges_count')
+        if buschanges_count is None:
+            buschanges_count = Buschange.objects.count()
+            cache.set('buschanges_count', buschanges_count, timeout=600)
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/roote.html', {'buschanges_count': buschanges_count})
+        return Response({'buschanges_count': buschanges_count}, status=status.HTTP_200_OK)
+    @extend_schema(
+        request=SelectRequestSerializer,
+        responses={200: SelectResponseSerializer},
+        summary="Lookup seats for a specific route"
+    )
+    def post(self, request):
+        plate_no = request.data.get('plate_no')
+        depcity = request.data.get('depcity')
+        descity = request.data.get('descity')
+        date = request.data.get('date')
+        passengers = request.data.get('passengers')
+        print(passengers)
+        buschanges_count = cache.get('buschanges_count')
+        if buschanges_count is None:
+            buschanges_count = Buschange.objects.count()
+            cache.set('buschanges_count', buschanges_count, timeout=600)
+
+        routes = Route.objects.filter(depcity=depcity, descity=descity, date=date, plate_no=plate_no)
+
+        if not routes.exists():
+            error_message = "There is no Travel for this information!"
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                cities = cache.get('all_cities_list')
+                if not cities:
+                    cities = list(City.objects.all())
+                    cache.set('all_cities_list', cities, timeout=900)
+
+                return render(request, 'users/tickets.html', {
+                    'des': cities,
+                    'buschanges_count': buschanges_count,
+                    'error': error_message
+                })
+            return Response({'error': error_message}, status=status.HTTP_404_NOT_FOUND)
+
+        # 2. Bus Profile Caching (Level & Total Seats - 1 Hour Timeout)
+        bus_cache_key = f"bus_info_{plate_no}"
+        bus_info = cache.get(bus_cache_key)
+
+        if not bus_info:
+            bus = Bus.objects.filter(plate_no=plate_no).first()
+            if not bus:
+                return Response({'error': 'Bus not found'}, status=status.HTTP_404_NOT_FOUND)
+            bus_info = {
+                'level': bus.level,
+                'total_seats': int(bus.no_seats)
+            }
+            cache.set(bus_cache_key, bus_info, timeout=3600)
+
+        levels = bus_info['level']
+        total_seats = bus_info['total_seats']
+
+        # 3. Booked Seats Caching (Short Timeout - 30 seconds)
+        seat_cache_key = f"booked_seats_{depcity}_{descity}_{date}_{plate_no}"
+        booked_seats = cache.get(seat_cache_key)
+
+        if booked_seats is None:
+            booked_tickets = Ticket.objects.filter(
+                depcity=depcity, descity=descity, date=date, plate_no=plate_no
+            ).values_list('no_seat', flat=True)
+
+            booked_seats = list(set(int(seat) for seat in booked_tickets if seat))
+            cache.set(seat_cache_key, booked_seats, timeout=30)
+
+        booked_seat_count = len(booked_seats)
+        remaining_seats = total_seats - booked_seat_count
+        unbooked_seats = [seat for seat in range(1, total_seats + 1) if seat not in booked_seats]
+
+        if remaining_seats <= 0:
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/roote.html', {
+                    'error': 'This Bus is Full!',
+                    'levels': levels,
+                    'passengers': passengers,
+                    'buschanges_count': buschanges_count
+                })
+            return Response({'error': 'This Bus is Full!'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serialized_routes = RouteSerializer(routes, many=True).data
+        response_data = {
+            'routes': serialized_routes,
+            'levels': levels,
+            'passengers': passengers,
+            'remaining_seats': remaining_seats,
+            'unbooked_seats': unbooked_seats,
+            'booked_seats': booked_seats,
+            'all_seats': list(range(1, total_seats + 1))
+        }
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/ticket.html', response_data)
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 
 
 
 
-
+"""
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -7860,22 +11206,12 @@ class SelectView(APIView):
             return render(request, 'users/ticket.html', response_data)
 
         return Response(response_data, status=status.HTTP_200_OK)
+"""
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+"""
 from datetime import datetime
 from django.shortcuts import render
 from django.utils import timezone
@@ -7888,7 +11224,6 @@ from .serializers import BookRequestSerializer, BookResponseSerializer
 @extend_schema(tags=['Booking & Tickets'])
 class BookView(APIView):
     serializer_class = BookRequestSerializer
-
     @extend_schema(summary="Get available cities and bus changes")
     def get(self, request):
         buschanges_count = Buschange.objects.count()
@@ -7973,6 +11308,150 @@ class BookView(APIView):
             return render(request, 'users/cheeckroutee.html', {
                 'des': City.objects.all(),
                 'buschanges_count': Buschange.objects.count(),
+                'error': message
+            })
+        return Response({"error": message}, status=status_code)
+"""
+
+
+
+
+from datetime import datetime
+from django.core.cache import cache
+from django.shortcuts import render
+from django.utils import timezone
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import City, Route, Bus, Ticket, Buschange
+from .serializers import BookRequestSerializer, BookResponseSerializer
+@extend_schema(tags=['Booking & Tickets'])
+class BookView(APIView):
+    serializer_class = BookRequestSerializer
+    @extend_schema(summary="Get available cities and bus changes")
+    def get(self, request):
+        # Redis caching for static static data (Cities & BusChanges)
+        cache_key = "book_view_cities_and_changes"
+        cached_data = cache.get(cache_key)
+        if not cached_data:
+            des = list(City.objects.all())
+            buschanges_count = Buschange.objects.count()
+            cached_data = {
+                'des': des,
+                'buschanges_count': buschanges_count
+            }
+            cache.set(cache_key, cached_data, timeout=900)  # Cache for 15 minutes
+
+        des = cached_data['des']
+        buschanges_count = cached_data['buschanges_count']
+
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/cheeckroutee.html', {
+                'des': des,
+                'buschanges_count': buschanges_count
+            })
+        return Response({
+            'des': [city.depcity for city in des],
+            'buschanges_count': buschanges_count
+        }, status=status.HTTP_200_OK)
+    @extend_schema(
+        summary="Search for available routes",
+        request=BookRequestSerializer,
+        responses={200: BookResponseSerializer}
+    )
+    def post(self, request):
+        date = request.data.get('date')
+        depcity = request.data.get('depcity')
+        descity = request.data.get('descity')
+        passengers = request.data.get('passengers')
+        try:
+            incoming_date = datetime.strptime(date, '%Y-%m-%d').date()
+        except (ValueError, TypeError):
+            return self.handle_error(request, "Invalid date format. Use YYYY-MM-DD.", status.HTTP_400_BAD_REQUEST)
+
+        if incoming_date < timezone.now().date():
+            return self.handle_error(request, "Error: Past dates are not allowed.", status.HTTP_400_BAD_REQUEST)
+
+        # Redis Caching for Route Search Results (Cache key based on search parameters)
+        search_cache_key = f"route_search_{depcity}_{descity}_{date}"
+        cached_search_results = cache.get(search_cache_key)
+
+        if cached_search_results:
+            routes_list = cached_search_results['routes_list']
+            last_found_levels = cached_search_results['last_found_levels']
+            buschanges_count = cached_search_results['buschanges_count']
+        else:
+            rout_qs = Route.objects.filter(depcity=depcity, descity=descity, date=date)
+            buschanges_count = Buschange.objects.count()
+            routes_list = []
+            last_found_levels = None
+
+            if rout_qs.exists():
+                for route in rout_qs:
+                    buses = Bus.objects.filter(plate_no=route.plate_no)
+
+                    levels = buses.first().level if buses.exists() else "N/A"
+                    bus_name = buses.first().name if buses.exists() else "Luxury Fleet"
+
+                    last_found_levels = levels
+                    total_seats = sum(int(bus.no_seats or 0) for bus in buses)
+
+                    booked_tickets = Ticket.objects.filter(
+                        depcity=route.depcity,
+                        descity=route.descity,
+                        date=route.date,
+                        plate_no=route.plate_no
+                    ).count()
+
+                    remaining_seats = total_seats - booked_tickets
+
+                    if remaining_seats > 0:
+                        routes_list.append({
+                            'route': route,
+                            'levels': levels,
+                            'name': bus_name,
+                            'remaining_seats': remaining_seats
+                        })
+
+            if routes_list:
+                # Cache valid search result for 2 minutes (short timeout to keep remaining seats updated)
+                cache.set(search_cache_key, {
+                    'routes_list': routes_list,
+                    'last_found_levels': last_found_levels,
+                    'buschanges_count': buschanges_count
+                }, timeout=120)
+
+        if not routes_list:
+            return self.handle_error(request, "There is no Travel for this information!", status.HTTP_404_NOT_FOUND)
+
+        context = {
+            'routes': routes_list,
+            'levels': last_found_levels,
+            'buschanges_count': buschanges_count,
+            'passengers': passengers
+        }
+
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/roote.html', context)
+        return Response(context, status=status.HTTP_200_OK)
+
+    def handle_error(self, request, message, status_code):
+        # Fetch cities and buschanges from cache if available during errors
+        cache_key = "book_view_cities_and_changes"
+        cached_data = cache.get(cache_key)
+        
+        if cached_data:
+            des = cached_data['des']
+            buschanges_count = cached_data['buschanges_count']
+        else:
+            des = list(City.objects.all())
+            buschanges_count = Buschange.objects.count()
+
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/cheeckroutee.html', {
+                'des': des,
+                'buschanges_count': buschanges_count,
                 'error': message
             })
         return Response({"error": message}, status=status_code)
@@ -11187,6 +14666,9 @@ class ServicInsertView(generics.GenericAPIView):
             return render(request, 'users/service_fee.html', context)
         return Response(context, status=res_status)
 
+
+
+
 import requests
 from django.shortcuts import render, redirect
 from rest_framework import generics, status, views
@@ -11262,6 +14744,7 @@ class ScInsertViews(generics.GenericAPIView):
             side = serializer.validated_data.get('side', '')
             username = serializer.validated_data.get('username')
             email = serializer.validated_data.get('email')
+            phone = serializer.validated_data.get('phone')
             level = serializer.validated_data.get('level')
 
             # 1. Level Check
@@ -11297,6 +14780,13 @@ class ScInsertViews(generics.GenericAPIView):
                     context['error'] = 'System Username is already taken.'
                 elif email and Sc.objects.filter(email__iexact=email).exists():
                     context['error'] = 'Official Email is already registered.'
+                elif phone and (
+                Sc.objects.filter(phone=phone).exists() or
+                Worker.objects.filter(phone=phone).exists() or
+                Pasenger.objects.filter(phone=phone).exists() or
+                CustomUser.objects.filter(phone=phone).exists()
+                ):
+                    context['error'] = 'Phone number is already registered across the system.'
             if 'error' in context:
                 if is_html:
                     return render(request, 'users/scc.html', context)
@@ -11548,6 +15038,9 @@ class ChangeBusView(APIView):
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Bus, Worker, Route
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
 def updatebus(request):
     buses = Bus.objects.all()  
     success_message = None
@@ -11582,6 +15075,9 @@ from datetime import timedelta
 from .models import Bus, Route, Ticket, Buschange
 from .serializers import BusChangeSerializer
 @api_view(['GET', 'POST'])
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
 def changebus(request):
     context = {}
     if request.method == 'POST':
@@ -11659,6 +15155,9 @@ def changebus(request):
 
 
 from django.shortcuts import redirect
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
 def changebus_redirect(request):
     return redirect('changebus')  
 
@@ -11790,6 +15289,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.shortcuts import render, redirect
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
 def change_password(request):
     if request.method == 'POST':
         current_password = request.POST.get('currentPassword')
@@ -11815,13 +15317,18 @@ def change_password(request):
 
 
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.shortcuts import render
 from django.conf import settings
+@redis_cache_view(timeout=3600)
+@cache_page(60 * 15)
+@cache_page(60 * 15)
 def password_reset_request(request):
     if request.method == 'POST':
         form = UsernameEmailForm(request.POST)

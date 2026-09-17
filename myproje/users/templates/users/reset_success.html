@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Password Reset Successful | Busfermata</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-cyan: #00b4d8;
+            --brand-gold: #ffcc00;
+            --brand-dark: #07162c;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --success-green: #10b981;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-light); 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* NAVBAR */
+        .navbar-main { 
+            background: #ffffff; 
+            padding: 12px 0; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+        }
+        
+        .brand-area { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none !important; 
+            border-left: 3px solid var(--brand-cyan);
+            padding-left: 12px;
+        }
+        .brand-logo { 
+            height: 48px !important; 
+            width: auto !important; 
+            margin-right: 12px; 
+            object-fit: contain;
+        }
+        .brand-text { 
+            font-weight: 800; 
+            color: var(--brand-navy) !important; 
+            font-size: 20px; 
+            text-transform: uppercase; 
+            letter-spacing: -0.5px;
+            line-height: 1;
+            margin: 0;
+        }
+        .brand-tagline { 
+            color: #008891; 
+            font-weight: 700; 
+            font-size: 10px; 
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-link { 
+            color: var(--brand-navy) !important; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 12px; 
+            letter-spacing: 0.3px;
+        }
+
+        .btn-book-now {
+            background-color: var(--brand-gold) !important; 
+            color: var(--brand-dark) !important; 
+            font-weight: 800 !important; 
+            border-radius: 20px !important;
+            border: none !important;
+            padding: 8px 24px !important;
+            font-size: 13px !important;
+            text-transform: uppercase;
+        }
+
+        /* HERO BANNER */
+        .hero-banner {
+            background: linear-gradient(rgba(7, 22, 44, 0.8), rgba(7, 22, 44, 0.8)), url("{% static 'images/bus-bg.jpg' %}") center/cover no-repeat;
+            padding: 45px 0 85px;
+            text-align: center;
+            color: white;
+            border-bottom: 4px solid var(--brand-gold);
+        }
+        .hero-title {
+            font-weight: 800;
+            letter-spacing: 1px;
+            font-size: 30px;
+            margin-bottom: 4px;
+        }
+
+        /* SUCCESS CARD */
+        .success-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 45px 32px;
+            max-width: 480px;
+            margin: -60px auto 60px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+            position: relative;
+            z-index: 10;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .icon-badge {
+            width: 80px;
+            height: 80px;
+            background-color: #ecfdf5;
+            color: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin: 0 auto 20px;
+            border: 2px solid #a7f3d0;
+        }
+
+        .card-heading {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--brand-navy);
+            margin-bottom: 8px;
+        }
+
+        .card-subheading {
+            font-size: 14.5px;
+            color: #64748b;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .btn-action {
+            width: 100%;
+            background-color: var(--brand-navy);
+            color: #ffffff;
+            font-weight: 800;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 38, 77, 0.15);
+            display: block;
+            text-decoration: none !important;
+        }
+        .btn-action:hover { 
+            background-color: var(--brand-cyan); 
+            color: #ffffff; 
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+        }
+
+        .footer-main { 
+            background: var(--brand-dark); 
+            color: rgba(255, 255, 255, 0.7); 
+            padding: 18px 0; 
+            margin-top: auto;
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo">
+            <div>
+                <h1 class="brand-text">BUSFERMATA</h1>
+                <div class="brand-tagline">Digital Technology</div>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto mr-3 align-items-center">
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'home' %}">HOME</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'about' %}">ABOUT US</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'my_tickets' %}">MY TICKET</a></li>
+            </ul>
+            <a href="{% url 'book' %}" class="btn btn-book-now">BOOK NOW</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO BANNER -->
+<div class="hero-banner">
+    <h2 class="hero-title">SUCCESS</h2>
+    <p class="small text-light m-0">Password Reset Completed</p>
+</div>
+
+<!-- SUCCESS CARD -->
+<div class="container">
+    <div class="success-card">
+        <div class="icon-badge">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <h3 class="card-heading">Password Changed!</h3>
+        <p class="card-subheading">Your password has been successfully reset. You can now log in using your new password.</p>
+
+        <a href="{% url 'login' %}" class="btn-action">
+            Sign In Now <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-main">
+    <div class="container">
+        <p class="mb-0 small">© 2026 Busfermata Digital Technology • Addis Ababa, Ethiopia</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

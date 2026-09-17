@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
 <title>booked Balance</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -166,7 +169,6 @@
     </li>
 </ul>
         <li class="main_nav_item" style="margin-right: 20px; margin-left:30px;">
-            <a href="{% url 'comment' %}" style="color: #FFFFFF; text-decoration: none;">Comment</a>
         </li>
         <li class="main_nav_item" style="margin-right: 20px; margin-left:20px;">
             <a href="{% url 'login' %}" style="color: #FFFFFF; text-decoration: none;">Account</a>

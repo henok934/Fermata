@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
     <title>CBE Birr | Busfermata Secure</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,7 +65,6 @@
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'book' %}">Book</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'about' %}">About us</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
                 <li class="nav-item ml-lg-3 my-2 my-lg-0">
                     <a class="nav-link nav-link-intl px-4 rounded-pill border" style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;" href="{% url 'book' %}">Book Now</a>
                 </li>

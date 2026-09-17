@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Ticket & Profile | Busfermata Transport</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-cyan: #00b4d8;
+            --brand-gold: #ffcc00;
+            --brand-dark: #07162c;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-light); 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* TOP BAR */
+        .top-bar { 
+            background: var(--brand-dark); 
+            color: #ffffff; 
+            padding: 6px 0; 
+            font-size: 12px; 
+            font-weight: 600;
+        }
+        .top-bar .user-welcome { 
+            color: var(--brand-gold); 
+            font-weight: 700;
+        }
+
+        /* MAIN NAVBAR */
+        .navbar-main { 
+            background: #ffffff; 
+            padding: 12px 0; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+        }
+        
+        .brand-area { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none !important; 
+            border-left: 3px solid var(--brand-cyan);
+            padding-left: 12px;
+        }
+        .brand-logo { 
+            height: 48px !important; 
+            width: auto !important; 
+            margin-right: 12px; 
+            object-fit: contain;
+        }
+        .brand-text { 
+            font-weight: 800; 
+            color: var(--brand-navy) !important; 
+            font-size: 20px; 
+            text-transform: uppercase; 
+            letter-spacing: -0.5px;
+            line-height: 1;
+            margin: 0;
+        }
+        .brand-tagline { 
+            color: #008891; 
+            font-weight: 700; 
+            font-size: 10px; 
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-link { 
+            color: var(--brand-navy) !important; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 12px; 
+            letter-spacing: 0.3px;
+        }
+        .nav-item.active .nav-link {
+            color: var(--brand-cyan) !important;
+        }
+
+        .btn-book-now {
+            background-color: var(--brand-cyan) !important; 
+            color: #ffffff !important; 
+            font-weight: 800 !important; 
+            border-radius: 8px !important;
+            border: none !important;
+            padding: 8px 22px !important;
+            font-size: 13px !important;
+            text-transform: uppercase;
+        }
+
+        /* PROFILE & TICKET CARDS */
+        .profile-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--brand-cyan) 0%, var(--brand-navy) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 800;
+        }
+        .ticket-card {
+            background: #ffffff;
+            border-left: 6px solid var(--brand-cyan);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border-top: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .footer-main { 
+            background: var(--brand-dark); 
+            color: rgba(255, 255, 255, 0.7); 
+            padding: 18px 0; 
+            margin-top: auto;
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Digital Transport Network</span>
+        <div class="d-flex align-items-center gap-3">
+            <span class="user-welcome mr-3"><i class="fas fa-user-circle mr-1"></i> {{ passenger.first_name }} {{ passenger.last_name }}</span>
+            <a href="{% url 'logout' %}" class="text-white font-weight-bold small text-decoration-none"><i class="fas fa-sign-out-alt mr-1"></i> LOGOUT</a>
+        </div>
+    </div>
+</div>
+
+<!-- NAVBAR (ከመዝገቢያው እና ከሎጊን ገጹ ጋር ተመሳሳይ የሆነ) -->
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo">
+            <div>
+                <h1 class="brand-text">BUSFERMATA</h1>
+                <div class="brand-tagline">Digital Technology</div>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto mr-3 align-items-center">
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'home' %}">HOME</a></li>
+                <li class="nav-item px-2"><a class="nav-link" href="{% url 'about' %}">ABOUT US</a></li>
+                <li class="nav-item active px-2"><a class="nav-link" href="{% url 'my_tickets' %}">MY TICKET</a></li>
+            </ul>
+            <a href="{% url 'book' %}" class="btn btn-book-now">BOOK NOW</a>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="container my-5">
+    <div class="row">
+        <!-- User Profile Info -->
+        <div class="col-lg-4 mb-4">
+            <div class="profile-card text-center">
+                <div class="user-avatar mx-auto mb-3">
+                    {{ passenger.first_name|slice:":1" }}{{ passenger.last_name|slice:":1" }}
+                </div>
+                <h4 class="font-weight-bold mb-1" style="color: var(--brand-navy);">{{ passenger.first_name }} {{ passenger.last_name }}</h4>
+                <p class="text-muted small mb-2"><i class="fas fa-phone mr-1"></i> {{ passenger.phone }}</p>
+                <p class="text-muted small mb-3"><i class="fas fa-envelope mr-1"></i> {{ passenger.email|default:"ኢሜይል አልተመዘገበም" }}</p>
+                
+                <hr style="border-top: 1px dashed #cbd5e1;">
+                
+                <div class="d-flex justify-content-between text-left small text-muted px-2">
+                    <span>ጾታ: <strong class="text-dark">{{ passenger.gender }}</strong></span>
+                    <span>እድሜ/ድርጅት: <strong class="text-dark">{{ passenger.age|default:"-" }}</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booked Tickets Section -->
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h4 class="font-weight-bold mb-0" style="color: var(--brand-navy);"><i class="fas fa-ticket-alt mr-2" style="color: var(--brand-cyan);"></i> የተቆረጡ ትኬቶች (My Tickets)</h4>
+                <span class="badge badge-pill badge-primary px-3 py-2">{{ tickets.count }} ትኬት</span>
+            </div>
+            
+            {% if tickets %}
+                {% for ticket in tickets %}
+                <div class="ticket-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-8 mb-3 mb-md-0">
+                            <h5 class="font-weight-bold mb-2" style="color: var(--brand-navy);">
+                                {{ ticket.depcity }} <i class="fas fa-arrow-right mx-2" style="color: var(--brand-cyan); font-size: 14px;"></i> {{ ticket.arrcity }}
+                            </h5>
+                            <div class="small text-muted mb-1">
+                                <span class="mr-3"><i class="fas fa-bus mr-1"></i> ሰሌዳ: <strong>{{ ticket.plate_no }}</strong></span>
+                                <span><i class="fas fa-chair mr-1"></i> ወንበር: <strong>{{ ticket.seat_no }}</strong></span>
+                            </div>
+                            <div class="small text-muted">
+                                <i class="far fa-clock mr-1"></i> የተቆረጠበት ቀን: {{ ticket.booked_time|date:"Y-m-d H:i" }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-md-right">
+                            <h4 class="font-weight-bold mb-2" style="color: #2e7d32;">{{ ticket.price }} ETB</h4>
+                            <button class="btn btn-sm btn-outline-dark" onclick="window.print()"><i class="fas fa-print mr-1"></i> ትኬት አትም</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="card p-5 text-center border-0 shadow-sm" style="border-radius: 16px;">
+                    <i class="fas fa-ticket-alt fa-3x mb-3 text-muted" style="opacity: 0.4;"></i>
+                    <h5 class="text-muted font-weight-bold">ምንም የተቆረጠ ትኬት አልተገኘም</h5>
+                    <p class="text-muted small">አዲስ ትኬት ለመቁረጥ 'Book Now' የሚለውን በተን ይጫኑ።</p>
+                    <div class="mt-2">
+                        <a href="{% url 'book' %}" class="btn btn-book-now">አሁኑኑ ይቁረጡ</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-main">
+    <div class="container">
+        <p class="mb-0 small">© 2026 Busfermata Digital Technology • Addis Ababa, Ethiopia</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

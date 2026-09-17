@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
 <title>select route</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -64,7 +67,6 @@
 							<ul class="main_nav_list">
 								<li class="main_nav_item"><a href="{% url 'about' %}">home</a></li>
 								<li class="main_nav_item"><a href="{% url 'users' %}">user</a></li>
-								<li class="main_nav_item"><a href="{% url 'comment' %}">comment</a></li>
 								<li class="main_nav_item"><a href="{% url 'offerrs' %}">cheeck route</a></li>
 								<li class="main_nav_item"><a href="{% url 'logout' %}">logout</a></li>
 							</ul>

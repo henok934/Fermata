@@ -15,9 +15,46 @@ class BSerializer(serializers.ModelSerializer):
         fields = '__all__'  # Adjust fields as necessary
 
 
+from rest_framework import serializers
+from .models import Pasenger
+
+class PassengerSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+    confirm_password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = Pasenger
+        fields = [
+            'registration_id',
+            'registered_time',
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'gender',
+            'age',
+            'password',
+            'confirm_password',
+        ]
+        read_only_fields = ['registration_id', 'registered_time']
+
+    def validate(self, attrs):
+        if attrs.get('password') != attrs.get('confirm_password'):
+            raise serializers.ValidationError({"password": "Passwords do not match."})
+        return attrs
+
+    def create(self, validated_data):
+        validated_data.pop('confirm_password')
+        password = validated_data.pop('password')
+        
+        # Passenger instance መፍጠር
+        passenger = Pasenger(**validated_data)
+        # በ Model ውስጥ ባለው set_password ማشفር (Hash ማድረግ)
+        passenger.set_password(password)
+        passenger.save()
+        return passenger
 
 from rest_framework import serializers
-
 class RecoverBalanceRequestSerializer(serializers.Serializer):
     refund_method = serializers.CharField(max_length=50, required=False, allow_blank=True)
     refund_account = serializers.CharField(max_length=50, required=False, allow_blank=True)
@@ -125,6 +162,48 @@ class UserSerializer(serializers.ModelSerializer):
 
 """
 
+
+from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import get_user_model
+from .models import CustomUser, Worker, Sc, Pasenger
+
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = [
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'gender',
+            'phone',
+            'city',
+            'password'
+        ]
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def validate_phone(self, phone_input):
+        if (
+            Worker.objects.filter(phone=phone_input).exists() or
+            Sc.objects.filter(phone=phone_input).exists() or
+            Pasenger.objects.filter(phone=phone_input).exists() or
+            User.objects.filter(phone=phone_input).exists()
+        ):
+            raise serializers.ValidationError("This phone number is already registered across the system.")
+        return phone_input
+
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data['password'])
+        return super().create(validated_data)
+
+
+
+
+
+"""
 # serializers.py
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
@@ -147,7 +226,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
-
+"""
 
 
 

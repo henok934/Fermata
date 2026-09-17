@@ -11,3 +11,6 @@ myenv/
 *.pyc
 media/
 
+.env
+venv/
+__pycache__/

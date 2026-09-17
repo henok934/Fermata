@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
     <title>Secure Payment | Busfermata Luxury</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -201,7 +204,6 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
                 <li class="nav-item ml-lg-3">
                     <a class="nav-link nav-link-intl px-4 rounded-pill border" style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;" href="{% url 'book' %}">Book Now</a>
                 </li>
@@ -250,7 +252,7 @@
                 </div>
 
                 <!-- 🏦 አንድ ፎርም እና አንድ የክፍያ አማራጭ ብቻ (ከሉፕ ውጭ የተደረገ) -->
-                <form action="{% url 'payment' %}" method="post" id="paymentForm">
+                <form action="{% url 'process_payment' %}" method="post" id="paymentForm">
                     {% csrf_token %}
                     
                     <div class="bank-grid">

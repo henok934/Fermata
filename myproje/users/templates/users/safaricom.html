@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
     <title>Safaricom Payment | Busfermata</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -107,7 +110,6 @@
                 <li class="nav-item mx-2"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item mx-2"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
                 <li class="nav-item mx-2"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
-                <li class="nav-item mx-2"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
                 <li class="nav-item ml-lg-3 mt-3 mt-lg-0">
                     <a href="{% url 'book' %}" class="btn" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; padding:10px 20px; border-radius:8px;">BOOK NOW</a>
                 </li>
@@ -149,7 +151,6 @@
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'book' %}">Book</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'about' %}">About us</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
 		<!-- <li class="nav-item ml-lg-3"><a class="nav-link nav-link-intl btn-login-intl" href="{% url 'login' %}">Login</a></li>-->
 		<li class="nav-item ml-lg-3">
     <a class="nav-link nav-link-intl px-4 rounded-pill border"

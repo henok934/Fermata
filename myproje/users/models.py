@@ -67,6 +67,26 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+class TelebirrOrder(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        PAID = 'paid', 'Paid'
+        FAILED = 'failed', 'Failed'
+
+    out_trade_no = models.CharField(max_length=64, unique=True)
+    subject = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
+    prepay_id = models.CharField(max_length=128, blank=True, default='')
+    to_pay_url = models.URLField(max_length=500, blank=True, default='')
+    trans_id = models.CharField(max_length=64, blank=True, default='')
+    notify_payload = models.JSONField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.out_trade_no} ({self.status})"
+
 
 class Sc(models.Model):
     """ SHARE COMPANY Admin """
@@ -89,6 +109,21 @@ class Sc(models.Model):
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
+
+
+class Pasenger(models.Model):
+    registration_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    registered_time = models.DateTimeField(auto_now_add=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    password = models.CharField(max_length=128)
+    age = models.CharField(max_length=50, null=True, blank=True) # Company Name
+    email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
+    gender = models.CharField(max_length=20, null=True, blank=True)
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
 
 
 """

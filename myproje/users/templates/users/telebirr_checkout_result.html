@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+    <link rel="icon" type="image/jpeg" href="{% static 'images/l.jpeg' %}">
+<meta charset="UTF-8">
+<title>Payment Status - Telebirr</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Arial, sans-serif; background: #f4f6f8; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+  .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); padding: 32px; text-align: center; max-width: 360px; width: 90%; }
+  .badge { display: inline-block; padding: 6px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; margin-bottom: 16px; }
+  .badge.paid { background: #e6f6ec; color: #1a7f3c; }
+  .badge.pending { background: #fff4e5; color: #b26a00; }
+  .badge.failed { background: #fdeaea; color: #c0392b; }
+  h1 { font-size: 20px; margin: 0 0 8px; }
+  .order-no { color: #999; font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    {% if order.status == "paid" %}
+      <span class="badge paid">Payment Successful</span>
+      <h1>Thank you! Your ticket is confirmed.</h1>
+    {% elif order.status == "failed" %}
+      <span class="badge failed">Payment Failed</span>
+      <h1>Your payment could not be completed.</h1>
+    {% else %}
+      <span class="badge pending">Pending</span>
+      <h1>We're still confirming your payment.</h1>
+    {% endif %}
+    <div class="order-no">Order #{{ order.out_trade_no }} &middot; {{ order.amount }} ETB</div>
+    {% if order.trans_id %}
+    <div class="order-no">Trans ID: {{ order.trans_id }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>

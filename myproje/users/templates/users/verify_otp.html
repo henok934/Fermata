@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP | Busfermata</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        body { background-color: #f8fafc; font-family: sans-serif; }
+        .verify-card {
+            max-width: 420px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .input-group-custom i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+        .input-group-custom input {
+            width: 100%;
+            padding: 10px 10px 10px 38px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: #00264d;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+        }
+        .btn-submit:hover { background-color: #00b4d8; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="verify-card">
+        <h4 class="text-center font-weight-bold mb-3" style="color: #00264d;">OTP ማረጋገጫ</h4>
+
+        {% if error %}
+            <div class="alert alert-danger small py-2">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" action="{% url 'verify_otp_reset' %}">
+            {% csrf_token %}
+            
+            <label class="small font-weight-bold text-muted">የስልክ ቁጥር</label>
+            <div class="input-group-custom">
+                <i class="fas fa-phone"></i>
+                <input type="text" name="phone" value="{{ phone }}" placeholder="09........" required readonly>
+            </div>
+
+            <label class="small font-weight-bold text-muted">የማረጋገጫ ኮድ (OTP)</label>
+            <div class="input-group-custom">
+                <i class="fas fa-key"></i>
+                <input type="text" name="otp" placeholder="6-digit OTP code" maxlength="6" required>
+            </div>
+
+            <label class="small font-weight-bold text-muted">አዲስ የይለፍ ቃል (New Password)</label>
+            <div class="input-group-custom">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="new_password" placeholder="አዲስ ፓስወርድ ያስገቡ" required>
+            </div>
+
+            <button type="submit" class="btn-submit mt-2">ፓስወርድ ቀይር</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
