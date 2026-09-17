@@ -14,18 +14,18 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 # 2. SECURITY CONFIGURATIONS
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh')
 
-#DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-DJANGO_DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
+#DJANGO_DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
 
 # ወይም በቀጥታ
-DEBUG = False # ፕንትስት (penetration test) ወይም ሰርተፍኬት ልታስገባ ስትል በቀጥታ False ማድረግ ይመረጣል
+#DEBUG = False # ፕንትስት (penetration test) ወይም ሰርተፍኬት ልታስገባ ስትል በቀጥታ False ማድረግ ይመረጣል
 
 #TELEBIRR_NOTIFY_URL = "https://value-shortly-unveiled.ngrok-free.dev/api/telebirr/callback/"
 ALLOWED_HOSTS = [
     'value-shortly-unveiled.ngrok-free.dev',
     '196.191.95.76',
-    'busfermata.onrender.com',
+    'fermataa.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
@@ -95,10 +95,7 @@ TEMPLATES = [
         },
     },
 ]
-
-
 WSGI_APPLICATION = 'myproje.wsgi.application'
-
 # 4. DATABASE CONFIGURATION
 DATABASES = {
     'default': {
